@@ -1,0 +1,14 @@
+﻿<Properties StartupItem="LossApp\LOSS.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.a2ca3283" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="LossApp\MainActivity.cs">
+    <Files>
+      <File FileName="LossApp\MainActivity.cs" Line="1" Column="1" />
+      <File FileName="LossApp\MyActionBarDrawerToggle.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.LOSS AndroidDesignerPreferredDevice="Nexus 4" />
+</Properties>

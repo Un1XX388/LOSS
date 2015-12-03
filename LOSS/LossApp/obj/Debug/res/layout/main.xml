@@ -1,0 +1,17 @@
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"><android.support.v7.widget.Toolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="?attr/actionBarSize" android:background="?attr/colorPrimary" app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" /><android.support.v4.widget.DrawerLayout android:id="@+id/drawer_layout" android:layout_width="match_parent" android:layout_height="match_parent"><!-- The Main Content View --><!--        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Support V7 Action Bar Drawer Toggle"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>--><RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/location_text" android:width="200dp" android:layout_marginRight="0dp" android:layout_gravity="right" android:gravity="left" android:layout_alignParentRight="true" /><TextView android:text="Location :" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_toLeftOf="@id/location_text" android:layout_alignTop="@id/location_text" android:width="100dp" android:layout_marginTop="0dp" android:layout_alignParentLeft="true" android:layout_marginBottom="0.0dp" /><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@id/location_text" android:id="@+id/address_text" android:width="200dp" android:layout_alignParentRight="true" /><TextView android:text="Address :" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView2" android:layout_toLeftOf="@id/address_text" android:layout_below="@id/textView1" android:width="100dp" android:layout_alignParentLeft="true" android:layout_marginBottom="0.0dp" /></RelativeLayout><!-- The Left Navigation Drawer --><ListView android:id="@+id/left_drawer" android:layout_width="240dp" android:layout_height="match_parent" android:layout_gravity="start" android:choiceMode="singleChoice" android:divider="#818181" android:dividerHeight="1dp" android:background="#E3F2FD" /><!--        <ListView
+            android:id="@+id/right_drawer"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:choiceMode="singleChoice"
+            android:divider="#E2E2E2"
+            android:dividerHeight="1dp"
+            android:background="#9E9E9E" />--></android.support.v4.widget.DrawerLayout></LinearLayout>
