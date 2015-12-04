@@ -10,6 +10,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
+using Parse;
+
 namespace LOSS
 {
     class Parser
