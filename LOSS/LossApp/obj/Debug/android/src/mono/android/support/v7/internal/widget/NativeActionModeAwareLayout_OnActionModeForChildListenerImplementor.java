@@ -12,7 +12,7 @@ public class NativeActionModeAwareLayout_OnActionModeForChildListenerImplementor
 		__md_methods = 
 			"n_startActionModeForChild:(Landroid/view/View;Landroid/view/ActionMode$Callback;)Landroid/view/ActionMode;:GetStartActionModeForChild_Landroid_view_View_Landroid_view_ActionMode_Callback_Handler:Android.Support.V7.Internal.Widget.NativeActionModeAwareLayout/IOnActionModeForChildListenerInvoker, Xamarin.Android.Support.v7.AppCompat\n" +
 			"";
-		mono.android.Runtime.register ("Android.Support.V7.Internal.Widget.NativeActionModeAwareLayout/IOnActionModeForChildListenerImplementor, Xamarin.Android.Support.v7.AppCompat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", NativeActionModeAwareLayout_OnActionModeForChildListenerImplementor.class, __md_methods);
+		mono.android.Runtime.register ("Android.Support.V7.Internal.Widget.NativeActionModeAwareLayout+IOnActionModeForChildListenerImplementor, Xamarin.Android.Support.v7.AppCompat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", NativeActionModeAwareLayout_OnActionModeForChildListenerImplementor.class, __md_methods);
 	}
 
 
@@ -20,7 +20,7 @@ public class NativeActionModeAwareLayout_OnActionModeForChildListenerImplementor
 	{
 		super ();
 		if (getClass () == NativeActionModeAwareLayout_OnActionModeForChildListenerImplementor.class)
-			mono.android.TypeManager.Activate ("Android.Support.V7.Internal.Widget.NativeActionModeAwareLayout/IOnActionModeForChildListenerImplementor, Xamarin.Android.Support.v7.AppCompat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
+			mono.android.TypeManager.Activate ("Android.Support.V7.Internal.Widget.NativeActionModeAwareLayout+IOnActionModeForChildListenerImplementor, Xamarin.Android.Support.v7.AppCompat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
 	}
 
 

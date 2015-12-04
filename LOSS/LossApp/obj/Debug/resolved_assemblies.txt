@@ -1,8 +1,11 @@
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\LossApp\obj\Debug\assemblies\DrawerLayout_V7_Tutorial.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\LossApp\obj\Debug\assemblies\Mono.Android.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\LossApp\obj\Debug\assemblies\mscorlib.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\LossApp\obj\Debug\assemblies\System.Core.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\LossApp\obj\Debug\assemblies\System.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\LossApp\obj\Debug\assemblies\System.Xml.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\LossApp\obj\Debug\assemblies\Xamarin.Android.Support.v4.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\LossApp\obj\Debug\assemblies\Xamarin.Android.Support.v7.AppCompat.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\LossApp\obj\Debug\assemblies\DrawerLayout_V7_Tutorial.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\LossApp\obj\Debug\assemblies\Mono.Android.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\LossApp\obj\Debug\assemblies\mscorlib.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\LossApp\obj\Debug\assemblies\Parse.Android.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\LossApp\obj\Debug\assemblies\System.Core.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\LossApp\obj\Debug\assemblies\System.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\LossApp\obj\Debug\assemblies\System.Xml.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\LossApp\obj\Debug\assemblies\Xamarin.Android.Support.v4.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\LossApp\obj\Debug\assemblies\Xamarin.Android.Support.v7.AppCompat.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\LossApp\obj\Debug\assemblies\System.Runtime.Serialization.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\LossApp\obj\Debug\assemblies\System.ServiceModel.Internals.dll
