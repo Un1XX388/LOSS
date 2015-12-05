@@ -12,7 +12,7 @@ public class AdapterViewCompat_OnItemLongClickListenerImplementor
 		__md_methods = 
 			"n_onItemLongClick:(Landroid/support/v7/internal/widget/AdapterViewCompat;Landroid/view/View;IJ)Z:GetOnItemLongClick_Landroid_support_v7_internal_widget_AdapterViewCompat_Landroid_view_View_IJHandler:Android.Support.V7.Internal.Widget.AdapterViewCompat/IOnItemLongClickListenerInvoker, Xamarin.Android.Support.v7.AppCompat\n" +
 			"";
-		mono.android.Runtime.register ("Android.Support.V7.Internal.Widget.AdapterViewCompat+IOnItemLongClickListenerImplementor, Xamarin.Android.Support.v7.AppCompat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", AdapterViewCompat_OnItemLongClickListenerImplementor.class, __md_methods);
+		mono.android.Runtime.register ("Android.Support.V7.Internal.Widget.AdapterViewCompat/IOnItemLongClickListenerImplementor, Xamarin.Android.Support.v7.AppCompat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", AdapterViewCompat_OnItemLongClickListenerImplementor.class, __md_methods);
 	}
 
 
@@ -20,7 +20,7 @@ public class AdapterViewCompat_OnItemLongClickListenerImplementor
 	{
 		super ();
 		if (getClass () == AdapterViewCompat_OnItemLongClickListenerImplementor.class)
-			mono.android.TypeManager.Activate ("Android.Support.V7.Internal.Widget.AdapterViewCompat+IOnItemLongClickListenerImplementor, Xamarin.Android.Support.v7.AppCompat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
+			mono.android.TypeManager.Activate ("Android.Support.V7.Internal.Widget.AdapterViewCompat/IOnItemLongClickListenerImplementor, Xamarin.Android.Support.v7.AppCompat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
 	}
 
 

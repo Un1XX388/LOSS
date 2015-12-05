@@ -1731,10 +1731,15 @@ containing a value of this type.
         public static int abc_shareactionprovider_share_with=0x7f0a000d;
         public static int abc_shareactionprovider_share_with_application=0x7f0a000e;
         public static int abc_toolbar_collapse_description=0x7f0a000f;
+        public static int accountPref=0x7f0a0014;
         public static int app_name=0x7f0a0011;
+        public static int chat=0x7f0a0016;
         public static int closeDrawer=0x7f0a0013;
+        public static int feedback=0x7f0a0017;
         public static int hello=0x7f0a0010;
         public static int openDrawer=0x7f0a0012;
+        public static int resources=0x7f0a0015;
+        public static int settings=0x7f0a0018;
     }
     public static final class style {
         public static int Base_TextAppearance_AppCompat=0x7f0b0000;

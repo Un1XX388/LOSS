@@ -28,6 +28,7 @@ namespace LOSS
 		private ListView mLeftDrawer;
 		private ArrayAdapter mLeftAdapter;
 		private List<string> mLeftDataSet;
+        int mTitle;
 
 		Location currentLocation;
 		LocationManager locationManager;
@@ -135,14 +136,14 @@ namespace LOSS
 
 			mLeftAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, mLeftDataSet);
 			mLeftDrawer.Adapter = mLeftAdapter;
-
+            mLeftDrawer.ItemClick += mLeftDrawer_ItemClick;
 
 
 			mDrawerToggle = new MyActionBarDrawerToggle(
 				this,							//Host Activity
 				mDrawerLayout,					//DrawerLayout
 				Resource.String.openDrawer,		//Opened Message
-				Resource.String.closeDrawer		//Closed Message
+				mTitle		//Closed Message
 			);
 
 			mDrawerLayout.SetDrawerListener(mDrawerToggle);
@@ -159,18 +160,92 @@ namespace LOSS
 
 				else
 				{
-					SupportActionBar.SetTitle(Resource.String.closeDrawer);
-				}
-			}
+             //       SupportActionBar.SetTitle(Resource.String.closeDrawer);
+
+                }
+            }
 
 			else
 			{
 				//This is the first time the activity is ran
-				SupportActionBar.SetTitle(Resource.String.closeDrawer);
+			//	SupportActionBar.SetTitle(Resource.String.closeDrawer);
 			}
 		}
 
+        void mLeftDrawer_ItemClick(object sender, AdapterView.ItemClickEventArgs e) {
+            if (mLeftDataSet[e.Position] == "Resources")
+            {
+                Console.Write("Resources clicked! Web and Media!");
+            }
+            Console.WriteLine(mLeftDataSet[e.Position]);
+            switch (mLeftDataSet[e.Position]) {
+                case "Account Preferences":
+                    //var intent = new Intent(this, typeof(SecondActivity));
+                                       //intent.PutExtra("selectedItemId", e.Position);
+                    //StartActivity(intent); //shows new screen
 
+                    if (mDrawerLayout.IsDrawerOpen(mLeftDrawer))
+                    {
+                    	//Left Drawer is already open, close it
+                    	mDrawerLayout.CloseDrawer(mLeftDrawer);
+                        mTitle = Resource.String.accountPref;
+                        SupportActionBar.SetTitle(Resource.String.accountPref);//setting the title to match the newly selected item
+                        //display new page
+
+                    }
+                    break;
+                case "Resources":
+                    if (mDrawerLayout.IsDrawerOpen(mLeftDrawer))
+                    {
+                        //Left Drawer is already open, close it
+                        mDrawerLayout.CloseDrawer(mLeftDrawer);
+                        SupportActionBar.SetTitle(Resource.String.resources);//setting the title to match the newly selected item
+                        //display new page
+
+                    }
+
+                    break;
+                case "Chat":
+                    if (mDrawerLayout.IsDrawerOpen(mLeftDrawer))
+                    {
+                        //Left Drawer is already open, close it
+                        mDrawerLayout.CloseDrawer(mLeftDrawer);
+                        SupportActionBar.SetTitle(Resource.String.chat);//setting the title to match the newly selected item
+                        //display new page
+
+                    }
+
+                    break;
+                case "Feedback":
+                    if (mDrawerLayout.IsDrawerOpen(mLeftDrawer))
+                    {
+                        //Left Drawer is already open, close it
+                        mDrawerLayout.CloseDrawer(mLeftDrawer);
+                        SupportActionBar.SetTitle(Resource.String.feedback);//setting the title to match the newly selected item
+                        //display new page
+                    }
+
+                    break;
+                case "Settings":
+                    if (mDrawerLayout.IsDrawerOpen(mLeftDrawer))
+                    {
+                        //Left Drawer is already open, close it
+                        mDrawerLayout.CloseDrawer(mLeftDrawer);
+                        SupportActionBar.SetTitle(Resource.String.settings);//setting the title to match the newly selected item
+                        //display new page
+                    }
+                    break;
+                case "Hotline":
+                    if (mDrawerLayout.IsDrawerOpen(mLeftDrawer))
+                    {
+                        //Left Drawer is already open, close it
+                        mDrawerLayout.CloseDrawer(mLeftDrawer);
+                        //display new page
+                    }
+                    break;
+
+            }            
+        } 
 
 		public override bool OnOptionsItemSelected (IMenuItem item)
 		{		
