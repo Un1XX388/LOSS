@@ -3,7 +3,7 @@
   <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="23" />
   <application android:label="LOSS.Android" android:name="mono.android.app.Application" android:debuggable="true">
     <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-    <activity android:configChanges="orientation|screenSize" android:label="LOSS.Android.Android" android:name="md5a217e239f1301da88256db96c546a27f.MainActivity">
+    <activity android:configChanges="orientation|screenSize" android:label="LOSS.Android.Android" android:name="md52711c756c32ba2eaa6f48a3088c9884f.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />

@@ -33,8 +33,8 @@ C:\Users\Isha\SkyDrive\Documents\LOSS\MasterDetail\Android\obj\Debug\res\drawabl
 C:\Users\Isha\SkyDrive\Documents\LOSS\MasterDetail\Android\obj\Debug\res\drawable\opportunities.png
 C:\Users\Isha\SkyDrive\Documents\LOSS\MasterDetail\Android\obj\Debug\R.cs.flag
 C:\Users\Isha\SkyDrive\Documents\LOSS\MasterDetail\Android\obj\Debug\uploadflags.txt
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\bin\Debug\MasterDetail.Android.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\bin\Debug\MasterDetail.Android.pdb
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\bin\Debug\LOSS.Android.dll
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\bin\Debug\LOSS.Android.pdb
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\bin\Debug\LOSS.Android.apk
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\bin\Debug\LOSS.Android-Signed.apk
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\bin\Debug\FormsViewGroup.dll
@@ -54,9 +54,8 @@ C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\bin\Debug\Xamarin.GooglePlayS
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\bin\Debug\Xamarin.Forms.Core.xml
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\bin\Debug\Xamarin.Forms.Maps.xml
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\bin\Debug\Xamarin.Forms.Xaml.xml
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\LOSS.Android.csprojResolveAssemblyReference.cache
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\MasterDetail.Android.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\MasterDetail.Android.pdb
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\LOSS.Android.dll
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\LOSS.Android.pdb
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\android\bin\LOSS.Android.apk
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\res\layout\main.xml
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\res\values\strings.xml
@@ -68,3 +67,4 @@ C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\res\drawable\leads.
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\res\drawable\opportunities.png
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\R.cs.flag
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\uploadflags.txt
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\LOSS.Android.csprojResolveAssemblyReference.cache

@@ -1,7 +1,7 @@
-LOSS.Android.MainActivity, MasterDetail.Android;md5a217e239f1301da88256db96c546a27f.MainActivity
-LOSS.Android.MainActivity, MasterDetail.Android, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5a217e239f1301da88256db96c546a27f.MainActivity
-LOSS.Android.MainActivity;md5a217e239f1301da88256db96c546a27f.MainActivity
-loss.android.MainActivity;md5a217e239f1301da88256db96c546a27f.MainActivity
+LOSS.Android.MainActivity, LOSS.Android;md52711c756c32ba2eaa6f48a3088c9884f.MainActivity
+LOSS.Android.MainActivity, LOSS.Android, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md52711c756c32ba2eaa6f48a3088c9884f.MainActivity
+LOSS.Android.MainActivity;md52711c756c32ba2eaa6f48a3088c9884f.MainActivity
+loss.android.MainActivity;md52711c756c32ba2eaa6f48a3088c9884f.MainActivity
 Android.Support.Design.Widget.Snackbar/SnackbarActionClickImplementor, Xamarin.Android.Support.Design;md5a38f23f39c909ee95c77ab5bcf4e7c7f.Snackbar_SnackbarActionClickImplementor
 Android.Support.Design.Widget.Snackbar/SnackbarActionClickImplementor, Xamarin.Android.Support.Design, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5a38f23f39c909ee95c77ab5bcf4e7c7f.Snackbar_SnackbarActionClickImplementor
 Android.Support.Design.Widget.Snackbar.SnackbarActionClickImplementor;md5a38f23f39c909ee95c77ab5bcf4e7c7f.Snackbar_SnackbarActionClickImplementor

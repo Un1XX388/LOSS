@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LOSS", "MasterDetail\LOSS.shproj", "{ACC9D56E-BCF0-4D8D-A808-30DF5E3A5734}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LOSS", "LOSS\LOSS.shproj", "{ACC9D56E-BCF0-4D8D-A808-30DF5E3A5734}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LOSS.iOS", "iOS\LOSS.iOS.csproj", "{8568136A-4531-4247-AB1D-2694E6C95747}"
 EndProject
@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LOSS.Android", "Android\LOS
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		MasterDetail\MasterDetail.projitems*{acc9d56e-bcf0-4d8d-a808-30df5e3a5734}*SharedItemsImports = 13
+		LOSS\LOSS.projitems*{ced917a6-21dc-4afe-b804-6b58989566be}*SharedItemsImports = 4
+		LOSS\LOSS.projitems*{8568136a-4531-4247-ab1d-2694e6c95747}*SharedItemsImports = 4
+		LOSS\LOSS.projitems*{acc9d56e-bcf0-4d8d-a808-30df5e3a5734}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU

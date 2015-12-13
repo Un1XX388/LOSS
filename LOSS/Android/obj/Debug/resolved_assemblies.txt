@@ -1,4 +1,4 @@
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\MasterDetail.Android.dll
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\LOSS.Android.dll
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\FormsViewGroup.dll
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Mono.Android.dll
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\mscorlib.dll

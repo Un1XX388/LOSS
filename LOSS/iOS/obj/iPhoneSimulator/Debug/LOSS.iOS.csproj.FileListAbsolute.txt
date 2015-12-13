@@ -13,8 +13,8 @@ C:\Users\Isha\SkyDrive\Documents\LOSS\MasterDetail\iOS\obj\iPhoneSimulator\Debug
 C:\Users\Isha\SkyDrive\Documents\LOSS\MasterDetail\iOS\obj\iPhoneSimulator\Debug\LOSS.iOS.csprojResolveAssemblyReference.cache
 C:\Users\Isha\SkyDrive\Documents\LOSS\MasterDetail\iOS\obj\iPhoneSimulator\Debug\MasterDetailiOS.exe
 C:\Users\Isha\SkyDrive\Documents\LOSS\MasterDetail\iOS\obj\iPhoneSimulator\Debug\MasterDetailiOS.pdb
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\bin\iPhoneSimulator\Debug\MasterDetailiOS.exe
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\bin\iPhoneSimulator\Debug\MasterDetailiOS.pdb
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\bin\iPhoneSimulator\Debug\LOSSiOS.exe
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\bin\iPhoneSimulator\Debug\LOSSiOS.pdb
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\bin\iPhoneSimulator\Debug\Xamarin.Forms.Core.dll
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\bin\iPhoneSimulator\Debug\Xamarin.Forms.Maps.dll
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\bin\iPhoneSimulator\Debug\Xamarin.Forms.Maps.iOS.Classic.dll
@@ -25,6 +25,5 @@ C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\bin\iPhoneSimulator\Debug\Xamarin
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\bin\iPhoneSimulator\Debug\Xamarin.Forms.Maps.xml
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\bin\iPhoneSimulator\Debug\Xamarin.Forms.Xaml.xml
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\obj\iPhoneSimulator\Debug\optimized\
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\obj\iPhoneSimulator\Debug\LOSS.iOS.csprojResolveAssemblyReference.cache
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\obj\iPhoneSimulator\Debug\MasterDetailiOS.exe
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\obj\iPhoneSimulator\Debug\MasterDetailiOS.pdb
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\obj\iPhoneSimulator\Debug\LOSSiOS.exe
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\iOS\obj\iPhoneSimulator\Debug\LOSSiOS.pdb

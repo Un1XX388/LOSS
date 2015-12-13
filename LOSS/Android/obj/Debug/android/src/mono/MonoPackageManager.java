@@ -79,7 +79,7 @@ public class MonoPackageManager {
 
 class MonoPackageManager_Resources {
 	public static final String[] Assemblies = new String[]{
-		"MasterDetail.Android.dll",
+		"LOSS.Android.dll",
 		"FormsViewGroup.dll",
 		"System.Linq.Expressions.dll",
 		"System.Runtime.dll",
