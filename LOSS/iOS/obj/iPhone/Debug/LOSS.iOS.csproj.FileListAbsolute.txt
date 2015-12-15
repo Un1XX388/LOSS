@@ -1,0 +1,17 @@
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\bin\iPhone\Debug\LOSSiOS.exe
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\bin\iPhone\Debug\LOSSiOS.pdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\bin\iPhone\Debug\Xamarin.Forms.Core.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\bin\iPhone\Debug\Xamarin.Forms.Maps.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\bin\iPhone\Debug\Xamarin.Forms.Maps.iOS.Classic.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\bin\iPhone\Debug\Xamarin.Forms.Platform.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\bin\iPhone\Debug\Xamarin.Forms.Platform.iOS.Classic.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\bin\iPhone\Debug\Xamarin.Forms.Xaml.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\bin\iPhone\Debug\Xamarin.Forms.Core.xml
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\bin\iPhone\Debug\Xamarin.Forms.Maps.xml
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\bin\iPhone\Debug\Xamarin.Forms.Xaml.xml
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\obj\iPhone\Debug\optimized\
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\obj\iPhone\Debug\LOSS.iOS.csprojResolveAssemblyReference.cache
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\obj\iPhone\Debug\LOSSiOS.exe
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\obj\iPhone\Debug\LOSSiOS.pdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\obj\iPhone\Debug\LOSSiOS.exe.mdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\iOS\bin\iPhone\Debug\LOSSiOS.exe.mdb

@@ -13,7 +13,7 @@ public class ProviderInstaller_ProviderInstallListenerImplementor
 			"n_onProviderInstallFailed:(ILandroid/content/Intent;)V:GetOnProviderInstallFailed_ILandroid_content_Intent_Handler:Android.Gms.Security.ProviderInstaller/IProviderInstallListenerInvoker, Xamarin.GooglePlayServices.Base\n" +
 			"n_onProviderInstalled:()V:GetOnProviderInstalledHandler:Android.Gms.Security.ProviderInstaller/IProviderInstallListenerInvoker, Xamarin.GooglePlayServices.Base\n" +
 			"";
-		mono.android.Runtime.register ("Android.Gms.Security.ProviderInstaller/IProviderInstallListenerImplementor, Xamarin.GooglePlayServices.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", ProviderInstaller_ProviderInstallListenerImplementor.class, __md_methods);
+		mono.android.Runtime.register ("Android.Gms.Security.ProviderInstaller+IProviderInstallListenerImplementor, Xamarin.GooglePlayServices.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", ProviderInstaller_ProviderInstallListenerImplementor.class, __md_methods);
 	}
 
 
@@ -21,7 +21,7 @@ public class ProviderInstaller_ProviderInstallListenerImplementor
 	{
 		super ();
 		if (getClass () == ProviderInstaller_ProviderInstallListenerImplementor.class)
-			mono.android.TypeManager.Activate ("Android.Gms.Security.ProviderInstaller/IProviderInstallListenerImplementor, Xamarin.GooglePlayServices.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
+			mono.android.TypeManager.Activate ("Android.Gms.Security.ProviderInstaller+IProviderInstallListenerImplementor, Xamarin.GooglePlayServices.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
 	}
 
 

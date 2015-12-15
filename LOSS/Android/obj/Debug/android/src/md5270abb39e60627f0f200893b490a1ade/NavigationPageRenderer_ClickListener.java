@@ -12,7 +12,7 @@ public class NavigationPageRenderer_ClickListener
 		__md_methods = 
 			"n_onClick:(Landroid/view/View;)V:GetOnClick_Landroid_view_View_Handler:Android.Views.View/IOnClickListenerInvoker, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\n" +
 			"";
-		mono.android.Runtime.register ("Xamarin.Forms.Platform.Android.AppCompat.NavigationPageRenderer/ClickListener, Xamarin.Forms.Platform.Android, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null", NavigationPageRenderer_ClickListener.class, __md_methods);
+		mono.android.Runtime.register ("Xamarin.Forms.Platform.Android.AppCompat.NavigationPageRenderer+ClickListener, Xamarin.Forms.Platform.Android, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null", NavigationPageRenderer_ClickListener.class, __md_methods);
 	}
 
 
@@ -20,7 +20,7 @@ public class NavigationPageRenderer_ClickListener
 	{
 		super ();
 		if (getClass () == NavigationPageRenderer_ClickListener.class)
-			mono.android.TypeManager.Activate ("Xamarin.Forms.Platform.Android.AppCompat.NavigationPageRenderer/ClickListener, Xamarin.Forms.Platform.Android, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
+			mono.android.TypeManager.Activate ("Xamarin.Forms.Platform.Android.AppCompat.NavigationPageRenderer+ClickListener, Xamarin.Forms.Platform.Android, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
 	}
 
 

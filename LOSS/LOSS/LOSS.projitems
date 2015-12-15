@@ -22,5 +22,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)MenuListView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MenuListData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MenuCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestPage.cs" />
   </ItemGroup>
 </Project>

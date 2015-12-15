@@ -1,41 +1,42 @@
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\LOSS.Android.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\FormsViewGroup.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Mono.Android.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\mscorlib.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Core.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Linq.Expressions.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Runtime.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Xml.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Xamarin.Android.Support.Design.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Xamarin.Android.Support.v4.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Xamarin.Android.Support.v7.AppCompat.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Xamarin.Android.Support.v7.CardView.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Xamarin.Android.Support.v7.MediaRouter.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Xamarin.Forms.Core.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Xamarin.Forms.Maps.Android.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Xamarin.Forms.Maps.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Xamarin.Forms.Platform.Android.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Xamarin.Forms.Platform.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Xamarin.Forms.Xaml.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Xamarin.GooglePlayServices.Base.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\Xamarin.GooglePlayServices.Maps.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.ComponentModel.Composition.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Collections.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Diagnostics.Debug.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Threading.Tasks.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.ObjectModel.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Globalization.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.ComponentModel.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Xml.ReaderWriter.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Reflection.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Dynamic.Runtime.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Threading.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.IO.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Runtime.Extensions.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Linq.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Reflection.Extensions.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Resources.ResourceManager.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Net.Http.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Runtime.Serialization.dll
-C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\assemblies\System.Text.RegularExpressions.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\LOSS.Android.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\FormsViewGroup.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Mono.Android.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\mscorlib.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Core.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Linq.Expressions.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.ObjectModel.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Runtime.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Xml.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.Android.Support.Design.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.Android.Support.v4.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.Android.Support.v7.AppCompat.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.Android.Support.v7.CardView.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.Android.Support.v7.MediaRouter.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.Forms.Core.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.Forms.Maps.Android.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.Forms.Maps.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.Forms.Platform.Android.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.Forms.Platform.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.Forms.Xaml.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.GooglePlayServices.Base.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.GooglePlayServices.Maps.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Runtime.Serialization.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.ServiceModel.Internals.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.ComponentModel.Composition.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Collections.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Diagnostics.Debug.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Threading.Tasks.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Globalization.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.ComponentModel.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Xml.ReaderWriter.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Reflection.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Dynamic.Runtime.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Threading.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.IO.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Runtime.Extensions.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Linq.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Reflection.Extensions.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Resources.ResourceManager.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Net.Http.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Text.RegularExpressions.dll

@@ -15,7 +15,7 @@ public class NavigationPageRenderer_DrawerMultiplexedListener
 			"n_onDrawerSlide:(Landroid/view/View;F)V:GetOnDrawerSlide_Landroid_view_View_FHandler:Android.Support.V4.Widget.DrawerLayout/IDrawerListenerInvoker, Xamarin.Android.Support.v4\n" +
 			"n_onDrawerStateChanged:(I)V:GetOnDrawerStateChanged_IHandler:Android.Support.V4.Widget.DrawerLayout/IDrawerListenerInvoker, Xamarin.Android.Support.v4\n" +
 			"";
-		mono.android.Runtime.register ("Xamarin.Forms.Platform.Android.AppCompat.NavigationPageRenderer/DrawerMultiplexedListener, Xamarin.Forms.Platform.Android, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null", NavigationPageRenderer_DrawerMultiplexedListener.class, __md_methods);
+		mono.android.Runtime.register ("Xamarin.Forms.Platform.Android.AppCompat.NavigationPageRenderer+DrawerMultiplexedListener, Xamarin.Forms.Platform.Android, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null", NavigationPageRenderer_DrawerMultiplexedListener.class, __md_methods);
 	}
 
 
@@ -23,7 +23,7 @@ public class NavigationPageRenderer_DrawerMultiplexedListener
 	{
 		super ();
 		if (getClass () == NavigationPageRenderer_DrawerMultiplexedListener.class)
-			mono.android.TypeManager.Activate ("Xamarin.Forms.Platform.Android.AppCompat.NavigationPageRenderer/DrawerMultiplexedListener, Xamarin.Forms.Platform.Android, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
+			mono.android.TypeManager.Activate ("Xamarin.Forms.Platform.Android.AppCompat.NavigationPageRenderer+DrawerMultiplexedListener, Xamarin.Forms.Platform.Android, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
 	}
 
 

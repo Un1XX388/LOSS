@@ -3,11 +3,27 @@ using Xamarin.Forms;
 
 namespace LOSS
 {
-	public class App
+	public class App : Xamarin.Forms.Application
 	{
-		public static Page GetMainPage ()
-		{	
-			return new RootPage ();
+		public App ()
+		{
+            MainPage = new RootPage();
 		}
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+
+        }
+
+        protected override void OnSleep()
+        {
+
+        }
+
+        protected override void OnResume()
+        {
+
+        }
 	}
 }
