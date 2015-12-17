@@ -11,6 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Geolocation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LocalRecources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NationalRecources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SettingsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RootPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MenuPage.cs" />
@@ -23,5 +25,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)MenuListData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MenuCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VideoRecources.cs" />
   </ItemGroup>
 </Project>
