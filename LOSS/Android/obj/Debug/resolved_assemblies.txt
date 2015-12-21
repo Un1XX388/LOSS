@@ -2,11 +2,14 @@ C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\asse
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\FormsViewGroup.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Mono.Android.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\mscorlib.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Newtonsoft.Json.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Parse.Android.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Core.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Linq.Expressions.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.ObjectModel.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Runtime.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Threading.Tasks.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Xml.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.Android.Support.Design.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.Android.Support.v4.dll
@@ -21,7 +24,6 @@ C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\asse
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.Forms.Xaml.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.GooglePlayServices.Base.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\Xamarin.GooglePlayServices.Maps.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Threading.Tasks.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.Runtime.Serialization.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.ServiceModel.Internals.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\assemblies\System.ComponentModel.Composition.dll

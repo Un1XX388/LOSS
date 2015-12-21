@@ -2,6 +2,14 @@ LOSS.Android.MainActivity, LOSS.Android;md52711c756c32ba2eaa6f48a3088c9884f.Main
 LOSS.Android.MainActivity, LOSS.Android, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md52711c756c32ba2eaa6f48a3088c9884f.MainActivity
 LOSS.Android.MainActivity;md52711c756c32ba2eaa6f48a3088c9884f.MainActivity
 loss.android.MainActivity;md52711c756c32ba2eaa6f48a3088c9884f.MainActivity
+Parse.ParsePushBroadcastReceiver, Parse.Android;parse.ParsePushBroadcastReceiver
+Parse.ParsePushBroadcastReceiver, Parse.Android, Version=1.6.2.0, Culture=neutral, PublicKeyToken=null;parse.ParsePushBroadcastReceiver
+Parse.ParsePushBroadcastReceiver;parse.ParsePushBroadcastReceiver
+parse.ParsePushBroadcastReceiver;parse.ParsePushBroadcastReceiver
+Parse.ParsePushService, Parse.Android;parse.ParsePushService
+Parse.ParsePushService, Parse.Android, Version=1.6.2.0, Culture=neutral, PublicKeyToken=null;parse.ParsePushService
+Parse.ParsePushService;parse.ParsePushService
+parse.ParsePushService;parse.ParsePushService
 Android.Support.Design.Widget.Snackbar/SnackbarActionClickImplementor, Xamarin.Android.Support.Design;android.support.design.widget.Snackbar_SnackbarActionClickImplementor
 Android.Support.Design.Widget.Snackbar+SnackbarActionClickImplementor, Xamarin.Android.Support.Design, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;android.support.design.widget.Snackbar_SnackbarActionClickImplementor
 Android.Support.Design.Widget.Snackbar.SnackbarActionClickImplementor;android.support.design.widget.Snackbar_SnackbarActionClickImplementor

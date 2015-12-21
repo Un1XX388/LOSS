@@ -5,6 +5,8 @@ namespace LOSS
 {
 	public class App : Xamarin.Forms.Application
 	{
+        public static ResourceItemManager ResourceManager { get; set; }
+
 		public App ()
 		{
             MainPage = new RootPage();
@@ -13,7 +15,6 @@ namespace LOSS
         protected override void OnStart()
         {
             base.OnStart();
-
         }
 
         protected override void OnSleep()

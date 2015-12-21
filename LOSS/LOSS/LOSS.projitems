@@ -14,6 +14,18 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LocalResources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NationalResources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parse\Constants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parse\ParseClassInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parse\ResourceItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parse\ResourceItemManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parse\ResourceTest.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>ResourceTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Parse\ResourceTestList.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>ResourceTestList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)SettingsPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RootPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MenuPage.cs" />
@@ -27,5 +39,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)MenuCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VideoResources.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Parse\ResourceTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Parse\ResourceTestList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

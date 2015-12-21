@@ -21,6 +21,8 @@ namespace LOSS.Android
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
+            App.ResourceManager = new ResourceItemManager(ParseClass.Default);
+
             LoadApplication(new App());
 		}
 	}
