@@ -68,43 +68,6 @@ C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\res\drawable\opport
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\R.cs.flag
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\uploadflags.txt
 C:\Users\Isha\SkyDrive\Documents\LOSS\LOSS\Android\obj\Debug\LOSS.Android.csprojResolveAssemblyReference.cache
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\LOSS.Android.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\LOSS.Android.pdb
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\LOSS.Android.apk
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\LOSS.Android-Signed.apk
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\FormsViewGroup.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Android.Support.Design.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Android.Support.v4.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Android.Support.v7.AppCompat.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Android.Support.v7.CardView.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Android.Support.v7.MediaRouter.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Core.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Maps.Android.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Maps.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Platform.Android.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Platform.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Xaml.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.GooglePlayServices.Base.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.GooglePlayServices.Maps.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Core.xml
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Maps.xml
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Xaml.xml
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\LOSS.Android.csprojResolveAssemblyReference.cache
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\LOSS.Android.dll
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\LOSS.Android.pdb
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\android\bin\LOSS.Android.apk
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\layout\main.xml
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\values\strings.xml
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\drawable\icon.png
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\drawable\settings.png
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\drawable\accounts.png
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\drawable\contacts.png
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\drawable\leads.png
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\drawable\opportunities.png
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\R.cs.flag
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\uploadflags.txt
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\LOSS.Android.dll.mdb
-C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\LOSS.Android.dll.mdb
 C:\Users\Reed\Documents\LOSS\LOSS\Android\bin\Debug\LOSS.Android.dll
 C:\Users\Reed\Documents\LOSS\LOSS\Android\bin\Debug\LOSS.Android.pdb
 C:\Users\Reed\Documents\LOSS\LOSS\Android\bin\Debug\LOSS.Android.apk
@@ -142,3 +105,39 @@ C:\Users\Reed\Documents\LOSS\LOSS\Android\obj\Debug\uploadflags.txt
 C:\Users\Reed\Documents\LOSS\LOSS\Android\obj\Debug\LOSS.Android.csprojResolveAssemblyReference.cache
 C:\Users\Reed\Documents\LOSS\LOSS\Android\obj\Debug\LOSS.Android.dll.mdb
 C:\Users\Reed\Documents\LOSS\LOSS\Android\bin\Debug\LOSS.Android.dll.mdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\LOSS.Android.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\LOSS.Android.pdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\LOSS.Android.apk
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\LOSS.Android-Signed.apk
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\FormsViewGroup.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Android.Support.Design.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Android.Support.v4.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Android.Support.v7.AppCompat.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Android.Support.v7.CardView.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Android.Support.v7.MediaRouter.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Core.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Maps.Android.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Maps.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Platform.Android.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Platform.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Xaml.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.GooglePlayServices.Base.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.GooglePlayServices.Maps.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Core.xml
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Maps.xml
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\Xamarin.Forms.Xaml.xml
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\LOSS.Android.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\LOSS.Android.pdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\android\bin\LOSS.Android.apk
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\layout\main.xml
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\values\strings.xml
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\drawable\icon.png
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\drawable\settings.png
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\drawable\accounts.png
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\drawable\contacts.png
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\drawable\leads.png
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\res\drawable\opportunities.png
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\R.cs.flag
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\uploadflags.txt
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\obj\Debug\LOSS.Android.dll.mdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSS\Android\bin\Debug\LOSS.Android.dll.mdb
