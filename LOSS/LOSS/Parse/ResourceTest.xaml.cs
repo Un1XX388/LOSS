@@ -7,7 +7,7 @@ namespace LOSS
 	{
 		public ResourceTest ()
 		{
-			InitializeComponent ();
+			InitializeComponent();
 		}
 
         async void OnSaveActivated(object sender, EventArgs e)

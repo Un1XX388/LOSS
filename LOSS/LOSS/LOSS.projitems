@@ -12,8 +12,22 @@
     <Compile Include="$(MSBuildThisFileDirectory)Colors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Geolocation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)LocalResources.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)NationalResources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MasterDetailPage\MenuCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MasterDetailPage\MenuItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MasterDetailPage\MenuListData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MasterDetailPage\MenuListView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MasterDetailPage\MenuPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MasterDetailPage\RootPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\AccountPreferencesPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\ChatPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\FeedbackPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Resources\OnlineResources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Resources\ResourcesPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Resources\Video\PlaylistPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Resources\Video\VideoResources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Resources\Video\VideoViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SettingsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\TestPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Parse\Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Parse\ParseClassInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Parse\ResourceItem.cs" />
@@ -26,19 +40,6 @@
       <SubType>Code</SubType>
       <DependentUpon>ResourceTestList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)SettingsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RootPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MenuPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MenuItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ContractsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ResourcesPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ChatPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FeedbackPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MenuListView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MenuListData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MenuCell.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TestPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VideoResources.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Parse\ResourceTest.xaml">

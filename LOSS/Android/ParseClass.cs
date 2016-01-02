@@ -26,7 +26,7 @@ namespace LOSS.Android
         protected ParseClass()
         {
             Items = new List<ResourceItem>();
-            ParseClient.Initialize(Constants.ApplicationId, Constants.Key);
+            ParseClient.Initialize("5En2OW4zzO9QbCxcxBwl8vjrHGeBsm7QDsSblJLi", "K70M8Fvjy4IrMg6Nmayxx7X7Atz9qbiPOZQfptW9");
         }
 
         ParseObject ToParseObject(ResourceItem todo)
