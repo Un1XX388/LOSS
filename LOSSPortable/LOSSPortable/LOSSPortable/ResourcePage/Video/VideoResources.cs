@@ -17,6 +17,7 @@ namespace LOSSPortable
 			this.Title				= "Playlist(s)";
 			lstView.ItemsSource		= playlist;
 			lstView.ItemTemplate	= new DataTemplate(typeof(PlaylistCell));
+            lstView.ItemSelected += Onselected;
 			Content					= lstView;
 			playlist.Add(new VideoViewModel{
 				Image					= "accounts.png",
@@ -24,7 +25,18 @@ namespace LOSSPortable
 				Description				= "Description: How to kill.",
 				TargetType				= typeof(PlaylistPage)
 			});
+            
 		}// End VideoResources() method.
+
+        void Onselected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+            {
+                return;
+            }
+            DisplayAlert("Item Selected", e.SelectedItem.ToString(), "OK");
+        }
+
 
 		public class PlaylistCell : ViewCell{
 			public PlaylistCell(){
