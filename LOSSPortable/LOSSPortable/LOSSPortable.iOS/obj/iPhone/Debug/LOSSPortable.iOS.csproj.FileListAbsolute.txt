@@ -1,0 +1,20 @@
+C:\Users\Claisen\Documents\Visual Studio 2015\Projects\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\optimized\
+C:\Users\Claisen\Documents\Visual Studio 2015\Projects\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\LOSSPortable.iOS.csprojResolveAssemblyReference.cache
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\LOSSPortableiOS.exe
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\LOSSPortableiOS.pdb
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\LOSSPortable.dll
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Parse.iOS.dll
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Xamarin.Forms.Core.dll
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Xamarin.Forms.Platform.dll
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Xamarin.Forms.Platform.iOS.dll
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Xamarin.Forms.Xaml.dll
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\LOSSPortable.pdb
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Parse.iOS.xml
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Xamarin.Forms.Core.xml
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Xamarin.Forms.Xaml.xml
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\optimized\
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\LOSSPortable.iOS.csprojResolveAssemblyReference.cache
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\LOSSPortableiOS.exe
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\LOSSPortableiOS.pdb
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\LOSSPortableiOS.exe.mdb
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\LOSSPortableiOS.exe.mdb
