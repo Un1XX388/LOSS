@@ -34,5 +34,10 @@ C:\Project\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Xamarin.Forms.Core.x
 C:\Project\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Xamarin.Forms.Xaml.xml
 C:\Project\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.dll
 C:\Project\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.pdb
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.csprojResolveAssemblyReference.cache
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.dll.mdb
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\LOSSPortable.dll.mdb
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.dll.mdb
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\LOSSPortable.dll.mdb
 C:\Project\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.dll.mdb
 C:\Project\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\LOSSPortable.dll.mdb

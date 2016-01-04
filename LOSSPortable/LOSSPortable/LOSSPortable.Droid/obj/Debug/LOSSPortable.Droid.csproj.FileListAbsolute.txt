@@ -39,5 +39,6 @@ C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.Droid\obj\Debug\res\values\col
 C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.Droid\obj\Debug\res\drawable\menu.png
 C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.Droid\obj\Debug\R.cs.flag
 C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.Droid\obj\Debug\uploadflags.txt
+C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.Droid\bin\Debug\LOSSPortable.dll.mdb
 C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.Droid\obj\Debug\LOSSPortable.Droid.dll.mdb
 C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.Droid\bin\Debug\LOSSPortable.Droid.dll.mdb
