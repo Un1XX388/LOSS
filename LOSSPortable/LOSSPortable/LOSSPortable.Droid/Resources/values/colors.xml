@@ -2,6 +2,6 @@
 <resources>
 
   <item name="background" type="color">#9F8FA8</item>
-  <item name="primary_dark" type="color">#EB1E4D</item>
-  <item name="primary" type="color">#EB1E4D</item>
+  <item name="primary_dark" type="color">#63636f</item>
+  <item name="primary" type="color">#63636f</item>
 </resources>

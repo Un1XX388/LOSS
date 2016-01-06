@@ -50,7 +50,7 @@
     <Compile Include="ResourcePage\Video\PlaylistPage.cs" />
     <Compile Include="ResourcePage\Video\VideoResources.cs" />
     <Compile Include="ResourcePage\Video\VideoViewModel.cs" />
-    <Compile Include="ResourcePage\Video\Video1Page.cs" />
+    <Compile Include="ResourcePage\Video\VideoPage.cs" />
     <Compile Include="ResourcePage\Video\VideoCell.cs" />
   </ItemGroup>
   <ItemGroup>

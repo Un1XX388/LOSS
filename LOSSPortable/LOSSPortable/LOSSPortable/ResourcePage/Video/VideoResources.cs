@@ -20,7 +20,7 @@ namespace LOSSPortable{
 			Content					= lstView;
 			// The item being added below is a test. In final release, this information should be retrieved from the server.
 			playlist.Add(new VideoViewModel{
-				Image					= "accounts.png",
+				Image					= "play.png",
 				Title					= "Playlist Title: Kill Kill Kill",
 				Description				= "Description: How to kill.",
 				Link					= "Put playlist link here"
