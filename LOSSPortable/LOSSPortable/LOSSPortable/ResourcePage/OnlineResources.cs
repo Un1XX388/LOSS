@@ -2,8 +2,7 @@
 using Xamarin.Forms;
 using System.Collections.Generic;
 
-namespace LOSSPortable
-{
+namespace LOSSPortable{
 	public class OnlineResources : ContentPage{
 		public OnlineResources(){
 			Title = "Online Resources";
