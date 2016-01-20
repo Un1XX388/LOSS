@@ -13,7 +13,7 @@ namespace LOSSPortable{
 		public RootPage(){
 			masterPage					= new MasterPage();
 			Master						= masterPage;
-			Detail						= new NavigationPage(new HomePage());
+			Detail						= new NavigationPage(new HomePage());          
 			masterPage.BackgroundColor	= Color.White;
             
 			masterPage.ListView.ItemSelected += OnItemSelected;

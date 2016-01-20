@@ -48,7 +48,6 @@ namespace LOSSPortable{
 					SeparatorVisibility = SeparatorVisibility.Default
 			};
 
-
 			Icon = "drawable/menu.png";
 			Title = "MENU";
 			listView.RowHeight = 45;

@@ -18,3 +18,22 @@ C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\LOSSPorta
 C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\LOSSPortableiOS.pdb
 C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\LOSSPortableiOS.exe.mdb
 C:\Project\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\LOSSPortableiOS.exe.mdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\LOSSPortableiOS.exe
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\LOSSPortableiOS.pdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\LOSSPortable.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Parse.iOS.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Xamarin.Forms.Core.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Xamarin.Forms.Platform.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Xamarin.Forms.Platform.iOS.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Xamarin.Forms.Xaml.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\LOSSPortable.pdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\LOSSPortable.dll.mdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Parse.iOS.xml
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Xamarin.Forms.Core.xml
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\Xamarin.Forms.Xaml.xml
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\optimized\
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\LOSSPortable.iOS.csprojResolveAssemblyReference.cache
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\LOSSPortableiOS.exe
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\LOSSPortableiOS.pdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\obj\iPhone\Debug\LOSSPortableiOS.exe.mdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable.iOS\bin\iPhone\Debug\LOSSPortableiOS.exe.mdb

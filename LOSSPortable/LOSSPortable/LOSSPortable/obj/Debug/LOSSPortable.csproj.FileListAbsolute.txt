@@ -49,5 +49,11 @@ C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\L
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.csprojResolveAssemblyReference.cache
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.dll
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.pdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Plugin.Geolocator.Abstractions.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Plugin.Geolocator.dll
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Plugin.Geolocator.pdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Plugin.Geolocator.xml
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Plugin.Geolocator.Abstractions.pdb
+C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Plugin.Geolocator.Abstractions.xml
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.dll.mdb
 C:\Users\Matthew\Google Drive\GitHub\Loss Repository\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\LOSSPortable.dll.mdb
