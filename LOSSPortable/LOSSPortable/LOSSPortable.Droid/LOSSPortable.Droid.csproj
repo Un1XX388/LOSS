@@ -147,6 +147,11 @@
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\drawable\menu.png" />
     <AndroidResource Include="Resources\drawable\radialback.xml" />
+    <AndroidResource Include="Resources\drawable\vid2.jpg" />
+    <AndroidResource Include="Resources\drawable\vid1.jpg" />
+    <AndroidResource Include="Resources\drawable\vid3.jpg" />
+    <AndroidResource Include="Resources\drawable\vid4.jpg" />
+    <AndroidResource Include="Resources\drawable\vid5.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LOSSPortable\LOSSPortable.csproj">

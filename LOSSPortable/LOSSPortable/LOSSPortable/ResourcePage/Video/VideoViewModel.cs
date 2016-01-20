@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace LOSSPortable
-{
+namespace LOSSPortable{
 	public class VideoViewModel : INotifyPropertyChanged{
 		#region INotifyPropertyChanged implementation
 		public event PropertyChangedEventHandler PropertyChanged;

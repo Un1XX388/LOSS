@@ -17,23 +17,45 @@ namespace LOSSPortable{
 			VidLstView.ItemSelected	+= Onselected;
 
 			// The bellow items will be taken from the server in the final build (they are temporary).
+			// IMPORTANT NOTE:
+				// The max length of a title is 50 char + "..."
+				// The max length of a description is 90 char + "..."
+				// Video links from youtube playlists may not be used.
 			vids.Add(new VideoViewModel{
-				Image				= "play.png",
-				Title				= "Why kill a baby?",
-				Description			= "It seems like creatures killing infants of their own species is a very common occurrence. Why is this a thing?",
-				Link				= "https://youtu.be/REUzqgRh3GU"
+				Image				= "vid1.jpg",
+				Title				= "Creationist Cat solves the abortion crisis!",
+				Description			= "Hey guys, last month I took part in Rick Perry's 'da Response' gaddering and let me tell you...",
+				Link				= "https://youtu.be/lbHbp8Penrg"
 			});
 			vids.Add(new VideoViewModel{
-				Image				= "play.png",
-				Title				= "Top 10 Foods that Can Kill You",
-				Description			= "You may or may not be able to stay alive long enough to enjoy these deadly delicacies!",
-				Link				= "https://youtu.be/p0srsGgZ1Pc"
+				Image				= "vid2.jpg",
+				Title				= "Creationist Cat sings!!!",
+				Description			= "Whaddup sodomites? My debut album is dropping and diss shit is hotter dan da devil's freaking",
+				Link				= "https://youtu.be/UjdutAqWE4s"
 			});
 			vids.Add(new VideoViewModel{
-				Image				= "play.png",
-				Title				= "Murder Suicide Cleanup in a Home, OSHA Blood borne Pathogens, PPE, Hazcom",
-				Description			= "This Trauma Scene Cleanup Quick Reference Guide is part of an open-source training platform comprised of a 3 mil laminated UV resistant plastic cover (3 2-sided pages, 6 total pages), with OSHA Standards Bloodborne Pathogens 1910.1030, Confined Space 1910.146, Respiratory Protection 1910.134, PPE 1910.132, and Haz Com 1910.1200 explained next to HD photo case studies and the associated training material slides for each of these OSHA standards.",
-				Link				= "https://youtu.be/jWjnWiU4egw"
+				Image				= "vid3.jpg",
+				Title				= "SuperKitty Hugs & Cuddles Fun Time!",
+				Description			= "A liddle someting for da fans dat have been itching to pet me...",
+				Link				= "https://youtu.be/UjdutAqWE4s"
+			});
+			vids.Add(new VideoViewModel{
+				Image				= "vid4.jpg",
+				Title				= "Breaking News: I'm not a Hermaphrodite!",
+				Description			= "In diss very special news bulletin, I, Creationist Cat, dispel deez stupid freaking rumors...",
+				Link				= "https://youtu.be/u3Sl_KoC79s"
+			});
+			vids.Add(new VideoViewModel{
+				Image				= "vid5.jpg",
+				Title				= "Creastionist Cat: Science vs. REAL MIRACLES!",
+				Description			= "Hey kids, tawt I'd take a break from pwning hellbound sodomites today and give you da word...",
+				Link				= "https://youtu.be/5Jc5-bCf16w"
+			});
+			vids.Add(new VideoViewModel{
+				Image				= "vid6.jpg",
+				Title				= "",
+				Description			= "",
+				Link				= ""
 			});
 
 			Content = VidLstView;

@@ -17,12 +17,22 @@ namespace LOSSPortable{
 				cellView.Children.Add(cellThum, 0, 2, 0, 8);
 
 				// Create name for cell.
-				var cellName			= new Label(){ BackgroundColor = Color.Transparent, TextColor = Color.White };
+				var cellName			= new Label(){
+					BackgroundColor = Color.Transparent,
+					TextColor = Color.White,
+					FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+					FontAttributes = FontAttributes.Bold
+					};
 				cellName.SetBinding(Label.TextProperty, new Binding("Title"));
 				cellView.Children.Add(cellName, 2, 5, 0, 3);
 
 				// Create description for cell.
-				var cellDesc			= new Label(){ BackgroundColor = Color.Transparent, TextColor = Color.White };
+				var cellDesc			= new Label(){
+					BackgroundColor = Color.Transparent,
+					TextColor = Color.White,
+					FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+					FontAttributes = FontAttributes.Italic
+					};
 				cellDesc.SetBinding(Label.TextProperty, new Binding("Description"));
 				cellView.Children.Add(cellDesc, 2, 5, 3, 8);
 

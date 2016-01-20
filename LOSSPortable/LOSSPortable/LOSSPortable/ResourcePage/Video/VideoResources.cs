@@ -21,9 +21,9 @@ namespace LOSSPortable{
 			// The item being added below is a test. In final release, this information should be retrieved from the server.
 			playlist.Add(new VideoViewModel{
 				Image					= "play.png",
-				Title					= "Playlist Title: Kill Kill Kill",
-				Description				= "Description: How to kill.",
-				Link					= "Put playlist link here"
+				Title					= "More fun stuff!!!!!",
+				Description				= "Creationist Cat entertains, educates and (of course) freakin' pwns!",
+				Link					= "https://www.youtube.com/playlist?list=PL2084743868873CDB"
 			});
             
 		}// End VideoResources() method.
