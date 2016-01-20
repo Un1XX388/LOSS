@@ -3324,8 +3324,8 @@ namespace LOSSPortable.Droid
 			// aapt resource value: 0x7f020064
 			public const int mr_ic_settings_light = 2130837604;
 			
-			// aapt resource value: 0x7f020068
-			public const int notification_template_icon_bg = 2130837608;
+			// aapt resource value: 0x7f02006d
+			public const int notification_template_icon_bg = 2130837613;
 			
 			// aapt resource value: 0x7f020065
 			public const int option = 2130837605;
@@ -3335,6 +3335,21 @@ namespace LOSSPortable.Droid
 			
 			// aapt resource value: 0x7f020067
 			public const int play = 2130837607;
+			
+			// aapt resource value: 0x7f020068
+			public const int vid1 = 2130837608;
+			
+			// aapt resource value: 0x7f020069
+			public const int vid2 = 2130837609;
+			
+			// aapt resource value: 0x7f02006a
+			public const int vid3 = 2130837610;
+			
+			// aapt resource value: 0x7f02006b
+			public const int vid4 = 2130837611;
+			
+			// aapt resource value: 0x7f02006c
+			public const int vid5 = 2130837612;
 			
 			static Drawable()
 			{
