@@ -37,6 +37,8 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="ChatPage\ChatPage.cs" />
+    <Compile Include="ChatPage\ChatSelection.cs" />
+    <Compile Include="ChatPage\Message.cs" />
     <Compile Include="Constants\Colors.cs" />
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="OptionsPage\OptionsPage.cs" />

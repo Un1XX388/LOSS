@@ -26,7 +26,7 @@ namespace LOSSPortable{
 			masterPageItems.Add(new MasterPageItem{
 				Title = "Conversations",
 				IconSource = "chat.png",
-				TargetType = typeof(ChatPage)
+				TargetType = typeof(ChatSelection)
 			});
 
 			masterPageItems.Add(new MasterPageItem{
