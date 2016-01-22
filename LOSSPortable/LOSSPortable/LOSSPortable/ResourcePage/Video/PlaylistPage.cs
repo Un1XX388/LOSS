@@ -8,7 +8,7 @@ namespace LOSSPortable{
 		public ObservableCollection<VideoViewModel> vids{ get; set; }
 
 		public PlaylistPage(){
-			Title					= "Kill Kill Kill";
+			Title					= "Uptown Special";
 			vids					= new ObservableCollection<VideoViewModel> ();
 			ListView VidLstView		= new ListView();
 			VidLstView.RowHeight	= 100;
@@ -23,39 +23,39 @@ namespace LOSSPortable{
 				// Video links from youtube playlists may not be used.
 			vids.Add(new VideoViewModel{
 				Image				= "vid1.jpg",
-				Title				= "Creationist Cat solves the abortion crisis!",
-				Description			= "Hey guys, last month I took part in Rick Perry's 'da Response' gaddering and let me tell you...",
-				Link				= "https://youtu.be/lbHbp8Penrg"
+				Title				= "Mark Ronson - Uptown Funk ft. Bruno Mars",
+				Description			= "Mark Ronson's official music video for 'Uptown Funk' ft. Bruno Mars.",
+				Link				= "https://youtu.be/OPf0YbXqDm0"
 			});
 			vids.Add(new VideoViewModel{
 				Image				= "vid2.jpg",
-				Title				= "Creationist Cat sings!!!",
-				Description			= "Whaddup sodomites? My debut album is dropping and diss shit is hotter dan da devil's freaking",
-				Link				= "https://youtu.be/UjdutAqWE4s"
+				Title				= "Mark Ronson - Feel Right ft. Mystikal",
+				Description			= "Mark Ronson – Feel right Ft. Mystikal",
+				Link				= "https://youtu.be/ognnZ3r2qyQ"
 			});
 			vids.Add(new VideoViewModel{
 				Image				= "vid3.jpg",
-				Title				= "SuperKitty Hugs & Cuddles Fun Time!",
-				Description			= "A liddle someting for da fans dat have been itching to pet me...",
-				Link				= "https://youtu.be/UjdutAqWE4s"
+				Title				= "Mark Ronson - Daffodils (Audio) ft. Kevin Parker",
+				Description			= "You can vote Uptown Funk as British Artist Video Of The Year by tweeting using #BRITMarkRonson",
+				Link				= "https://youtu.be/-OWkLF2HLp0"
 			});
 			vids.Add(new VideoViewModel{
 				Image				= "vid4.jpg",
-				Title				= "Breaking News: I'm not a Hermaphrodite!",
-				Description			= "In diss very special news bulletin, I, Creationist Cat, dispel deez stupid freaking rumors...",
-				Link				= "https://youtu.be/u3Sl_KoC79s"
+				Title				= "Mark Ronson - Feel Right (Lyric Video) ft. Mystikal",
+				Description			= "You can vote Uptown Funk as British Artist Video Of The Year by tweeting using #BRITMarkRonson",
+				Link				= "https://youtu.be/gb73FC6I_0U"
 			});
 			vids.Add(new VideoViewModel{
 				Image				= "vid5.jpg",
-				Title				= "Creastionist Cat: Science vs. REAL MIRACLES!",
-				Description			= "Hey kids, tawt I'd take a break from pwning hellbound sodomites today and give you da word...",
-				Link				= "https://youtu.be/5Jc5-bCf16w"
+				Title				= "Mark Ronson - Uptown Funk (Live on SNL) ft. Bruno Mars",
+				Description			= "You can vote Uptown Funk as British Artist Video Of The Year by tweeting using #BRITMarkRonson",
+				Link				= "https://youtu.be/GbGX1Sx0gvo"
 			});
 			vids.Add(new VideoViewModel{
 				Image				= "vid6.jpg",
-				Title				= "",
-				Description			= "",
-				Link				= ""
+				Title				= "Mark Ronson - Feel Right (Live on SNL) ft. Mystikal",
+				Description			= "You can vote Uptown Funk as British Artist Video Of The Year by tweeting using #BRITMarkRonson",
+				Link				= "https://youtu.be/b0kl0pr0k24"
 			});
 
 			Content = VidLstView;

@@ -2288,13 +2288,13 @@ containing a value of this type.
         public static final int option=0x7f020065;
         public static final int phone=0x7f020066;
         public static final int play=0x7f020067;
-        public static final int pokeball=0x7f020068;
-        public static final int radialback=0x7f020069;
-        public static final int vid1=0x7f02006a;
-        public static final int vid2=0x7f02006b;
-        public static final int vid3=0x7f02006c;
-        public static final int vid4=0x7f02006d;
-        public static final int vid5=0x7f02006e;
+        public static final int radialback=0x7f020068;
+        public static final int vid1=0x7f020069;
+        public static final int vid2=0x7f02006a;
+        public static final int vid3=0x7f02006b;
+        public static final int vid4=0x7f02006c;
+        public static final int vid5=0x7f02006d;
+        public static final int vid6=0x7f02006e;
     }
     public static final class id {
         public static final int action0=0x7f0b0074;

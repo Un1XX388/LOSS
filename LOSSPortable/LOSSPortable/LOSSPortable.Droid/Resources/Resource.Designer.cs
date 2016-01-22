@@ -3337,25 +3337,25 @@ namespace LOSSPortable.Droid
 			public const int play = 2130837607;
 			
 			// aapt resource value: 0x7f020068
-			public const int pokeball = 2130837608;
+			public const int radialback = 2130837608;
 			
 			// aapt resource value: 0x7f020069
-			public const int radialback = 2130837609;
+			public const int vid1 = 2130837609;
 			
 			// aapt resource value: 0x7f02006a
-			public const int vid1 = 2130837610;
+			public const int vid2 = 2130837610;
 			
 			// aapt resource value: 0x7f02006b
-			public const int vid2 = 2130837611;
+			public const int vid3 = 2130837611;
 			
 			// aapt resource value: 0x7f02006c
-			public const int vid3 = 2130837612;
+			public const int vid4 = 2130837612;
 			
 			// aapt resource value: 0x7f02006d
-			public const int vid4 = 2130837613;
+			public const int vid5 = 2130837613;
 			
 			// aapt resource value: 0x7f02006e
-			public const int vid5 = 2130837614;
+			public const int vid6 = 2130837614;
 			
 			static Drawable()
 			{
