@@ -3337,7 +3337,10 @@ namespace LOSSPortable.Droid
 			public const int play = 2130837607;
 			
 			// aapt resource value: 0x7f020068
+
 			public const int radialback = 2130837608;
+
+			public const int prof = 2130837608;
 			
 			// aapt resource value: 0x7f020069
 			public const int vid1 = 2130837609;
