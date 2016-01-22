@@ -2294,6 +2294,10 @@ containing a value of this type.
         public static final int vid3=0x7f02006b;
         public static final int vid4=0x7f02006c;
         public static final int vid5=0x7f02006d;
+<<<<<<< HEAD
+=======
+        public static final int vid6=0x7f02006e;
+>>>>>>> a7f53660e82e3a6390c75469b4f22a21e816f432
     }
     public static final class id {
         public static final int action0=0x7f0b0074;

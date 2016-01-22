@@ -3354,6 +3354,9 @@ namespace LOSSPortable.Droid
 			// aapt resource value: 0x7f02006d
 			public const int vid5 = 2130837613;
 			
+			// aapt resource value: 0x7f02006e
+			public const int vid6 = 2130837614;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();

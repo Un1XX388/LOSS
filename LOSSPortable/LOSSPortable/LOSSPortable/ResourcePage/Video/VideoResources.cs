@@ -20,10 +20,10 @@ namespace LOSSPortable{
 			Content					= lstView;
 			// The item being added below is a test. In final release, this information should be retrieved from the server.
 			playlist.Add(new VideoViewModel{
-				Image					= "play.png",
-				Title					= "More fun stuff!!!!!",
-				Description				= "Creationist Cat entertains, educates and (of course) freakin' pwns!",
-				Link					= "https://www.youtube.com/playlist?list=PL2084743868873CDB"
+				Image					= "vid1.jpg",
+				Title					= "Uptown Special",
+				Description				= "No description.",
+				Link					= "https://www.youtube.com/playlist?list=PLpz-Cm0bpQJ4beQi28bBpwEq8nRauirQT"
 			});
             
 		}// End VideoResources() method.
