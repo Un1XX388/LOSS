@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
   <style name="CustomTheme" 
-<<<<<<< HEAD
          parent="android:Theme.Holo">
 
     <item name="android:actionBarStyle">@style/CustomActionBar</item>
     <!---->
     <item name="android:windowBackground">@drawable/radialback</item>
-=======
-         parent="android:Theme.Holo.Light.DarkActionBar">
-    <item name="android:colorPrimary">@color/primary</item>"
-    <item name="android:colorPrimaryDark">@color/primary_dark</item>
-    <item name="android:windowBackground">@color/background</item>
->>>>>>> 27db393990b992c493ff371cce4dc07f2d2009d3
     <item name="android:icon">@android:color/transparent</item>
   </style>
 

@@ -70,7 +70,24 @@ C:\Users\Idan Zoarets\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\obj\
 C:\Users\Idan Zoarets\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.pdb
 C:\Users\Idan Zoarets\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.dll.mdb
 C:\Users\Idan Zoarets\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\LOSSPortable.dll.mdb
-C:\Users\Idan Zoarets\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.dll.mdb
-C:\Users\Idan Zoarets\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\LOSSPortable.dll.mdb
-C:\Users\Idan Zoarets\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.dll.mdb
-C:\Users\Idan Zoarets\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\LOSSPortable.dll.mdb
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\LOSSPortable.dll
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\LOSSPortable.pdb
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Plugin.Geolocator.Abstractions.dll
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Plugin.Geolocator.dll
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Xamarin.Forms.Core.dll
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Xamarin.Forms.Platform.dll
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Xamarin.Forms.Xaml.dll
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Plugin.Geolocator.xml
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Plugin.Geolocator.Abstractions.xml
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Xamarin.Forms.Core.xml
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\Xamarin.Forms.Xaml.xml
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.dll
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.pdb
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.dll.mdb
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\LOSSPortable.dll.mdb
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.dll.mdb
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\LOSSPortable.dll.mdb
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\obj\Debug\LOSSPortable.dll.mdb
+C:\Users\Isha\SkyDrive\Documents\LOSS\LOSSPortable\LOSSPortable\LOSSPortable\bin\Debug\LOSSPortable.dll.mdb

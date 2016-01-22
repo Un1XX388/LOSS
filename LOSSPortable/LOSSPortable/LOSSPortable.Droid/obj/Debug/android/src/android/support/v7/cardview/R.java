@@ -2284,11 +2284,16 @@ containing a value of this type.
         public static int mr_ic_play_light=0x7f020062;
         public static int mr_ic_settings_dark=0x7f020063;
         public static int mr_ic_settings_light=0x7f020064;
-        public static int notification_template_icon_bg=0x7f020069;
+        public static int notification_template_icon_bg=0x7f02006e;
         public static int option=0x7f020065;
         public static int phone=0x7f020066;
         public static int play=0x7f020067;
         public static int radialback=0x7f020068;
+        public static int vid1=0x7f020069;
+        public static int vid2=0x7f02006a;
+        public static int vid3=0x7f02006b;
+        public static int vid4=0x7f02006c;
+        public static int vid5=0x7f02006d;
     }
     public static final class id {
         public static int action0=0x7f0b0074;
@@ -2660,6 +2665,7 @@ containing a value of this type.
         public static int CardView=0x7f070004;
         public static int CardView_Dark=0x7f070005;
         public static int CardView_Light=0x7f070006;
+        public static int CustomActionBar=0x7f070145;
         public static int CustomTheme=0x7f070144;
         public static int Platform_AppCompat=0x7f070016;
         public static int Platform_AppCompat_Light=0x7f070017;
