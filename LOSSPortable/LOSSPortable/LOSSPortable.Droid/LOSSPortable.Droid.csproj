@@ -154,6 +154,7 @@
     <AndroidResource Include="Resources\drawable\vid4.jpg" />
     <AndroidResource Include="Resources\drawable\vid5.jpg" />
     <AndroidResource Include="Resources\drawable\vid6.jpg" />
+    <AndroidResource Include="Resources\drawable\prof.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LOSSPortable\LOSSPortable.csproj">

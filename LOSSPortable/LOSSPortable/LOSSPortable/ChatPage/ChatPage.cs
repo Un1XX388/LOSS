@@ -51,7 +51,7 @@ namespace LOSSPortable
                 tapGestureRecognizer.Tapped += (s, e) => {
                 };
 
-                Message message = new Message("Sender: ", mes, "drawable/pokeball.png", " " + currentTime());
+                Message message = new Message("Sender: ", mes, "drawable/prof.png", " " + currentTime());
                 msgs.Add(message);
                 DisplayResponse(message);
 
@@ -128,7 +128,7 @@ namespace LOSSPortable
             switch (action)
             {
                 case "Report":
-                    await DisplayAlert("Alert", "HERE COMES THE BAN HAMMER", "OK");
+                    await DisplayAlert("Alert", "Reporting not implemented yet.", "OK");
                     break;
                 case "Hide Text":
                     label.Text = "\n" + "***" + "\t";

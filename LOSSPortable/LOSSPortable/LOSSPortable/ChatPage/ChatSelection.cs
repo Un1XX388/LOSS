@@ -29,16 +29,16 @@ namespace LOSSPortable
             Title = "Chat Selection";
             Icon = "Accounts.png";
 
-            Message msg = new Message("Obama: ", "I AM DIABLO", "drawable/pokeball.png", "11:11");
+            Message msg = new Message("User1: ", "Test Message 1", "drawable/prof.png", "11:11");
             chatList.Add(msg);
 
-            Message msg2 = new Message("Michelle: ", "I AM TOO", "drawable/pokeball.png", "5:05");
+            Message msg2 = new Message("User2: ", "Test Message 2", "drawable/prof.png", "5:05");
             chatList.Add(msg2);
 
-            chat1 = new ChatPage("Janeth", chatList);
-            chat2 = new ChatPage("Rafael", chatList);
-            chat3 = new ChatPage("Ana", chatList);
-            chat4 = new ChatPage("Anaiza", chatList);
+            chat1 = new ChatPage("Bob", chatList);
+            chat2 = new ChatPage("Tina", chatList);
+            chat3 = new ChatPage("Gene", chatList);
+            chat4 = new ChatPage("Linda", chatList);
             chat1.setChat(chatList);
             chat2.setChat(chatList);
             chat3.setChat(chatList);
