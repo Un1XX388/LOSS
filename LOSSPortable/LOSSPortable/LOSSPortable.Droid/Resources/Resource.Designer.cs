@@ -3324,8 +3324,8 @@ namespace LOSSPortable.Droid
 			// aapt resource value: 0x7f020064
 			public const int mr_ic_settings_light = 2130837604;
 			
-			// aapt resource value: 0x7f02006e
-			public const int notification_template_icon_bg = 2130837614;
+			// aapt resource value: 0x7f02006f
+			public const int notification_template_icon_bg = 2130837615;
 			
 			// aapt resource value: 0x7f020065
 			public const int option = 2130837605;
