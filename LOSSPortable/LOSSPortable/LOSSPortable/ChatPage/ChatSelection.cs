@@ -20,6 +20,7 @@ namespace LOSSPortable
         ChatPage chat2;
         ChatPage chat3;
         ChatPage chat4;
+        Grid gridLayout;
         
 
         
@@ -29,7 +30,7 @@ namespace LOSSPortable
             Title = "Chat Selection";
             Icon = "Accounts.png";
 
-            Message msg = new Message("User1: ", "Test Message 1", "drawable/prof.png", "11:11");
+            Message msg = new Message("User1: ", "Test Message 1", "drawable/prof.png", "11:11" );
             chatList.Add(msg);
 
             Message msg2 = new Message("User2: ", "Test Message 2", "drawable/prof.png", "5:05");
@@ -44,13 +45,13 @@ namespace LOSSPortable
             chat3.setChat(chatList);
             chat4.setChat(chatList);
 
-            var label = new Label { Text = "Message a Volunteer", FontSize = 30, BackgroundColor = Color.Blue, TextColor = Color.White, XAlign = TextAlignment.Center };
+            var label = new Label { Text = "Message a Volunteer", FontSize = 30, BackgroundColor = Color.FromHex("CCCCFF"), TextColor = Color.Black, XAlign = TextAlignment.Center };
 
 
             Device.BeginInvokeOnMainThread(() =>   //automatically updates
             {
                 stackLayout = new StackLayout
-                {
+                {   BackgroundColor= Color.FromHex("CCCCFF"),
                     Children =
                             {
                                 
@@ -60,7 +61,8 @@ namespace LOSSPortable
 
                 outerLayout = new StackLayout
                 {
-                    Spacing = 0,
+                    BackgroundColor = Color.FromHex("CCCCFF"),
+                    Spacing = 2,
                     Children =
                     {
                         label,
@@ -81,8 +83,27 @@ namespace LOSSPortable
             
 
             foreach (ChatPage chat in Chats)
-            {    
-                stackLayout.Children.Add(CreateButton(chat.getName(), chat));
+            {
+                var profilePicture = new Image { };
+                profilePicture.Source = "drawable/prof2.png";
+
+                gridLayout = new Grid
+                {   ColumnSpacing = 3,
+                    ColumnDefinitions =
+                    {
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) },
+                    },
+                    Children =
+                        {
+                        }
+                };
+
+                gridLayout.HorizontalOptions = LayoutOptions.Start;
+                gridLayout.VerticalOptions = LayoutOptions.Start;
+                gridLayout.Children.Add(profilePicture);
+
+                gridLayout.Children.Add(CreateButton(chat.getName(), chat),1,4,0,1);
+                stackLayout.Children.Add(gridLayout);
             }
             
             
@@ -93,7 +114,11 @@ namespace LOSSPortable
 
         public Button CreateButton(String name, ChatPage chat)
         {
-            Button ButtonTemp = new Button { Text = "Chat " + name };
+
+            Button ButtonTemp = new Button { Text = "" + name, WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor=Color.FromHex("6666FF"), BorderColor=Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22)   };
+            //ButtonTemp.HorizontalOptions = LayoutOptions.Start;
+            
+            gridLayout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) });
             ButtonTemp.Clicked += async (s, e) =>
             {
                 await Navigation.PushAsync(chat);  //navigate to a state page (not new).
@@ -102,9 +127,4 @@ namespace LOSSPortable
         }
     }
 
- /*     next to fix:    
-        -holding chat-> option to remove it
-        -in chat-> update page so bottom message is shown
-        -add images of people
-*/
 }

@@ -19,7 +19,7 @@ namespace LOSSPortable
 
 
         public ChatPage(String inputname, List<Message> msgs)
-        {
+        { 
             this.msgs = msgs;
             name = inputname;
 
@@ -30,7 +30,7 @@ namespace LOSSPortable
             var editor = new Entry();
             editor.Placeholder = "Enter Message: ";
 
-            var label = new Label { Text = "Message " + this.getName(), FontSize = 30, BackgroundColor = Color.Blue, TextColor = Color.White, XAlign = TextAlignment.Center };
+            //var label = new Label { Text = "Message " + this.getName(), FontSize = 30, BackgroundColor = Color.Blue, TextColor = Color.White, XAlign = TextAlignment.Center };
             send = new Button { Text = "Send" };
 
             //upon sending a message
@@ -51,7 +51,7 @@ namespace LOSSPortable
                 tapGestureRecognizer.Tapped += (s, e) => {
                 };
 
-                Message message = new Message("Sender: ", mes, "drawable/prof.png", " " + currentTime());
+                Message message = new Message("Sender: ", mes, "drawable/prof.png", " " + currentTime() );
                 msgs.Add(message);
                 DisplayResponse(message);
 
@@ -63,16 +63,16 @@ namespace LOSSPortable
 
                 gridLayout = new Grid
                 {
-                    RowSpacing = 0,
+                    RowSpacing = 3,
                     ColumnSpacing = 0,
                     Padding = new Thickness(0, 0, 0, 0),
                     VerticalOptions = LayoutOptions.Start,
-                    BackgroundColor = Color.White,
+                    BackgroundColor = Color.FromHex("CCCCFF"),
                     RowDefinitions = { new RowDefinition { Height = GridLength.Auto } },
 
                     Children =
                         {
-                            label
+                            //label
                         }
 
                 };
@@ -82,7 +82,7 @@ namespace LOSSPortable
                     VerticalOptions = LayoutOptions.Start,
                     HorizontalOptions = LayoutOptions.Start,
                     Padding = new Thickness(10, 10, 10, 20),
-                    BackgroundColor = Color.White,
+                    BackgroundColor = Color.FromHex("CCCCFF"),
                     Content = gridLayout
 
                 };
@@ -93,7 +93,7 @@ namespace LOSSPortable
 
                 outerStack = new StackLayout
                 {
-                    BackgroundColor = Color.White,
+                    BackgroundColor = Color.FromHex("CCCCFF"),
                     VerticalOptions = LayoutOptions.Start,
                     Spacing = 0,
                     Children =
@@ -106,10 +106,9 @@ namespace LOSSPortable
                 };
 
                 innerScroll.HeightRequest = 440;
-
-
+                
                 Content = outerStack;
-                Title = "Message a Volunteer";
+                Title = "" + this.getName();
             });
 
             foreach (Message msg in msgs) //INITIALIZE HISTORY OF MESSAGES
@@ -150,15 +149,15 @@ namespace LOSSPortable
             }
             else
             {
-                numRows = msg.Length / 45;
+                numRows = msg.Length / 30;
             }
 
             Grid innerGrid = new Grid
-            {
-                BackgroundColor = Color.White,
+            {   //CCCCFF
                 VerticalOptions = LayoutOptions.Start,
-                Padding = 1,
-                RowSpacing = 1,
+                
+                Padding = 3,
+                RowSpacing = 3,
                 RowDefinitions = {
                     new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
                     new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
@@ -167,9 +166,13 @@ namespace LOSSPortable
                 ColumnDefinitions = {
                 new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) },
             }
-
-
             };
+
+            if (message.getSender() == "User1: ")
+            { innerGrid.BackgroundColor = Color.FromHex("9999ff"); }
+            else
+            { innerGrid.BackgroundColor = Color.FromHex("bf80ff"); }
+
 
 
 
@@ -177,35 +180,62 @@ namespace LOSSPortable
             var profilePicture = new Image { };
             profilePicture.Source = message.getIcon();
             profilePicture.VerticalOptions = LayoutOptions.StartAndExpand;
-            profilePicture.BackgroundColor = Color.White;
-            innerGrid.Children.Add(profilePicture);
+            //profilePicture.BackgroundColor = Color.FromHex("CCCCFF");
+            
 
-
-            Label name = new Label { Text = message.getSender(), BackgroundColor = Color.White, TextColor = Color.Purple, FontAttributes = FontAttributes.Bold }; //, XAlign = TextAlignment.Start
+            Label name = new Label { Text = message.getSender(), TextColor = Color.White, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 20) }; //, XAlign = TextAlignment.Start
             name.VerticalOptions = LayoutOptions.StartAndExpand;
-            innerGrid.Children.AddHorizontal(name);
 
             var datetime = DateTime.Now;
-            Label time = new Label { Text = message.getTime() };
-            innerGrid.Children.AddHorizontal(time);
+            Label time = new Label { Text = message.getTime(), TextColor = Color.White, Font = Font.OfSize("Arial", 20) };
+            
 
 
-            Label response = new Label { Text = message.getMessage(), BackgroundColor = Color.White, TextColor = Color.Purple, FontAttributes = FontAttributes.Bold }; //, XAlign = TextAlignment.Start             
+            Label response = new Label { Text = message.getMessage(), TextColor = Color.White, Font = Font.OfSize("Arial", 18) }; //, XAlign = TextAlignment.Start             
             var tgr = new TapGestureRecognizer();
+            
+            /*if (message.getSide() == "right")
+            {   
+                name.HorizontalTextAlignment = TextAlignment.End;
+                time.HorizontalTextAlignment = TextAlignment.End;
+                response.HorizontalTextAlignment = TextAlignment.End;
+            }
+            */
             tgr.Tapped += (s, e) => OnLabelClicked(response, msg, 1);
             response.GestureRecognizers.Add(tgr);
-            response.VerticalOptions = LayoutOptions.StartAndExpand;
-            response.BackgroundColor = Color.White;
+            response.VerticalOptions = LayoutOptions.Start;
             int labelLength = 2 + numRows;
 
 
             innerGrid.RowSpacing = 1;
 
-
-            innerGrid.Children.Add(response, 0, 5, 1, labelLength);
+            
             gridLayout.RowSpacing = 1;
-            gridLayout.Children.AddVertical(innerGrid);
+            /*if (message.getSide() == "right")
+            {
+                profilePicture.HorizontalOptions = LayoutOptions.End;
+                name.HorizontalTextAlignment = TextAlignment.End;
+                name.HorizontalOptions = LayoutOptions.End;
+                time.HorizontalTextAlignment = TextAlignment.End;
+                response.HorizontalOptions = LayoutOptions.End;
+                response.HorizontalTextAlignment = TextAlignment.End;
 
+                innerGrid.HorizontalOptions = LayoutOptions.End;
+                innerGrid.BackgroundColor = Color.White;
+
+                innerGrid.Children.Add(time); 
+                innerGrid.Children.AddHorizontal(name);
+                innerGrid.Children.AddHorizontal(profilePicture);
+                
+                
+                innerGrid.Children.Add(response, 0, 5, 1, labelLength);
+            }*/
+                innerGrid.Children.Add(profilePicture);
+                innerGrid.Children.AddHorizontal(name);
+                innerGrid.Children.AddHorizontal(time);
+                innerGrid.Children.Add(response, 0, 5, 1, labelLength);
+            
+            gridLayout.Children.AddVertical(innerGrid);
             gridLayout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
             //add buttons to grid, push that grid to the stack
