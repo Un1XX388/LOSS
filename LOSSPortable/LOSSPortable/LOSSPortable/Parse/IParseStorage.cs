@@ -16,6 +16,7 @@ namespace LOSSPortable
     public interface IParseStorage
     {
         Task<List<SampleItem>> RefreshDataAsync();
+        Task<Quote> RefreshQuoteAsync();
 
         Task SaveSampleItemAsync(SampleItem item);
     }

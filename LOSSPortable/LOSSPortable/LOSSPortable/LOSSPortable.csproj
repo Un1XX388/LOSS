@@ -47,6 +47,7 @@
     <Compile Include="MasterPage\MasterPage.cs" />
     <Compile Include="MasterPage\RootPage.cs" />
     <Compile Include="MasterPage\MasterPageItem.cs" />
+    <Compile Include="Parse\Quote.cs" />
     <Compile Include="Parse\IParseStorage.cs" />
     <Compile Include="Parse\ParseManager.cs" />
     <Compile Include="Parse\SampleItem.cs" />

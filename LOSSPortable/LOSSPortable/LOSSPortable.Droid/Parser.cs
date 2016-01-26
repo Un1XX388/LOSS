@@ -15,7 +15,7 @@ namespace LOSSPortable.Droid
          * Add List of items you added here
          */
         public List<SampleItem> SampleItems { get; private set; }
-
+        public Quote quoteOfDay { get; private set; }
 
         protected Parser()
         {
@@ -23,7 +23,7 @@ namespace LOSSPortable.Droid
              * Add initialization of list created above, here.
              */
             SampleItems = new List<SampleItem>();
-
+            quoteOfDay = new Quote();
 
             ParseClient.Initialize(Constants.ApplicationID,Constants.Key);
         }
@@ -78,6 +78,46 @@ namespace LOSSPortable.Droid
                 Console.Error.WriteLine(@"Error {0}", e.Message);
             }
 
+        }
+
+        ParseObject ToParseObject(Quote quote)
+        {
+            var parseobject = new ParseObject("Quote");
+            if (quote.ID != string.Empty)
+            {
+                parseobject.ObjectId = quote.ID;
+            }
+            parseobject["message"] = quote.inspirationalQuote;
+            parseobject["image"] = quote.picture;
+            //parseobject.ACL = new ParseACL(ParseUser.CurrentUser);
+
+            return parseobject;
+        }
+
+        static Quote FromParseObject(ParseObject po)
+        {
+            var tmp = new Quote();
+            tmp.ID = po.ObjectId;
+            tmp.Sample1 = Convert.ToString(po["message"]);
+            tmp.Sample2 = Convert.ToString(po["image"]);
+            //tmp.Sample3 = Convert.ToBoolean(po["checkmark"]);
+            return tmp;
+        }
+
+        public async Task<Quote> RefreshQuoteAsync()
+        {
+            var query = ParseObject.GetQuery("Quote");
+            var result = await query.FindAsync();
+
+            var 
+            //var Items = new List<SampleItem>();
+            //foreach (var item in result)
+            //{
+            //    //if (item.ACL != null){
+            //    Items.Add(FromParseObject(item));
+            //    //}
+            //}
+            return Items;
         }
 
     }
