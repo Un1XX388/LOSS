@@ -9,6 +9,8 @@ namespace LOSSPortable
 {
     public class App : Application
     {
+        public static ParseManager PManager { get; set; }
+
         public App()
         {
             // The root page of your application
