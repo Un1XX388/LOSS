@@ -15,7 +15,8 @@ namespace LOSSPortable.Droid
          * Add List of items you added here
          */
         public List<SampleItem> SampleItems { get; private set; }
-        public Quote quoteOfDay { get; private set; }
+        
+        public Quote inspirationalQuote { get; private set; }
 
         protected Parser()
         {
@@ -23,7 +24,7 @@ namespace LOSSPortable.Droid
              * Add initialization of list created above, here.
              */
             SampleItems = new List<SampleItem>();
-            quoteOfDay = new Quote();
+            inspirationalQuote = new Quote();
 
             ParseClient.Initialize(Constants.ApplicationID,Constants.Key);
         }
@@ -80,6 +81,15 @@ namespace LOSSPortable.Droid
 
         }
 
+        static Quote FromParseObj(ParseObject po)
+        {
+            var tmp = new Quote();
+            tmp.ID = po.ObjectId;
+            tmp.inspirationalQuote = Convert.ToString(po["message"]);
+            //tmp.picture = Convert.ToString(po["image"]);
+            //tmp.Sample3 = Convert.ToBoolean(po["checkmark"]);
+            return tmp;
+        }
         ParseObject ToParseObject(Quote quote)
         {
             var parseobject = new ParseObject("Quote");
@@ -91,25 +101,22 @@ namespace LOSSPortable.Droid
             parseobject["image"] = quote.picture;
             //parseobject.ACL = new ParseACL(ParseUser.CurrentUser);
 
+
             return parseobject;
         }
 
-        static Quote FromParseObject(ParseObject po)
-        {
-            var tmp = new Quote();
-            tmp.ID = po.ObjectId;
-            tmp.Sample1 = Convert.ToString(po["message"]);
-            tmp.Sample2 = Convert.ToString(po["image"]);
-            //tmp.Sample3 = Convert.ToBoolean(po["checkmark"]);
-            return tmp;
-        }
-
-        public async Task<Quote> RefreshQuoteAsync()
+        public async Task <Quote> RefreshQuoteAsync()
         {
             var query = ParseObject.GetQuery("Quote");
             var result = await query.FindAsync();
 
-            var 
+            //var quotes = new Quote();
+            foreach (var quote in result) {
+                inspirationalQuote = FromParseObj(quote);
+                String quoteOfDay = inspirationalQuote.inspirationalQuote;
+                System.Diagnostics.Debug.WriteLine(quoteOfDay);
+               // DisplayAlert("Quote","" + quoteOfDay, "OK");
+            }
             //var Items = new List<SampleItem>();
             //foreach (var item in result)
             //{
@@ -117,7 +124,7 @@ namespace LOSSPortable.Droid
             //    Items.Add(FromParseObject(item));
             //    //}
             //}
-            return Items;
+            return inspirationalQuote;
         }
 
     }

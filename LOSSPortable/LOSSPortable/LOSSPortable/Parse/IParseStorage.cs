@@ -17,7 +17,6 @@ namespace LOSSPortable
     {
         Task<List<SampleItem>> RefreshDataAsync();
         Task<Quote> RefreshQuoteAsync();
-
         Task SaveSampleItemAsync(SampleItem item);
     }
 }

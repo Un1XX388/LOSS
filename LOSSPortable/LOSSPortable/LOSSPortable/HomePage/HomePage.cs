@@ -26,6 +26,11 @@ namespace LOSSPortable
                
             };
             getLocation();
+            showQuoteOfDay();
+        }
+
+        async private Task showQuoteOfDay() {
+            label2.Text = await App.ParseManager.GetTaskQuoteAsync();
         }
 
         async private Task getLocation(){

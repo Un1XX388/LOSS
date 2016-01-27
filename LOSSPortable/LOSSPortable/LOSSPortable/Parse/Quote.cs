@@ -3,10 +3,14 @@ using Newtonsoft.Json;
 
 namespace LOSSPortable
 {
-    class Quote
+    /*
+     * Create a unique one of these for each parseobject
+     * that needs to be created.
+     */
+    public class Quote
     {
         [JsonProperty(PropertyName = "id")]
-        public string quoteID { get; set; }
+        public string ID { get; set; }
 
         [JsonProperty(PropertyName = "message")]
         public string inspirationalQuote { get; set; }
