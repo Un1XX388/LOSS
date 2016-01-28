@@ -12,7 +12,7 @@ namespace LOSSPortable
         [JsonProperty(PropertyName = "id")]
         public string ID { get; set; }
 
-        [JsonProperty(PropertyName = "message")]
+        [JsonProperty(PropertyName = "Message")]
         public string inspirationalQuote { get; set; }
 
         [JsonProperty(PropertyName = "image")]

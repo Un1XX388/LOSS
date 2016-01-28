@@ -13,24 +13,27 @@ namespace LOSSPortable
     public class HomePage : ContentPage
     {
         Label label2 = new Label();
+        Label label1 = new Label();
+
+        Quote QuoteOfDay = new Quote();
+
+        List<Quote> quotesList;
+
         public HomePage()
         {
+            QuoteOfDay = new Quote();
             label2.Text = "Loading...";
 
             Content = new StackLayout
             {
                 Children = {
                     new Label { Text = "This is the home page!" },
-                    label2
+                    label2, label1
                 }
                
             };
             getLocation();
             showQuoteOfDay();
-        }
-
-        async private Task showQuoteOfDay() {
-            label2.Text = await App.ParseManager.GetTaskQuoteAsync();
         }
 
         async private Task getLocation(){
@@ -59,6 +62,19 @@ namespace LOSSPortable
             var longtitude = position.Longitude.ToString();
             label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
         }
-        
+
+        static Random rnd = new Random();
+        async private Task showQuoteOfDay()
+        {
+            quotesList = await App.PManager.GetTaskQuoteAsync();
+         //   DisplayAlert("list size: ",""+ quotesList.Count,"OK");
+
+            int i = rnd.Next(quotesList.Count-1);
+            QuoteOfDay = quotesList[i];
+            System.Diagnostics.Debug.WriteLine(QuoteOfDay.ID, QuoteOfDay.inspirationalQuote);
+            label1.Text = String.Format(QuoteOfDay.ID + "   " + QuoteOfDay.inspirationalQuote);
+
+        }
+
     }
 }

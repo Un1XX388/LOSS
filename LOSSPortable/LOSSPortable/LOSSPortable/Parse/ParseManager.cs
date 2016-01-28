@@ -31,7 +31,7 @@ namespace LOSSPortable
             return storage.SaveSampleItemAsync(item);
         }
 
-        public Task<Quote> GetTaskQuoteAsync()
+        public Task<List<Quote>> GetTaskQuoteAsync()
         {
             return storage.RefreshQuoteAsync();
         }

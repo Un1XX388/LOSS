@@ -16,7 +16,7 @@ namespace LOSSPortable.Droid
          */
         public List<SampleItem> SampleItems { get; private set; }
         
-        public Quote inspirationalQuote { get; private set; }
+        public List<Quote> InspirationalQuotes { get; private set; }
 
         protected Parser()
         {
@@ -24,7 +24,7 @@ namespace LOSSPortable.Droid
              * Add initialization of list created above, here.
              */
             SampleItems = new List<SampleItem>();
-            inspirationalQuote = new Quote();
+            InspirationalQuotes = new List<Quote>();
 
             ParseClient.Initialize(Constants.ApplicationID,Constants.Key);
         }
@@ -85,19 +85,19 @@ namespace LOSSPortable.Droid
         {
             var tmp = new Quote();
             tmp.ID = po.ObjectId;
-            tmp.inspirationalQuote = Convert.ToString(po["message"]);
+            tmp.inspirationalQuote = Convert.ToString(po["Message"]);
             //tmp.picture = Convert.ToString(po["image"]);
             //tmp.Sample3 = Convert.ToBoolean(po["checkmark"]);
             return tmp;
         }
         ParseObject ToParseObject(Quote quote)
         {
-            var parseobject = new ParseObject("Quote");
+            var parseobject = new ParseObject("InspirationalQuote");
             if (quote.ID != string.Empty)
             {
                 parseobject.ObjectId = quote.ID;
             }
-            parseobject["message"] = quote.inspirationalQuote;
+            parseobject["Message"] = quote.inspirationalQuote;
             parseobject["image"] = quote.picture;
             //parseobject.ACL = new ParseACL(ParseUser.CurrentUser);
 
@@ -105,18 +105,20 @@ namespace LOSSPortable.Droid
             return parseobject;
         }
 
-        public async Task <Quote> RefreshQuoteAsync()
+        public async Task <List<Quote>> RefreshQuoteAsync()
         {
-            var query = ParseObject.GetQuery("Quote");
+            var query = ParseObject.GetQuery("InspirationalQuote");
             var result = await query.FindAsync();
 
-            //var quotes = new Quote();
+            var quotesList = new List<Quote> ();
             foreach (var quote in result) {
-                inspirationalQuote = FromParseObj(quote);
-                String quoteOfDay = inspirationalQuote.inspirationalQuote;
-                System.Diagnostics.Debug.WriteLine(quoteOfDay);
-               // DisplayAlert("Quote","" + quoteOfDay, "OK");
+         //       String quoteOfDay = IQuotes.inspirationalQuote;
+         //       System.Diagnostics.Debug.WriteLine(quoteOfDay, Quotes.ID);
+
+                quotesList.Add(FromParseObj(quote));
+
             }
+
             //var Items = new List<SampleItem>();
             //foreach (var item in result)
             //{
@@ -124,7 +126,8 @@ namespace LOSSPortable.Droid
             //    Items.Add(FromParseObject(item));
             //    //}
             //}
-            return inspirationalQuote;
+
+            return quotesList;
         }
 
     }
