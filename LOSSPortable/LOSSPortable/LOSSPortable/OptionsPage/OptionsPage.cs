@@ -11,62 +11,79 @@ namespace LOSSPortable
 {
     public class OptionsPage : ContentPage
     {
-        SampleItem item;
         Label label;
-        ListView listview;
 
         public OptionsPage()
         {
             Title = "Options";
-            label = new Label();
-            
-            listview = new ListView();
+            /**/
 
-            listview.ItemTemplate = new DataTemplate(typeof(CustomSampleCell));
-            
-            item = new SampleItem {Sample1 = "test string one", Sample2 = "test string two" };
-            label.Text = "string before parse";
-            Content = new StackLayout
+            Label header = new Label
+            {
+                Text = "Enable High Contrast Mode",
+                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                HorizontalOptions = LayoutOptions.Center
+            };
+
+            Switch switcher = new Switch
+            {
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.CenterAndExpand
+            };
+            switcher.Toggled += switcher_Toggled;
+
+            label = new Label
+            {
+                Text = "Switch is now False",
+                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.CenterAndExpand
+            };
+
+            StackLayout header_stack = new StackLayout
+            {
+                Children =
+                {
+                    header
+                },
+                HorizontalOptions = LayoutOptions.Start
+            };
+
+            StackLayout switcher_stack = new StackLayout
+            {
+                Children =
+                {
+                    switcher
+                },
+                HorizontalOptions = LayoutOptions.EndAndExpand
+            };
+
+            StackLayout row = new StackLayout
             {
                 Children = {
-                    new Label { Text = "This is the home page!" },
-                    label, listview
+                    header_stack, switcher_stack
+                },
+                Orientation = StackOrientation.Horizontal,
+                Padding = new Thickness(5, 5)
+            };
+
+
+            this.Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
+
+            // Build the page.
+            this.Content = new StackLayout
+            {
+                Children =
+                {
+                    row,
+                    label
                 }
             };
-            TextOnAppearing();
         }
 
-        protected async void TextOnAppearing()
+        void switcher_Toggled(object sender, ToggledEventArgs e)
         {
-            //await App.PManager.SaveTaskAsync(item);
-            listview.ItemsSource = await App.PManager.GetTaskAsync();
-            label.Text = "sent to parse";
+            label.Text = String.Format("High Contrast Mode Enabled? {0}", e.Value);
         }
-
-        public class CustomSampleCell : ViewCell
-        {
-            public CustomSampleCell()
-            {
-                StackLayout cellview = new StackLayout() { BackgroundColor = Color.Transparent };
-                cellview.Orientation = StackOrientation.Horizontal;
-                var idLabel = new Label();
-                idLabel.SetBinding(Label.TextProperty, new Binding("ID"));
-                idLabel.TextColor = Color.White;
-                cellview.Children.Add(idLabel);
-                
-                var sample1label = new Label();
-                sample1label.SetBinding(Label.TextProperty, new Binding("Sample1"));
-                idLabel.TextColor = Color.White;
-                cellview.Children.Add(sample1label);
-
-                var sample2label = new Label();
-                sample2label.SetBinding(Label.TextProperty, new Binding("Sample2"));
-                idLabel.TextColor = Color.White;
-                cellview.Children.Add(sample2label);
-                this.View = cellview;
-            }
-        }
-
-        
     }
 }
