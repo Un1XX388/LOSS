@@ -1,19 +1,30 @@
 using System;
-using Xamarin.Forms;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
+using Newtonsoft.Json;
 
 namespace LOSSPortable
 {
-    public class Message : ContentPage
-    {
-        String sender;
-        String message;
-        String icon;
-        String time;
-        //String side;
+    public class Message
+    {   //id, sender, reciever, text, icon, time
+        [JsonProperty(PropertyName = "id")]
+        public string id { get; set; }
 
-        public Message ()
+        [JsonProperty(PropertyName = "sender")]
+        public string sender { get; set; }
+
+        [JsonProperty(PropertyName = "reciever")]
+        public string reciever { get; set; }
+
+        [JsonProperty(PropertyName = "text")]
+        public string text { get; set; }
+
+        [JsonProperty(PropertyName = "icon")]
+        public string icon { get; set; }
+
+        [JsonProperty(PropertyName = "time")]
+        public string time { get; set; }
+
+        /*public Message ()
         {
             this.sender = "";
             this.message = "";
@@ -23,16 +34,17 @@ namespace LOSSPortable
         }
 
         public Message(String sender, String message, String icon, String time )
-        {
+        { 
             this.sender = sender;
             this.message = message;
             this.icon = icon;
             this.time = time;
             //this.side = side;
+        } 
+        */
 
-        }
-        
-        public String getSender()   { return sender;  }
+
+        /*public String getSender()   { return sender;  }
         public String getMessage()  { return message; }
         public String getIcon()     { return icon;    }
         public String getTime()     { return time;    }
@@ -43,7 +55,7 @@ namespace LOSSPortable
         public void setIcon(String inputIcon)       { this.icon = inputIcon;       }
         public void setTime(String inputTime)       { this.time = inputTime;       }
         //public void setSide(String inputSide)       { this.side = inputSide;       }
-
+        */
 
     }
 }
