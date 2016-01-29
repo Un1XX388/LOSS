@@ -3,8 +3,8 @@ using Xamarin.Forms;
 using System.Collections.ObjectModel;
 
 namespace LOSSPortable{
-		public class VideoCell : ViewCell{
-			public VideoCell(){
+		public class ResourceCell : ViewCell{
+			public ResourceCell(){
 				Grid cellView			= new Grid{
 					VerticalOptions			= LayoutOptions.FillAndExpand,
 					RowDefinitions			= { new RowDefinition{		Height	= new GridLength(1, GridUnitType.Star)} },
@@ -32,11 +32,11 @@ namespace LOSSPortable{
 					TextColor = Color.White,
 					FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
 					FontAttributes = FontAttributes.Italic
-					};
+				};
 				cellDesc.SetBinding(Label.TextProperty, new Binding("Description"));
 				cellView.Children.Add(cellDesc, 2, 5, 7, 30);
 
 				this.View				= cellView;
-			}// End of VideoCell() method.
-		}// End of VideoCell class.
+			}// End of ResourceCell() method.
+		}// End of ResourceCell class.
 }// End of LossPortable namespace.
