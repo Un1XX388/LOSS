@@ -56,9 +56,9 @@
     <Compile Include="ResourcePage\ResourcesPage.cs" />
     <Compile Include="ResourcePage\Video\PlaylistPage.cs" />
     <Compile Include="ResourcePage\Video\VideoResources.cs" />
-    <Compile Include="ResourcePage\Video\VideoViewModel.cs" />
+    <Compile Include="ResourcePage\ResourceViewModel.cs" />
     <Compile Include="ResourcePage\Video\VideoPage.cs" />
-    <Compile Include="ResourcePage\Video\VideoCell.cs" />
+    <Compile Include="ResourcePage\ResourceCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
