@@ -26,11 +26,29 @@ namespace LOSSPortable
 
             Content = new StackLayout
             {
+                //Children = {
+                //    label1
+                //    //new Label { Text = "This is the home page!" }
+                //}
+                Padding = new Thickness(30, Device.OnPlatform(20, 0, 0), 30, 30),
+
                 Children = {
-                    new Label { Text = "This is the home page!" },
-                    label2, label1
+                    new ContentView {
+         
+                        Content = new Frame {Content =  label1,
+                        OutlineColor = Color.White,
+                        VerticalOptions = LayoutOptions.CenterAndExpand,
+                        HorizontalOptions = LayoutOptions.Center
+                    },
+
+                     VerticalOptions = LayoutOptions.CenterAndExpand,
+                     HorizontalOptions = LayoutOptions.Center
+
+
+                    }
+
                 }
-               
+
             };
             getLocation();
             showQuoteOfDay();
@@ -72,8 +90,19 @@ namespace LOSSPortable
             int i = rnd.Next(quotesList.Count-1);
             QuoteOfDay = quotesList[i];
             System.Diagnostics.Debug.WriteLine(QuoteOfDay.ID, QuoteOfDay.inspirationalQuote);
-            label1.Text = String.Format(QuoteOfDay.ID + "   " + QuoteOfDay.inspirationalQuote);
+            label1.Text = String.Format(QuoteOfDay.inspirationalQuote);
+            label1.FontSize = 20;
+            label1.Style = new Style(typeof(Label))
+            {
+                BaseResourceKey = Device.Styles.SubtitleStyleKey,
+                Setters = {
+                new Setter { Property = Label.TextColorProperty,Value = Color.White },
+                new Setter {Property = Label.FontAttributesProperty, Value = FontAttributes.Italic },
+                new Setter {Property = Label.FontFamilyProperty, Value = "Times New Roman" },
 
+                }
+
+            };
         }
 
     }
