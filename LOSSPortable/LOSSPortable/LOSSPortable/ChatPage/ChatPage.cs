@@ -75,7 +75,7 @@ namespace LOSSPortable
                     ColumnSpacing = 0,
                     Padding = new Thickness(0, 0, 0, 0),
                     VerticalOptions = LayoutOptions.Start,
-                    BackgroundColor = Color.FromHex("CCCCFF"),
+                    //BackgroundColor = Color.FromHex("CCCCFF"),
                     RowDefinitions = { new RowDefinition { Height = GridLength.Auto } },
 
                     Children =
@@ -90,7 +90,7 @@ namespace LOSSPortable
                     VerticalOptions = LayoutOptions.Start,
                     HorizontalOptions = LayoutOptions.Start,
                     Padding = new Thickness(10, 10, 10, 20),
-                    BackgroundColor = Color.FromHex("CCCCFF"),
+                    //BackgroundColor = Color.FromHex("CCCCFF"),
                     Content = gridLayout
 
                 };
@@ -101,7 +101,7 @@ namespace LOSSPortable
 
                 outerStack = new StackLayout
                 {
-                    BackgroundColor = Color.FromHex("CCCCFF"),
+                    //BackgroundColor = Color.FromHex("CCCCFF"),
                     VerticalOptions = LayoutOptions.Start,
                     Spacing = 0,
                     Children =

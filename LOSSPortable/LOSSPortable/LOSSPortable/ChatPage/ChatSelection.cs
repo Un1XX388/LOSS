@@ -52,8 +52,8 @@ namespace LOSSPortable
             chat3.setChat(chatList);
             chat4.setChat(chatList);
 
-            var label = new Label { Text = "Message a Volunteer", FontSize = 30, BackgroundColor = Color.FromHex("CCCCFF"), TextColor = Color.Black, XAlign = TextAlignment.Center };
-
+            var label = new Label { Text = "Message a Volunteer", FontSize = 30,  TextColor = Color.Black, XAlign = TextAlignment.Center };
+            //BackgroundColor = Color.FromHex("CCCCFF"),
             //ParseManager trial = new ParseManager();
 
 
@@ -61,7 +61,7 @@ namespace LOSSPortable
             {
                 stackLayout = new StackLayout
                 {
-                    BackgroundColor = Color.FromHex("CCCCFF"),
+                    //BackgroundColor = Color.FromHex("CCCCFF"),
                     Children =
                             {
 
@@ -71,7 +71,7 @@ namespace LOSSPortable
 
                 outerLayout = new StackLayout
                 {
-                    BackgroundColor = Color.FromHex("CCCCFF"),
+                    //BackgroundColor = Color.FromHex("CCCCFF"),
                     Spacing = 2,
                     Children =
                     {
@@ -96,6 +96,7 @@ namespace LOSSPortable
             {
                 var profilePicture = new Image { };
                 profilePicture.Source = "drawable/prof2.png";
+                profilePicture.BackgroundColor = Color.White;
 
                 gridLayout = new Grid
                 {
@@ -126,7 +127,7 @@ namespace LOSSPortable
         public Button CreateButton(String name, ChatPage chat)
         {
 
-            Button ButtonTemp = new Button { Text = "" + name, WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("6666FF"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22) };
+            Button ButtonTemp = new Button { Text = "" + name, WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22) };
             //ButtonTemp.HorizontalOptions = LayoutOptions.Start;
 
             gridLayout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) });
