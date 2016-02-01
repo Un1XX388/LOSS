@@ -14,6 +14,9 @@ namespace LOSSPortable
         public App()
         {
             // The root page of your application
+            Application.Current.Resources = new ResourceDictionary();
+
+
             MainPage = new LOSSPortable.RootPage();
         }
 
