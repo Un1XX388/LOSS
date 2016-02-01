@@ -32,7 +32,7 @@ namespace LOSSPortable{
 					TextColor = Color.White,
 					FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
 					FontAttributes = FontAttributes.Italic
-				};
+					};
 				cellDesc.SetBinding(Label.TextProperty, new Binding("Description"));
 				cellView.Children.Add(cellDesc, 2, 5, 7, 30);
 

@@ -6,20 +6,20 @@ namespace LOSSPortable{
 	// This page displays all the video playlist(s) to the user.
 	public class VideoResources : ContentPage{
 		// Holds all info for each playlist.
-		public ObservableCollection<VideoViewModel> playlist{ get; set; }
+		public ObservableCollection<ResourceViewModel> playlist{ get; set; }
 
 		// Gets info on each playlist and determines how it is displayed.
 		public VideoResources(){
-			playlist				= new ObservableCollection<VideoViewModel> ();
+			playlist				= new ObservableCollection<ResourceViewModel>();
 			ListView lstView		= new ListView();
 			lstView.RowHeight		= 100;
 			this.Title				= "Playlist(s)";
 			lstView.ItemsSource		= playlist;
-			lstView.ItemTemplate	= new DataTemplate(typeof(VideoCell));
+			lstView.ItemTemplate	= new DataTemplate(typeof(ResourceCell));
 			lstView.ItemSelected	+= Onselected;
 			Content					= lstView;
 			// The item being added below is a test. In final release, this information should be retrieved from the server.
-			playlist.Add(new VideoViewModel{
+			playlist.Add(new ResourceViewModel{
 				Image					= "vid1.jpg",
 				Title					= "Uptown Special",
 				Description				= "No description.",

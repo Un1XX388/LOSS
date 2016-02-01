@@ -13,7 +13,7 @@ namespace LOSSPortable{
 		public string	Link		{ get; set; }
 
 		public ResourceViewModel(){
-		}// End of VidowViewModel() method.
+		}// End of ResourceViewModel() method.
 
 		public override string ToString(){
 			return Image + ',' + Title + ',' + Description + ',' + Link;
