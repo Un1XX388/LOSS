@@ -3327,44 +3327,47 @@ namespace LOSSPortable.Droid
 			// aapt resource value: 0x7f020065
 			public const int mr_ic_settings_light = 2130837605;
 			
-			// aapt resource value: 0x7f020072
-			public const int notification_template_icon_bg = 2130837618;
+			// aapt resource value: 0x7f020073
+			public const int notification_template_icon_bg = 2130837619;
 			
 			// aapt resource value: 0x7f020066
-			public const int option = 2130837606;
+			public const int online1 = 2130837606;
 			
 			// aapt resource value: 0x7f020067
-			public const int phone = 2130837607;
+			public const int option = 2130837607;
 			
 			// aapt resource value: 0x7f020068
-			public const int play = 2130837608;
+			public const int phone = 2130837608;
 			
 			// aapt resource value: 0x7f020069
-			public const int prof = 2130837609;
+			public const int play = 2130837609;
 			
 			// aapt resource value: 0x7f02006a
-			public const int prof2 = 2130837610;
+			public const int prof = 2130837610;
 			
 			// aapt resource value: 0x7f02006b
-			public const int radialback = 2130837611;
+			public const int prof2 = 2130837611;
 			
 			// aapt resource value: 0x7f02006c
-			public const int vid1 = 2130837612;
+			public const int radialback = 2130837612;
 			
 			// aapt resource value: 0x7f02006d
-			public const int vid2 = 2130837613;
+			public const int vid1 = 2130837613;
 			
 			// aapt resource value: 0x7f02006e
-			public const int vid3 = 2130837614;
+			public const int vid2 = 2130837614;
 			
 			// aapt resource value: 0x7f02006f
-			public const int vid4 = 2130837615;
+			public const int vid3 = 2130837615;
 			
 			// aapt resource value: 0x7f020070
-			public const int vid5 = 2130837616;
+			public const int vid4 = 2130837616;
 			
 			// aapt resource value: 0x7f020071
-			public const int vid6 = 2130837617;
+			public const int vid5 = 2130837617;
+			
+			// aapt resource value: 0x7f020072
+			public const int vid6 = 2130837618;
 			
 			static Drawable()
 			{

@@ -11,12 +11,18 @@ namespace LOSSPortable
 {
     public class OptionsPage : ContentPage
     {
+        StackLayout mainContent;
         Label event_label;
+        Switch contrast_switcher;
+        Switch geolocation_switcher;
+        Switch anonymous_switcher;
+        Switch speech_switcher;
+        Switch push_switcher;
 
         public OptionsPage()
         {
             Title = "Options";
-            this.Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
+            this.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);
             /*
              * //Anonymous switch
              * //Notification settings
@@ -39,7 +45,7 @@ namespace LOSSPortable
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center};
 
-            Switch contrast_switcher = new Switch {
+            contrast_switcher = new Switch {
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 IsToggled = false};
@@ -66,7 +72,7 @@ namespace LOSSPortable
                 HorizontalOptions = LayoutOptions.Center
             };
 
-            Switch geolocation_switcher = new Switch
+            geolocation_switcher = new Switch
             {
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -101,7 +107,7 @@ namespace LOSSPortable
                 HorizontalOptions = LayoutOptions.Center
             };
 
-            Switch anonymous_switcher = new Switch
+            anonymous_switcher = new Switch
             {
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -137,7 +143,7 @@ namespace LOSSPortable
                 HorizontalOptions = LayoutOptions.Center
             };
 
-            Switch speech_switcher = new Switch
+            speech_switcher = new Switch
             {
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -172,7 +178,7 @@ namespace LOSSPortable
                 HorizontalOptions = LayoutOptions.Center
             };
 
-            Switch push_switcher = new Switch
+            push_switcher = new Switch
             {
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -209,27 +215,27 @@ namespace LOSSPortable
                 HorizontalOptions = LayoutOptions.Start
             };
 
-            Button sync = new Button
+            Button accounts = new Button
             {
-                Text = "SYNC",
+                Text = "ACCOUNTS",
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Button)),
                 TextColor = Color.White,
-                WidthRequest = 100
+                WidthRequest = 150
             };
-            sync.Clicked += syncPressed;
+            accounts.Clicked += accountsPressed;
 
             Button reset = new Button
             {
                 Text = "RESET",
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Button)),
                 TextColor = Color.White,
-                WidthRequest = 100
+                WidthRequest = 150
             };
             reset.Clicked += resetPressed;
 
             StackLayout row6_reset_sync = new StackLayout
             {
-                Children = { sync, reset },
+                Children = { accounts, reset },
                 Orientation = StackOrientation.Horizontal,
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
                 Spacing = 10
@@ -239,7 +245,8 @@ namespace LOSSPortable
 
             //========== Page Content where everything needs to be inserted=============================================
 
-            this.Content = new StackLayout
+             
+            mainContent = new StackLayout
             {
                 Children = { new BoxView() { Color = Color.Transparent, HeightRequest = 4  },
                     row1_contrast, row2_geolocation, row3_anonymous, row4_speech, row5_push, 
@@ -248,24 +255,49 @@ namespace LOSSPortable
                     new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
                     new BoxView() { Color = Color.Transparent, HeightRequest = 3  },
                     row6_reset_sync, event_label }
+                    , Padding = new Thickness(5,5,5,5)
             };
+            this.Content = mainContent;
         }
 
-        async void syncPressed(object sender, EventArgs e)
+        async void accountsPressed(object sender, EventArgs e)
         {
-            var result = await DisplayActionSheet("Sync app settings and content with server", "Cancel", null, "Force update content", "Overwrite Phone", "Overwrite Server");
+            var result = await DisplayActionSheet("Account Options", "Cancel", null, "Create Account", "Login", "Logout", "Switch Accounts");
             event_label.Text = String.Format("Sync option chosen: {0}", result);
         }
 
         async void resetPressed(object sender, EventArgs e)
         {
             var result = await DisplayAlert("Reset application", "Reset app to default settings and delete any cached info?", "Yes", "No");
-            event_label.Text = String.Format("Reset option chosen: {0}", result);
+            
+            if (result)
+            {
+                event_label.Text = String.Format("Settings have been reset");
+                contrast_switcher.IsToggled = false;
+                geolocation_switcher.IsToggled = true;
+                anonymous_switcher.IsToggled = false;
+                speech_switcher.IsToggled = false;
+                push_switcher.IsToggled = true;
+            }
+            else
+            {
+                event_label.Text = String.Format("Reset canceled");
+            }
         }
 
         void constrast_switcher_Toggled(object sender, ToggledEventArgs e)
         {
-            event_label.Text = String.Format("High Contrast Mode Enabled? {0}", e.Value);
+            if (contrast_switcher.IsToggled)
+            {
+                this.Content.BackgroundColor = Color.Black;
+                event_label.Text = String.Format("High Contrast Mode Enabled? {0}", e.Value);
+            }
+            else
+            {
+                this.Content.BackgroundColor = Color.Transparent;
+                event_label.Text = String.Format("High Contrast Mode Enabled? {0}", e.Value);
+            }
+            
         }
 
         void geolocation_switcher_Toggled(object sender, ToggledEventArgs e)
