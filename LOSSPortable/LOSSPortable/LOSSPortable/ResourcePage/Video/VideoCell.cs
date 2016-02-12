@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
 
 namespace LOSSPortable{
-		public class ResourceCell : ViewCell{
-			public ResourceCell(){
+	class VideoCell : ViewCell{
+			public VideoCell(){
 				Grid cellView			= new Grid{
 					VerticalOptions			= LayoutOptions.FillAndExpand,
 					RowDefinitions			= { new RowDefinition{		Height	= new GridLength(1, GridUnitType.Star)} },
@@ -14,7 +16,7 @@ namespace LOSSPortable{
 				// Create image for cell.
 				var cellThum			= new Image();
 				cellThum.SetBinding(Image.SourceProperty, new Binding("Image"));
-				cellView.Children.Add(cellThum, 0, 1, 1, 12);
+				cellView.Children.Add(cellThum, 0, 2, 1, 17);
 
 				// Create name for cell.
 				var cellName			= new Label(){
@@ -22,9 +24,9 @@ namespace LOSSPortable{
 					TextColor				= Color.White,
 					FontSize				= Device.GetNamedSize(NamedSize.Small, typeof(Label)),
 					FontAttributes			= FontAttributes.Bold
-					};
+				};
 				cellName.SetBinding(Label.TextProperty, new Binding("Title"));
-				cellView.Children.Add(cellName, 1, 5, 0, 4);
+				cellView.Children.Add(cellName, 2, 5, 0, 7);
 
 				// Create description for cell.
 				var cellDesc			= new Label(){
@@ -32,9 +34,9 @@ namespace LOSSPortable{
 					TextColor				= Color.White,
 					FontSize				= Device.GetNamedSize(NamedSize.Small, typeof(Label)),
 					FontAttributes			= FontAttributes.Italic
-					};
+				};
 				cellDesc.SetBinding(Label.TextProperty, new Binding("Description"));
-				cellView.Children.Add(cellDesc, 1, 5, 4, 30);
+				cellView.Children.Add(cellDesc, 2, 5, 7, 30);
 
 				this.View				= cellView;
 			}// End of ResourceCell() method.
