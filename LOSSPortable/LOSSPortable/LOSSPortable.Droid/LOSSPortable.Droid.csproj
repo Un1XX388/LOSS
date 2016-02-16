@@ -183,6 +183,9 @@
     <AndroidResource Include="Resources\drawable\prof2.png" />
     <AndroidResource Include="Resources\drawable\homepage.png" />
     <AndroidResource Include="Resources\drawable\online1.png" />
+    <AndroidResource Include="Resources\drawable\quote64.png" />
+    <AndroidResource Include="Resources\drawable\arrow5364.png" />
+    <AndroidResource Include="Resources\drawable\videoplay64.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LOSSPortable\LOSSPortable.csproj">

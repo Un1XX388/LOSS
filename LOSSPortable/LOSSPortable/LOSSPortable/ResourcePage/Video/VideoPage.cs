@@ -7,9 +7,9 @@ namespace LOSSPortable{
 		public VideoPage(string pageTitle, string vidURL){
 			// Title of page.
 			Title			= pageTitle;
-			var vid1		= new WebView();
-			vid1.Source		= vidURL;
-			Content			= vid1;
-		}// End of Video1Page() constructor.
-	}// End of Video1Page class.
+			var vid			= new WebView();
+			vid.Source		= vidURL;
+			Content			= vid;
+		}// End of VideoPage() constructor.
+	}// End of VideoPage class.
 }// End of LOSSPortable namespace.

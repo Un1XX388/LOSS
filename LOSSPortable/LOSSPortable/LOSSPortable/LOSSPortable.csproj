@@ -59,6 +59,8 @@
     <Compile Include="ResourcePage\ResourceViewModel.cs" />
     <Compile Include="ResourcePage\Video\VideoPage.cs" />
     <Compile Include="ResourcePage\ResourceCell.cs" />
+    <Compile Include="ResourcePage\Video\VideoViewModel.cs" />
+    <Compile Include="ResourcePage\Video\VideoCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AWSSDK.CognitoIdentity, Version=3.1.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
