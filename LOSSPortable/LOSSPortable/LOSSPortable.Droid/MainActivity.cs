@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.Views;
@@ -20,7 +21,7 @@ namespace LOSSPortable.Droid
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            App.PManager = new ParseManager(Parser.Default);
+            
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
         }

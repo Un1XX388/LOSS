@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -18,13 +20,25 @@ namespace LOSSPortable
         Quote QuoteOfDay = new Quote();
 
         List<Quote> quotesList;
+        ListView listView;
+
 
         public HomePage()
         {
             QuoteOfDay = new Quote();
             label2.Text = "Loading...";
-
+            listView = new ListView
+            {
+                RowHeight = 40,
+                ItemTemplate = new DataTemplate(typeof(testItemCell))
+            };
             Content = new StackLayout
+            {
+                Children = {
+                    listView
+                }
+            };
+            /*Content = new StackLayout
             {
                 //Children = {
                 //    label1
@@ -50,8 +64,8 @@ namespace LOSSPortable
                 }
 
             };
-            getLocation();
-            showQuoteOfDay();
+             */
+            //getLocation();
         }
 
         async private Task getLocation(){
@@ -80,17 +94,42 @@ namespace LOSSPortable
             var longtitude = position.Longitude.ToString();
             label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
         }
-
-        static Random rnd = new Random();
-        async private Task showQuoteOfDay()
+        protected override void OnAppearing()
         {
-            quotesList = await App.PManager.GetTaskQuoteAsync();
-         //   DisplayAlert("list size: ",""+ quotesList.Count,"OK");
+            base.OnAppearing();
+            LoadQuotes().ContinueWith(task =>{
+                Device.BeginInvokeOnMainThread(() =>
+                    {
+                        listView.ItemsSource = task.Result;
+                    });
+            });
+            /*AmazonUtils.transferUtility.DownloadAsync(Path.Combine(Environment.SpecialFolder.ApplicationData, "file"),
+                "bucketName",
+                "key");*/
+        }
 
-            int i = rnd.Next(quotesList.Count-1);
-            QuoteOfDay = quotesList[i];
-            System.Diagnostics.Debug.WriteLine(QuoteOfDay.ID, QuoteOfDay.inspirationalQuote);
-            label1.Text = String.Format(QuoteOfDay.inspirationalQuote);
+
+        private Task<List<InspirationalQuote>> LoadQuotes()
+        {
+            var context = AmazonUtils.DDBContext;
+            List<ScanCondition> conditions = new List<ScanCondition>();
+            var SearchBar = context.ScanAsync<InspirationalQuote>(conditions);
+            return SearchBar.GetNextSetAsync();
+        }
+
+        //static Random rnd = new Random();
+        
+        /*private Task showQuoteOfDay()
+        {
+            //quotesList = await test.GetTaskQuoteAsync();
+          
+            //DisplayAlert("list size: ",""+ quotesList.Count,"OK");
+            
+            //int i = rnd.Next(quotesList.Count-1);
+            //QuoteOfDay = quotesList[i];
+            //System.Diagnostics.Debug.WriteLine(QuoteOfDay.ID, QuoteOfDay.inspirationalQuote);
+            //label1.Text = String.Format(QuoteOfDay.inspirationalQuote);
+            label1.Text = testItems[0].ToString();
             label1.FontSize = 20;
             label1.Style = new Style(typeof(Label))
             {
@@ -103,7 +142,7 @@ namespace LOSSPortable
                 }
 
             };
-        }
+        }*/
 
     }
 }

@@ -1,27 +1,19 @@
 using System;
 
-using Newtonsoft.Json;
-
 namespace LOSSPortable
 {
     public class Message
     {   //id, sender, reciever, text, icon, time
-        [JsonProperty(PropertyName = "id")]
         public string id { get; set; }
 
-        [JsonProperty(PropertyName = "sender")]
         public string sender { get; set; }
 
-        [JsonProperty(PropertyName = "reciever")]
         public string reciever { get; set; }
 
-        [JsonProperty(PropertyName = "text")]
         public string text { get; set; }
 
-        [JsonProperty(PropertyName = "icon")]
         public string icon { get; set; }
 
-        [JsonProperty(PropertyName = "time")]
         public string time { get; set; }
 
         /*public Message ()

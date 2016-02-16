@@ -26,6 +26,10 @@ namespace LOSSPortable.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::PCLCrypto.Resource.String.ApplicationName = global::LOSSPortable.Droid.Resource.String.ApplicationName;
+			global::PCLCrypto.Resource.String.Hello = global::LOSSPortable.Droid.Resource.String.Hello;
+			global::PCLStorage.Resource.String.ApplicationName = global::LOSSPortable.Droid.Resource.String.ApplicationName;
+			global::PCLStorage.Resource.String.Hello = global::LOSSPortable.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Resource.Animation.abc_fade_in = global::LOSSPortable.Droid.Resource.Animation.abc_fade_in;
 			global::Xamarin.Forms.Platform.Resource.Animation.abc_fade_out = global::LOSSPortable.Droid.Resource.Animation.abc_fade_out;
 			global::Xamarin.Forms.Platform.Resource.Animation.abc_grow_fade_in_from_bottom = global::LOSSPortable.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;

@@ -1,21 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Xamarin.Forms;
 
 namespace LOSSPortable
 {
     public class App : Application
     {
-        public static ParseManager PManager { get; set; }
-
         public App()
         {
             // The root page of your application
             Application.Current.Resources = new ResourceDictionary();
-
 
             MainPage = new LOSSPortable.RootPage();
         }
@@ -34,5 +27,6 @@ namespace LOSSPortable
         {
             // Handle when your app resumes
         }
+
     }
 }
