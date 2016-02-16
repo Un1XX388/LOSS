@@ -6,6 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Acr.UserDialogs;
+using Plugin.TextToSpeech;
 
 namespace LOSSPortable.Droid
 {
@@ -22,6 +24,9 @@ namespace LOSSPortable.Droid
             base.OnCreate(bundle);
             App.PManager = new ParseManager(Parser.Default);
             global::Xamarin.Forms.Forms.Init(this, bundle);
+            UserDialogs.Init(this);
+            CrossTextToSpeech.Current.Init();
+
             LoadApplication(new App());
         }
     }

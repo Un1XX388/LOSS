@@ -11,5 +11,5 @@ namespace LOSSPortable
         public string Longitude { get; set; }
 
         public string Latitude{ get; set; }
-    }// End of MasterPageItem class.
+    }// End of Location class.
 }// End of LOSSPortable namespace.

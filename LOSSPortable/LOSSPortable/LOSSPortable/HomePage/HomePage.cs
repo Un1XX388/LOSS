@@ -91,7 +91,7 @@ namespace LOSSPortable
             QuoteOfDay = quotesList[i];
             System.Diagnostics.Debug.WriteLine(QuoteOfDay.ID, QuoteOfDay.inspirationalQuote);
             label1.Text = String.Format(QuoteOfDay.inspirationalQuote);
-            label1.FontSize = 20;
+            label1.FontSize = Device.GetNamedSize(NamedSize.Large,label1);
             label1.Style = new Style(typeof(Label))
             {
                 BaseResourceKey = Device.Styles.SubtitleStyleKey,

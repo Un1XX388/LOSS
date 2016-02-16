@@ -6,6 +6,9 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Acr.UserDialogs;
+using XLabs.Forms.Controls;
+using Plugin.TextToSpeech;
 
 namespace LOSSPortable
 {
@@ -18,6 +21,11 @@ namespace LOSSPortable
         Switch anonymous_switcher;
         Switch speech_switcher;
         Switch push_switcher;
+        Boolean loggedIn = false;
+        Boolean result;
+        String logText;
+       // StackLayout PopUp;
+        PopupLayout _PopUpLayout;
 
         public OptionsPage()
         {
@@ -34,35 +42,55 @@ namespace LOSSPortable
              */
 
 
-            event_label = new Label{
+            event_label = new Label
+            {
                 Text = "Switch is now False",
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.CenterAndExpand};
+                VerticalOptions = LayoutOptions.CenterAndExpand
+            };
 
-            Label contrast_label = new Label{
+            Label generalSettings = new Label
+            {
+                Text = "General Settings",
+                TextColor = Color.White,
+                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                HorizontalOptions = LayoutOptions.Start
+            };
+
+            Label contrast_label = new Label
+            {
                 Text = "High Contrast",
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
-                HorizontalOptions = LayoutOptions.Center};
+                HorizontalOptions = LayoutOptions.Center
+            };
 
-            contrast_switcher = new Switch {
+            contrast_switcher = new Switch
+            {
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
-                IsToggled = false};
+                IsToggled = false
+            };
             contrast_switcher.Toggled += constrast_switcher_Toggled;
 
-            StackLayout header_stack = new StackLayout{
-                Children = {contrast_label},
-                HorizontalOptions = LayoutOptions.Start};
+            StackLayout header_stack = new StackLayout
+            {
+                Children = { contrast_label },
+                HorizontalOptions = LayoutOptions.Start
+            };
 
-            StackLayout switcher_stack = new StackLayout{
-                Children = {contrast_switcher},
-                HorizontalOptions = LayoutOptions.EndAndExpand};
+            StackLayout switcher_stack = new StackLayout
+            {
+                Children = { contrast_switcher },
+                HorizontalOptions = LayoutOptions.EndAndExpand
+            };
 
-            StackLayout row1_contrast = new StackLayout{
-                Children = {header_stack, switcher_stack},
+            StackLayout row1_contrast = new StackLayout
+            {
+                Children = { header_stack, switcher_stack },
                 Orientation = StackOrientation.Horizontal,
-                Padding = new Thickness(5, 5)};
+                Padding = new Thickness(5, 5)
+            };
 
             //=============GEOLOCATION ROW=====================================
             Label geolocation_label = new Label
@@ -94,7 +122,7 @@ namespace LOSSPortable
 
             StackLayout row2_geolocation = new StackLayout
             {
-                Children = { geolocation_stack, geolocation_switcher_stack},
+                Children = { geolocation_stack, geolocation_switcher_stack },
                 Orientation = StackOrientation.Horizontal,
                 Padding = new Thickness(5, 5)
             };
@@ -127,9 +155,9 @@ namespace LOSSPortable
                 HorizontalOptions = LayoutOptions.EndAndExpand
             };
 
-            StackLayout row3_anonymous= new StackLayout
+            StackLayout row3_anonymous = new StackLayout
             {
-                Children = { anonymous_stack, anonymous_switcher_stack},
+                Children = { anonymous_stack, anonymous_switcher_stack },
                 Orientation = StackOrientation.Horizontal,
                 Padding = new Thickness(5, 5)
             };
@@ -151,6 +179,8 @@ namespace LOSSPortable
             };
             speech_switcher.Toggled += speech_switcher_Toggled;
 
+            // Speech speech = new Speech();
+
             StackLayout speech_stack = new StackLayout
             {
                 Children = { speech_label },
@@ -165,7 +195,7 @@ namespace LOSSPortable
 
             StackLayout row4_speech = new StackLayout
             {
-                Children = { speech_stack, speech_switcher_stack },
+                Children = { speech_stack, speech_switcher_stack},
                 Orientation = StackOrientation.Horizontal,
                 Padding = new Thickness(5, 5)
             };
@@ -205,7 +235,28 @@ namespace LOSSPortable
                 Padding = new Thickness(5, 5)
             };
 
-            //================ Account Label, Reset and Sync buttons =========================================
+            //================ Reset button  =========================================
+
+            Button reset = new Button
+            {
+                Text = "Reset to Default",
+                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Button)),
+                TextColor = Color.White,
+                WidthRequest = 150
+            };
+            reset.Clicked += resetPressed;
+
+            StackLayout row6_reset_sync = new StackLayout
+            {
+                Children = { reset },
+                Orientation = StackOrientation.Horizontal,
+                HorizontalOptions = LayoutOptions.EndAndExpand,
+                Spacing = 10
+            };
+
+
+
+            //================ Account Label and Account Settings  =========================================
 
             Label account = new Label
             {
@@ -215,50 +266,170 @@ namespace LOSSPortable
                 HorizontalOptions = LayoutOptions.Start
             };
 
-            Button accounts = new Button
+            //============================== Account used by user ================================
+            Label accountType = new Label
             {
-                Text = "ACCOUNTS",
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Button)),
-                TextColor = Color.White,
-                WidthRequest = 150
+                Text = "Manage Account",
+                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                HorizontalOptions = LayoutOptions.Center
             };
-            accounts.Clicked += accountsPressed;
 
-            Button reset = new Button
-            {
-                Text = "RESET",
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Button)),
-                TextColor = Color.White,
-                WidthRequest = 150
-            };
-            reset.Clicked += resetPressed;
+            //Edit Profile, Change Password, Login with different account, Create new account
 
-            StackLayout row6_reset_sync = new StackLayout
+            StackLayout row7_account = new StackLayout
             {
-                Children = { accounts, reset },
+                Children = { accountType },
+                GestureRecognizers = {
+                new TapGestureRecognizer {
+                     //   Command = new Command (()=>System.Diagnostics.Debug.WriteLine ("clicked")),
+                     Command = new Command (()=>manageAccount()),
+                },
+                },
                 Orientation = StackOrientation.Horizontal,
-                HorizontalOptions = LayoutOptions.CenterAndExpand,
-                Spacing = 10
+                Padding = new Thickness(5, 5)
             };
 
+            //============================= Login ================================
+            Label login = new Label
+            {
+                Text = "Login",
+                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                HorizontalOptions = LayoutOptions.Center
+            };
+
+            StackLayout row8_login = new StackLayout
+            {
+                Children = { login },
+                GestureRecognizers = {
+                new TapGestureRecognizer {
+                        Command = new Command (
+                            ()=>login.Text = Login()),
+                },
+                },
+                Orientation = StackOrientation.Horizontal,
+                Padding = new Thickness(5, 5)
+            };
+
+            //================ Support Settings - Reporting Problem  =========================================
+
+            Label report = new Label
+            {
+                Text = "Support",
+                TextColor = Color.White,
+                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                HorizontalOptions = LayoutOptions.Start
+            };
+
+            Label reportLink = new Label
+            {
+                Text = "Report A Problem",
+                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                HorizontalOptions = LayoutOptions.Center
+            };
+
+            StackLayout row9_report = new StackLayout
+            {
+                Children = { reportLink },
+                GestureRecognizers = {
+                new TapGestureRecognizer {
+                        Command = new Command (()=>Navigation.PushAsync(new ReportPage())),
+                },
+                },
+                Orientation = StackOrientation.Horizontal,
+                Padding = new Thickness(5, 5)
+            };
+
+            //============================ About Us  =========================================
+
+            Label contact = new Label
+            {
+                Text = "LOSS App",
+                TextColor = Color.White,
+                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                HorizontalOptions = LayoutOptions.Start
+            };
+
+            Label aboutUs = new Label
+            {
+                Text = "About Us",
+                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                HorizontalOptions = LayoutOptions.Center
+            };
+
+            StackLayout row10_about = new StackLayout
+            {
+                Children = { aboutUs },
+                GestureRecognizers = {
+                
+                new TapGestureRecognizer {
+                   //     Command = new Command (()=>System.Diagnostics.Debug.WriteLine ("clicked")),
+                        Command = new Command (()=>Navigation.PushAsync(new AboutPage())),
+                },
+                },
+                Orientation = StackOrientation.Horizontal,
+                Padding = new Thickness(5, 5)
+            };
 
 
             //========== Page Content where everything needs to be inserted=============================================
+            //if (count == 2)
+            //{
+            //    alternate = row8_login;
+            //}
 
-             
+
+
             mainContent = new StackLayout
             {
+
                 Children = { new BoxView() { Color = Color.Transparent, HeightRequest = 4  },
-                    row1_contrast, row2_geolocation, row3_anonymous, row4_speech, row5_push, 
-                    new BoxView() { Color = Color.Transparent, HeightRequest = 8  },
+                    generalSettings,
+                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
+                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                    row1_contrast, row2_geolocation, row3_anonymous, row4_speech, row5_push, row6_reset_sync,
+                    //
+                    new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
                     account,
                     new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
-                    new BoxView() { Color = Color.Transparent, HeightRequest = 3  },
-                    row6_reset_sync, event_label }
-                    , Padding = new Thickness(5,5,5,5)
+                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+
+                    row7_account,
+                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
+                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+
+                    row8_login,
+                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
+                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+
+                    new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
+                    report,
+                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5 },
+                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+
+                    row9_report,
+                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
+                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+
+                    new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
+                    contact,
+                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
+                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                    row10_about,
+                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
+                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+
+                    event_label },
+                Padding = new Thickness(5, 5, 5, 5),
+                VerticalOptions = LayoutOptions.FillAndExpand
             };
-            this.Content = mainContent;
+            ScrollView content = new ScrollView
+            {
+                Content = mainContent,
+                Orientation = ScrollOrientation.Vertical
+            };
+            this.Content = content;
         }
+
 
         async void accountsPressed(object sender, EventArgs e)
         {
@@ -269,7 +440,7 @@ namespace LOSSPortable
         async void resetPressed(object sender, EventArgs e)
         {
             var result = await DisplayAlert("Reset application", "Reset app to default settings and delete any cached info?", "Yes", "No");
-            
+
             if (result)
             {
                 event_label.Text = String.Format("Settings have been reset");
@@ -297,8 +468,9 @@ namespace LOSSPortable
                 this.Content.BackgroundColor = Color.Transparent;
                 event_label.Text = String.Format("High Contrast Mode Enabled? {0}", e.Value);
             }
-            
+             
         }
+
 
         void geolocation_switcher_Toggled(object sender, ToggledEventArgs e)
         {
@@ -312,12 +484,292 @@ namespace LOSSPortable
 
         void speech_switcher_Toggled(object sender, ToggledEventArgs e)
         {
-            event_label.Text = String.Format("Text-to-Speech enabled? {0}", e.Value);
+            if (speech_switcher.IsToggled)
+            {
+                //var text = "Text to speech.";
+                event_label.Text = String.Format("Text to Speech? {0}", e.Value);
+                CrossTextToSpeech.Current.Speak(event_label.Text);
+
+            }
+            else
+            {
+                event_label.Text = String.Format("Text to Speech? {0}", e.Value);
+            }
         }
 
         void push_switcher_Toggled(object sender, ToggledEventArgs e)
         {
             event_label.Text = String.Format("Notifications enabled? {0}", e.Value);
         }
+
+        async void manageAccount()
+        {
+            var action = await DisplayActionSheet("Manage Account", "Cancel", null, "Edit Profile", "Change Password", 
+                "Login with Another Account", "Create a New Account");
+            switch (action)
+            {
+                case "Edit Profile":
+                    await Navigation.PushAsync(new ProfilePage());
+                    break;
+                case "Change Password":
+                    //var r = await UserDialogs.Instance.ConfirmAsync("", "Pick Title");
+                    //var text = (r ? "Yes" : "No");
+                    //this.Result($"Confirmation Choice: {text}");
+                    customPopUp();
+                    break;
+                case "Login with Another Account":
+                    var r = await UserDialogs.Instance.LoginAsync(new LoginConfig
+                    {
+                        Message = "Enter Credentials"
+                    });
+                    var status = r.Ok ? "Success" : "Cancelled";
+                    this.Result($"Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
+                    event_label.Text = String.Format("Login With Another Account selected");
+
+                    break;
+                case "Create a New Account":
+                    var p = await UserDialogs.Instance.LoginAsync(new LoginConfig
+                    {
+                        Message = "Create A New Account"
+                    });
+                    var created = p.Ok ? "Success" : "Cancelled";
+                    this.Result($"Login {created} - User Name: {p.LoginText} - Password: {p.Password}");
+                
+                    event_label.Text = String.Format("Create a New Account selected");
+                    break;              
+            }
+        }
+
+        StackLayout customPopUp()
+        {
+            _PopUpLayout = new PopupLayout();
+
+            var oldPswd = new ExtendedEntryCell
+            {
+                Label = "Existing Password: ",
+                Placeholder = "Password",
+                IsPassword = true
+                // LabelColor = Color.Black,
+            };
+
+            var newPswd = new ExtendedEntryCell
+            {
+                Label = "New Password: ",
+                Placeholder = "Password",
+                IsPassword = true
+                // LabelColor = Color.Black
+            };
+
+            var confirmPswd = new ExtendedEntryCell()
+            {
+                Label = "Confirm Password: ",
+                Placeholder = "Password",
+                IsPassword = true,
+            };
+
+            StackLayout passwordPop = new StackLayout
+            {
+                Children = {
+                            new TableView
+                            {
+                                Root = new TableRoot("Change Password")
+                                {
+                                    new TableSection("Change Password")
+                                    {
+                                        oldPswd,
+                                        newPswd,
+                                        confirmPswd
+                                    }
+                                }
+                            },//end tableView
+                            new StackLayout()
+                            {
+                                HorizontalOptions = LayoutOptions.Center,
+                                Orientation = StackOrientation.Horizontal,
+                                Children = {
+                                    new Button()
+                                    {
+                                        VerticalOptions = LayoutOptions.Start,
+                                        HorizontalOptions = LayoutOptions.CenterAndExpand,
+                                        WidthRequest =140,
+                                        Text = "Cancel",
+                                        Command = new Command (()=> _PopUpLayout.DismissPopup()),
+                                    },
+                                    new Button()
+                                    {
+                                        VerticalOptions = LayoutOptions.Start,
+                                        HorizontalOptions = LayoutOptions.CenterAndExpand,
+                                        WidthRequest =140,
+                                        Text = "OK",
+                                        Command = new Command (()=> closePopUp(oldPswd,newPswd,confirmPswd)),
+                                    }
+                                }
+                            }
+                        },
+                HorizontalOptions = LayoutOptions.StartAndExpand
+            };
+
+            _PopUpLayout.Content = mainContent;
+            Content = _PopUpLayout;
+
+            var PopUp = new StackLayout
+            {
+                WidthRequest = 300, // Important, the Popup has to have a size to be showed
+                HeightRequest = 270,
+                BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
+                Orientation = StackOrientation.Horizontal,
+                Children = { passwordPop }//The StackLayout (all passwords)
+            };
+
+            _PopUpLayout.ShowPopup(PopUp);
+
+            return passwordPop;
+
+        }
+
+        void closePopUp(ExtendedEntryCell oldPswd, ExtendedEntryCell newPswd, ExtendedEntryCell confirmPswd)
+        {
+            StackLayout temp;
+
+
+            if (_PopUpLayout.IsPopupActive)
+            {
+                String oldPass = oldPswd.Text;
+                System.Diagnostics.Debug.WriteLine(oldPass);
+
+                String newPass = newPswd.Text;
+                System.Diagnostics.Debug.WriteLine(newPass);
+
+                String confirmPass = confirmPswd.Text;
+                System.Diagnostics.Debug.WriteLine(confirmPass);
+
+                var existingPass = new Label
+                {
+                    Text = "Please pick a new password",
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
+                    TextColor = Color.Red,
+                    FontSize = 20
+                };
+
+                var mismatch = new Label
+                {
+                    Text = "Passwords don't match.",
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
+                    TextColor = Color.Red,
+                    FontSize = 20
+                };
+
+                _PopUpLayout.DismissPopup();
+                ScrollView content = new ScrollView
+                {
+                    Content = mainContent,
+                    Orientation = ScrollOrientation.Vertical
+                };
+                this.Content = content;
+
+                if (newPass != confirmPass)
+                {   //keep displaying pop up and display error message to user
+
+                    temp = customPopUp();
+                    temp.Children.Add(mismatch);
+
+                    var PopUp = new StackLayout
+                    {
+                        WidthRequest = 300, // Important, the Popup has to have a size to be showed
+                        HeightRequest = 320,
+                        BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
+                        Orientation = StackOrientation.Horizontal,
+                        Children = { temp },//The StackLayout (all passwords)
+                        Padding = 5 
+                    };
+
+                    _PopUpLayout.ShowPopup(PopUp);
+                    System.Diagnostics.Debug.WriteLine("Passwords don't match");
+                }
+                else if (oldPass == newPass)
+                {
+                    temp = customPopUp();
+                    temp.Children.Add(existingPass);
+
+                    var PopUp = new StackLayout
+                    {
+                        WidthRequest = 300, // Important, the Popup has to have a size to be showed
+                        HeightRequest = 320,
+                        BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
+                        Orientation = StackOrientation.Horizontal,
+                        Children = { temp },//The StackLayout (all passwords)
+                        Padding = 5
+                    };
+
+                    _PopUpLayout.ShowPopup(PopUp);
+                    System.Diagnostics.Debug.WriteLine("Please pick a new password");
+                }
+            }
+            else //if no pop up is displayed
+            {
+                temp = customPopUp();
+                _PopUpLayout.ShowPopup(temp);
+            }
+        }
+
+
+        async void login_check()
+        {
+            if (loggedIn == false) //login is currently displayed. set loggedIn to true to display logout
+            {
+                //entry pop up for login
+                var r = await UserDialogs.Instance.LoginAsync(new LoginConfig
+                {
+                    Message = "Enter Credentials"
+                });
+                var status = r.Ok ? "Success" : "Cancelled";
+                System.Diagnostics.Debug.WriteLine("after status = r.ok?");
+
+                this.Result($"Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
+                if (status == "Success")
+                {
+                    loggedIn = true;
+                    logText = "Logout";
+                }
+                else
+                {
+                   // loggedIn = false;
+                    logText = "Login";
+                }
+            }
+
+            else if (loggedIn == true)//if logout is displayed
+            {
+                //pop up confirmation
+                result = await DisplayAlert("Log Out", "Are you sure?", "Yes", "No");
+                if (result == false)
+                {
+                   // loggedIn = true;
+                    logText = "Logout";
+                    event_label.Text = String.Format("Logout canceled");
+                }
+                else
+                {
+                    loggedIn = false;
+                    logText = "Login";
+                    event_label.Text = String.Format("Logged out");
+                }
+            }
+ 
+        }
+
+        void Result(string msg)
+        {
+            UserDialogs.Instance.Alert(msg);
+        }
+
+        String Login()
+        {
+            login_check();
+            return logText;
+            
+        }
+
     }
+    
 }
