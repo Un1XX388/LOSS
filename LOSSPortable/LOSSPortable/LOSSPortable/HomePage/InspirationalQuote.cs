@@ -11,11 +11,11 @@ namespace LOSSPortable
     class InspirationalQuote
     {
         [DynamoDBHashKey]
+        public string id { get; set; }
+
+        [DynamoDBProperty]
         public string Message { get; set; }
 /*
-        [DynamoDBProperty]
-        public int FieldNumber  { get; set; }
-
         [DynamoDBProperty]
         public Boolean isField { get; set; }
 

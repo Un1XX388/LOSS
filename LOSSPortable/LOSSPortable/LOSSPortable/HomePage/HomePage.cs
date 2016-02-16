@@ -14,58 +14,45 @@ namespace LOSSPortable
 {
     public class HomePage : ContentPage
     {
-        Label label2 = new Label();
         Label label1 = new Label();
-
-        Quote QuoteOfDay = new Quote();
-
-        List<Quote> quotesList;
-        ListView listView;
-
+        Label label2 = new Label();
+        Frame labelFrame;
 
         public HomePage()
         {
-            QuoteOfDay = new Quote();
-            label2.Text = "Loading...";
-            listView = new ListView
+
+            Title = "Home";
+            label2.Text = "";
+            label1.FontSize = 20;
+            label1.Style = new Style(typeof(Label))
             {
-                RowHeight = 40,
-                ItemTemplate = new DataTemplate(typeof(testItemCell))
+                BaseResourceKey = Device.Styles.SubtitleStyleKey,
+                Setters = {
+                new Setter { Property = Label.TextColorProperty,Value = Color.White },
+                new Setter {Property = Label.FontAttributesProperty, Value = FontAttributes.Italic },
+                new Setter {Property = Label.FontFamilyProperty, Value = "Times New Roman" },
+
+                }
+
             };
+
+            labelFrame = new Frame {Content =  label1,
+                            OutlineColor = Color.FromHex("5A3A5C"),
+                            VerticalOptions = LayoutOptions.CenterAndExpand,
+                            HorizontalOptions = LayoutOptions.Center
+                        };
+
             Content = new StackLayout
             {
-                Children = {
-                    listView
-                }
-            };
-            /*Content = new StackLayout
-            {
-                //Children = {
-                //    label1
-                //    //new Label { Text = "This is the home page!" }
-                //}
                 Padding = new Thickness(30, Device.OnPlatform(20, 0, 0), 30, 30),
-
                 Children = {
                     new ContentView {
-         
-                        Content = new Frame {Content =  label1,
-                        OutlineColor = Color.White,
-                        VerticalOptions = LayoutOptions.CenterAndExpand,
-                        HorizontalOptions = LayoutOptions.Center
-                    },
-
-                     VerticalOptions = LayoutOptions.CenterAndExpand,
-                     HorizontalOptions = LayoutOptions.Center
-
-
+                        Content = labelFrame
                     }
-
-                }
-
+                },
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                HorizontalOptions = LayoutOptions.Center
             };
-             */
-            //getLocation();
         }
 
         async private Task getLocation(){
@@ -100,24 +87,24 @@ namespace LOSSPortable
             LoadQuotes().ContinueWith(task =>{
                 Device.BeginInvokeOnMainThread(() =>
                     {
-                        listView.ItemsSource = task.Result;
+                        label1.Text = task.Result.Message;
+                        labelFrame.OutlineColor = Color.White;
                     });
             });
-            /*AmazonUtils.transferUtility.DownloadAsync(Path.Combine(Environment.SpecialFolder.ApplicationData, "file"),
-                "bucketName",
-                "key");*/
         }
 
 
-        private Task<List<InspirationalQuote>> LoadQuotes()
+        private Task<InspirationalQuote> LoadQuotes()
         {
             var context = AmazonUtils.DDBContext;
-            List<ScanCondition> conditions = new List<ScanCondition>();
+            /*List<ScanCondition> conditions = new List<ScanCondition>();
             var SearchBar = context.ScanAsync<InspirationalQuote>(conditions);
-            return SearchBar.GetNextSetAsync();
+            return SearchBar.GetNextSetAsync();*/
+            int num = rnd.Next(1, 5);
+            return context.LoadAsync<InspirationalQuote>(num.ToString());
         }
 
-        //static Random rnd = new Random();
+        static Random rnd = new Random();
         
         /*private Task showQuoteOfDay()
         {
@@ -129,7 +116,7 @@ namespace LOSSPortable
             //QuoteOfDay = quotesList[i];
             //System.Diagnostics.Debug.WriteLine(QuoteOfDay.ID, QuoteOfDay.inspirationalQuote);
             //label1.Text = String.Format(QuoteOfDay.inspirationalQuote);
-            label1.Text = testItems[0].ToString();
+            label1.Text = "hello world";
             label1.FontSize = 20;
             label1.Style = new Style(typeof(Label))
             {
