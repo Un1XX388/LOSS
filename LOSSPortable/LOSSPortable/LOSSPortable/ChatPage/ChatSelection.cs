@@ -229,8 +229,8 @@ namespace LOSSPortable
             if (cont.conv.Count == 0)
             {
                 System.Diagnostics.Debug.WriteLine("NOTHING TAKEN FROM THE CACHE");
-                ChatPage tempC2 = new ChatPage("Temp", chatList, "00000");
-                Chats.Add(tempC2);
+                //ChatPage tempC2 = new ChatPage("Temp", chatList, "00000");
+                //Chats.Add(tempC2);
             }
             else {
                 foreach (String chat in cont.conv)
