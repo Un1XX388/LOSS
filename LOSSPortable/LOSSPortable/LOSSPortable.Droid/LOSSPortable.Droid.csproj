@@ -49,6 +49,14 @@
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Akavache, Version=4.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\akavache.core.4.1.2\lib\MonoAndroid\Akavache.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Akavache.Sqlite3, Version=4.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\akavache.sqlite3.4.1.2\lib\Portable-Net45+Win8+WP8+Wpa81\Akavache.Sqlite3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="AWSSDK.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
       <HintPath>..\..\packages\AWSSDK.Core.3.1.4.3\lib\monoandroid\AWSSDK.Core.dll</HintPath>
       <Private>True</Private>
@@ -59,6 +67,10 @@
     </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PCLCrypto, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d4421c8a4786956c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\PCLCrypto.1.0.2.15130\lib\monoandroid\PCLCrypto.dll</HintPath>
       <Private>True</Private>
@@ -91,6 +103,14 @@
       <HintPath>..\..\packages\Plugin.Permissions.1.1.3\lib\MonoAndroid10\Plugin.Permissions.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Splat, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Splat.1.3.3\lib\monoandroid\Splat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SQLitePCL.raw, Version=0.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SQLitePCL.raw_basic.0.7.0\lib\MonoAndroid\SQLitePCL.raw.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
@@ -100,6 +120,22 @@
     </Reference>
     <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\monoandroid\System.Net.Http.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx-Core.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx-Interfaces.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx-Linq.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx-PlatformServices.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.PlatformServices.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
