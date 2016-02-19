@@ -2,13 +2,6 @@ using System;
 using Xamarin.Forms;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Akavache;
-using System.Reactive.Linq;
-using System.Threading;
-
-
-
-
 
 namespace LOSSPortable
 {
@@ -17,33 +10,27 @@ namespace LOSSPortable
     public class ChatSelection : ContentPage
     {
 
-        private String akKEY = "Cached2";   //key 
+
         private StackLayout stackLayout;
         private StackLayout outerLayout;
-        private ScrollView innerScroll;
         List<ChatPage> Chats = new List<ChatPage>();
-        List<String> ChatKey = new List<String>();
-        //List<Button> Buttons = new List<Button>();
-        List<Label> ChatLabel = new List<Label>();
+        List<Button> Buttons = new List<Button>();
         List<Message> chatList = new List<Message>();
         ChatPage chat1;
-        int Chatid = 10000;
-
-
+        ChatPage chat2;
+        ChatPage chat3;
+        ChatPage chat4;
         Grid gridLayout;
-        Contacts cont;
-        Message msg;
+
 
 
 
         public ChatSelection()
         {
-            cont = NewCont();
-
             Title = "Chat Selection";
             Icon = "Accounts.png";
 
-            msg = new Message();
+            Message msg = new Message();
             msg = mesCons(msg, "123", "drawable/prof.png", "User1: ", "Test Message 1", "11:11");
 
             chatList.Add(msg);
@@ -52,34 +39,29 @@ namespace LOSSPortable
             msg2 = mesCons(msg2, "456", "drawable/prof.png", "User2: ", "Test Message 2", "2:41");
             chatList.Add(msg2);
 
-            chat1 = new ChatPage("Bob", chatList, "00000");
+            //saveMsg(msg2);
 
-            var label = new Label { Text = "Message a Volunteer", FontSize = 30, TextColor = Color.Black, XAlign = TextAlignment.Center };
 
-            var editor = new Entry();
-            editor.Placeholder = "Enter new volunteer: ";
-            Button addV = new Button { Text = "Add a Volunteer", WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22) };
-            System.Diagnostics.Debug.WriteLine("finished caching.");
 
-            addV.Clicked += delegate
-            {   //create new chagpage, add it to list, refresh chatselection page
+            chat1 = new ChatPage("Bob", chatList);
+            chat2 = new ChatPage("Tina", chatList);
+            chat3 = new ChatPage("Gene", chatList);
+            chat4 = new ChatPage("Linda", chatList);
+            chat1.setChat(chatList);
+            chat2.setChat(chatList);
+            chat3.setChat(chatList);
+            chat4.setChat(chatList);
 
-                ChatPage tempC = new ChatPage(editor.Text, chatList, "00001");
-                Chats.Add(tempC);
-                stackLayout.Children.Clear();
-                ChatKey.Add("00001");
-                cont.conv.Add("" + (Chatid++));
-                System.Diagnostics.Debug.WriteLine("Added page to cached obj: " + Chatid);
-                displayChats();
-
-                this.Content = outerLayout;
-            };
+            var label = new Label { Text = "Message a Volunteer", FontSize = 30,  TextColor = Color.Black, XAlign = TextAlignment.Center };
+            //BackgroundColor = Color.FromHex("CCCCFF"),
+            //ParseManager trial = new ParseManager();
 
 
             Device.BeginInvokeOnMainThread(() =>   //automatically updates
             {
                 stackLayout = new StackLayout
                 {
+                    //BackgroundColor = Color.FromHex("CCCCFF"),
                     Children =
                             {
 
@@ -87,24 +69,14 @@ namespace LOSSPortable
 
                 };
 
-                innerScroll = new ScrollView
-                {
-                    VerticalOptions = LayoutOptions.Start,
-                    HorizontalOptions = LayoutOptions.Start,
-                    Padding = new Thickness(5, 5, 5, 10),
-                    Content = stackLayout
-
-                };
-
                 outerLayout = new StackLayout
                 {
+                    //BackgroundColor = Color.FromHex("CCCCFF"),
                     Spacing = 2,
                     Children =
                     {
                         label,
-                        innerScroll,
-                        editor,
-                        addV
+                        stackLayout
 
                     }
                 };
@@ -112,48 +84,21 @@ namespace LOSSPortable
 
             });
 
+            Chats.Add(chat1);
+            Chats.Add(chat2);
+            Chats.Add(chat3);
+            Chats.Add(chat4);
 
-            displayChats();
+            //upon sending a message
 
-        }
 
-        public Button CreateButton(String name, ChatPage chat)
-        {
-
-            Button ButtonTemp = new Button { Text = "" + name, WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22) };
-            //ButtonTemp.HorizontalOptions = LayoutOptions.Start;
-
-            gridLayout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) });
-            ButtonTemp.Clicked += async (s, e) =>
-            {
-                await Navigation.PushAsync(chat);  //navigate to a state page (not new).
-            };
-            return ButtonTemp;
-        }
-
-        public Message mesCons(Message message, String id, String icon, String sender, String text, String time)
-        {
-            message.id = id;
-            message.icon = icon;
-            message.sender = sender;
-            message.text = text;
-            message.time = time;
-            return message;
-        }
-        async void saveMsg(Message message)
-        {
-            //await App.PManager.SaveTaskAsync(message);
-        }
-
-        public void displayChats()
-        {
             foreach (ChatPage chat in Chats)
             {
                 var profilePicture = new Image { };
                 profilePicture.Source = "drawable/prof2.png";
                 profilePicture.BackgroundColor = Color.White;
 
-                gridLayout = new Grid   //grid is for a single image-chat button
+                gridLayout = new Grid
                 {
                     ColumnSpacing = 3,
                     ColumnDefinitions =
@@ -176,29 +121,10 @@ namespace LOSSPortable
 
 
             this.Content = outerLayout;
-        }
-
-        //------------------------------------------------------------------------
-
-        protected async override void OnDisappearing() //leaving the page ->cache history
-        {
-            base.OnDisappearing();
-
-
-
-            //cont.conv.Add( ChatKey);
-            System.Diagnostics.Debug.WriteLine("Trying to store cache.");
-            if (cont.conv.Count != 0)
-            {
-                await Store(akKEY, cont);
-            }
-
-            else {
-                System.Diagnostics.Debug.WriteLine("Nothing to cache.");
-            }
 
         }
 
+<<<<<<< HEAD
 
         protected async override void OnAppearing() //read cache
         {
@@ -258,59 +184,35 @@ namespace LOSSPortable
 
 
         public async Task<Contacts> Get(string key)
+=======
+        public Button CreateButton(String name, ChatPage chat)
+>>>>>>> parent of fc77ab0... Chat page UI, report messages, caching of messages and conversations.
         {
 
-            try
+            Button ButtonTemp = new Button { Text = "" + name, WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22) };
+            //ButtonTemp.HorizontalOptions = LayoutOptions.Start;
+
+            gridLayout.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) });
+            ButtonTemp.Clicked += async (s, e) =>
             {
-                /*IEnumerable<Contacts> cacheCont = await BlobCache.LocalMachine.GetAllObjects<Contacts>();
-                System.Diagnostics.Debug.WriteLine("Loop begins");
-                foreach (Contacts cached in cacheCont) 
-                    {
-                    System.Diagnostics.Debug.WriteLine("looping: " + cached.conv.Count);
-                    }*/
-
-
-                System.Diagnostics.Debug.WriteLine("fetching cached object");
-                return await BlobCache.LocalMachine.GetOrCreateObject<Contacts>(key, NewCont);
-
-            }
-            catch (KeyNotFoundException)
-            {
-                System.Diagnostics.Debug.WriteLine("error");
-                return new Contacts();
-
-            }
-
-
+                await Navigation.PushAsync(chat);  //navigate to a state page (not new).
+            };
+            return ButtonTemp;
         }
 
-
-
-        //need to consider removing the async: use Task.run()
-        //http://stackoverflow.com/questions/31425210/akavaches-getobjectt-hangs-when-awaited-any-idea-what-is-wrong-here
-
-        public async Task Store<Contacts>(string key, Contacts value)
+        public Message mesCons(Message message, String id, String icon, String sender, String text, String time)
         {
-            System.Diagnostics.Debug.WriteLine("storing " + cont.conv.Count);
-            try
-            {
-                await BlobCache.LocalMachine.InsertObject(key, cont);
-            }
-            catch (InvalidOperationException)
-            {
-                System.Diagnostics.Debug.WriteLine("error");
-            }
-
-            System.Diagnostics.Debug.WriteLine("finished storing");
+            message.id = id;
+            message.icon = icon;
+            message.sender = sender;
+            message.text = text;
+            message.time = time;
+            return message;
         }
-
-
-        public Contacts NewCont()
+        async void saveMsg(Message message)
         {
-            System.Diagnostics.Debug.WriteLine("creating new conv");
-            return new Contacts();
+            //await App.PManager.SaveTaskAsync(message);
         }
-
     }
 
 }
