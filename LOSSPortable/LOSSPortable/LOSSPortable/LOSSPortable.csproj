@@ -39,7 +39,7 @@
     <Compile Include="AWS\AmazonUtils.cs" />
     <Compile Include="ChatPage\Conversation.cs" />
     <Compile Include="ChatPage\Conversations.cs" />
-    <Compile Include="ChatPage\ReportMessage .cs" />
+    <Compile Include="ChatPage\ReportMessage.cs" />
     <Compile Include="HomePage\InspirationalQuote.cs" />
     <Compile Include="ChatPage\ChatPage.cs" />
     <Compile Include="ChatPage\ChatSelection.cs" />
@@ -110,8 +110,8 @@
       <HintPath>..\..\packages\AWSSDK.SyncManager.3.1.0.1\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid10+xamarinios10+MonoTouch10\AWSSDK.SyncManager.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.8.0.2\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PCLCrypto, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d4421c8a4786956c, processorArchitecture=MSIL">
