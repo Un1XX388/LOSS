@@ -10,6 +10,15 @@ namespace LOSSPortable
             // The root page of your application
             Application.Current.Resources = new ResourceDictionary();
 
+            var stackLayoutStyle = new Style(typeof(StackLayout)){
+                Setters =
+                {
+                    new Setter {
+                        Property = StackLayout.BackgroundColorProperty, Value = Color.Black}
+                }
+            };
+            Application.Current.Resources.Add("key", stackLayoutStyle);
+
             MainPage = new LOSSPortable.RootPage();
         }
 

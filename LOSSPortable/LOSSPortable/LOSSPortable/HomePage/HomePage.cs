@@ -8,6 +8,7 @@ using System.Text;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using System.Threading.Tasks;
+using System.Threading;
 using Xamarin.Forms;
 
 namespace LOSSPortable
@@ -17,10 +18,13 @@ namespace LOSSPortable
         Label label1 = new Label();
         Label label2 = new Label();
         Frame labelFrame;
+        CancellationTokenSource cts;
 
         public HomePage()
         {
-
+            
+            BackgroundColor = Color.White;
+            
             Title = "Home";
             label2.Text = "";
             label1.FontSize = 20;
@@ -44,14 +48,15 @@ namespace LOSSPortable
 
             Content = new StackLayout
             {
-                Padding = new Thickness(30, Device.OnPlatform(20, 0, 0), 30, 30),
+                Style = (Style)Application.Current.Resources["key"],
+                //Padding = new Thickness(30, Device.OnPlatform(20, 0, 0), 30, 30),
                 Children = {
                     new ContentView {
                         Content = labelFrame
                     }
                 },
                 VerticalOptions = LayoutOptions.CenterAndExpand,
-                HorizontalOptions = LayoutOptions.Center
+                HorizontalOptions = LayoutOptions.CenterAndExpand
             };
         }
 
@@ -81,16 +86,33 @@ namespace LOSSPortable
             var longtitude = position.Longitude.ToString();
             label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
         }
+        
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            cts = new CancellationTokenSource();
             LoadQuotes().ContinueWith(task =>{
                 Device.BeginInvokeOnMainThread(() =>
                     {
-                        label1.Text = task.Result.Message;
-                        labelFrame.OutlineColor = Color.White;
+                        try {
+                            label1.Text = task.Result.Message;
+                            labelFrame.OutlineColor = Color.White;
+                        }
+                        catch (Exception e)
+                        {
+
+                        }
                     });
             });
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            if (cts != null)
+            {
+                cts.Cancel();
+            }
         }
 
 
@@ -101,8 +123,9 @@ namespace LOSSPortable
             var SearchBar = context.ScanAsync<InspirationalQuote>(conditions);
             return SearchBar.GetNextSetAsync();*/
             int num = rnd.Next(1, 5);
-            return context.LoadAsync<InspirationalQuote>(num.ToString());
-        }
+            return context.LoadAsync<InspirationalQuote>(num.ToString(), cts.Token);
+            
+         }
 
         static Random rnd = new Random();
         
