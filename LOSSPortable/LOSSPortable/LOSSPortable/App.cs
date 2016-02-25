@@ -14,6 +14,14 @@ namespace LOSSPortable
 
             // The root page of your application
 
+            var stackLayoutStyle = new Style(typeof(StackLayout)){
+                Setters =
+                {
+                    new Setter {
+                        Property = StackLayout.BackgroundColorProperty, Value = Color.Black}
+                }
+            };
+            Application.Current.Resources.Add("key", stackLayoutStyle);
 
             //Application.Current.Resources = new ResourceDictionary();
 
@@ -72,5 +80,6 @@ namespace LOSSPortable
             temp.loadSettings();
 
         }
+
     }
 }

@@ -2,6 +2,9 @@ using System;
 using Xamarin.Forms;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Akavache;
+using System.Reactive.Linq;
+
 
 namespace LOSSPortable
 {
@@ -9,13 +12,16 @@ namespace LOSSPortable
     public class ChatPage : ContentPage
     {
 
+        private String Key;
         private Button send;
         List<string> Messages = new List<string>();
         private Grid gridLayout;
         private StackLayout outerStack;
         private ScrollView innerScroll;
         String name;
-        List<Message> msgs = new List<Message>(); //history of messaging
+        //        List<Message> msgs = new List<Message>(); //history of messaging
+        Conversation conv = new Conversation();
+
 
         public ChatPage(String inputname, List<Message> msgs)
         {
@@ -32,6 +38,12 @@ namespace LOSSPortable
             }
 
             this.msgs = msgs;
+
+
+        public ChatPage(String inputname, List<Message> msgs, string key)  //use the key to store
+        {
+            this.Key = key;
+            conv.msgs = msgs;
             name = inputname;
 
             Title = "Chat";
@@ -70,9 +82,10 @@ namespace LOSSPortable
                 message.text = mes;
                 message.time = " " + currentTime();
                 // "Sender: ", mes, "drawable/prof.png", " " + currentTime() );
-                msgs.Add(message);
+                //msgs.Add(message);
                 System.Diagnostics.Debug.WriteLine("message: " + message.text);
                 DisplayResponse(message);
+                conv.msgs.Add(message);
 
                 this.Content = outerStack;
             };
@@ -100,7 +113,7 @@ namespace LOSSPortable
                 {
                     VerticalOptions = LayoutOptions.Start,
                     HorizontalOptions = LayoutOptions.Start,
-                    Padding = new Thickness(10, 10, 10, 20),
+                    Padding = new Thickness(5, 5, 5, 10),
                     //BackgroundColor = Color.FromHex("CCCCFF"),
                     Content = gridLayout
 
@@ -140,7 +153,8 @@ namespace LOSSPortable
             switch (action)
             {
                 case "Report":
-                    await DisplayAlert("Alert", "Reporting not implemented yet.", "OK");
+                    //await DisplayAlert("Alert", "Reporting not implemented yet.", "OK");
+                    reportMessage(msg);
                     break;
                 case "Hide Text":
                     label.Text = "\n" + "***" + "\t";
@@ -165,7 +179,7 @@ namespace LOSSPortable
             }
             else
             {
-                numRows = msg.Length / 30;
+                numRows = msg.Length / 15;
             }
 
             Grid innerGrid = new Grid
@@ -185,9 +199,9 @@ namespace LOSSPortable
             };
 
             if (message.id == "456")
-            { innerGrid.BackgroundColor = Color.FromHex("9999ff"); }
+            { innerGrid.BackgroundColor = Color.FromHex("f2f2f2"); }
             else
-            { innerGrid.BackgroundColor = Color.FromHex("8080ff"); }
+            { innerGrid.BackgroundColor = Color.FromHex("d9d9d9"); }
 
 
 
@@ -199,15 +213,15 @@ namespace LOSSPortable
             //profilePicture.BackgroundColor = Color.FromHex("CCCCFF");
 
 
-            Label name = new Label { Text = message.sender, TextColor = Color.White, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 20) }; //, XAlign = TextAlignment.Start
+            Label name = new Label { Text = message.sender, TextColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 20) }; //, XAlign = TextAlignment.Start
             name.VerticalOptions = LayoutOptions.StartAndExpand;
 
             var datetime = DateTime.Now;
-            Label time = new Label { Text = message.time, TextColor = Color.White, Font = Font.OfSize("Arial", 20) };
+            Label time = new Label { Text = message.time, TextColor = Color.Black, Font = Font.OfSize("Arial", 20) };
 
 
 
-            Label response = new Label { Text = message.text, TextColor = Color.White, Font = Font.OfSize("Arial", 18) }; //, XAlign = TextAlignment.Start             
+            Label response = new Label { Text = message.text, TextColor = Color.Black, Font = Font.OfSize("Arial", 18) }; //, XAlign = TextAlignment.Start             
             var tgr = new TapGestureRecognizer();
 
             /*if (message.getSide() == "right")
@@ -243,7 +257,6 @@ namespace LOSSPortable
                 innerGrid.Children.AddHorizontal(name);
                 innerGrid.Children.AddHorizontal(profilePicture);
                 
-                
                 innerGrid.Children.Add(response, 0, 5, 1, labelLength);
             }*/
             innerGrid.Children.Add(profilePicture);
@@ -264,7 +277,13 @@ namespace LOSSPortable
 
         public void setChat(List<Message> msgs)
         {
-            this.msgs = msgs;
+            conv.msgs = msgs;
+            conv.name = this.name;
+            refreshView();
+        }
+        public List<Message> getChat()
+        {
+            return conv.msgs;
         }
 
         public String currentTime()
@@ -280,8 +299,11 @@ namespace LOSSPortable
 
         public void deleteMessage(String id)
         {
-            Message found = msgs.Find(x => x.id == id);
-            msgs.Remove(found);
+            Message found = conv.msgs.Find(x => x.id == id);
+            conv.msgs.Remove(found);
+
+            //            msgs.Remove(found);
+
 
             refreshView();
         }
@@ -290,7 +312,7 @@ namespace LOSSPortable
         {
             gridLayout.Children.Clear();
 
-            foreach (Message msg in msgs) //INITIALIZE HISTORY OF MESSAGES
+            foreach (Message msg in conv.msgs) //INITIALIZE HISTORY OF MESSAGES
             {
                 DisplayResponse(msg);
             }
@@ -298,7 +320,64 @@ namespace LOSSPortable
             this.Content = outerStack;
         }
 
+        public void reportMessage(Message msg)
+        {
 
+            Navigation.PushAsync(new ReportMessage(msg));
+        }
+
+
+        //----------------------------------------------------------
+
+        protected async override void OnDisappearing() //leaving the page ->cache history
+        {
+            base.OnDisappearing();
+
+            await Store(conv);
+            System.Diagnostics.Debug.WriteLine("storing");
+        }
+
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+            System.Diagnostics.Debug.WriteLine("trying to get cache.");
+            Conversation con = await Get();
+            System.Diagnostics.Debug.WriteLine("returned messages: " + con.msgs.Count);
+            //await DisplayAlert("", con.msgs[0].getMessage(), "ok"); CAUSE OF BUGS
+            this.setChat(con.msgs);
+            this.Content = outerStack;
+        }
+
+        public async Task<Conversation> Get()
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine("fetching cached. object key = " + Key);
+                return await BlobCache.LocalMachine.GetOrCreateObject<Conversation>(Key, NewConv);
+
+            }
+            catch (KeyNotFoundException)
+            {
+                System.Diagnostics.Debug.WriteLine("error");
+                return new Conversation();
+
+            }
+
+
+        }
+
+        public async Task Store<Conversation>(Conversation value)
+        {
+            System.Diagnostics.Debug.WriteLine(">>>>>>>>storing key = " + Key + ". Items = " + conv.msgs.Count);
+            await BlobCache.LocalMachine.InsertObject(Key, conv);
+
+        }
+
+        public Conversation NewConv()
+        {
+            System.Diagnostics.Debug.WriteLine("creating new conv");
+            return new Conversation();
+        }
     }
 
 

@@ -1,10 +1,14 @@
-﻿using System;
+﻿using Amazon;
+using System;
 
 namespace LOSSPortable
 {
     public static class Constants
     {
-        public static string ApplicationID = "5En2OW4zzO9QbCxcxBwl8vjrHGeBsm7QDsSblJLi";
-        public static string Key = "K70M8Fvjy4IrMg6Nmayxx7X7Atz9qbiPOZQfptW9";
+        public const string COGNITO_IDENTITY_POOL_ID = "us-east-1:aef62d54-89d7-48f5-9df0-394d64703856";
+        public static RegionEndpoint COGNITO_REGION = RegionEndpoint.USEast1;
+
+        public static RegionEndpoint DYNAMODB_REGION = RegionEndpoint.USEast1;
+       
     }
 }

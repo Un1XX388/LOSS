@@ -3,11 +3,14 @@ using Xamarin.Forms;
 using System.Collections.ObjectModel;
 
 namespace LOSSPortable{
+	// This displays all the videos in the selected palylist.
     public class PlaylistPage : ContentPage{
 		// Holds all info for each playlist.
 		public ObservableCollection<ResourceViewModel> vids{ get; set; }
 
+		// Gets all relavent info for each video and determines how it should be displayed.
 		public PlaylistPage(){
+
             if (Helpers.Settings.ContrastSetting == true)
             {
                 BackgroundColor = Colors.contrastBg;
@@ -18,12 +21,22 @@ namespace LOSSPortable{
             }
 
             Title					= "Uptown Special";
+			// Holds data to be displayed on this content page.
 			vids					= new ObservableCollection<ResourceViewModel> ();
+			// View type for this content page.
 			ListView VidLstView		= new ListView();
+			// Set size (height) of each element displayed on this page.
 			VidLstView.RowHeight	= 100;
+			// Set the title of this page.
+			this.Title				= "Uptown Special";
+			// Set the source of data for page's list view.
 			VidLstView.ItemsSource	= vids;
-			VidLstView.ItemTemplate	= new DataTemplate(typeof(ResourceCell));
+			// Set layout for each element in this list view.
+			VidLstView.ItemTemplate	= new DataTemplate(typeof(VideoCell));
+			// Set behavior of element when selected by user.
 			VidLstView.ItemSelected	+= Onselected;
+			// Assign the list view created above to this content page.
+			Content = VidLstView;
 
 			// The bellow items will be taken from the server in the final build (they are temporary).
 			// IMPORTANT NOTE:
@@ -67,10 +80,11 @@ namespace LOSSPortable{
 				Link				= "https://youtu.be/b0kl0pr0k24"
 			});
 
-			Content = VidLstView;
+			// Accomodate iPhone status bar.
+			this.Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
 		}// End of PlaylistPage() constructor.
 
-
+		// Determines what happens when an element from the list is chosen by the user.
 		void Onselected(object sender, SelectedItemChangedEventArgs e){
 			if (e.SelectedItem == null){
 				return;
