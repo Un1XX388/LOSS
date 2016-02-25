@@ -11,6 +11,17 @@ namespace LOSSPortable
     {
         public AboutPage()
         {
+
+            if (Helpers.Settings.ContrastSetting == true)
+            {
+                BackgroundColor = Colors.contrastBg;
+            }
+            else
+            {
+                BackgroundColor = Colors.background;
+
+            }
+
             Title = "About Us";
             this.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);
 

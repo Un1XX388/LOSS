@@ -8,7 +8,16 @@ namespace LOSSPortable{
 		public ObservableCollection<ResourceViewModel> vids{ get; set; }
 
 		public PlaylistPage(){
-			Title					= "Uptown Special";
+            if (Helpers.Settings.ContrastSetting == true)
+            {
+                BackgroundColor = Colors.contrastBg;
+            }
+            else
+            {
+                BackgroundColor = Colors.background;
+            }
+
+            Title					= "Uptown Special";
 			vids					= new ObservableCollection<ResourceViewModel> ();
 			ListView VidLstView		= new ListView();
 			VidLstView.RowHeight	= 100;

@@ -6320,7 +6320,7 @@ namespace LOSSPortable.Droid
 			public const int CustomActionBar = 2131165513;
 			
 			// aapt resource value: 0x7f070148
-			public const int CustomTheme = 2131165512;
+			public const int DefaultTheme = 2131165512;
 			
 			// aapt resource value: 0x7f070016
 			public const int Platform_AppCompat = 2131165206;

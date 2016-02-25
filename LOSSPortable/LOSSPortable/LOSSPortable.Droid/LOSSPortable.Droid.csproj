@@ -100,6 +100,14 @@
       <HintPath>..\..\packages\Plugin.Permissions.1.1.3\lib\MonoAndroid10\Plugin.Permissions.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Plugin.Settings, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugins.Settings.2.1.0\lib\MonoAndroid10\Plugin.Settings.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Settings.Abstractions, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugins.Settings.2.1.0\lib\MonoAndroid10\Plugin.Settings.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Plugin.TextToSpeech, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xam.Plugins.TextToSpeech.2.0.0\lib\MonoAndroid10\Plugin.TextToSpeech.dll</HintPath>
       <Private>True</Private>
@@ -182,6 +190,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Parser.cs" />
@@ -206,7 +215,6 @@
     <AndroidResource Include="Resources\drawable\option.png" />
     <AndroidResource Include="Resources\drawable\phone.png" />
     <AndroidResource Include="Resources\drawable\play.png" />
-    <AndroidResource Include="Resources\values\Styles.xml" />
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\drawable\menu.png" />
     <AndroidResource Include="Resources\drawable\radialback.xml" />
@@ -220,6 +228,7 @@
     <AndroidResource Include="Resources\drawable\prof2.png" />
     <AndroidResource Include="Resources\drawable\homepage.png" />
     <AndroidResource Include="Resources\drawable\online1.png" />
+    <AndroidResource Include="Resources\values\Styles.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LOSSPortable\LOSSPortable.csproj">

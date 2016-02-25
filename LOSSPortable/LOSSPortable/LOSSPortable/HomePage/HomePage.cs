@@ -14,13 +14,21 @@ namespace LOSSPortable
     {
         Label label2 = new Label();
         Label label1 = new Label();
-
         Quote QuoteOfDay = new Quote();
 
         List<Quote> quotesList;
 
         public HomePage()
         {
+            if(Helpers.Settings.ContrastSetting == true)
+            {
+                BackgroundColor = Colors.contrastBg;
+            }
+            else
+            {
+                BackgroundColor = Colors.background;
+            }
+
             QuoteOfDay = new Quote();
             label2.Text = "Loading...";
 

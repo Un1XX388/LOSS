@@ -8,8 +8,18 @@ namespace LOSSPortable{
 		public ObservableCollection<ResourceViewModel> resources{ get; set; }
 
 		public ResourcesPage(){
-			// Holds data to be displayed on this content page.
-			resources				= new ObservableCollection<ResourceViewModel>();
+            if (Helpers.Settings.ContrastSetting == true)
+            {
+                BackgroundColor = Colors.contrastBg;
+            }
+            else
+            {
+                BackgroundColor = Colors.background;
+
+            }
+
+            // Holds data to be displayed on this content page.
+            resources				= new ObservableCollection<ResourceViewModel>();
 			// View type for this content page.
 			ListView lstView		= new ListView();
 			// Set size (height) of each element displayed on this page.

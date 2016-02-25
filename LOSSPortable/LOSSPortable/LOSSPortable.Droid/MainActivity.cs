@@ -8,6 +8,7 @@ using Android.Widget;
 using Android.OS;
 using Acr.UserDialogs;
 using Plugin.TextToSpeech;
+using LOSSPortable;
 
 namespace LOSSPortable.Droid
 {
@@ -16,7 +17,8 @@ namespace LOSSPortable.Droid
         Icon = "@drawable/icon", 
         MainLauncher = true, 
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
-        Theme = "@style/CustomTheme")]
+        Theme = "@style/DefaultTheme"
+        )]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
     {
         protected override void OnCreate(Bundle bundle)

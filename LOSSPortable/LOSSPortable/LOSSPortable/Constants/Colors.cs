@@ -16,6 +16,11 @@ namespace LOSSPortable
         public static Color purple_4 = Color.FromHex("7E688B");
         public static Color purple_5 = Color.FromHex("9F8FA8");
 
+        public static Color barBackground = Color.FromHex("3A263C");
+        public static Color background = Color.FromHex("5a3c5c");
+
+        public static Color contrastBg = Color.FromHex("0d0d0d");
+
         public static Color red_1 = Color.FromHex("5A2043");
         public static Color red_2 = Color.FromHex("6D3A59");
         public static Color red_3 = Color.FromHex("895474");

@@ -5,8 +5,18 @@ using System.Collections.Generic;
 namespace LOSSPortable{
 	public class VideoPage : ContentPage{
 		public VideoPage(string pageTitle, string vidURL){
-			// Title of page.
-			Title			= pageTitle;
+
+            if (Helpers.Settings.ContrastSetting == true)
+            {
+                BackgroundColor = Colors.contrastBg;
+            }
+            else
+            {
+                BackgroundColor = Colors.background;
+            }
+
+            // Title of page.
+            Title			= pageTitle;
 			var vid1		= new WebView();
 			vid1.Source		= vidURL;
 			Content			= vid1;

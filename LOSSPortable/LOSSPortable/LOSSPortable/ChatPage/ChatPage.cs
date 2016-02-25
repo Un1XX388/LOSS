@@ -8,6 +8,7 @@ namespace LOSSPortable
 
     public class ChatPage : ContentPage
     {
+
         private Button send;
         List<string> Messages = new List<string>();
         private Grid gridLayout;
@@ -16,10 +17,20 @@ namespace LOSSPortable
         String name;
         List<Message> msgs = new List<Message>(); //history of messaging
 
-
-
         public ChatPage(String inputname, List<Message> msgs)
         {
+
+
+            if (Helpers.Settings.ContrastSetting == true)
+            {
+                BackgroundColor = Colors.contrastBg;
+            }
+            else
+            {
+                BackgroundColor = Colors.background;
+
+            }
+
             this.msgs = msgs;
             name = inputname;
 

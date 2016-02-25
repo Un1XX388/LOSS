@@ -10,7 +10,6 @@ namespace LOSSPortable
     public class ChatSelection : ContentPage
     {
 
-
         private StackLayout stackLayout;
         private StackLayout outerLayout;
         List<ChatPage> Chats = new List<ChatPage>();
@@ -27,6 +26,17 @@ namespace LOSSPortable
 
         public ChatSelection()
         {
+
+            if (Helpers.Settings.ContrastSetting == true)
+            {
+                BackgroundColor = Colors.contrastBg;
+            }
+            else
+            {
+                BackgroundColor = Colors.background;
+
+            }
+
             Title = "Chat Selection";
             Icon = "Accounts.png";
 
