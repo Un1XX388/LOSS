@@ -72,7 +72,6 @@ namespace LOSSPortable.Droid
 			global::Plugin.TextToSpeech.Resource.String.ApplicationName = global::LOSSPortable.Droid.Resource.String.ApplicationName;
 			global::Plugin.TextToSpeech.Resource.String.Hello = global::LOSSPortable.Droid.Resource.String.Hello;
 			global::Splat.Resource.String.library_name = global::LOSSPortable.Droid.Resource.String.library_name;
-			global::Splat.Resource.String.library_name = global::LOSSPortable.Droid.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Resource.Animation.abc_fade_in = global::LOSSPortable.Droid.Resource.Animation.abc_fade_in;
 			global::Xamarin.Forms.Platform.Resource.Animation.abc_fade_out = global::LOSSPortable.Droid.Resource.Animation.abc_fade_out;
 			global::Xamarin.Forms.Platform.Resource.Animation.abc_grow_fade_in_from_bottom = global::LOSSPortable.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;
