@@ -22,10 +22,8 @@ namespace LOSSPortable
         //        List<Message> msgs = new List<Message>(); //history of messaging
         Conversation conv = new Conversation();
 
-
-        public ChatPage(String inputname, List<Message> msgs)
+        public ChatPage(String inputname, List<Message> msgs, string key)  //use the key to store
         {
-
 
             if (Helpers.Settings.ContrastSetting == true)
             {
@@ -37,11 +35,6 @@ namespace LOSSPortable
 
             }
 
-            this.msgs = msgs;
-
-
-        public ChatPage(String inputname, List<Message> msgs, string key)  //use the key to store
-        {
             this.Key = key;
             conv.msgs = msgs;
             name = inputname;

@@ -16,14 +16,14 @@ namespace LOSSPortable
     public class HomePage : ContentPage
     {
         Label label1 = new Label();
-
-        Quote QuoteOfDay = new Quote();
-
-        List<Quote> quotesList;
+        Label label2 = new Label();
+        Frame labelFrame;
+        CancellationTokenSource cts;
 
         public HomePage()
         {
-            if(Helpers.Settings.ContrastSetting == true)
+            //sets the background color based on settings
+            if (Helpers.Settings.ContrastSetting == true)
             {
                 BackgroundColor = Colors.contrastBg;
             }
@@ -32,20 +32,7 @@ namespace LOSSPortable
                 BackgroundColor = Colors.background;
             }
 
-            QuoteOfDay = new Quote();
-            label2.Text = "Loading...";
 
-            Content = new StackLayout
-
-        Label label2 = new Label();
-        Frame labelFrame;
-        CancellationTokenSource cts;
-
-        public HomePage()
-        {
-            
-            BackgroundColor = Color.White;
-            
             Title = "Home";
             label2.Text = "";
             label1.FontSize = 20;
@@ -61,15 +48,17 @@ namespace LOSSPortable
 
             };
 
-            labelFrame = new Frame {Content =  label1,
-                            OutlineColor = Color.FromHex("5A3A5C"),
-                            VerticalOptions = LayoutOptions.CenterAndExpand,
-                            HorizontalOptions = LayoutOptions.Center
-                        };
+            labelFrame = new Frame
+            {
+                Content = label1,
+                OutlineColor = Color.FromHex("5A3A5C"),
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                HorizontalOptions = LayoutOptions.Center
+            };
 
             Content = new StackLayout
             {
-                Style = (Style)Application.Current.Resources["key"],
+              //  Style = (Style)Application.Current.Resources["key"],
                 //Padding = new Thickness(30, Device.OnPlatform(20, 0, 0), 30, 30),
                 Children = {
                     new ContentView {
@@ -81,7 +70,8 @@ namespace LOSSPortable
             };
         }
 
-        async private Task getLocation(){
+        async private Task getLocation()
+        {
             try
             {
                 var locator = CrossGeolocator.Current;
@@ -89,7 +79,7 @@ namespace LOSSPortable
                 locator.PositionChanged += OnPositionChanged;
                 var position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
                 var latitude = position.Latitude.ToString();
-                var longtitude =position.Longitude.ToString();
+                var longtitude = position.Longitude.ToString();
                 label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
             }
             catch (Exception ex)
@@ -107,23 +97,24 @@ namespace LOSSPortable
             var longtitude = position.Longitude.ToString();
             label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
         }
-        
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
             cts = new CancellationTokenSource();
-            LoadQuotes().ContinueWith(task =>{
+            LoadQuotes().ContinueWith(task => {
                 Device.BeginInvokeOnMainThread(() =>
+                {
+                    try
                     {
-                        try {
-                            label1.Text = task.Result.Message;
-                            labelFrame.OutlineColor = Color.White;
-                        }
-                        catch (Exception e)
-                        {
+                        label1.Text = task.Result.Message;
+                        labelFrame.OutlineColor = Color.White;
+                    }
+                    catch (Exception e)
+                    {
 
-                        }
-                    });
+                    }
+                });
             });
         }
 
@@ -136,12 +127,6 @@ namespace LOSSPortable
             }
         }
 
-            int i = rnd.Next(quotesList.Count-1);
-            QuoteOfDay = quotesList[i];
-            System.Diagnostics.Debug.WriteLine(QuoteOfDay.ID, QuoteOfDay.inspirationalQuote);
-            label1.Text = String.Format(QuoteOfDay.inspirationalQuote);
-            label1.FontSize = Device.GetNamedSize(NamedSize.Large,label1);
-
 
         private Task<InspirationalQuote> LoadQuotes()
         {
@@ -151,11 +136,11 @@ namespace LOSSPortable
             return SearchBar.GetNextSetAsync();*/
             int num = rnd.Next(1, 5);
             return context.LoadAsync<InspirationalQuote>(num.ToString(), cts.Token);
-            
-         }
+
+        }
 
         static Random rnd = new Random();
-        
+
         /*private Task showQuoteOfDay()
         {
             //quotesList = await test.GetTaskQuoteAsync();
@@ -168,7 +153,6 @@ namespace LOSSPortable
             //label1.Text = String.Format(QuoteOfDay.inspirationalQuote);
             label1.Text = "hello world";
             label1.FontSize = 20;
->>>>>>> d412f255f8ccd6d53adc6f7b34d37bfc0665919e
             label1.Style = new Style(typeof(Label))
             {
                 BaseResourceKey = Device.Styles.SubtitleStyleKey,

@@ -29,15 +29,14 @@ namespace LOSSPortable
 
         public OptionsPage()
         {
-
-            if(Helpers.Settings.ContrastSetting == true)
+            //sets the background color based on settings
+            if (Helpers.Settings.ContrastSetting == true)
             {
                 BackgroundColor = Colors.contrastBg;
             }
             else
             {
                 BackgroundColor = Colors.background;
-
             }
 
 
@@ -443,13 +442,9 @@ namespace LOSSPortable
             this.Content = content;
         }
 
+        //================ Functions (actions) for Each Toggle Switch   =========================================
 
-        async void accountsPressed(object sender, EventArgs e)
-        {
-            var result = await DisplayActionSheet("Account Options", "Cancel", null, "Create Account", "Login", "Logout", "Switch Accounts");
-            event_label.Text = String.Format("Sync option chosen: {0}", result);
-        }
-
+        //default setting
         async void resetPressed(object sender, EventArgs e)
         {
             var result = await DisplayAlert("Reset application", "Reset app to default settings and delete any cached info?", "Yes", "No");
@@ -469,6 +464,7 @@ namespace LOSSPortable
             }
         }
 
+        //change background color - contrast
         void constrast_switcher_Toggled(object sender, ToggledEventArgs e)
         {
 
@@ -497,6 +493,7 @@ namespace LOSSPortable
 
         //}
 
+        //Anonymous mode on and off
         void anonymous_switcher_Toggled(object sender, ToggledEventArgs e)
         {
             event_label.Text = String.Format("Anonymity enabled? {0}", e.Value);
@@ -504,6 +501,7 @@ namespace LOSSPortable
 
         }
 
+        //Text-to-Speech Implementation
         void speech_switcher_Toggled(object sender, ToggledEventArgs e)
         {
             if (speech_switcher.IsToggled)
@@ -521,6 +519,7 @@ namespace LOSSPortable
             }
         }
 
+        //Notifications On-Off
         void push_switcher_Toggled(object sender, ToggledEventArgs e)
         {
             event_label.Text = String.Format("Notifications enabled? {0}", e.Value);
@@ -528,23 +527,19 @@ namespace LOSSPortable
 
         }
 
+        //===========================================================================================================================
+
         public void defaultSetting()
         {
-            contrast_switcher.IsToggled = false;
-            geolocation_switcher.IsToggled = true;
-            anonymous_switcher.IsToggled = false;
-            speech_switcher.IsToggled = false;
-            push_switcher.IsToggled = true;
+            Helpers.Settings.ContrastSetting = contrast_switcher.IsToggled = false;
+            Helpers.Settings.AnonymousSetting = anonymous_switcher.IsToggled = false;
+            Helpers.Settings.SpeechSetting = speech_switcher.IsToggled = false;
+            Helpers.Settings.PushSetting = push_switcher.IsToggled = true;
         }
 
-        public void  loadSettings()
-        {
-           // Helpers.Settings.EmailSetting;
-         //   Helpers.Settings.PasswordSetting;
-            //geolocation_switcher.IsToggled = Helpers.Settings.locationSetting;
-           // Result("location switch is"+geolocation_switcher.IsToggled);
-        }
+        //===========================================================================================================================
 
+        //Displays options such as Edit Profile, Change Password, Login with Another Account, and Create a new account when Manage Account is tapped.
         async void manageAccount()
         {
             var action = await DisplayActionSheet("Manage Account", "Cancel", null, "Edit Profile", "Change Password", 
@@ -582,6 +577,8 @@ namespace LOSSPortable
                     break;              
             }
         }
+
+        //====================================== Customized pop-up for changing password ==========================
 
         StackLayout customPopUp()
         {
@@ -669,6 +666,10 @@ namespace LOSSPortable
             return passwordPop;
 
         }
+
+        //===========================================================================================================================
+
+        // Closes Pop Up when Cancel button is pressed
         void CancelPopup()
         {
             _PopUpLayout.DismissPopup();
@@ -679,6 +680,13 @@ namespace LOSSPortable
             };
             this.Content = content;
         }
+
+        //===========================================================================================================================
+
+        //This function takes care of conditions:
+            //1. If old password and new password are same, it would prompt the user again with error message
+            //2. if new password and confirmation password are same, it would prompt the user again with error message
+           
 
         void closePopUp(ExtendedEntryCell oldPswd, ExtendedEntryCell newPswd, ExtendedEntryCell confirmPswd)
         {
@@ -764,7 +772,11 @@ namespace LOSSPortable
                 _PopUpLayout.ShowPopup(temp);
             }
         }
- 
+
+        //===========================================================================================================================
+        
+        //This function checks if Login or Logout is pressed and prompts user accordingly.
+
         public async void login_check()
         {
             if (loggedIn == false) //login is currently displayed. set loggedIn to true to display logout
@@ -819,11 +831,16 @@ namespace LOSSPortable
  
         }
 
+        //===========================================================================================================================
+        //temporary function
+
         void Result(string msg)
         {
             UserDialogs.Instance.Alert(msg);
         }
 
+        //===========================================================================================================================
+        //returns Login Label needed to be displayed
         String Login()
         {
             login_check();

@@ -11,6 +11,7 @@ namespace LOSSPortable
     {
         public ProfilePage()
         {
+            //sets the background color based on settings
             if (Helpers.Settings.ContrastSetting == true)
             {
                 BackgroundColor = Colors.contrastBg;
@@ -18,8 +19,8 @@ namespace LOSSPortable
             else
             {
                 BackgroundColor = Colors.background;
-
             }
+
 
             Title = "Profile Page";
             this.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);

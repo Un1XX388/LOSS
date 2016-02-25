@@ -22,6 +22,15 @@ namespace LOSSPortable
 
     public ReportMessage(Message msg)
         {
+
+            if (Helpers.Settings.ContrastSetting == true)
+            {
+                BackgroundColor = Colors.contrastBg;
+            }
+            else
+            {
+                BackgroundColor = Colors.background;
+            }
             Message ab = new Message();
             ab.setMessage("POSEIDON QUIVERS BEFORE ME");
             ab.setId("12345");

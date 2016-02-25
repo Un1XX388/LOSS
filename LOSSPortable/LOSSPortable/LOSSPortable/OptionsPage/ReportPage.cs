@@ -11,7 +11,7 @@ namespace LOSSPortable
     {
         public ReportPage()
         {
-
+            //sets the background color based on settings
             if (Helpers.Settings.ContrastSetting == true)
             {
                 BackgroundColor = Colors.contrastBg;
@@ -20,6 +20,7 @@ namespace LOSSPortable
             {
                 BackgroundColor = Colors.background;
             }
+
 
             Title = "Report A Problem";
             this.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);

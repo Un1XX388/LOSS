@@ -10,6 +10,8 @@ namespace LOSSPortable{
 
 		// Gets relavent info for each element in page and displays them.
 		public ResourcesPage(){
+
+            //sets the background color based on settings
             if (Helpers.Settings.ContrastSetting == true)
             {
                 BackgroundColor = Colors.contrastBg;
@@ -17,11 +19,11 @@ namespace LOSSPortable{
             else
             {
                 BackgroundColor = Colors.background;
-
             }
 
+
             // Holds data to be displayed on this content page.
-            resources				= new ObservableCollection<ResourceViewModel>();
+            resources = new ObservableCollection<ResourceViewModel>();
 			// View type for this content page.
 			ListView lstView		= new ListView();
 			// Set size (height) of each element displayed on this page.

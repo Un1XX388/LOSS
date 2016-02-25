@@ -10,8 +10,19 @@ namespace LOSSPortable{
 
 		// Gets info on each playlist and determines how it is displayed.
 		public VideoResources(){
-			// Holds data to be displayed on this content page.
-			playlist				= new ObservableCollection<ResourceViewModel>();
+
+            //sets the background color based on settings
+            if (Helpers.Settings.ContrastSetting == true)
+            {
+                BackgroundColor = Colors.contrastBg;
+            }
+            else
+            {
+                BackgroundColor = Colors.background;
+            }
+
+            // Holds data to be displayed on this content page.
+            playlist = new ObservableCollection<ResourceViewModel>();
 			// View type for this content page.
 			ListView lstView		= new ListView();
 			// Set size (height) of each element displayed on this page.

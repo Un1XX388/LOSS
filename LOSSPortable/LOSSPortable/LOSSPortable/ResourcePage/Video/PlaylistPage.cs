@@ -11,6 +11,7 @@ namespace LOSSPortable{
 		// Gets all relavent info for each video and determines how it should be displayed.
 		public PlaylistPage(){
 
+            //sets the background color based on settings
             if (Helpers.Settings.ContrastSetting == true)
             {
                 BackgroundColor = Colors.contrastBg;

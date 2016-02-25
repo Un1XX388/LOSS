@@ -29,6 +29,7 @@ namespace LOSSPortable{
 			}
 		}// End OnItemSelected() method.
 
+        //change navigation bar color based on contrast settings
         Color customNavBarColor()
         {
             if(Helpers.Settings.ContrastSetting == true)
