@@ -508,7 +508,7 @@ namespace LOSSPortable
             {
                 //var text = "Text to speech.";
                 event_label.Text = String.Format("Text to Speech? {0}", e.Value);
-                // CrossTextToSpeech.Current.Speak(event_label.Text);
+               // CrossTextToSpeech.Current.Speak(event_label.Text);
                 Helpers.Settings.SpeechSetting = e.Value;
 
             }
@@ -542,13 +542,15 @@ namespace LOSSPortable
         //Displays options such as Edit Profile, Change Password, Login with Another Account, and Create a new account when Manage Account is tapped.
         async void manageAccount()
         {
-            var action = await DisplayActionSheet("Manage Account", "Cancel", null, "Edit Profile", "Change Password", 
+            var action = await DisplayActionSheet("Manage Account", "Cancel", null, 
+                //"Edit Profile", 
+                "Change Password", 
                 "Login with Another Account", "Create a New Account");
             switch (action)
             {
-                case "Edit Profile":
-                    await Navigation.PushAsync(new ProfilePage());
-                    break;
+                //case "Edit Profile":
+                //    await Navigation.PushAsync(new ProfilePage());
+                //    break;
                 case "Change Password":
                     //var r = await UserDialogs.Instance.ConfirmAsync("", "Pick Title");
                     //var text = (r ? "Yes" : "No");
@@ -586,12 +588,13 @@ namespace LOSSPortable
 
             var oldPswd = new ExtendedEntryCell
             {
+                
                 Label = "Existing Password: ",
                 Placeholder = "Password",
                 IsPassword = true
                 // LabelColor = Color.Black,
             };
-
+            
             var newPswd = new ExtendedEntryCell
             {
                 Label = "New Password: ",
@@ -607,6 +610,7 @@ namespace LOSSPortable
                 IsPassword = true,
             };
 
+
             StackLayout passwordPop = new StackLayout
             {
                 Children = {
@@ -618,9 +622,11 @@ namespace LOSSPortable
                                     {
                                         oldPswd,
                                         newPswd,
-                                        confirmPswd
+                                        confirmPswd,
                                     }
+                                    
                                 }
+                                
                             },//end tableView
                             new StackLayout()
                             {
