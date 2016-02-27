@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Plugin.TextToSpeech;
 
 namespace LOSSPortable
 {
@@ -58,8 +59,24 @@ namespace LOSSPortable
        
 
             };
+
+            if(Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak(info.Text);
+            }
         }
 
         //functions would be outside of this
+        protected override bool OnBackButtonPressed()
+        {
+            // If you want to continue going back
+            base.OnBackButtonPressed();
+            CrossTextToSpeech.Dispose();
+            return false;
+
+            // If you want to stop the back button
+            return true;
+
+        }
     }
 }

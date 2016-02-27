@@ -496,8 +496,13 @@ namespace LOSSPortable
         //Anonymous mode on and off
         void anonymous_switcher_Toggled(object sender, ToggledEventArgs e)
         {
+
             event_label.Text = String.Format("Anonymity enabled? {0}", e.Value);
             Helpers.Settings.AnonymousSetting = e.Value;
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Anonymous Mode?" + e.Value);
+            }
 
         }
 
@@ -508,7 +513,7 @@ namespace LOSSPortable
             {
                 //var text = "Text to speech.";
                 event_label.Text = String.Format("Text to Speech? {0}", e.Value);
-               // CrossTextToSpeech.Current.Speak(event_label.Text);
+                CrossTextToSpeech.Current.Speak("Text to Speech Mode On");
                 Helpers.Settings.SpeechSetting = e.Value;
 
             }
@@ -524,6 +529,10 @@ namespace LOSSPortable
         {
             event_label.Text = String.Format("Notifications enabled? {0}", e.Value);
             Helpers.Settings.PushSetting = e.Value;
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Notification Mode" + e.Value);
+            }
 
         }
 
@@ -542,6 +551,10 @@ namespace LOSSPortable
         //Displays options such as Edit Profile, Change Password, Login with Another Account, and Create a new account when Manage Account is tapped.
         async void manageAccount()
         {
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Manage Account");
+            }
             var action = await DisplayActionSheet("Manage Account", "Cancel", null, 
                 //"Edit Profile", 
                 "Change Password", 

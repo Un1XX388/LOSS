@@ -21,6 +21,7 @@ namespace LOSSPortable{
                 BackgroundColor = Colors.background;
             }
 
+
             // Holds data to be displayed on this content page.
             playlist = new ObservableCollection<ResourceViewModel>();
 			// View type for this content page.
