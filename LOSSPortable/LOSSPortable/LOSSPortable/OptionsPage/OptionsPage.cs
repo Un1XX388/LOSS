@@ -563,7 +563,7 @@ namespace LOSSPortable
                         Message = "Enter Credentials"
                     });
                     var status = r.Ok ? "Success" : "Cancelled";
-                    this.Result($"Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
+                    this.Result("Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
                     event_label.Text = String.Format("Login With Another Account selected");
 
                     break;
@@ -573,7 +573,7 @@ namespace LOSSPortable
                         Message = "Create A New Account"
                     });
                     var created = p.Ok ? "Success" : "Cancelled";
-                    this.Result($"Login {created} - User Name: {p.LoginText} - Password: {p.Password}");
+                    this.Result("Login {created} - User Name: {p.LoginText} - Password: {p.Password}");
                 
                     event_label.Text = String.Format("Create a New Account selected");
                     break;              
