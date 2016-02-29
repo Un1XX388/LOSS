@@ -28,9 +28,10 @@ namespace LOSSPortable.Droid
             
             global::Xamarin.Forms.Forms.Init(this, bundle);
             UserDialogs.Init(this);
-            CrossTextToSpeech.Current.Init();
+           // CrossTextToSpeech.Current.Init();
 
             LoadApplication(new App());
+
         }
     }
 }

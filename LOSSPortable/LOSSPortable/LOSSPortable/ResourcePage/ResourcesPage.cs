@@ -1,6 +1,7 @@
 using System;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
+using Plugin.TextToSpeech;
 
 namespace LOSSPortable{
 	// This page displays 3 online resources, a link to the online resources page, 3 video resources, and a link to the video resource page.
@@ -92,8 +93,16 @@ namespace LOSSPortable{
 			}
 			// This deselects the item after it is selected.
 			((ListView)sender).SelectedItem = null;
-			// Determine what next page should be based on what element was chosen.
-			if( ((e.SelectedItem.ToString()).Split(','))[3].Equals("online") )
+
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                string text = ((e.SelectedItem.ToString()).Split(','))[1];
+                CrossTextToSpeech.Current.Speak(text);
+            }
+
+
+            // Determine what next page should be based on what element was chosen.
+            if ( ((e.SelectedItem.ToString()).Split(','))[3].Equals("online") )
 				Navigation.PushAsync(new OnlineResources());
 			else if( ((e.SelectedItem.ToString()).Split(','))[3].Equals("video") )
 				Navigation.PushAsync(new VideoResources());
