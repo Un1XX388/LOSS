@@ -139,40 +139,40 @@ namespace LOSSPortable
             //};
 
             //=============Anonymous Switch=====================================
-            Label anonymous_label = new Label
-            {
-                Text = "Anonymous Mode",
-                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
-                HorizontalOptions = LayoutOptions.Center
-            };
+            //Label anonymous_label = new Label
+            //{
+            //    Text = "Anonymous Mode",
+            //    FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
+            //    HorizontalOptions = LayoutOptions.Center
+            //};
 
-            anonymous_switcher = new Switch
-            {
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.CenterAndExpand,
-                IsToggled = Helpers.Settings.AnonymousSetting
+            //anonymous_switcher = new Switch
+            //{
+            //    HorizontalOptions = LayoutOptions.Center,
+            //    VerticalOptions = LayoutOptions.CenterAndExpand,
+            //    IsToggled = Helpers.Settings.AnonymousSetting
 
-            };
-            anonymous_switcher.Toggled += anonymous_switcher_Toggled;
+            //};
+            //anonymous_switcher.Toggled += anonymous_switcher_Toggled;
 
-            StackLayout anonymous_stack = new StackLayout
-            {
-                Children = { anonymous_label },
-                HorizontalOptions = LayoutOptions.Start
-            };
+            //StackLayout anonymous_stack = new StackLayout
+            //{
+            //    Children = { anonymous_label },
+            //    HorizontalOptions = LayoutOptions.Start
+            //};
 
-            StackLayout anonymous_switcher_stack = new StackLayout
-            {
-                Children = { anonymous_switcher },
-                HorizontalOptions = LayoutOptions.EndAndExpand
-            };
+            //StackLayout anonymous_switcher_stack = new StackLayout
+            //{
+            //    Children = { anonymous_switcher },
+            //    HorizontalOptions = LayoutOptions.EndAndExpand
+            //};
 
-            StackLayout row3_anonymous = new StackLayout
-            {
-                Children = { anonymous_stack, anonymous_switcher_stack },
-                Orientation = StackOrientation.Horizontal,
-                Padding = new Thickness(5, 5)
-            };
+            //StackLayout row3_anonymous = new StackLayout
+            //{
+            //    Children = { anonymous_stack, anonymous_switcher_stack },
+            //    Orientation = StackOrientation.Horizontal,
+            //    Padding = new Thickness(5, 5)
+            //};
 
 
             //=============Speech Switch=====================================
@@ -867,8 +867,6 @@ namespace LOSSPortable
             UserDialogs.Instance.Alert(msg);
         }
 
-<<<<<<< HEAD
-=======
         //===========================================================================================================================
         //returns Login Label needed to be displayed
         String Login()
@@ -882,7 +880,6 @@ namespace LOSSPortable
             ((RootPage)App.Current.MainPage).NavigateTo();
             return true;
         }
->>>>>>> 1c25b2906534bed115b4e7b3070a1b5a1ddc0201
     }
     
 }

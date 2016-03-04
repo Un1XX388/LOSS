@@ -179,12 +179,9 @@ namespace LOSSPortable
             /*List<ScanCondition> conditions = new List<ScanCondition>();
             var SearchBar = context.ScanAsync<InspirationalQuote>(conditions);
             return SearchBar.GetNextSetAsync();*/
-<<<<<<< HEAD
+
             int num = rnd.Next(1, 25);
-=======
             
-            int num = rnd.Next(1,25);
->>>>>>> 1c25b2906534bed115b4e7b3070a1b5a1ddc0201
             return context.LoadAsync<InspirationalQuote>(num.ToString(), cts.Token);
 
         }
