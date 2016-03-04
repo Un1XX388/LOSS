@@ -192,6 +192,12 @@ namespace LOSSPortable
         }
 
         //------------------------------------------------------------------------
+        protected override Boolean OnBackButtonPressed() // back button pressed
+        {
+            ((RootPage)App.Current.MainPage).NavigateTo();
+            
+            return true;
+        }
 
         protected async override void OnDisappearing() //leaving the page ->cache history
         {

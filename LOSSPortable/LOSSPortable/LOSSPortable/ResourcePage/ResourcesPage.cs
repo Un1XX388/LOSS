@@ -109,5 +109,11 @@ namespace LOSSPortable{
 			else
 				Navigation.PushAsync(new VideoPage( ((e.SelectedItem.ToString()).Split(','))[1], ((e.SelectedItem.ToString()).Split(','))[3] ));
 		}// End of Onselected() method.
-	}// End of ResourcesPage class.
+
+        protected override Boolean OnBackButtonPressed() // back button pressed
+        {
+            ((RootPage)App.Current.MainPage).NavigateTo();
+            return true;
+        }
+    }// End of ResourcesPage class.
 }// End of namespace LOSS.
