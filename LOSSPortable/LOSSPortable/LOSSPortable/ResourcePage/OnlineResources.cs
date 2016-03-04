@@ -22,14 +22,15 @@ namespace LOSSPortable{
             {
                 Source = new UrlWebViewSource
                 {
-                    Url = "http://blog.xamarin.com/",
+                    Url = "http://www.suicidology.org/Portals/14/docs/Survivors/Loss%20Survivors/25-Suggestions-For-Survivors.pdf",
                 },
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
 
             this.Content = webView;
+            CrossTextToSpeech.Current.Speak(Content.ToString());
 
-        }// End of OnlineResources() constructor.
+        }// End of OnlineResources() constructor.n
 
 
         //private async void starthttp()

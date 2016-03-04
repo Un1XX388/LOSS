@@ -59,7 +59,7 @@ namespace LOSSPortable
             Content = new StackLayout
             {
               //  Style = (Style)Application.Current.Resources["key"],
-                //Padding = new Thickness(30, Device.OnPlatform(20, 0, 0), 30, 30),
+                Padding = new Thickness(30, Device.OnPlatform(20, 0, 0), 30, 30),
                 Children = {
                     new ContentView {
                         Content = labelFrame
@@ -134,7 +134,7 @@ namespace LOSSPortable
             /*List<ScanCondition> conditions = new List<ScanCondition>();
             var SearchBar = context.ScanAsync<InspirationalQuote>(conditions);
             return SearchBar.GetNextSetAsync();*/
-            int num = rnd.Next(1, 5);
+            int num = rnd.Next(1, 25);
             return context.LoadAsync<InspirationalQuote>(num.ToString(), cts.Token);
 
         }

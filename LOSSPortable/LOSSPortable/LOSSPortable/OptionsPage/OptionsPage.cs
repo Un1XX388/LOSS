@@ -23,6 +23,7 @@ namespace LOSSPortable
         Switch push_switcher;
         Boolean loggedIn = false;
         Boolean result;
+        Label login;
         String logText = "Login";
         PopupLayout _PopUpLayout;
 
@@ -55,7 +56,7 @@ namespace LOSSPortable
             event_label = new Label
             {
                 Text = "Switch is now False",
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.CenterAndExpand
             };
@@ -71,7 +72,7 @@ namespace LOSSPortable
             Label contrast_label = new Label
             {
                 Text = "High Contrast",
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center
             };
 
@@ -141,7 +142,7 @@ namespace LOSSPortable
             Label anonymous_label = new Label
             {
                 Text = "Anonymous Mode",
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center
             };
 
@@ -178,7 +179,7 @@ namespace LOSSPortable
             Label speech_label = new Label
             {
                 Text = "Text-to-Speech",
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center
             };
 
@@ -215,7 +216,7 @@ namespace LOSSPortable
             Label push_label = new Label
             {
                 Text = "Notifications",
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center
             };
 
@@ -251,7 +252,7 @@ namespace LOSSPortable
             Button reset = new Button
             {
                 Text = "Reset to Default",
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Button)),
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Button)),
                 TextColor = Color.White,
                 WidthRequest = 150
             };
@@ -281,7 +282,7 @@ namespace LOSSPortable
             Label accountType = new Label
             {
                 Text = "Manage Account",
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center
             };
 
@@ -301,10 +302,10 @@ namespace LOSSPortable
             };
 
             //============================= Login ================================
-            Label login = new Label
+            login = new Label
             {
                 Text = logText,
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center
             };
 
@@ -314,7 +315,7 @@ namespace LOSSPortable
                 GestureRecognizers = {
                 new TapGestureRecognizer {
                         Command = new Command (
-                            ()=>login.Text = Login()),
+                            ()=>login_check()),
                 },
                 },
                 Orientation = StackOrientation.Horizontal,
@@ -334,7 +335,7 @@ namespace LOSSPortable
             Label reportLink = new Label
             {
                 Text = "Report A Problem",
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center
             };
 
@@ -363,7 +364,7 @@ namespace LOSSPortable
             Label aboutUs = new Label
             {
                 Text = "About Us",
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center
             };
 
@@ -398,7 +399,8 @@ namespace LOSSPortable
                     new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
                     new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
                     row1_contrast, //row2_geolocation,
-                    row3_anonymous, row4_speech, row5_push, row6_reset_sync,
+                  //  row3_anonymous,
+                    row4_speech, row5_push, row6_reset_sync,
                     //
                     new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
                     account,
@@ -494,17 +496,17 @@ namespace LOSSPortable
         //}
 
         //Anonymous mode on and off
-        void anonymous_switcher_Toggled(object sender, ToggledEventArgs e)
-        {
+        //void anonymous_switcher_Toggled(object sender, ToggledEventArgs e)
+        //{
 
-            event_label.Text = String.Format("Anonymity enabled? {0}", e.Value);
-            Helpers.Settings.AnonymousSetting = e.Value;
-            if (Helpers.Settings.SpeechSetting == true)
-            {
-                CrossTextToSpeech.Current.Speak("Anonymous Mode?" + e.Value);
-            }
+        //    event_label.Text = String.Format("Anonymity enabled? {0}", e.Value);
+        //    Helpers.Settings.AnonymousSetting = e.Value;
+        //    if (Helpers.Settings.SpeechSetting == true)
+        //    {
+        //        CrossTextToSpeech.Current.Speak("Anonymous Mode?" + e.Value);
+        //    }
 
-        }
+        //}
 
         //Text-to-Speech Implementation
         void speech_switcher_Toggled(object sender, ToggledEventArgs e)
@@ -800,6 +802,7 @@ namespace LOSSPortable
         {
             if (loggedIn == false) //login is currently displayed. set loggedIn to true to display logout
             {
+                System.Diagnostics.Debug.WriteLine("Login currently displayed - loggedIn" + loggedIn);
                 //entry pop up for login
                 var r = await UserDialogs.Instance.LoginAsync(new LoginConfig
                 {
@@ -817,33 +820,39 @@ namespace LOSSPortable
                     Helpers.Settings.EmailSetting = r.LoginText;
                     Helpers.Settings.PasswordSetting = r.Password;
                     loggedIn = true;
-                    logText = "Logout";
+                    login.Text = "Logout";
+                    System.Diagnostics.Debug.WriteLine("status is success then logout should be displayed - loggedIn" + loggedIn);
                     return;
                 }
                 else if (status == "Cancelled")
                 {
-                   // loggedIn = false;
-                    logText = "Login";
+                    // loggedIn = false;
+                    login.Text = "Login";
+                    System.Diagnostics.Debug.WriteLine("status is cancelled then login should be displayed - loggedIn" + loggedIn);
                     return;
                 }
             }
 
             else if (loggedIn == true)//if logout is displayed
             {
+                System.Diagnostics.Debug.WriteLine("Logout currently displayed - loggedIn" + loggedIn);
+
                 //pop up confirmation
                 result = await DisplayAlert("Log Out", "Are you sure?", "Yes", "No");
                 if (result == false)
                 {
-                   // loggedIn = true;
-                    logText = "Logout";
+                    // loggedIn = true;
+                    login.Text = "Logout";
                     event_label.Text = String.Format("Logout canceled");
+                    System.Diagnostics.Debug.WriteLine("User clicked on No, logout should still be displayed - loggedIn" + loggedIn);
                     return;
                 }
                 else
                 {
                     loggedIn = false;
-                    logText = "Login";
+                    login.Text = "Login";
                     event_label.Text = String.Format("Logged out");
+                    System.Diagnostics.Debug.WriteLine("User clicked on Yes, login should be displayed - loggedIn" + loggedIn);
                     return;
                 }
             }
@@ -856,15 +865,6 @@ namespace LOSSPortable
         void Result(string msg)
         {
             UserDialogs.Instance.Alert(msg);
-        }
-
-        //===========================================================================================================================
-        //returns Login Label needed to be displayed
-        String Login()
-        {
-            login_check();
-            return logText;
-
         }
 
     }

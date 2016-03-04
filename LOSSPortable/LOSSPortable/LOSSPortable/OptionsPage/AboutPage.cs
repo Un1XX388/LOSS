@@ -66,7 +66,15 @@ namespace LOSSPortable
             }
         }
 
-        //functions would be outside of this
+        //stop text to speech when navigation bar back button is pressed
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            CrossTextToSpeech.Dispose();
+
+        }
+
+        //stop text to speech when phone back button is pressed
         protected override bool OnBackButtonPressed()
         {
             // If you want to continue going back

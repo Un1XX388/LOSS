@@ -18,5 +18,6 @@ namespace LOSSPortable{
 		public override string ToString(){
 			return Image + ',' + Title + ',' + Description + ',' + Link;
 		}// End of ToString() method.
+
 	}// End of ResourceViewModel class.
 }// End of LOSS namespace.
