@@ -83,7 +83,7 @@ namespace LOSSPortable
                 //var lambdaConfig = new AmazonLambdaConfig { RegionEndpoint = Constants.COGNITO_REGION };
                 var lambdaClient = new AmazonLambdaClient(AmazonUtils.Credentials, Constants.COGNITO_REGION);
                 ChatMessage message = new ChatMessage { ToFrom = "Matthew#Isha", Time = "2016-02-29 11:27:13:22", Text = "Wow, this actually works!" };
-                var args = @"{""operation"":""create"",""tableName"":""Message"",""Payload"":{""Item"":{""To#From"":""William"",""Time"":""2016-03-04 13:18:22:47"",""Text"":""William phone is silly!""}}}";
+                var args = @"{""operation"":""create"",""tableName"":""Message"",""payload"":{""Item"":{""To#From"":""William"",""Time"":""2016-03-04 13:18:22:47"",""Text"":""William phone is silly!""}}}";
                 //var args = "";
                 //var context = AmazonUtils.DDBContext;
                 System.Diagnostics.Debug.WriteLine("args: " + args);
@@ -150,9 +150,10 @@ namespace LOSSPortable
                 {
                     try
                     {
-                        PushMessage();
                         label1.Text = task.Result.Message;
                         labelFrame.OutlineColor = Color.White;
+                        PushMessage();
+                     
                     }
                     catch (Exception e)
                     {
