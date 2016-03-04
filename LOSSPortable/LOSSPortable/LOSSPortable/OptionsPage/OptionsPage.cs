@@ -866,7 +866,11 @@ namespace LOSSPortable
             return logText;
 
         }
-
+        protected override Boolean OnBackButtonPressed() // back button pressed
+        {
+            ((RootPage)App.Current.MainPage).NavigateTo();
+            return true;
+        }
     }
     
 }
