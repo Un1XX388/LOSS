@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Amazon.Lambda;
 
 namespace LOSSPortable
 {
@@ -76,6 +77,26 @@ namespace LOSSPortable
                 if (_transferUtility == null)
                     _transferUtility = new TransferUtility(S3Client, _transferConfig);
                 return _transferUtility;
+            }
+        }
+
+        public static AmazonLambdaConfig _lambdaConfig = new AmazonLambdaConfig
+        {
+            RegionEndpoint = Constants.COGNITO_REGION,
+            ServiceURL = "https://qpmavhtjba.execute-api.us-east-1.amazonaws.com/prod/Test_Backend",
+            
+        };
+
+        
+        public static AmazonLambdaClient _lambdaClient;
+
+        public static AmazonLambdaClient LambdaClient
+        {//"AKIAIP5E5KYETNCXDSCA", "tRhWsuOFIND4DIbvijc4HD5QPjeuTr6h6f9kgUP"
+            get
+            {
+                if (_lambdaClient == null)
+                    _lambdaClient = new AmazonLambdaClient("AKIAIP5E5KYETNCXDSCA", "tRhWsuOFIND4DIbvijc4HD5QPjeuTr6h6f9kgUP", _lambdaConfig);
+                return _lambdaClient;
             }
         }
     }

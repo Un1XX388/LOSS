@@ -1,6 +1,8 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
 using System;
+using System.IO;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -10,6 +12,9 @@ using Plugin.Geolocator.Abstractions;
 using System.Threading.Tasks;
 using System.Threading;
 using Xamarin.Forms;
+using Amazon.Lambda;
+using Amazon.Lambda.Model;
+using Amazon.Util;
 
 namespace LOSSPortable
 {
@@ -32,7 +37,7 @@ namespace LOSSPortable
                 BackgroundColor = Colors.background;
             }
 
-
+            Debug.WriteLine("Hello world!");
             Title = "Home";
             label2.Text = "";
             label1.FontSize = 20;
@@ -68,6 +73,44 @@ namespace LOSSPortable
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.CenterAndExpand
             };
+        }
+
+        async private void PushMessage()
+        {
+            try
+            {
+
+                //var lambdaConfig = new AmazonLambdaConfig { RegionEndpoint = Constants.COGNITO_REGION };
+                var lambdaClient = new AmazonLambdaClient(AmazonUtils.Credentials, Constants.COGNITO_REGION);
+                ChatMessage message = new ChatMessage { ToFrom = "Matthew#Isha", Time = "2016-02-29 11:27:13:22", Text = "Wow, this actually works!" };
+                var args = @"{""operation"":""create"",""tableName"":""Message"",""Payload"":{""Item"":{""To#From"":""William"",""Time"":""2016-03-04 13:18:22:47"",""Text"":""William phone is silly!""}}}";
+                //var args = "";
+                //var context = AmazonUtils.DDBContext;
+                System.Diagnostics.Debug.WriteLine("args: " + args);
+
+                var ir = new InvokeRequest(){
+                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                    //Payload = args,
+                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                    InvocationType = InvocationType.RequestResponse
+                };
+                System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+
+
+                InvokeResponse resp = await lambdaClient.InvokeAsync(ir);
+                resp.Payload.Position = 0;
+                var sr = new StreamReader(resp.Payload);
+                var myStr = sr.ReadToEnd();
+
+                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+                //context.SaveAsync(message);
+                //AmazonLambdaRequest request = new AmazonLambdaRequest()
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Error:" + e);
+            }
         }
 
         async private Task getLocation()
@@ -107,6 +150,7 @@ namespace LOSSPortable
                 {
                     try
                     {
+                        PushMessage();
                         label1.Text = task.Result.Message;
                         labelFrame.OutlineColor = Color.White;
                     }
@@ -134,37 +178,16 @@ namespace LOSSPortable
             /*List<ScanCondition> conditions = new List<ScanCondition>();
             var SearchBar = context.ScanAsync<InspirationalQuote>(conditions);
             return SearchBar.GetNextSetAsync();*/
+<<<<<<< HEAD
             int num = rnd.Next(1, 25);
+=======
+            
+            int num = rnd.Next(1,25);
+>>>>>>> 1c25b2906534bed115b4e7b3070a1b5a1ddc0201
             return context.LoadAsync<InspirationalQuote>(num.ToString(), cts.Token);
 
         }
 
         static Random rnd = new Random();
-
-        /*private Task showQuoteOfDay()
-        {
-            //quotesList = await test.GetTaskQuoteAsync();
-          
-            //DisplayAlert("list size: ",""+ quotesList.Count,"OK");
-            
-            //int i = rnd.Next(quotesList.Count-1);
-            //QuoteOfDay = quotesList[i];
-            //System.Diagnostics.Debug.WriteLine(QuoteOfDay.ID, QuoteOfDay.inspirationalQuote);
-            //label1.Text = String.Format(QuoteOfDay.inspirationalQuote);
-            label1.Text = "hello world";
-            label1.FontSize = 20;
-            label1.Style = new Style(typeof(Label))
-            {
-                BaseResourceKey = Device.Styles.SubtitleStyleKey,
-                Setters = {
-                new Setter { Property = Label.TextColorProperty,Value = Color.White },
-                new Setter {Property = Label.FontAttributesProperty, Value = FontAttributes.Italic },
-                new Setter {Property = Label.FontFamilyProperty, Value = "Times New Roman" },
-
-                }
-
-            };
-        }*/
-
     }
 }

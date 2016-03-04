@@ -5052,8 +5052,8 @@ namespace LOSSPortable.Droid
 			// aapt resource value: 0x7f02006a
 			public const int mr_ic_settings_light = 2130837610;
 			
-			// aapt resource value: 0x7f02007c
-			public const int notification_template_icon_bg = 2130837628;
+			// aapt resource value: 0x7f02007d
+			public const int notification_template_icon_bg = 2130837629;
 			
 			// aapt resource value: 0x7f02006b
 			public const int online1 = 2130837611;
@@ -5086,25 +5086,28 @@ namespace LOSSPortable.Droid
 			public const int roundedbgdark = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int vid1 = 2130837621;
+			public const int survey = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int vid2 = 2130837622;
+			public const int vid1 = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int vid3 = 2130837623;
+			public const int vid2 = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int vid4 = 2130837624;
+			public const int vid3 = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int vid5 = 2130837625;
+			public const int vid4 = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int vid6 = 2130837626;
+			public const int vid5 = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int videoplay64 = 2130837627;
+			public const int vid6 = 2130837627;
+			
+			// aapt resource value: 0x7f02007c
+			public const int videoplay64 = 2130837628;
 			
 			static Drawable()
 			{

@@ -37,6 +37,12 @@ namespace LOSSPortable
 
             masterPageItems.Add(new MasterPageItem
             {
+                Title = "Survey",
+                IconSource = "survey.png",
+                TargetType = typeof(Survey)
+            });
+            masterPageItems.Add(new MasterPageItem
+            {
                 Title = "Options",
                 IconSource = "option.png",
                 TargetType = typeof(OptionsPage)

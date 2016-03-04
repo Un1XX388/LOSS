@@ -41,5 +41,11 @@ namespace LOSSPortable{
                 return Colors.barBackground;
             }
         }
-	}// End of RootPage class.
+        public void NavigateTo()
+        {
+            this.Detail = new NavigationPage(new HomePage()) { BarBackgroundColor = customNavBarColor() };
+            this.Title = "Home";
+        }
+
+    }// End of RootPage class.
 }// End of LOSSPortable namespace.

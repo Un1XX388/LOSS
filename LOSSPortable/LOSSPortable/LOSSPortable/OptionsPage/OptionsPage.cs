@@ -867,6 +867,22 @@ namespace LOSSPortable
             UserDialogs.Instance.Alert(msg);
         }
 
+<<<<<<< HEAD
+=======
+        //===========================================================================================================================
+        //returns Login Label needed to be displayed
+        String Login()
+        {
+            login_check();
+            return logText;
+
+        }
+        protected override Boolean OnBackButtonPressed() // back button pressed
+        {
+            ((RootPage)App.Current.MainPage).NavigateTo();
+            return true;
+        }
+>>>>>>> 1c25b2906534bed115b4e7b3070a1b5a1ddc0201
     }
     
 }
