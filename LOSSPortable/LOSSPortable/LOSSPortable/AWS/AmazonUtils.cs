@@ -79,14 +79,6 @@ namespace LOSSPortable
                 return _transferUtility;
             }
         }
-
-        public static AmazonLambdaConfig _lambdaConfig = new AmazonLambdaConfig
-        {
-            RegionEndpoint = Constants.COGNITO_REGION,
-            ServiceURL = "https://qpmavhtjba.execute-api.us-east-1.amazonaws.com/prod/Test_Backend",
-            
-        };
-
         
         public static AmazonLambdaClient _lambdaClient;
 
@@ -95,7 +87,7 @@ namespace LOSSPortable
             get
             {
                 if (_lambdaClient == null)
-                    _lambdaClient = new AmazonLambdaClient("AKIAIP5E5KYETNCXDSCA", "tRhWsuOFIND4DIbvijc4HD5QPjeuTr6h6f9kgUP", _lambdaConfig);
+                    _lambdaClient = new AmazonLambdaClient(Credentials, Amazon.RegionEndpoint.USEast1);
                 return _lambdaClient;
             }
         }
