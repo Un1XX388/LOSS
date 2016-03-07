@@ -8,7 +8,7 @@ namespace LOSSPortable
     [DynamoDBTable("Message")]
     public class ChatMessage
     {
-        [DynamoDBHashKey("To#From")]
+        [DynamoDBHashKey("ToFrom")]
         public string ToFrom { get; set; }
 
         [DynamoDBRangeKey("Time")]
@@ -16,10 +16,5 @@ namespace LOSSPortable
 
         [DynamoDBProperty("Text")]
         public string Text { get; set; }
-
-        public override string ToString()
-        {
-            return "To#From:" + ToFrom + ",\nTime:" + Time + ",\nText:" + Text;
-        }
     }
 }

@@ -80,7 +80,7 @@ namespace LOSSPortable
             }
         }
         
-        public static AmazonLambdaClient _lambdaClient;
+        private static AmazonLambdaClient _lambdaClient;
 
         public static AmazonLambdaClient LambdaClient
         {//"AKIAIP5E5KYETNCXDSCA", "tRhWsuOFIND4DIbvijc4HD5QPjeuTr6h6f9kgUP"
