@@ -5,6 +5,12 @@ namespace LOSSPortable
 {
     public class App : Application
     {
+		// Holds screen width.
+		public static int ScreenWidth;
+		// Holds screen height.
+//		public static int ScreenHeight;
+
+
         public App()
         {
             // The root page of your application

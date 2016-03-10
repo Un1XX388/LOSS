@@ -46,39 +46,39 @@ namespace LOSSPortable{
 				// Video links from youtube playlists may not be used.
 			vids.Add(new ResourceViewModel{
 				Image				= "vid1.jpg",
-				Title				= "Mark Ronson - Uptown Funk ft. Bruno Mars",
-				Description			= "Mark Ronson's official music video for 'Uptown Funk' ft. Bruno Mars.",
-				Link				= "https://youtu.be/OPf0YbXqDm0"
+				Title				= "WTF Is... - Darkest Dungeon ?",
+				Description			= "TotalBiscuit takes a look at the recently released turn-based dungeon crawler from...",
+				Link				= "https://www.youtube.com/embed/J-spazTn-4U"
 			});
 			vids.Add(new ResourceViewModel{
 				Image				= "vid2.jpg",
 				Title				= "Mark Ronson - Feel Right ft. Mystikal",
 				Description			= "Mark Ronson – Feel right Ft. Mystikal",
-				Link				= "https://youtu.be/ognnZ3r2qyQ"
+				Link				= "https://www.youtube.com/embed/ognnZ3r2qyQ"
 			});
 			vids.Add(new ResourceViewModel{
 				Image				= "vid3.jpg",
 				Title				= "Mark Ronson - Daffodils (Audio) ft. Kevin Parker",
 				Description			= "You can vote Uptown Funk as British Artist Video Of The Year by tweeting using #BRITMarkRonson",
-				Link				= "https://youtu.be/-OWkLF2HLp0"
+				Link				= "https://www.youtube.com/embed/-OWkLF2HLp0"
 			});
 			vids.Add(new ResourceViewModel{
 				Image				= "vid4.jpg",
 				Title				= "Mark Ronson - Feel Right (Lyric Video) ft. Mystikal",
 				Description			= "You can vote Uptown Funk as British Artist Video Of The Year by tweeting using #BRITMarkRonson",
-				Link				= "https://youtu.be/gb73FC6I_0U"
+				Link				= "https://www.youtube.com/embed/gb73FC6I_0U"
 			});
 			vids.Add(new ResourceViewModel{
 				Image				= "vid5.jpg",
 				Title				= "Mark Ronson - Uptown Funk (Live on SNL) ft. Bruno Mars",
 				Description			= "You can vote Uptown Funk as British Artist Video Of The Year by tweeting using #BRITMarkRonson",
-				Link				= "https://youtu.be/GbGX1Sx0gvo"
+				Link				= "https://www.youtube.com/embed/GbGX1Sx0gvo"
 			});
 			vids.Add(new ResourceViewModel{
 				Image				= "vid6.jpg",
 				Title				= "Mark Ronson - Feel Right (Live on SNL) ft. Mystikal",
 				Description			= "You can vote Uptown Funk as British Artist Video Of The Year by tweeting using #BRITMarkRonson",
-				Link				= "https://youtu.be/b0kl0pr0k24"
+				Link				= "https://www.youtube.com/embed/b0kl0pr0k24"
 			});
 
 			// Accomodate iPhone status bar.

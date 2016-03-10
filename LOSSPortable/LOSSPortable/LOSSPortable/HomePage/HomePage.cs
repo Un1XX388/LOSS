@@ -11,6 +11,7 @@ using Xamarin.Forms;
 using Amazon.Lambda;
 using Amazon.Lambda.Model;
 using Amazon.Util;
+using Newtonsoft.Json;
 
 namespace LOSSPortable
 {
@@ -71,37 +72,29 @@ namespace LOSSPortable
             };
         }
 
-        async private void PushMessage()
+        async private void PushMessage(string toFrom, string text)
         {
             try
             {
-
-                //var lambdaConfig = new AmazonLambdaConfig { RegionEndpoint = Constants.COGNITO_REGION };
-                var lambdaClient = new AmazonLambdaClient(AmazonUtils.Credentials, Constants.COGNITO_REGION);
-                ChatMessage message = new ChatMessage { ToFrom = "Matthew#Isha", Time = "2016-02-29 11:27:13:22", Text = "Wow, this actually works!" };
-                var args = @"{""operation"":""create"",""tableName"":""Message"",""payload"":{""Item"":{""To#From"":""William"",""Time"":""2016-03-04 13:18:22:47"",""Text"":""William phone is silly!""}}}";
-                //var args = "";
-                //var context = AmazonUtils.DDBContext;
-                System.Diagnostics.Debug.WriteLine("args: " + args);
-
+                MessageItem message = new MessageItem{Item = new ChatMessage { ToFrom = toFrom, Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ff"), Text = text}};
+                MessageJson messageJson = new MessageJson { operation = "create", tableName = "Message", payload = message };
+                string args = JsonConvert.SerializeObject(messageJson);
+                //System.Diagnostics.Debug.WriteLine(args);
                 var ir = new InvokeRequest(){
                     FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
-                    //Payload = args,
                     PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
                     InvocationType = InvocationType.RequestResponse
                 };
-                System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
 
 
-                InvokeResponse resp = await lambdaClient.InvokeAsync(ir);
+                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
                 resp.Payload.Position = 0;
                 var sr = new StreamReader(resp.Payload);
                 var myStr = sr.ReadToEnd();
 
-                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
-                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
-                //context.SaveAsync(message);
-                //AmazonLambdaRequest request = new AmazonLambdaRequest()
+//                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+//                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
             }
             catch (Exception e)
             {
@@ -148,7 +141,8 @@ namespace LOSSPortable
                     {
                         label1.Text = task.Result.Message;
                         labelFrame.OutlineColor = Color.White;
-                        PushMessage();
+                        //first parameter is the toFrom field, second is the Text field.
+                        PushMessage("tester" + rnd.Next().ToString(), "testing string, please ignore!");
                      
                     }
                     catch (Exception e)

@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="AWS\AmazonUtils.cs" />
+    <Compile Include="AWS\MessageJson.cs" />
     <Compile Include="ChatPage\Conversation.cs" />
     <Compile Include="ChatPage\Conversations.cs" />
     <Compile Include="ChatPage\ReportMessage.cs" />
