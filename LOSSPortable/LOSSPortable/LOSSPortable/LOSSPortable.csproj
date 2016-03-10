@@ -49,6 +49,7 @@
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="HomePage\Location.cs" />
     <Compile Include="OptionsPage\AboutPage.cs" />
+    <Compile Include="OptionsPage\ReportProblem.cs" />
     <Compile Include="OptionsPage\OptionsPage.cs" />
     <Compile Include="HomePage\HomePage.cs" />
     <Compile Include="MasterPage\MasterPage.cs" />

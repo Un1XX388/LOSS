@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Acr.UserDialogs;
 using XLabs.Forms.Controls;
@@ -17,16 +11,14 @@ namespace LOSSPortable
         StackLayout mainContent;
         Label event_label;
         Switch contrast_switcher;
-        Switch geolocation_switcher;
-        Switch anonymous_switcher;
+   //     Switch geolocation_switcher;
+//        Switch anonymous_switcher;
         Switch speech_switcher;
         Switch push_switcher;
         Boolean loggedIn = false;
-        Boolean result;
         Label login;
         String logText = "Login";
         PopupLayout _PopUpLayout;
-
 
         public OptionsPage()
         {
@@ -263,7 +255,7 @@ namespace LOSSPortable
                 Children = { reset },
                 Orientation = StackOrientation.Horizontal,
                 HorizontalOptions = LayoutOptions.EndAndExpand,
-                Spacing = 10
+                Spacing = 5
             };
 
 
@@ -384,12 +376,6 @@ namespace LOSSPortable
 
 
             //========== Page Content where everything needs to be inserted=============================================
-            //if (count == 2)
-            //{
-            //    alternate = row8_login;
-            //}
-
-          //  Result("location on options page is"+geolocation_switcher.IsToggled);
 
             mainContent = new StackLayout
             {
@@ -456,7 +442,7 @@ namespace LOSSPortable
                 event_label.Text = String.Format("Settings have been reset");
                 contrast_switcher.IsToggled = Helpers.Settings.ContrastSetting = false;
                // geolocation_switcher.IsToggled = Helpers.Settings.AnonymousSetting = true;
-                anonymous_switcher.IsToggled = Helpers.Settings.AnonymousSetting = false;
+          //      anonymous_switcher.IsToggled = Helpers.Settings.AnonymousSetting = false;
                 speech_switcher.IsToggled = Helpers.Settings.SpeechSetting = false;
                 push_switcher.IsToggled = Helpers.Settings.PushSetting = true;
             }
@@ -543,7 +529,7 @@ namespace LOSSPortable
         public void defaultSetting()
         {
             Helpers.Settings.ContrastSetting = contrast_switcher.IsToggled = false;
-            Helpers.Settings.AnonymousSetting = anonymous_switcher.IsToggled = false;
+         //   Helpers.Settings.AnonymousSetting = anonymous_switcher.IsToggled = false;
             Helpers.Settings.SpeechSetting = speech_switcher.IsToggled = false;
             Helpers.Settings.PushSetting = push_switcher.IsToggled = true;
         }
@@ -578,7 +564,7 @@ namespace LOSSPortable
                         Message = "Enter Credentials"
                     });
                     var status = r.Ok ? "Success" : "Cancelled";
-                    this.Result("Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
+                //    this.Result("Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
                     event_label.Text = String.Format("Login With Another Account selected");
 
                     break;
@@ -588,7 +574,7 @@ namespace LOSSPortable
                         Message = "Create A New Account"
                     });
                     var created = p.Ok ? "Success" : "Cancelled";
-                    this.Result("Login {created} - User Name: {p.LoginText} - Password: {p.Password}");
+                 //   this.Result("Login {created} - User Name: {p.LoginText} - Password: {p.Password}");
                 
                     event_label.Text = String.Format("Create a New Account selected");
                     break;              
@@ -838,7 +824,7 @@ namespace LOSSPortable
                 System.Diagnostics.Debug.WriteLine("Logout currently displayed - loggedIn" + loggedIn);
 
                 //pop up confirmation
-                result = await DisplayAlert("Log Out", "Are you sure?", "Yes", "No");
+                var result = await DisplayAlert("Log Out", "Are you sure?", "Yes", "No");
                 if (result == false)
                 {
                     // loggedIn = true;
@@ -858,7 +844,7 @@ namespace LOSSPortable
             }
  
         }
-
+ 
         //===========================================================================================================================
         //temporary function
 
@@ -867,14 +853,8 @@ namespace LOSSPortable
             UserDialogs.Instance.Alert(msg);
         }
 
-        //===========================================================================================================================
-        //returns Login Label needed to be displayed
-        String Login()
-        {
-            login_check();
-            return logText;
+        //==================================================== Back Button Pressed ==============================================================
 
-        }
         protected override Boolean OnBackButtonPressed() // back button pressed
         {
             ((RootPage)App.Current.MainPage).NavigateTo();
