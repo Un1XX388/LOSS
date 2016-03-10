@@ -14,11 +14,6 @@ namespace LOSSPortable
 {
     public class ReportMessage : ContentPage
     {
-        
-
-
-
-
 
     public ReportMessage(Message msg)
         {
