@@ -92,8 +92,10 @@ namespace LOSSPortable{
 			}
 			// This deselects the item after it is selected.
 			((ListView)sender).SelectedItem = null;
+			VideoPage temp = new VideoPage( ((e.SelectedItem.ToString()).Split(','))[1], ((e.SelectedItem.ToString()).Split(','))[3] );
+			NavigationPage.SetHasNavigationBar(temp, false);
 			// Show the selected video to the user.
-			Navigation.PushAsync(new VideoPage( ((e.SelectedItem.ToString()).Split(','))[1], ((e.SelectedItem.ToString()).Split(','))[3] ));
+			Navigation.PushAsync(temp);
 		}// End of Onselected() method.
 	}// End of PlaylistPage class.
 }// End of namespace LOSS.

@@ -5,10 +5,8 @@ namespace LOSSPortable
 {
     public class App : Application
     {
-		// Holds screen width.
-		public static int ScreenWidth;
-		// Holds screen height.
-//		public static int ScreenHeight;
+		//
+		public Boolean HardwareAccelerated { get; set; }
 
 
         public App()
@@ -28,6 +26,7 @@ namespace LOSSPortable
             //Application.Current.Resources.Add("key", stackLayoutStyle);
 //            loadSettings();
             MainPage = new LOSSPortable.RootPage();
+			HardwareAccelerated	= true;
         }
 
         protected override void OnStart()

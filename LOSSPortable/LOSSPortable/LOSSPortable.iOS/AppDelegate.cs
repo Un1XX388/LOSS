@@ -25,10 +25,6 @@ namespace LOSSPortable.iOS
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
-			// Keep track of decive res.
-			App.ScreenWidth = (int)UIScreen.MainScreen.Bounds.Width;
-//			App.ScreenHeight = (int)UIScreen.MainScreen.Bounds.Height;
-
             return base.FinishedLaunching(app, options);
         }
     }

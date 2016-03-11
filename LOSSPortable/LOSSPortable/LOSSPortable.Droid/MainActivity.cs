@@ -31,13 +31,6 @@ namespace LOSSPortable.Droid
            // CrossTextToSpeech.Current.Init();
 
             LoadApplication(new App());
-
-			// Real number of pixels.
-//			App.ScreenWidth = (int)Resources.DisplayMetrics.WidthPixels;
-//			App.ScreenHeight = (int)Resources.DisplayMetrics.HeightPixels;
-			// Device indepenet pixel count.
-			App.ScreenWidth = (int)(Resources.DisplayMetrics.WidthPixels / Resources.DisplayMetrics.Density);
-//			App.ScreenHeight = (int)(Resources.DisplayMetrics.HeightPixels / Resources.DisplayMetrics.Density);
         }
     }
 }
