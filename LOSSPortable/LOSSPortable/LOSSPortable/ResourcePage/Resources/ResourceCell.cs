@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
 
+
 namespace LOSSPortable{
 		public class ResourceCell : ViewCell{
 			public ResourceCell(){
