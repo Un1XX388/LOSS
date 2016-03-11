@@ -55,21 +55,136 @@ namespace LOSSPortable
                 Content = label1,
                 OutlineColor = Color.FromHex("5A3A5C"),
                 VerticalOptions = LayoutOptions.CenterAndExpand,
-                HorizontalOptions = LayoutOptions.Center
+                HorizontalOptions = LayoutOptions.Center,
             };
 
-            Content = new StackLayout
+
+            var logo = new Image { Aspect = Aspect.AspectFit };
+            logo.Source = Device.OnPlatform(
+            iOS: ImageSource.FromFile("App6.png"),
+            Android: ImageSource.FromFile("logo2.png"),
+            WinPhone: ImageSource.FromFile("App6.png"));
+            logo.VerticalOptions = LayoutOptions.StartAndExpand;
+            logo.HeightRequest = 200;
+
+            var SOS_link = new Button
             {
-              //  Style = (Style)Application.Current.Resources["key"],
+                Text = "Survivors of Suicide Handbook",
+                TextColor = Color.White,
+                HorizontalOptions = LayoutOptions.StartAndExpand,
+                BackgroundColor = Color.Transparent,
+                HeightRequest = 40
+            };
+            SOS_link.Clicked += SOSLinkPressed;
+
+            var sg_link = new Button
+            {
+                Text = "Support Groups",
+                TextColor = Color.White,
+                HorizontalOptions = LayoutOptions.StartAndExpand,
+                BackgroundColor = Color.Transparent,
+                HeightRequest = 40
+            };
+            sg_link.Clicked += sgLinkPressed;
+
+            //var SOS_link = new StackLayout
+            //{
+            //    Children = { new Label {
+                
+            //        Text = "Survivors of Suicide Handbook",
+            //        TextColor = Color.White,
+            //        HorizontalOptions = LayoutOptions.StartAndExpand,
+            //        BackgroundColor = Color.Transparent,
+            //        FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
+            //        }
+            //    },
+            //    GestureRecognizers = {
+
+            //    new TapGestureRecognizer {
+            //       //     Command = new Command (()=>System.Diagnostics.Debug.WriteLine ("clicked")),
+            //            Command = new Command (()=> SOSLinkPressed()),
+            //    },
+            //    },
+            //    Orientation = StackOrientation.Horizontal,
+            //    Padding = new Thickness(5, 5)
+
+            //};
+
+            //StackLayout sg_link = new StackLayout
+            //{
+            //    Children = {
+            //        new Label
+            //        {
+            //             Text = "Support Groups",
+            //             TextColor = Color.White,
+            //             HorizontalOptions = LayoutOptions.StartAndExpand,
+            //             BackgroundColor = Color.Transparent,
+            //             FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
+            //        }
+            //    },
+            //    GestureRecognizers = {
+
+            //    new TapGestureRecognizer {
+            //       //     Command = new Command (()=>System.Diagnostics.Debug.WriteLine ("clicked")),
+            //            Command = new Command (()=>sgLinkPressed()),
+            //    },
+            //    },
+            //    Orientation = StackOrientation.Horizontal,
+            //    Padding = new Thickness(5, 5)
+            //};
+
+            StackLayout links = new StackLayout
+            {
+                Padding = new Thickness(0, Device.OnPlatform(30, 0, 0), 0, 0),
+                Children = {
+                              new BoxView() { Color = Color.Transparent, HeightRequest = 4  },
+                                 new Label { Text = "Helpful Resources", TextColor = Color.White, FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))},
+                                 new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
+                                 new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                                 SOS_link,
+                                 new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
+                                 new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                                 sg_link,
+
+                            },
+                VerticalOptions = LayoutOptions.EndAndExpand
+            };
+
+            var mainContent = new StackLayout
+            {
+                //  Style = (Style)Application.Current.Resources["key"],
                 Padding = new Thickness(30, Device.OnPlatform(20, 0, 0), 30, 30),
                 Children = {
+                    logo,
                     new ContentView {
                         Content = labelFrame
-                    }
+                    },
+                    links
                 },
-                VerticalOptions = LayoutOptions.CenterAndExpand,
-                HorizontalOptions = LayoutOptions.CenterAndExpand
+                //  VerticalOptions = LayoutOptions.CenterAndExpand,
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
             };
+            ScrollView content = new ScrollView
+            {
+                Content = mainContent,
+                Orientation = ScrollOrientation.Vertical
+            };
+            this.Content = content;
+
+            //Content = new StackLayout
+            //{
+            //    //  Style = (Style)Application.Current.Resources["key"],
+            //    Padding = new Thickness(30, Device.OnPlatform(20, 0, 0), 30, 30),
+            //    Children = {
+            //        logo,
+            //        new ContentView {
+            //            Content = labelFrame
+            //        }
+            //    },
+            //    //  VerticalOptions = LayoutOptions.CenterAndExpand,
+            //    HorizontalOptions = LayoutOptions.CenterAndExpand,
+            //};
+
         }
 
         async private void PushMessage(string toFrom, string text)
@@ -177,5 +292,47 @@ namespace LOSSPortable
         }
 
         static Random rnd = new Random();
+
+        void SOSLinkPressed(object sender, EventArgs e)
+        {
+            WebView webView = new WebView
+            {
+                Source = new UrlWebViewSource
+                {
+                    Url = "http://www.suicidology.org/Portals/14/docs/Survivors/Loss%20Survivors/SOS_handbook.pdf"
+
+                },
+                VerticalOptions = LayoutOptions.FillAndExpand
+            };
+
+            Navigation.PushAsync(new ContentPage()
+            {
+                Content = webView
+
+            });
+        }
+
+
+        void sgLinkPressed(object sender, EventArgs e)
+        {
+
+
+            WebView webView = new WebView
+            {
+                Source = new UrlWebViewSource
+                {
+                    Url = "http://afsp.org/find-support/ive-lost-someone/find-a-support-group/",
+                },
+                VerticalOptions = LayoutOptions.FillAndExpand
+            };
+
+            Navigation.PushAsync(new ContentPage()
+            {
+                Content = webView
+
+            });
+
+        }
     }
+
 }
