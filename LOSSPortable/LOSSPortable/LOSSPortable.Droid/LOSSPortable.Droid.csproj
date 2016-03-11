@@ -249,6 +249,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AndroidUtils.cs" />
+    <Compile Include="GCMBootReceiver.cs" />
+    <Compile Include="GCMIntentService.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainApplication.cs" />

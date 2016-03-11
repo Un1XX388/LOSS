@@ -3,12 +3,10 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.S3;
 using Amazon.S3.Transfer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Amazon.Lambda;
+using Amazon.SimpleNotificationService;
+using Amazon.SimpleNotificationService.Model;
 
 namespace LOSSPortable
 {
@@ -87,9 +85,54 @@ namespace LOSSPortable
             get
             {
                 if (_lambdaClient == null)
-                    _lambdaClient = new AmazonLambdaClient(Credentials, Amazon.RegionEndpoint.USEast1);
+                    _lambdaClient = new AmazonLambdaClient(Credentials, Constants.COGNITO_REGION);
                 return _lambdaClient;
             }
+        }
+
+
+        public enum Platform
+        {
+            Android,
+            IOS
+        }
+
+        
+        
+        private static IAmazonSimpleNotificationService _snsClient;
+
+        private static IAmazonSimpleNotificationService SNSClient
+        {
+            get
+            {
+                if (_snsClient == null)
+                    _snsClient = new AmazonSimpleNotificationServiceClient(Credentials, Constants.COGNITO_REGION);
+                return _snsClient;
+            }
+        }
+
+        public static async Task RegisterDevice(Platform platform, string registrationID)
+        {
+            var arn = string.Empty;
+            string _endpointArn = string.Empty;
+            switch (platform)
+            {
+                case Platform.Android:
+                    arn = Constants.AndroidPlatformApplicationArn;
+                    break;
+                case Platform.IOS:
+                    arn = Constants.iOSPlatformApplicationArn;
+                    break;
+            }
+
+            var response = await SNSClient.CreatePlatformEndpointAsync(new CreatePlatformEndpointRequest
+                {
+                    Token = registrationID,
+                    PlatformApplicationArn = arn
+                }
+            );
+
+            _endpointArn = response.EndpointArn;
         }
     }
 }
