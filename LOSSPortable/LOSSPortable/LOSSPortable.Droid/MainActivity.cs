@@ -15,7 +15,7 @@ namespace LOSSPortable.Droid
 {
     [Activity(
         Label = "Loss App", 
-        Icon = "@drawable/icon", 
+        Icon = "@drawable/App6", 
         MainLauncher = true, 
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
         Theme = "@style/DefaultTheme"

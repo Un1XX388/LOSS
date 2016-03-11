@@ -2,29 +2,30 @@
 using Xamarin.Forms;
 using System.Collections.Generic;
 
-namespace LOSSPortable{
-	public class VideoPage : ContentPage{
-		public VideoPage(string pageTitle, string vidURL){
-			// Hide the navigation bar.
-//			NavigationPage.SetHasNavigationBar(this, false);
-//			NavigationController.SetNavigationBarHidden(true, true);
-//			SupportActionBar.Hide();
-//			ActionBar.Hide();
-			// Hide the Nav bar.
-//			UIApplication.SharedApplication.SetStatusBarHidden(true, true);
 
+//
+namespace LOSSPortable{
+	//
+	public class VideoPage : ContentPage{
+		// Holds the layout for this page.
+		public WebView vid		= new WebView();
+		// Holds the url of the video for this page.
+		public string url;
+
+		// 
+		public VideoPage(string pageTitle, string vidURL){
 			// Title of page.
 			Title					= pageTitle;
-			// Create web view content page.
-			var vid					= new WebView();
+			// Set url for this page.
+			url						= vidURL;
 			// Create variable for holding page as a html string.
 			var htmlSource			= new HtmlWebViewSource();
 			// Compile html string for page.
-			htmlSource.Html			= @create_html("5a3c5c", vidURL);
+			htmlSource.Html			= @create_html("5a3c5c", url);
 			// Set the source for this page (the page as a html stirng).
 			vid.Source				= htmlSource;
 			// Set the created html string to be the content of the page.
-			Content = vid;
+			Content					= vid;
 		}// End of VideoPage() constructor.
 
 		// Creates HTML page.
@@ -78,5 +79,10 @@ namespace LOSSPortable{
 			// Cat each element of html page into one string and return.
 			return String.Join("", html_string);
 		}// End of create_html() method.
+
+		// 
+		protected override void OnDisappearing(){
+			vid.Source				= "";
+		}// End of OnDisappearing() method.
 	}// End of VideoPage class.
 }// End of LOSSPortable namespace.

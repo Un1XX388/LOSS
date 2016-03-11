@@ -82,7 +82,7 @@ namespace LOSSPortable{
 			});
  
 			// Accomodate iPhone status bar.
-			this.Padding				= new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
+			Padding					= new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
 		}// End of ResourcesPage() constructor.
 
 		// Determines what happens when an element from the list is chosen by the user.
@@ -94,7 +94,7 @@ namespace LOSSPortable{
 			((ListView)sender).SelectedItem	= null;
 
 			if (Helpers.Settings.SpeechSetting == true){
-				string text						= ((e.SelectedItem.ToString()).Split(','))[1];
+				string text					= ((e.SelectedItem.ToString()).Split(','))[1];
 				CrossTextToSpeech.Current.Speak(text);
 			}
 
@@ -102,10 +102,12 @@ namespace LOSSPortable{
 			// Determine what next page should be based on what element was chosen.
 			if ( ((e.SelectedItem.ToString()).Split(','))[3].Equals("online") )
 				Navigation.PushAsync(new OnlineResources());
-			else if( ((e.SelectedItem.ToString()).Split(','))[3].Equals("video") )
+			else if ( ((e.SelectedItem.ToString()).Split(','))[3].Equals("video") )
 				Navigation.PushAsync(new VideoResources());
-			else
+			else if ( ((e.SelectedItem.ToString()).Split(','))[3].Substring(0, 12).Equals("https://youtu") )
 				Navigation.PushAsync(new VideoPage( ((e.SelectedItem.ToString()).Split(','))[1], ((e.SelectedItem.ToString()).Split(','))[3] ));
+			else
+				Navigation.PushAsync(new ViewOnlineResource( ((e.SelectedItem.ToString()).Split(','))[1], ((e.SelectedItem.ToString()).Split(','))[3] ));
 		}// End of Onselected() method.
 
 		protected override Boolean OnBackButtonPressed(){
