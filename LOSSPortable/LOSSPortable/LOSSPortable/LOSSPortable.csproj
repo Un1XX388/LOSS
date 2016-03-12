@@ -49,6 +49,8 @@
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="HomePage\Location.cs" />
+    <Compile Include="OptionsPage\VolunteerPortal.cs" />
+    <Compile Include="ResourcePage\ResourcesTabbedPage.cs" />
     <Compile Include="ResourcePage\Resources\OnlineResourceCell.cs" />
     <Compile Include="ResourcePage\Resources\OnlineResourceViewModel.cs" />
     <Compile Include="OptionsPage\AboutPage.cs" />

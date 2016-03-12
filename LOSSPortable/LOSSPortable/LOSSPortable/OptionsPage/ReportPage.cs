@@ -32,7 +32,7 @@ namespace LOSSPortable
             }
 
             Title = "Report A Problem";
-            this.Padding = new Thickness(0, Device.OnPlatform(20, 5, 5), 5, 5);
+            this.Padding = new Thickness(5, Device.OnPlatform(20, 5, 5), 5, 5);
 
 
             //===================Equivalent of drop down list to choose report options from ================

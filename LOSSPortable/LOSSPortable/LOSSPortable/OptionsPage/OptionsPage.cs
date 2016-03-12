@@ -19,6 +19,7 @@ namespace LOSSPortable
         Label login;
         String logText = "Login";
         PopupLayout _PopUpLayout;
+        Button row11_portal;
 
         public OptionsPage()
         {
@@ -374,7 +375,17 @@ namespace LOSSPortable
                 Padding = new Thickness(5, 5)
             };
 
+           row11_portal = new Button
+            {
+              //  Children = { aboutUs },
+                Text = "Access to Volunteer's Portal",
+                TextColor = Color.Gray,
+                HorizontalOptions = LayoutOptions.StartAndExpand,
+                HeightRequest = 35,
+                BackgroundColor = Color.Transparent
 
+            };
+            row11_portal.Clicked += Row11_portal_Clicked;
             //========== Page Content where everything needs to be inserted=============================================
 
             mainContent = new StackLayout
@@ -388,18 +399,18 @@ namespace LOSSPortable
                   //  row3_anonymous,
                     row4_speech, row5_push, row6_reset_sync,
                     //
-                    new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
-                    account,
-                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
-                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                    //new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
+                    //account,
+                    //new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
+                    //new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
 
-                    row7_account,
-                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
-                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                    //row7_account,
+                    //new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
+                    //new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
 
-                    row8_login,
-                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
-                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                    //row8_login,
+                    //new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
+                    //new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
 
                     new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
                     report,
@@ -416,6 +427,9 @@ namespace LOSSPortable
                     new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
                     row10_about,
                     new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
+                    new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
+                    row11_portal,
+                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5 },
                     new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
 
                     event_label },
@@ -428,6 +442,20 @@ namespace LOSSPortable
                 Orientation = ScrollOrientation.Vertical
             };
             this.Content = content;
+        }
+
+        int count = 0;
+        private void Row11_portal_Clicked(object sender, EventArgs e)
+        {
+            count++;
+            if(count >= 7)
+            {
+                row11_portal.TextColor = Color.White;
+                Navigation.PushAsync(new VolunteerPortal());
+               // row11_portal.IsEnabled = true;
+
+            }
+           
         }
 
         //================ Functions (actions) for Each Toggle Switch   =========================================
