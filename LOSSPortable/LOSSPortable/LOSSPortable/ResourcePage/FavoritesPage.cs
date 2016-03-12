@@ -13,16 +13,17 @@ namespace LOSSPortable
         public FavoritesPage()
         {
             //sets the background color based on settings
+            this.Title = "Favorites";
+
             if (Helpers.Settings.ContrastSetting == true)
             {
-                BackgroundColor = Colors.contrastBg;
+                this.BackgroundColor = Colors.contrastBg;
             }
             else
             {
-                BackgroundColor = Colors.background;
+                this.BackgroundColor = Colors.background;
             }
 
-            this.Title = "Favorites";
             this.Content = new StackLayout
             {
                 Children = {

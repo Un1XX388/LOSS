@@ -22,20 +22,9 @@ namespace LOSSPortable
             }
 
             this.Title = "Resources";
-            this.Children.Add(new OnlineResources()
-            );
-            this.Children.Add(new VideoResources()
-            );
-            this.Children.Add(new ContentPage
-            {
-                Title = "Favorites",
-                Content = new StackLayout
-                {
-                    Children = {
-                        new Label { Text = "No favorites", FontAttributes = FontAttributes.Italic }
-                    }
-                }
-            });
+            this.Children.Add(new OnlineResources());
+            this.Children.Add(new VideoResources());
+            this.Children.Add(new FavoritesPage());
         }
 
     }
