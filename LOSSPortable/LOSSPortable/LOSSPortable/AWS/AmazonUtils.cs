@@ -94,7 +94,8 @@ namespace LOSSPortable
         public enum Platform
         {
             Android,
-            IOS
+            IOS,
+            WindowsPhone
         }
 
         

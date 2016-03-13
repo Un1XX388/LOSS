@@ -61,15 +61,20 @@ namespace LOSSPortable.Droid
             }
         }
 
+
+        //Only function different from specific code on Amazon website
         private void HandleRegistration(Intent intent)
         {
             string registrationId = intent.GetStringExtra("registration_id");
             string error = intent.GetStringExtra("error");
             string unregistration = intent.GetStringExtra("unregistered");
 
-            if (string.IsNullOrEmpty(error))
+            if (string.IsNullOrEmpty(error)) {
                 AmazonUtils.RegisterDevice(AmazonUtils.Platform.Android, registrationId);
+            }
 
+            
+            
         }
 
         private void HandleMessage(Intent intent)
