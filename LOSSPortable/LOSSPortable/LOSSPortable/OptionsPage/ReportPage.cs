@@ -63,6 +63,7 @@ namespace LOSSPortable
             reason = new Editor {
               //  Placeholder = "Briefly explain your reason: ",
                 BackgroundColor = Color.White,
+                
                 TextColor = Color.Black,
                 MinimumHeightRequest = 50
                 

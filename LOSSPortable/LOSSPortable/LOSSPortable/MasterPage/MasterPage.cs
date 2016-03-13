@@ -79,7 +79,8 @@ namespace LOSSPortable
                 Content = new Label
                 {
                     TextColor = Color.Black,
-                    Font = Font.OfSize("Arial", 18),
+                    FontSize = 18,
+                    FontFamily = "Arial",
                     BackgroundColor = Color.FromHex("B3B3B3"),
                     Text = "MENU",
                 }

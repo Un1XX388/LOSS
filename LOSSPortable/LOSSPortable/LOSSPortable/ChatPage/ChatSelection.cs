@@ -24,9 +24,6 @@ namespace LOSSPortable
         private ScrollView innerScroll;
        
 
-        Grid gridLayout;
-        Contacts cont;
-        Message msg;
         Switch readyToChat;
         Label chatAvailability = new Label { Text = "Not Ready to chat." };
 

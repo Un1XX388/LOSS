@@ -212,15 +212,15 @@ namespace LOSSPortable
             //profilePicture.BackgroundColor = Color.FromHex("CCCCFF");
 
 
-            Label name = new Label { Text = message.sender, TextColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 20) }; //, XAlign = TextAlignment.Start
+            Label name = new Label { Text = message.sender, TextColor = Color.Black, FontAttributes = FontAttributes.Bold, FontSize = 20, FontFamily = "Arial"}; //, XAlign = TextAlignment.Start
             name.VerticalOptions = LayoutOptions.StartAndExpand;
 
             var datetime = DateTime.Now;
-            Label time = new Label { Text = message.time, TextColor = Color.Black, Font = Font.OfSize("Arial", 20) };
+            Label time = new Label { Text = message.time, TextColor = Color.Black, FontSize = 20, FontFamily = "Arial" };
 
 
 
-            Label response = new Label { Text = message.text, TextColor = Color.Black, Font = Font.OfSize("Arial", 18) }; //, XAlign = TextAlignment.Start             
+            Label response = new Label { Text = message.text, TextColor = Color.Black, FontSize = 18, FontFamily = "Arial" }; //, XAlign = TextAlignment.Start             
             var tgr = new TapGestureRecognizer();
 
             /*if (message.getSide() == "right")

@@ -201,7 +201,7 @@ namespace LOSSPortable
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("Error:" + e);
+                Debug.WriteLine("Error:" + e);
             }
         }
 
@@ -219,6 +219,7 @@ namespace LOSSPortable
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 label2.Text = "Unable to find location";
             }
 
