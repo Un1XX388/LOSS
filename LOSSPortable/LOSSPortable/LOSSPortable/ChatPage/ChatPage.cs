@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Akavache;
 using System.Reactive.Linq;
-
+using PCLCrypto;
+using System.Text;
 
 namespace LOSSPortable
 {
@@ -69,13 +70,18 @@ namespace LOSSPortable
 
                 Message message = new Message();
                 //constructor:
-                message.id = "789";
+                
                 message.icon = "drawable/prof.png";
-                message.sender = "Sender: ";
+                message.sender = "Sender ";
+                message.reciever = "Reciever";
                 message.text = mes;
                 message.time = " " + currentTime();
+                message.date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ffff");
+                message.id = CalculateSha1Hash(message.date);
                 // "Sender: ", mes, "drawable/prof.png", " " + currentTime() );
                 //msgs.Add(message);
+
+                System.Diagnostics.Debug.WriteLine("message id: " + message.id);
                 System.Diagnostics.Debug.WriteLine("message: " + message.text);
                 DisplayResponse(message);
                 conv.msgs.Add(message);
@@ -371,6 +377,22 @@ namespace LOSSPortable
             System.Diagnostics.Debug.WriteLine("creating new conv");
             return new Conversation();
         }
+
+        private static string CalculateSha1Hash(string input)  //hashing
+        {
+            // step 1, calculate MD5 hash from input
+            var hasher = WinRTCrypto.HashAlgorithmProvider.OpenAlgorithm(HashAlgorithm.Sha1);
+            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+            byte[] hash = hasher.HashData(inputBytes);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+            return sb.ToString();
+        }
+
     }
 
 
