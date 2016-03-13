@@ -42,6 +42,9 @@ namespace LOSSPortable.Helpers
         private const string PasswordKey = "password_key";
         private static readonly string PasswordDefault = "";
 
+        private const string EndpointArn = "endpointarn";
+        private static readonly string EndpointArnDefault = null;
+
         #endregion
 
         public static bool FirstTimeSetting
@@ -84,6 +87,12 @@ namespace LOSSPortable.Helpers
         {
             get { return AppSettings.GetValueOrDefault(PasswordKey, PasswordDefault); }
             set { AppSettings.AddOrUpdateValue(PasswordKey, value); }
+        }
+
+        public static string EndpointArnSetting
+        {
+            get { return AppSettings.GetValueOrDefault(EndpointArn, EndpointArnDefault); }
+            set { AppSettings.AddOrUpdateValue(EndpointArnSetting, value);  }
         }
 
     }

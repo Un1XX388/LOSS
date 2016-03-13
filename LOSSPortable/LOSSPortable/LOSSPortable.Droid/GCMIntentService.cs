@@ -93,7 +93,6 @@ namespace LOSSPortable.Droid
             Log.Info("Messages", "message received = " + message);
 
             AndroidUtils.ShowNotification(this, "SNS Push", message);
-
             //show the message
 
         }

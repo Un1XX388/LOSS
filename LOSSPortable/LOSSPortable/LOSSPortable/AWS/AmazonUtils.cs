@@ -134,6 +134,7 @@ namespace LOSSPortable
             );
 
             _endpointArn = response.EndpointArn;
+            Helpers.Settings.EndpointArnSetting = _endpointArn;
         }
     }
 }
