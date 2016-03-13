@@ -11,11 +11,14 @@ namespace LOSSPortable
 
         public string reciever { get; set; }
 
+
         public string text { get; set; }
 
         public string icon { get; set; }
 
         public string time { get; set; }
+
+        public string date { get; set; }
 
         /*public Message ()
         {
@@ -41,14 +44,14 @@ namespace LOSSPortable
         public String getMessage() { return text; }
         public String getIcon() { return icon; }
         public String getTime() { return time; }
-        //public String getSide()     { return side;    }
+        public String getReciever()     { return reciever ;    }
 
         public void setId(String inputId) { this.id = inputId; }
         public void setSender(String inputSender) { this.sender = inputSender; }
         public void setMessage(String inputMessage) { this.text = inputMessage; }
         public void setIcon(String inputIcon) { this.icon = inputIcon; }
         public void setTime(String inputTime) { this.time = inputTime; }
-        //public void setSide(String inputSide)       { this.side = inputSide;       }
+        public void setReciever(String inputReciever)       { this.reciever  = inputReciever ;       }
 
 
     }

@@ -1,6 +1,4 @@
-﻿using Amazon.DynamoDBv2.DataModel;
-using Amazon.DynamoDBv2.Model;
-using System;
+﻿using System;
 using System.IO;
 using System.Diagnostics;
 using Plugin.Geolocator;
@@ -278,7 +276,6 @@ namespace LOSSPortable
             int num = rnd.Next(1, 25);
             
             return context.LoadAsync<InspirationalQuote>(num.ToString(), cts.Token);
-
         }
 
         static Random rnd = new Random();
