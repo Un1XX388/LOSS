@@ -65,30 +65,33 @@ namespace LOSSPortable
             logo.VerticalOptions = LayoutOptions.StartAndExpand;
             logo.HeightRequest = 200;
 
+            //909479
             var SOS_link = new Button
             {
                 Text = "Survivors of Suicide Handbook",
-                TextColor = Color.White,
+                TextColor = Colors.barBackground,
                 HorizontalOptions = LayoutOptions.StartAndExpand,
-                BackgroundColor = Color.Transparent,
-                HeightRequest = 40
+                BackgroundColor = Color.FromHex("ffffe6"),
+                HeightRequest = 40,
+                WidthRequest = 300
             };
             SOS_link.Clicked += SOSLinkPressed;
 
             var sg_link = new Button
             {
                 Text = "Support Groups",
-                TextColor = Color.White,
+                TextColor = Colors.barBackground,
                 HorizontalOptions = LayoutOptions.StartAndExpand,
-                BackgroundColor = Color.Transparent,
-                HeightRequest = 40
+                BackgroundColor = Color.FromHex("ffffe6"),
+                HeightRequest = 40,
+                WidthRequest = 300
             };
             sg_link.Clicked += sgLinkPressed;
 
             //var SOS_link = new StackLayout
             //{
             //    Children = { new Label {
-                
+
             //        Text = "Survivors of Suicide Handbook",
             //        TextColor = Color.White,
             //        HorizontalOptions = LayoutOptions.StartAndExpand,
@@ -137,15 +140,15 @@ namespace LOSSPortable
                 Children = {
                               new BoxView() { Color = Color.Transparent, HeightRequest = 4  },
                                  new Label { Text = "Helpful Resources", TextColor = Color.White, FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))},
-                                 new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
-                                 new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                                 new StackLayout { Children = { new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
                                  SOS_link,
                                  new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
-                                 new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
-                                 sg_link,
+                                 sg_link },
+                                // BackgroundColor = Color.FromHex("735974")
+                                },
 
                             },
-                VerticalOptions = LayoutOptions.EndAndExpand
+                VerticalOptions = LayoutOptions.EndAndExpand,
             };
 
             var mainContent = new StackLayout
@@ -153,6 +156,7 @@ namespace LOSSPortable
                 //  Style = (Style)Application.Current.Resources["key"],
                 Padding = new Thickness(30, Device.OnPlatform(20, 0, 0), 30, 30),
                 Children = {
+                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
                     logo,
                     new ContentView {
                         Content = labelFrame
@@ -168,20 +172,6 @@ namespace LOSSPortable
                 Orientation = ScrollOrientation.Vertical
             };
             this.Content = content;
-
-            //Content = new StackLayout
-            //{
-            //    //  Style = (Style)Application.Current.Resources["key"],
-            //    Padding = new Thickness(30, Device.OnPlatform(20, 0, 0), 30, 30),
-            //    Children = {
-            //        logo,
-            //        new ContentView {
-            //            Content = labelFrame
-            //        }
-            //    },
-            //    //  VerticalOptions = LayoutOptions.CenterAndExpand,
-            //    HorizontalOptions = LayoutOptions.CenterAndExpand,
-            //};
 
         }
 
@@ -290,7 +280,7 @@ namespace LOSSPortable
 
         static Random rnd = new Random();
 
-        void SOSLinkPressed(object sender, EventArgs e)
+        async void SOSLinkPressed(object sender, EventArgs e)
         {
             WebView webView = new WebView
             {
@@ -302,7 +292,7 @@ namespace LOSSPortable
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
 
-            Navigation.PushAsync(new ContentPage()
+            await Navigation.PushAsync(new ContentPage()
             {
                 Content = webView
 
@@ -310,9 +300,10 @@ namespace LOSSPortable
         }
 
 
-        void sgLinkPressed(object sender, EventArgs e)
+        async void sgLinkPressed(object sender, EventArgs e)
         {
 
+        //    sg_link.Enabled = false;
 
             WebView webView = new WebView
             {
@@ -323,12 +314,12 @@ namespace LOSSPortable
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
 
-            Navigation.PushAsync(new ContentPage()
+            await Navigation.PushAsync(new ContentPage()
             {
                 Content = webView
 
             });
-
+        //    sg_link.Enabled = true;
         }
     }
 

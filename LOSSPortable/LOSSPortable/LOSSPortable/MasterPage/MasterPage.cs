@@ -25,7 +25,7 @@ namespace LOSSPortable
             {
                 Title = "Resources",
                 IconSource = "play.png",
-                TargetType = typeof(ResourcesPage)
+                TargetType = typeof(ResourcesTabbedPage)
             });
 
             masterPageItems.Add(new MasterPageItem
@@ -52,7 +52,8 @@ namespace LOSSPortable
             {
 
                 ItemsSource = masterPageItems,
-                ItemTemplate = new DataTemplate(() => {
+                ItemTemplate = new DataTemplate(() =>
+                {
                     var imageCell = new ImageCell();
                     imageCell.SetValue(TextCell.TextColorProperty, Color.Black);
                     imageCell.SetValue(TextCell.TextProperty, FontAttributes.Bold);
