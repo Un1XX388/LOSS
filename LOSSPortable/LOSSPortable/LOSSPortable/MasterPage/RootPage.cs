@@ -17,6 +17,7 @@ namespace LOSSPortable{
             masterPage.BackgroundColor	= Color.White;
             
 			masterPage.ListView.ItemSelected += OnItemSelected;
+
 		}// End of RootPage() method.
 
 		void OnItemSelected(object sender, SelectedItemChangedEventArgs e){
@@ -25,7 +26,6 @@ namespace LOSSPortable{
                 try
                 {
                     Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType)) { BarBackgroundColor = customNavBarColor() };
-                    this.Detail.BackgroundColor = Color.Pink;
                     masterPage.ListView.SelectedItem = null;
                     IsPresented = false;
                 }
