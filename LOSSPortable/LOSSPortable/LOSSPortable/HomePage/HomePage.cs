@@ -5,11 +5,15 @@ using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Collections.Specialized;
 using Xamarin.Forms;
 using Amazon.Lambda;
 using Amazon.Lambda.Model;
 using Amazon.Util;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using Amazon.DynamoDBv2.DataModel;
 
 namespace LOSSPortable
 {
@@ -32,9 +36,8 @@ namespace LOSSPortable
                 BackgroundColor = Colors.background;
             }
 
-            Debug.WriteLine("Hello world!");
             Title = "Home";
-            label2.Text = "";
+            label1.Text = LoadQuotes().Message;
             label1.FontSize = 20;
             label1.Style = new Style(typeof(Label))
             {
@@ -47,15 +50,17 @@ namespace LOSSPortable
                 }
 
             };
-
             labelFrame = new Frame
             {
                 Content = label1,
-                OutlineColor = Color.FromHex("5A3A5C"),
+                OutlineColor = Color.Transparent,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.Center,
             };
-
+            if (label1.Text != "")
+            {
+                labelFrame.OutlineColor = Color.White;
+            }
 
             var logo = new Image { Aspect = Aspect.AspectFit };
             logo.Source = Device.OnPlatform(
@@ -88,51 +93,6 @@ namespace LOSSPortable
             };
             sg_link.Clicked += sgLinkPressed;
 
-            //var SOS_link = new StackLayout
-            //{
-            //    Children = { new Label {
-
-            //        Text = "Survivors of Suicide Handbook",
-            //        TextColor = Color.White,
-            //        HorizontalOptions = LayoutOptions.StartAndExpand,
-            //        BackgroundColor = Color.Transparent,
-            //        FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
-            //        }
-            //    },
-            //    GestureRecognizers = {
-
-            //    new TapGestureRecognizer {
-            //       //     Command = new Command (()=>System.Diagnostics.Debug.WriteLine ("clicked")),
-            //            Command = new Command (()=> SOSLinkPressed()),
-            //    },
-            //    },
-            //    Orientation = StackOrientation.Horizontal,
-            //    Padding = new Thickness(5, 5)
-
-            //};
-
-            //StackLayout sg_link = new StackLayout
-            //{
-            //    Children = {
-            //        new Label
-            //        {
-            //             Text = "Support Groups",
-            //             TextColor = Color.White,
-            //             HorizontalOptions = LayoutOptions.StartAndExpand,
-            //             BackgroundColor = Color.Transparent,
-            //             FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
-            //        }
-            //    },
-            //    GestureRecognizers = {
-
-            //    new TapGestureRecognizer {
-            //       //     Command = new Command (()=>System.Diagnostics.Debug.WriteLine ("clicked")),
-            //            Command = new Command (()=>sgLinkPressed()),
-            //    },
-            //    },
-            //    Orientation = StackOrientation.Horizontal,
-            //    Padding = new Thickness(5, 5)
-            //};
 
             StackLayout links = new StackLayout
             {
@@ -237,49 +197,15 @@ namespace LOSSPortable
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            cts = new CancellationTokenSource();
-            LoadQuotes().ContinueWith(task => {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    try
-                    {
-                        label1.Text = task.Result.Message;
-                        labelFrame.OutlineColor = Color.White;
-                        //first parameter is the toFrom field, second is the Text field.
-                        PushMessage("tester" + rnd.Next().ToString(), "testing string, please ignore!");
-                     
-                    }
-                    catch (Exception e)
-                    {
 
-                    }
-                });
-            });
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            if (cts != null)
-            {
-                cts.Cancel();
-            }
         }
-
-
-        private Task<InspirationalQuote> LoadQuotes()
-        {
-            var context = AmazonUtils.DDBContext;
-            /*List<ScanCondition> conditions = new List<ScanCondition>();
-            var SearchBar = context.ScanAsync<InspirationalQuote>(conditions);
-            return SearchBar.GetNextSetAsync();*/
-
-            int num = rnd.Next(1, 25);
-            
-            return context.LoadAsync<InspirationalQuote>(num.ToString(), cts.Token);
-        }
-
-        static Random rnd = new Random();
+        
+        
 
         async void SOSLinkPressed(object sender, EventArgs e)
         {
@@ -322,6 +248,36 @@ namespace LOSSPortable
             });
         //    sg_link.Enabled = true;
         }
+
+        
+
+        static Random rnd = new Random();
+
+        private InspirationalQuote LoadQuotes()
+        {
+            var quoteList = AmazonUtils.getQuotesList;
+            if (quoteList.Count == 0)
+            {
+                AmazonUtils.getQuotesList.CollectionChanged += new NotifyCollectionChangedEventHandler(quoteList_CollectionChanged);
+                return new InspirationalQuote { Message = "" };
+            }
+            int size = quoteList.Count;
+            int num = rnd.Next(0, size - 1);
+            System.Diagnostics.Debug.WriteLine("Size : " + size + "\n num :" + num);
+            return quoteList[num];
+        }
+
+        void quoteList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            label1.Text = LoadQuotes().Message;
+            labelFrame.OutlineColor = Color.White;
+        }
+
+
+        
+
+
+        
     }
 
 }

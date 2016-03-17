@@ -71,10 +71,7 @@ namespace LOSSPortable.Droid
 
             if (string.IsNullOrEmpty(error)) {
                 AmazonUtils.RegisterDevice(AmazonUtils.Platform.Android, registrationId);
-            }
-
-            
-            
+            }    
         }
 
         private void HandleMessage(Intent intent)
@@ -91,10 +88,15 @@ namespace LOSSPortable.Droid
             }
 
             Log.Info("Messages", "message received = " + message);
+            if (message.StartsWith("Test"))
+            {
 
-            AndroidUtils.ShowNotification(this, "SNS Push", message);
+            }
+            else
+            {
+                AndroidUtils.ShowNotification(this, "SNS Push", message);
+            }
             //show the message
-
         }
     }
 }

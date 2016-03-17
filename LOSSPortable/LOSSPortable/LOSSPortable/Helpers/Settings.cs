@@ -94,6 +94,5 @@ namespace LOSSPortable.Helpers
             get { return AppSettings.GetValueOrDefault(EndpointArn, EndpointArnDefault); }
             set { AppSettings.AddOrUpdateValue(EndpointArnSetting, value);  }
         }
-
     }
 }
