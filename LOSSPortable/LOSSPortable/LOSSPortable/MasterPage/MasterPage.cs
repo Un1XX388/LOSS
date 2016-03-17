@@ -25,7 +25,7 @@ namespace LOSSPortable
             {
                 Title = "Resources",
                 IconSource = "play.png",
-                TargetType = typeof(ResourcesTabbedPage)
+                TargetType = typeof(ResourcesTabbedSwipePage)
             });
 
             masterPageItems.Add(new MasterPageItem

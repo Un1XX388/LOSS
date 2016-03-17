@@ -17,13 +17,14 @@ namespace LOSSPortable{
             masterPage.BackgroundColor	= Color.White;
             
 			masterPage.ListView.ItemSelected += OnItemSelected;
+
 		}// End of RootPage() method.
 
 		void OnItemSelected(object sender, SelectedItemChangedEventArgs e){
 			var item = e.SelectedItem as MasterPageItem;
 			if (item != null){
 				Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType)) { BarBackgroundColor = customNavBarColor()} ;
-                this.Detail.BackgroundColor = Color.Pink;
+              //  this.Detail.BackgroundColor = Color.Pink;
                 masterPage.ListView.SelectedItem = null;
 				IsPresented = false;
 			}

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LOSSPortable.ResourcesTabbedSwipePage">
+  <!--<Label Text="Resources" VerticalOptions="Center" HorizontalOptions="Center" />-->
+	<TabbedPage.Children>
+		<CarouselPage x:Name ="Web"
+									Title="Web">
+			<CarouselPage.Children>
+				<ContentPage x:Name="webContent">
+				</ContentPage>
+				<ContentPage/>
+				<ContentPage/>
+			</CarouselPage.Children>
+		</CarouselPage>
+		<CarouselPage x:Name="Playlist"
+									Title="Playlist(s)">
+			<CarouselPage.Children>
+				<ContentPage/>
+				<ContentPage x:Name="videoContent">
+				</ContentPage>
+				<ContentPage/>
+			</CarouselPage.Children>
+		</CarouselPage>
+		<CarouselPage x:Name="Favorites"
+									Title="Favorites">
+			<CarouselPage.Children>
+				<ContentPage/>
+				<ContentPage/>
+				<ContentPage x:Name="favoriteContent">
+				</ContentPage>
+			</CarouselPage.Children>
+		</CarouselPage>
+	</TabbedPage.Children>
+
+</TabbedPage>

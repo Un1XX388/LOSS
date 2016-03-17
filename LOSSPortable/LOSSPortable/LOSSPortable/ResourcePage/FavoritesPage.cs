@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace LOSSPortable
 {
-    class FavoritesPage: ContentPage
+    public class FavoritesPage: ContentPage
     {
 
         public FavoritesPage()

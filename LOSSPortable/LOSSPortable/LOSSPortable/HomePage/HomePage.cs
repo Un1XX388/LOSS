@@ -283,21 +283,21 @@ namespace LOSSPortable
 
         async void SOSLinkPressed(object sender, EventArgs e)
         {
-            WebView webView = new WebView
-            {
-                Source = new UrlWebViewSource
-                {
-                    Url = "http://www.suicidology.org/Portals/14/docs/Survivors/Loss%20Survivors/SOS_handbook.pdf"
+            Device.OpenUri(new System.Uri("http://www.suicidology.org/Portals/14/docs/Survivors/Loss%20Survivors/SOS_handbook.pdf"));
 
-                },
-                VerticalOptions = LayoutOptions.FillAndExpand
-            };
+            //WebView webView = new WebView
+            //{
+            //    Source = new UrlWebViewSource
+            //    {
+            //        Url = "http://www.suicidology.org/Portals/14/docs/Survivors/Loss%20Survivors/SOS_handbook.pdf"
+            //    },
+            //    VerticalOptions = LayoutOptions.FillAndExpand
+            //};
+            //await Navigation.PushAsync(new ContentPage()
+            //{
+            //    Content = webView
 
-            await Navigation.PushAsync(new ContentPage()
-            {
-                Content = webView
-
-            });
+            //});
         }
 
 
