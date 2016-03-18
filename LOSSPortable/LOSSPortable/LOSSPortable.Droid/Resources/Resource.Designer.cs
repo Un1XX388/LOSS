@@ -2643,32 +2643,32 @@ namespace LOSSPortable.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f090055
-			public const int abc_background_cache_hint_selector_material_dark = 2131296341;
+			// aapt resource value: 0x7f090052
+			public const int abc_background_cache_hint_selector_material_dark = 2131296338;
 			
-			// aapt resource value: 0x7f090056
-			public const int abc_background_cache_hint_selector_material_light = 2131296342;
+			// aapt resource value: 0x7f090053
+			public const int abc_background_cache_hint_selector_material_light = 2131296339;
 			
-			// aapt resource value: 0x7f090057
-			public const int abc_color_highlight_material = 2131296343;
+			// aapt resource value: 0x7f090054
+			public const int abc_color_highlight_material = 2131296340;
 			
 			// aapt resource value: 0x7f090004
 			public const int abc_input_method_navigation_guard = 2131296260;
 			
+			// aapt resource value: 0x7f090055
+			public const int abc_primary_text_disable_only_material_dark = 2131296341;
+			
+			// aapt resource value: 0x7f090056
+			public const int abc_primary_text_disable_only_material_light = 2131296342;
+			
+			// aapt resource value: 0x7f090057
+			public const int abc_primary_text_material_dark = 2131296343;
+			
 			// aapt resource value: 0x7f090058
-			public const int abc_primary_text_disable_only_material_dark = 2131296344;
+			public const int abc_primary_text_material_light = 2131296344;
 			
 			// aapt resource value: 0x7f090059
-			public const int abc_primary_text_disable_only_material_light = 2131296345;
-			
-			// aapt resource value: 0x7f09005a
-			public const int abc_primary_text_material_dark = 2131296346;
-			
-			// aapt resource value: 0x7f09005b
-			public const int abc_primary_text_material_light = 2131296347;
-			
-			// aapt resource value: 0x7f09005c
-			public const int abc_search_url_text = 2131296348;
+			public const int abc_search_url_text = 2131296345;
 			
 			// aapt resource value: 0x7f090005
 			public const int abc_search_url_text_normal = 2131296261;
@@ -2679,20 +2679,17 @@ namespace LOSSPortable.Droid
 			// aapt resource value: 0x7f090007
 			public const int abc_search_url_text_selected = 2131296263;
 			
-			// aapt resource value: 0x7f09005d
-			public const int abc_secondary_text_material_dark = 2131296349;
+			// aapt resource value: 0x7f09005a
+			public const int abc_secondary_text_material_dark = 2131296346;
 			
-			// aapt resource value: 0x7f09005e
-			public const int abc_secondary_text_material_light = 2131296350;
+			// aapt resource value: 0x7f09005b
+			public const int abc_secondary_text_material_light = 2131296347;
 			
 			// aapt resource value: 0x7f090008
 			public const int accent_material_dark = 2131296264;
 			
 			// aapt resource value: 0x7f090009
 			public const int accent_material_light = 2131296265;
-			
-			// aapt resource value: 0x7f090052
-			public const int background = 2131296338;
 			
 			// aapt resource value: 0x7f09000a
 			public const int background_floating_material_dark = 2131296266;
@@ -2760,8 +2757,8 @@ namespace LOSSPortable.Droid
 			// aapt resource value: 0x7f090050
 			public const int calendar_text_selected = 2131296336;
 			
-			// aapt resource value: 0x7f09005f
-			public const int calendar_text_selector = 2131296351;
+			// aapt resource value: 0x7f09005c
+			public const int calendar_text_selector = 2131296348;
 			
 			// aapt resource value: 0x7f090051
 			public const int calendar_text_unselectable = 2131296337;
@@ -2871,12 +2868,6 @@ namespace LOSSPortable.Droid
 			// aapt resource value: 0x7f09002b
 			public const int material_grey_900 = 2131296299;
 			
-			// aapt resource value: 0x7f090054
-			public const int primary = 2131296340;
-			
-			// aapt resource value: 0x7f090053
-			public const int primary_dark = 2131296339;
-			
 			// aapt resource value: 0x7f09002c
 			public const int primary_dark_material_dark = 2131296300;
 			
@@ -2925,11 +2916,11 @@ namespace LOSSPortable.Droid
 			// aapt resource value: 0x7f09003b
 			public const int switch_thumb_disabled_material_light = 2131296315;
 			
-			// aapt resource value: 0x7f090060
-			public const int switch_thumb_material_dark = 2131296352;
+			// aapt resource value: 0x7f09005d
+			public const int switch_thumb_material_dark = 2131296349;
 			
-			// aapt resource value: 0x7f090061
-			public const int switch_thumb_material_light = 2131296353;
+			// aapt resource value: 0x7f09005e
+			public const int switch_thumb_material_light = 2131296350;
 			
 			// aapt resource value: 0x7f09003c
 			public const int switch_thumb_normal_material_dark = 2131296316;
@@ -3614,8 +3605,8 @@ namespace LOSSPortable.Droid
 			// aapt resource value: 0x7f02006c
 			public const int mr_ic_settings_light = 2130837612;
 			
-			// aapt resource value: 0x7f02007f
-			public const int notification_template_icon_bg = 2130837631;
+			// aapt resource value: 0x7f020080
+			public const int notification_template_icon_bg = 2130837632;
 			
 			// aapt resource value: 0x7f02006d
 			public const int online1 = 2130837613;
@@ -3642,34 +3633,37 @@ namespace LOSSPortable.Droid
 			public const int radialback = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int roundedbg = 2130837621;
+			public const int radialback2 = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int roundedbgdark = 2130837622;
+			public const int roundedbg = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int survey = 2130837623;
+			public const int roundedbgdark = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int vid1 = 2130837624;
+			public const int survey = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int vid2 = 2130837625;
+			public const int vid1 = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int vid3 = 2130837626;
+			public const int vid2 = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int vid4 = 2130837627;
+			public const int vid3 = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int vid5 = 2130837628;
+			public const int vid4 = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int vid6 = 2130837629;
+			public const int vid5 = 2130837629;
 			
 			// aapt resource value: 0x7f02007e
-			public const int videoplay64 = 2130837630;
+			public const int vid6 = 2130837630;
+			
+			// aapt resource value: 0x7f02007f
+			public const int videoplay64 = 2130837631;
 			
 			static Drawable()
 			{
@@ -4898,7 +4892,10 @@ namespace LOSSPortable.Droid
 			public const int CardView_Light = 2131230726;
 			
 			// aapt resource value: 0x7f080149
-			public const int CustomActionBar = 2131231049;
+			public const int ContrastTheme = 2131231049;
+			
+			// aapt resource value: 0x7f08014a
+			public const int CustomActionBar = 2131231050;
 			
 			// aapt resource value: 0x7f080148
 			public const int DefaultTheme = 2131231048;

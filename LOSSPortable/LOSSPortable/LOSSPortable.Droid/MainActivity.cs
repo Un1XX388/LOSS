@@ -10,6 +10,7 @@ using Android.OS;
 using Acr.UserDialogs;
 using Plugin.TextToSpeech;
 using LOSSPortable;
+using LOSSPortable.Helpers;
 
 namespace LOSSPortable.Droid
 {
@@ -28,7 +29,19 @@ namespace LOSSPortable.Droid
             
             global::Xamarin.Forms.Forms.Init(this, bundle);
             UserDialogs.Init(this);
-           // CrossTextToSpeech.Current.Init();
+
+           // SetTheme(Resource.Style.DefaultTheme);
+
+            // CrossTextToSpeech.Current.Init();
+            //if (Settings.ContrastSetting == true)
+            //{
+            //    SetTheme(Resource.Style.ContrastTheme);
+
+            //}
+            //else
+            //{
+            //    SetTheme(Resource.Style.DefaultTheme);
+            //}
 
             LoadApplication(new App());
 

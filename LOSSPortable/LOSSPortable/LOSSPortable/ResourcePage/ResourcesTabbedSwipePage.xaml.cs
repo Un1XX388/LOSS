@@ -30,9 +30,17 @@ namespace LOSSPortable
             var page2 = new VideoResources();
             var page3 = new FavoritesPage();
 
-            webContent.Content = page1.Content;
-            videoContent.Content = page2.Content;
-            favoriteContent.Content = page3.Content;
+            Web.Children.Add(page1);
+            Web.Children.Add(new ContentPage());
+            Web.Children.Add(new ContentPage());
+
+            Playlist.Children.Add(new ContentPage());
+            Playlist.Children.Add(page2);
+            Playlist.Children.Add(new ContentPage());
+
+            Favorites.Children.Add(new ContentPage());
+            Favorites.Children.Add(new ContentPage());
+            Favorites.Children.Add(new FavoritesPage());
 
             AttachCurrentPageChanged();
 
@@ -69,6 +77,7 @@ namespace LOSSPortable
                 currentPage.CurrentPage = currentPage.Children[tabbedPage.Children.IndexOf(tabbedPage.CurrentPage)];
             }
         }
+
         private void MultiPage_OnCurrentPageChanged(object sender, EventArgs e)
         {
             DetachCurrentPageChanged();
@@ -96,10 +105,14 @@ namespace LOSSPortable
                     }
                 }
             }
-
             AttachCurrentPageChanged();
         }
 
+        protected override Boolean OnBackButtonPressed()
+        {
+            ((RootPage)App.Current.MainPage).NavigateTo();
+            return true;
+        }// End of OnBackButtonPressed() method.
     }
 
 }

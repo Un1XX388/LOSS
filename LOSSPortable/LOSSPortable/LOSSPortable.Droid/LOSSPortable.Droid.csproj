@@ -297,6 +297,7 @@
     <AndroidResource Include="Resources\drawable\survey.png" />
     <AndroidResource Include="Resources\drawable\App6.png" />
     <AndroidResource Include="Resources\drawable\logo2.png" />
+    <AndroidResource Include="Resources\drawable\radialback2.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LOSSPortable\LOSSPortable.csproj">

@@ -6,30 +6,28 @@
 	<TabbedPage.Children>
 		<CarouselPage x:Name ="Web"
 									Title="Web">
-			<CarouselPage.Children>
-				<ContentPage x:Name="webContent">
-				</ContentPage>
+			<!--<CarouselPage.Children>
+				<ContentPage x:Name="webContent">	</ContentPage>
 				<ContentPage/>
 				<ContentPage/>
-			</CarouselPage.Children>
+			</CarouselPage.Children>-->
 		</CarouselPage>
 		<CarouselPage x:Name="Playlist"
 									Title="Playlist(s)">
-			<CarouselPage.Children>
+			<!--<CarouselPage.Children>
 				<ContentPage/>
-				<ContentPage x:Name="videoContent">
-				</ContentPage>
+				<ContentPage x:Name="videoContent"></ContentPage>
 				<ContentPage/>
-			</CarouselPage.Children>
+			</CarouselPage.Children>-->
 		</CarouselPage>
 		<CarouselPage x:Name="Favorites"
 									Title="Favorites">
-			<CarouselPage.Children>
+			<!--<CarouselPage.Children>
 				<ContentPage/>
 				<ContentPage/>
 				<ContentPage x:Name="favoriteContent">
 				</ContentPage>
-			</CarouselPage.Children>
+			</CarouselPage.Children>-->
 		</CarouselPage>
 	</TabbedPage.Children>
 
