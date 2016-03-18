@@ -3,10 +3,18 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.S3;
 using Amazon.S3.Transfer;
-using System.Threading.Tasks;
 using Amazon.Lambda;
 using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reflection.Emit;
+using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Forms;
+using System.Collections.Specialized;
 
 namespace LOSSPortable
 {
@@ -77,6 +85,16 @@ namespace LOSSPortable
                 return _transferUtility;
             }
         }
+
+        public TransferUtilityDownloadRequest transferUtilityRequest(string key){
+            
+            return new TransferUtilityDownloadRequest()
+            {
+                FilePath = "",
+                BucketName = "idansbucket",
+                Key = key,
+            };
+        }
         
         private static AmazonLambdaClient _lambdaClient;
 
@@ -98,8 +116,6 @@ namespace LOSSPortable
             WindowsPhone
         }
 
-        
-        
         private static IAmazonSimpleNotificationService _snsClient;
 
         private static IAmazonSimpleNotificationService SNSClient
@@ -135,6 +151,66 @@ namespace LOSSPortable
 
             _endpointArn = response.EndpointArn;
             Helpers.Settings.EndpointArnSetting = _endpointArn;
+        }
+
+        private static Task<List<InspirationalQuote>> queryQuotesList()
+        {
+            var context = AmazonUtils.DDBContext;
+            List<ScanCondition> conditions = new List<ScanCondition>();
+            var SearchBar = context.ScanAsync<InspirationalQuote>(conditions);
+            return SearchBar.GetNextSetAsync();
+        }
+
+        public static void updateInspirationalQuoteList()
+        {
+            queryQuotesList().ContinueWith(task =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    quotesList.AddRange(queryQuotesList().Result);
+                });
+            });
+        }
+
+
+        private static RangeObservableCollection<InspirationalQuote> quotesList = new RangeObservableCollection<InspirationalQuote>();
+
+        public static RangeObservableCollection<InspirationalQuote> getQuotesList
+        {
+            get
+            {
+                return quotesList;
+            }
+            set
+            {
+                quotesList = value;
+            }
+        }
+    
+    }
+
+    public class RangeObservableCollection<T> : ObservableCollection<T>
+    {
+        private bool surpressEvents = false;
+
+        public void AddRange(IEnumerable<T> items)
+        {
+            surpressEvents = true;
+            foreach (var item in items)
+            {
+                base.Add(item);
+            }
+            this.surpressEvents = false;
+            this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList()));
+
+        }
+
+        protected override void OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (!this.surpressEvents)
+            {
+                base.OnCollectionChanged(e);
+            }
         }
     }
 }

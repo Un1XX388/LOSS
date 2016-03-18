@@ -11,26 +11,13 @@ namespace LOSSPortable
 
         public App()
         {
-            // The root page of your application
-
-            //Application.Current.Resources = new ResourceDictionary();
-
-            //var stackLayoutStyle = new Style(typeof(StackLayout))
-            //{
-            //    Setters =
-            //    {
-            //        new Setter {
-            //            Property = StackLayout.BackgroundColorProperty, Value = Color.Black}
-            //    }
-            //};
-            //Application.Current.Resources.Add("key", stackLayoutStyle);
-//            loadSettings();
             MainPage = new LOSSPortable.RootPage();
 			HardwareAccelerated	= true;
         }
 
         protected override void OnStart()
         {
+            AmazonUtils.updateInspirationalQuoteList();
             // Handle when your app starts
         }
 

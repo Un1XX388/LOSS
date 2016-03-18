@@ -23,10 +23,16 @@ namespace LOSSPortable{
 		void OnItemSelected(object sender, SelectedItemChangedEventArgs e){
 			var item = e.SelectedItem as MasterPageItem;
 			if (item != null){
-				Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType)) { BarBackgroundColor = customNavBarColor()} ;
-              //  this.Detail.BackgroundColor = Color.Pink;
-                masterPage.ListView.SelectedItem = null;
-				IsPresented = false;
+                try
+                {
+                    Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType)) { BarBackgroundColor = customNavBarColor() };
+                    masterPage.ListView.SelectedItem = null;
+                    IsPresented = false;
+                }
+                catch (System.Reflection.TargetInvocationException ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Start stack trace : " + ex);
+                }
 			}
 		}// End OnItemSelected() method.
 
