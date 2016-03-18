@@ -69,7 +69,7 @@ namespace LOSSPortable
             // This deselects the item after it is selected.
             ((ListView)sender).SelectedItem = null;
             // When given playlist is selected user is brought to the page listed below.
-            Navigation.PushModalAsync(new PlaylistPage());
+            Navigation.PushAsync(new PlaylistPage());
         }// End of Onselected() method.
     }// End of VideoResources class.
 }// End of namespace LOSS.
