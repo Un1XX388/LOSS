@@ -186,8 +186,45 @@ namespace LOSSPortable
                 quotesList = value;
             }
         }
-    
-    }
+
+
+        private static Task<List<OnlineRViewModel>> queryOnlineRList()
+        {
+            var context = AmazonUtils.DDBContext;
+            List<ScanCondition> conditions = new List<ScanCondition>();
+            var SearchBar = context.ScanAsync<OnlineRViewModel>(conditions);
+            return SearchBar.GetNextSetAsync();
+
+            System.Diagnostics.Debug.WriteLine("inside queryOnlineRList()");
+        }
+
+        public static void updateOnlineRList()
+        {
+            queryOnlineRList().ContinueWith(task =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    onlineRList.AddRange(queryOnlineRList().Result);
+                    System.Diagnostics.Debug.WriteLine("UpdateOnlineRList()");
+                });
+            });
+        }
+
+        private static RangeObservableCollection<OnlineRViewModel> onlineRList = new RangeObservableCollection<OnlineRViewModel>();
+
+        public static RangeObservableCollection<OnlineRViewModel> getOnlineRList
+        {
+            get
+            {
+                return onlineRList;
+            }
+            set
+            {
+                onlineRList = value;
+            }
+        }
+
+    }//end of class AmazonUtils
 
     public class RangeObservableCollection<T> : ObservableCollection<T>
     {

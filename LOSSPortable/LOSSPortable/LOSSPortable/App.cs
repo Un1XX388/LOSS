@@ -17,7 +17,9 @@ namespace LOSSPortable
 
         protected override void OnStart()
         {
+            AmazonUtils.updateOnlineRList();
             AmazonUtils.updateInspirationalQuoteList();
+
             // Handle when your app starts
         }
 

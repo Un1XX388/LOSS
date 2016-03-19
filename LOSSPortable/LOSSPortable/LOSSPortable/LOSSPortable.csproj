@@ -38,6 +38,7 @@
     <Compile Include="App.cs" />
     <Compile Include="AWS\AmazonUtils.cs" />
     <Compile Include="AWS\MessageJson.cs" />
+    <Compile Include="AWS\OnlineRViewModel.cs" />
     <Compile Include="ChatPage\Conversation.cs" />
     <Compile Include="ChatPage\Conversations.cs" />
     <Compile Include="ChatPage\ReportM.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="HomePage\Location.cs" />
     <Compile Include="OptionsPage\VolunteerPortal.cs" />
     <Compile Include="ResourcePage\FavoritesPage.cs" />
+    <Compile Include="ResourcePage\NewOnlineResources.cs" />
     <Compile Include="ResourcePage\ResourcesTabbedSwipePage.xaml.cs">
       <DependentUpon>ResourcesTabbedSwipePage.xaml</DependentUpon>
     </Compile>
