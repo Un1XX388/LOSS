@@ -209,7 +209,13 @@ namespace LOSSPortable
 
         async void SOSLinkPressed(object sender, EventArgs e)
         {
-            Device.OpenUri(new System.Uri("http://www.suicidology.org/Portals/14/docs/Survivors/Loss%20Survivors/SOS_handbook.pdf"));
+            WebView webview = new WebView();
+            //http://stackoverflow.com/questions/2655972/how-can-i-display-a-pdf-document-into-a-webview
+            //using google docs viewer
+            String pdf = "http://www.suicidology.org/Portals/14/docs/Survivors/Loss%20Survivors/SOS_handbook.pdf";
+            webview.Source = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf;
+
+            //Device.OpenUri(new System.Uri("http://www.suicidology.org/Portals/14/docs/Survivors/Loss%20Survivors/SOS_handbook.pdf"));
 
             //WebView webView = new WebView
             //{
@@ -219,11 +225,12 @@ namespace LOSSPortable
             //    },
             //    VerticalOptions = LayoutOptions.FillAndExpand
             //};
-            //await Navigation.PushAsync(new ContentPage()
-            //{
-            //    Content = webView
+            await Navigation.PushAsync(new ContentPage()
+            {
+                Title = "Survivors of Suicide Handbook",
+                Content = webview
 
-            //});
+            });
         }
 
 
@@ -243,6 +250,7 @@ namespace LOSSPortable
 
             await Navigation.PushAsync(new ContentPage()
             {
+                Title = "Find A Support Group",
                 Content = webView
 
             });

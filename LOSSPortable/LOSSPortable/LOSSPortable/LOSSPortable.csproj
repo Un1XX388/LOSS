@@ -53,12 +53,11 @@
     <Compile Include="HomePage\Location.cs" />
     <Compile Include="OptionsPage\VolunteerPortal.cs" />
     <Compile Include="ResourcePage\FavoritesPage.cs" />
-    <Compile Include="ResourcePage\NewOnlineResources.cs" />
+    <Compile Include="ResourcePage\Resources\OnlineResources.cs" />
     <Compile Include="ResourcePage\ResourcesTabbedSwipePage.xaml.cs">
       <DependentUpon>ResourcesTabbedSwipePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResourcePage\Resources\OnlineResourceCell.cs" />
-    <Compile Include="ResourcePage\Resources\OnlineResourceViewModel.cs" />
     <Compile Include="OptionsPage\AboutPage.cs" />
     <Compile Include="OptionsPage\ReportProblem.cs" />
     <Compile Include="OptionsPage\OptionsPage.cs" />
@@ -71,8 +70,6 @@
     <Compile Include="OptionsPage\Speech.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AWS\Message.cs" />
-    <Compile Include="ResourcePage\Resources\OnlineResources.cs" />
-    <Compile Include="ResourcePage\Resources\ResourcesPage.cs" />
     <Compile Include="ResourcePage\Video\PlaylistPage.cs" />
     <Compile Include="ResourcePage\Video\VideoResources.cs" />
     <Compile Include="ResourcePage\Resources\ResourceViewModel.cs" />

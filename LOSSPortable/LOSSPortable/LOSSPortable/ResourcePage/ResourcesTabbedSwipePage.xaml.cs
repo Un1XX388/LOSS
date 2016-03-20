@@ -26,7 +26,7 @@ namespace LOSSPortable
 
             InitializeComponent();
 
-            var page1 = new NewOnlineResources();
+            var page1 = new OnlineResources();
             var page2 = new VideoResources();
             var page3 = new FavoritesPage();
 
