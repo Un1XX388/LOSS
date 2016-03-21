@@ -111,7 +111,6 @@ namespace LOSSPortable
             }
             else
             {
-
                 WebView webView = new WebView
                 {
                     Source = new UrlWebViewSource
@@ -125,7 +124,6 @@ namespace LOSSPortable
                 {
                     Title = title,
                     Content = webView
-
                 });
             }
         }// End of Onselected() method.

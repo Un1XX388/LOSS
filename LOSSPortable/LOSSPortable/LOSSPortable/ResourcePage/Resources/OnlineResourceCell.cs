@@ -4,8 +4,14 @@ using System.Collections.ObjectModel;
 
 
 namespace LOSSPortable{
+
+
 		public class OnlineResourceCell : ViewCell{
-			public OnlineResourceCell(){
+
+        public Boolean favClicked = false;
+
+        public OnlineResourceCell(){
+
 				Grid cellView			= new Grid{
 					VerticalOptions			= LayoutOptions.FillAndExpand,
 					RowDefinitions			= { new RowDefinition{		Height	= new GridLength(1, GridUnitType.Star)} },
@@ -45,8 +51,18 @@ namespace LOSSPortable{
 					};
 				cellFav.SetBinding(Button.TextProperty, new Binding("Fav"));
 				cellView.Children.Add(cellFav, 4, 5, 0, 13);
+                cellFav.Clicked += CellFav_Clicked;
 
 				View					= cellView;
 			}// End of OnlineResourceCell() method.
-		}// End of OnlineResourceCell class.
+
+        public void CellFav_Clicked(object sender, EventArgs e)
+        {
+          //  System.Diagnostics.Debug.WriteLine("Favorite Button Clicked");
+            favClicked = true;
+            System.Diagnostics.Debug.WriteLine(favClicked);
+
+
+        }
+    }// End of OnlineResourceCell class.
 }// End of LossPortable namespace.
