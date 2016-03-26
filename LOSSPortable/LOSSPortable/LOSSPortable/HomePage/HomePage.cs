@@ -196,6 +196,7 @@ namespace LOSSPortable
 
         protected override void OnAppearing()
         {
+            this.IsBusy=false;
             base.OnAppearing();
 
         }
@@ -209,24 +210,24 @@ namespace LOSSPortable
 
         async void SOSLinkPressed(object sender, EventArgs e)
         {
+            ActivityIndicator ai = new ActivityIndicator();
+            ai.IsRunning = true;
+            ai.IsEnabled = true;
+            ai.BindingContext = this;
+            ai.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
+            this.IsBusy = true;
+            
+
             WebView webview = new WebView();
             //http://stackoverflow.com/questions/2655972/how-can-i-display-a-pdf-document-into-a-webview
             //using google docs viewer
             String pdf = "http://www.suicidology.org/Portals/14/docs/Survivors/Loss%20Survivors/SOS_handbook.pdf";
             webview.Source = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf;
-
-            //Device.OpenUri(new System.Uri("http://www.suicidology.org/Portals/14/docs/Survivors/Loss%20Survivors/SOS_handbook.pdf"));
-
-            //WebView webView = new WebView
-            //{
-            //    Source = new UrlWebViewSource
-            //    {
-            //        Url = "http://www.suicidology.org/Portals/14/docs/Survivors/Loss%20Survivors/SOS_handbook.pdf"
-            //    },
-            //    VerticalOptions = LayoutOptions.FillAndExpand
-            //};
+            
+            
             await Navigation.PushAsync(new ContentPage()
-            {
+            {   
+
                 Title = "Survivors of Suicide Handbook",
                 Content = webview
 
@@ -278,7 +279,7 @@ namespace LOSSPortable
         void quoteList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             label1.Text = LoadQuotes().Message;
-            labelFrame.OutlineColor = Color.White;
+            //labelFrame.OutlineColor = Color.White;
         }
 
 

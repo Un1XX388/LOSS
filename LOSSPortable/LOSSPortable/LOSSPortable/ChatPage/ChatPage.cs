@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using PCLCrypto;
 using System.Text;
 
+
 namespace LOSSPortable
 {
 
@@ -19,12 +20,17 @@ namespace LOSSPortable
         private Grid gridLayout;
         private StackLayout outerStack;
         private ScrollView innerScroll;
+        private int MessageCount;
+        private Entry editor = new Entry();
+
         String name;
         //        List<Message> msgs = new List<Message>(); //history of messaging
         Conversation conv = new Conversation();
+        
 
         public ChatPage(String inputname, List<Message> msgs, string key)  //use the key to store
-        {
+        {   
+            
 
             if (Helpers.Settings.ContrastSetting == true)
             {
@@ -44,8 +50,27 @@ namespace LOSSPortable
             Icon = "Accounts.png";
 
             //entry:
-            var editor = new Entry();
+            
             editor.Placeholder = "Enter Message: ";
+
+            //double height = innerScroll.HeightRequest;
+
+            editor.Focused += delegate {
+
+                System.Diagnostics.Debug.WriteLine("messages count = " + MessageCount);
+                innerScroll.HeightRequest = innerScroll.HeightRequest / 3;
+                 
+                ScrollEvent();
+                this.Content = outerStack;
+            };
+            
+            editor.Unfocused += delegate { //hide the keyboard
+
+                innerScroll.HeightRequest = innerScroll.HeightRequest * 3;
+                //ScrollEvent();
+                this.Content = outerStack;
+            };
+            
 
             //var label = new Label { Text = "Message " + this.getName(), FontSize = 30, BackgroundColor = Color.Blue, TextColor = Color.White, XAlign = TextAlignment.Center };
             send = new Button { Text = "Send" };
@@ -55,6 +80,8 @@ namespace LOSSPortable
 
                 String mes = editor.Text;
                 editor.Text = "";
+
+
                 try
                 {
                     Messages.Add(mes);
@@ -64,13 +91,10 @@ namespace LOSSPortable
                     DisplayAlert("Alert", "Processor Usage" + ex.Message + mes, "OK");
                 }
 
-                var tapGestureRecognizer = new TapGestureRecognizer();
-                tapGestureRecognizer.Tapped += (s, e) => {
-                };
 
                 Message message = new Message();
                 //constructor:
-                
+
                 message.icon = "drawable/prof.png";
                 message.sender = "Sender ";
                 message.reciever = "Reciever";
@@ -85,6 +109,8 @@ namespace LOSSPortable
                 System.Diagnostics.Debug.WriteLine("message: " + message.text);
                 DisplayResponse(message);
                 conv.msgs.Add(message);
+                MessageCount++;
+
 
                 this.Content = outerStack;
             };
@@ -119,8 +145,9 @@ namespace LOSSPortable
                 };
 
                 gridLayout.ChildAdded += delegate // Automatically scrolls to bottom of the chat 
-                { innerScroll.ScrollToAsync(0, innerScroll.HeightRequest * 2, true); };
-
+                {
+                     ScrollEvent();
+                };
 
                 outerStack = new StackLayout
                 {
@@ -140,6 +167,7 @@ namespace LOSSPortable
 
                 Content = outerStack;
                 Title = "" + this.getName();
+                
             });
 
             refreshView();
@@ -178,7 +206,7 @@ namespace LOSSPortable
             }
             else
             {
-                numRows = msg.Length / 15;
+                numRows = msg.Length / 35;
             }
 
             Grid innerGrid = new Grid
@@ -212,7 +240,7 @@ namespace LOSSPortable
             //profilePicture.BackgroundColor = Color.FromHex("CCCCFF");
 
 
-            Label name = new Label { Text = message.sender, TextColor = Color.Black, FontAttributes = FontAttributes.Bold, FontSize = 20, FontFamily = "Arial"}; //, XAlign = TextAlignment.Start
+            Label name = new Label { Text = message.sender, TextColor = Color.Black, FontAttributes = FontAttributes.Bold, FontSize = 20, FontFamily = "Arial" }; //, XAlign = TextAlignment.Start
             name.VerticalOptions = LayoutOptions.StartAndExpand;
 
             var datetime = DateTime.Now;
@@ -223,13 +251,7 @@ namespace LOSSPortable
             Label response = new Label { Text = message.text, TextColor = Color.Black, FontSize = 18, FontFamily = "Arial" }; //, XAlign = TextAlignment.Start             
             var tgr = new TapGestureRecognizer();
 
-            /*if (message.getSide() == "right")
-            {   
-                name.HorizontalTextAlignment = TextAlignment.End;
-                time.HorizontalTextAlignment = TextAlignment.End;
-                response.HorizontalTextAlignment = TextAlignment.End;
-            }
-            */
+
             tgr.Tapped += (s, e) => OnLabelClicked(response, message, 1);
             response.GestureRecognizers.Add(tgr);
             response.VerticalOptions = LayoutOptions.Start;
@@ -240,24 +262,7 @@ namespace LOSSPortable
 
 
             gridLayout.RowSpacing = 1;
-            /*if (message.getSide() == "right")
-            {
-                profilePicture.HorizontalOptions = LayoutOptions.End;
-                name.HorizontalTextAlignment = TextAlignment.End;
-                name.HorizontalOptions = LayoutOptions.End;
-                time.HorizontalTextAlignment = TextAlignment.End;
-                response.HorizontalOptions = LayoutOptions.End;
-                response.HorizontalTextAlignment = TextAlignment.End;
 
-                innerGrid.HorizontalOptions = LayoutOptions.End;
-                innerGrid.BackgroundColor = Color.White;
-
-                innerGrid.Children.Add(time); 
-                innerGrid.Children.AddHorizontal(name);
-                innerGrid.Children.AddHorizontal(profilePicture);
-                
-                innerGrid.Children.Add(response, 0, 5, 1, labelLength);
-            }*/
             innerGrid.Children.Add(profilePicture);
             innerGrid.Children.AddHorizontal(name);
             innerGrid.Children.AddHorizontal(time);
@@ -300,9 +305,8 @@ namespace LOSSPortable
         {
             Message found = conv.msgs.Find(x => x.id == id);
             conv.msgs.Remove(found);
-
-            //            msgs.Remove(found);
-
+            MessageCount--;
+            
 
             refreshView();
         }
@@ -324,31 +328,62 @@ namespace LOSSPortable
 
             Navigation.PushAsync(new ReportMessage(msg));
         }
+        private static string CalculateSha1Hash(string input)  //hashing
+        {
+            // step 1, calculate MD5 hash from input
+            var hasher = WinRTCrypto.HashAlgorithmProvider.OpenAlgorithm(HashAlgorithm.Sha1);
+            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+            byte[] hash = hasher.HashData(inputBytes);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+            return sb.ToString();
+        }
+
+        public void ScrollEvent()
+        {
+            innerScroll.ScrollToAsync(0, innerScroll.HeightRequest * (MessageCount + 10), false);
+            System.Diagnostics.Debug.WriteLine("message count= " + MessageCount);
+             
+        }
+
 
 
         //----------------------------------------------------------
+        
 
-        protected async override void OnDisappearing() //leaving the page ->cache history
+
+        protected override void OnDisappearing() //leaving the page ->cache history
         {
-            base.OnDisappearing();
 
-            await Store(conv);
+            editor.Keyboard = null;
+            editor.Unfocus();
+            
+            System.Diagnostics.Debug.WriteLine("unfocused.");
+            
+
+            Store(conv);
             System.Diagnostics.Debug.WriteLine("storing");
-        }
 
+        }
         protected async override void OnAppearing()
         {
             base.OnAppearing();
             System.Diagnostics.Debug.WriteLine("trying to get cache.");
             Conversation con = await Get();
+            this.MessageCount = con.msgs.Count;
             System.Diagnostics.Debug.WriteLine("returned messages: " + con.msgs.Count);
             //await DisplayAlert("", con.msgs[0].getMessage(), "ok"); CAUSE OF BUGS
             this.setChat(con.msgs);
             this.Content = outerStack;
+            ScrollEvent();
         }
 
         public async Task<Conversation> Get()
-        {
+        { 
             try
             {
                 System.Diagnostics.Debug.WriteLine("fetching cached. object key = " + Key);
@@ -367,9 +402,16 @@ namespace LOSSPortable
 
         public async Task Store<Conversation>(Conversation value)
         {
-            System.Diagnostics.Debug.WriteLine(">>>>>>>>storing key = " + Key + ". Items = " + conv.msgs.Count);
-            await BlobCache.LocalMachine.InsertObject(Key, conv);
 
+            try
+            {
+                await BlobCache.LocalMachine.InsertObject(Key, conv);
+                System.Diagnostics.Debug.WriteLine("Finished storing");
+            }
+            catch (Exception E)
+            {
+                System.Diagnostics.Debug.WriteLine("Error with storing in cache.");
+            }
         }
 
         public Conversation NewConv()
@@ -378,20 +420,7 @@ namespace LOSSPortable
             return new Conversation();
         }
 
-        private static string CalculateSha1Hash(string input)  //hashing
-        {
-            // step 1, calculate MD5 hash from input
-            var hasher = WinRTCrypto.HashAlgorithmProvider.OpenAlgorithm(HashAlgorithm.Sha1);
-            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-            byte[] hash = hasher.HashData(inputBytes);
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hash.Length; i++)
-            {
-                sb.Append(hash[i].ToString("X2"));
-            }
-            return sb.ToString();
-        }
+        
 
     }
 

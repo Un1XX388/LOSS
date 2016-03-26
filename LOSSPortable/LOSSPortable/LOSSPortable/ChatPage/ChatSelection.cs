@@ -126,6 +126,20 @@ public ChatSelection()
         }
 
         //------------------------------------------------------------------------
+        protected async override void OnAppearing()
+        {
+            try
+            {
+                base.OnAppearing();
+                outerLayout.Focus();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("bug: "+e);
+            }
+        }
+
+
         protected override Boolean OnBackButtonPressed() // back button pressed
         {
             ((RootPage)App.Current.MainPage).NavigateTo();
