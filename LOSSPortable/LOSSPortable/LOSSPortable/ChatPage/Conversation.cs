@@ -7,7 +7,7 @@ namespace LOSSPortable
     public class Conversation
     {  //List of message objects; essentially a chat history with a person.
         [JsonProperty(PropertyName = "msgs")]
-        public List<Message> msgs { get; set; }
+        public List<ChatMessage> msgs { get; set; }
         [JsonProperty(PropertyName = "id")]
         public String id { get; set; }
         [JsonProperty(PropertyName = "username")]
@@ -15,7 +15,7 @@ namespace LOSSPortable
 
         public Conversation()
         {
-            msgs = new List<Message>();
+            msgs = new List<ChatMessage>();
         }
 
 

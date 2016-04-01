@@ -46,7 +46,6 @@
     <Compile Include="AWS\InspirationalQuote.cs" />
     <Compile Include="ChatPage\ChatPage.cs" />
     <Compile Include="ChatPage\ChatSelection.cs" />
-    <Compile Include="ChatPage\Message.cs" />
     <Compile Include="Constants\Colors.cs" />
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Helpers\Settings.cs" />

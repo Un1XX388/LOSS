@@ -22,10 +22,12 @@ namespace LOSSPortable
         private StackLayout stackLayout;
         private StackLayout outerLayout;
         private ScrollView innerScroll;
-       
+        Entry nameEntry;
+
+
 
         Switch readyToChat;
-        Label chatAvailability = new Label { Text = "Not Ready to chat." };
+        Label chatAvailability = new Label { Text = "Not Ready to chat.", HorizontalTextAlignment = TextAlignment.Center, FontSize = 20, FontFamily = "Arial" };
 
         Button chatLink = new Button { Text = "Chat" , WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22) };
         
@@ -50,19 +52,30 @@ public ChatSelection()
             Title = "Chat Selection";
             Icon = "Accounts.png";
 
+            Label Desc = new Label { Text = "\nUpon toggling at attempt to connect you to an available volunteer will be made. \n\nFeel free to remain Anonymous by not entering a name.", FontSize = 20, FontFamily = "Arial" };
+            Entry nameEntry = new Entry { Placeholder = "Enter your name: " };
 
             chatLink.Clicked += async (s, e) =>
             {
-                await Navigation.PushAsync(new ChatPage("Volunteer", new List < Message >(), "12345"));  //navigate to a state page (not new).
+                try
+                {
+                    await Navigation.PushAsync(new ChatPage("Volunteer", new List<ChatMessage>(), "12345", nameEntry.Text));  //navigate to a state page (not new).
+                }
+                catch (Exception E)
+                {
+                    System.Diagnostics.Debug.WriteLine ("error"+E);
+                }
             };
 
             readyToChat = new Switch
             {
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
+
             };
             readyToChat.Toggled += readyToChatF;
 
+            
 
 
             Device.BeginInvokeOnMainThread(() =>   //automatically updates
@@ -71,8 +84,10 @@ public ChatSelection()
                 {
                     Children =
                             {
-                            chatAvailability,
-                            readyToChat
+                            Desc,
+                            nameEntry,
+                            readyToChat,
+                            chatAvailability
 
                             }
 

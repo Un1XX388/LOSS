@@ -18,28 +18,47 @@ namespace LOSSPortable
 
         CancellationTokenSource ct = new CancellationTokenSource();
         ReportM temp;
-        Message msg;
+        ChatMessage msg;
         Editor editor;
-        String result = "";
+        //String result = "";
+        String reportType;
 
 
 
-        public ReportMessage(Message msg)
+        public ReportMessage(ChatMessage msg)
         {
             temp = new ReportM();
             this.msg = msg;
 
-            Title = "Report Message from: " + msg.getSender();
+            Title = "Report Message from: " + msg.Sender;
             //var result = "";
 
 
-            Button picker = new Button { Text = " Select Reason ", WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22) };
+            /*Button picker = new Button { Text = " Select Reason ", WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22) };
             picker.Clicked += async delegate
             {
                 result = await DisplayActionSheet(null, "Cancel", null, "Offensive Language", "Spam", "Threat", "Solicitation");
                 if (result != "" && result !="Cancel")
                     picker.Text = result;
             };
+            */
+            Picker picker = new Picker
+            {
+                Title = "Select a Reason:",
+                BackgroundColor = Color.Default
+
+            };
+
+            picker.Items.Add("Offensive Language");
+            picker.Items.Add("Spam");
+            picker.Items.Add("Thread");
+            picker.Items.Add("Solicitation");
+
+            picker.SelectedIndexChanged += (sender, args) =>
+            {
+                reportType = picker.Items[picker.SelectedIndex];
+            };
+
             Label exp = new Label
             {
                 Text = "Please select a reason and enter description.",
@@ -78,13 +97,13 @@ namespace LOSSPortable
 
         async void onSubmitPressed(Object sender, EventArgs e)
         {
-            temp.Comment = editor.Text ;
-            temp.Message = msg.getMessage();
-            temp.From = msg.getSender();
-            temp.To = msg.getReciever();
+            temp.Comment = editor.Text;
+            temp.Message = msg.Text;
+            temp.From = msg.Sender;
+            temp.To = msg.Reciever;
             temp.id = AmazonUtils.Credentials.GetIdentityId();
-            temp.Type = result;
-            temp.Date = msg.date; //change to message's time/date
+            temp.Type = reportType;
+            temp.Date = msg.Date; //change to message's time/date
 
             System.Diagnostics.Debug.WriteLine("Review Report" + temp.Comment + temp.Message + temp.From + temp.To + temp.id + temp.Type  + temp.Date);
             //send to server: 
@@ -92,15 +111,24 @@ namespace LOSSPortable
             await SaveAsync<ReportM>(temp, ct.Token);
 
             UserDialogs.Instance.ShowSuccess("Thank you! Message report has been submitted.");
-            await Navigation.PopAsync();
+            //await Navigation.PopAsync();
 
         }
 
         public async Task SaveAsync<ReportM>(ReportM entity, CancellationToken ct)
         {
-            var context = AmazonUtils.DDBContext;
-            await context.SaveAsync<ReportM>(entity, ct);
-            System.Diagnostics.Debug.WriteLine("entity saved");
+            try {
+                var context = AmazonUtils.DDBContext;
+                await context.SaveAsync<ReportM>(entity, ct);
+                System.Diagnostics.Debug.WriteLine("entity saved");
+
+            }
+            catch (Exception E)
+            {
+                System.Diagnostics.Debug.WriteLine("Error: " + E);
+            }
+            
+
         }
     }
 }
