@@ -12,7 +12,7 @@ namespace LOSSPortable{
 
         public OnlineResourceCell(){
 
-				Grid cellView			= new Grid{
+				 Grid cellView			= new Grid{
 					VerticalOptions			= LayoutOptions.FillAndExpand,
 					RowDefinitions			= { new RowDefinition{		Height	= new GridLength(1, GridUnitType.Star)} },
 					ColumnDefinitions		= { new ColumnDefinition{	Width	= new GridLength(1, GridUnitType.Star)} }
@@ -43,26 +43,38 @@ namespace LOSSPortable{
 				cellDesc.SetBinding(Label.TextProperty, new Binding("Description"));
 				cellView.Children.Add(cellDesc, 1, 4, 4, 30);
 
-				// Create favorite option.
-				var cellFav				= new Button(){
-					Font					= Font.SystemFontOfSize(NamedSize.Small),
-					BorderRadius			= 10,
-					HorizontalOptions		= LayoutOptions.Center
-					};
-				cellFav.SetBinding(Button.TextProperty, new Binding("Fav"));
-				cellView.Children.Add(cellFav, 4, 5, 0, 13);
-                cellFav.Clicked += CellFav_Clicked;
+            var cellFav = new Image();
+            cellFav.VerticalOptions = LayoutOptions.Center;
+            cellFav.HorizontalOptions = LayoutOptions.Center;
+            cellFav.SetBinding(Image.SourceProperty, new Binding("Fav"));
+            cellView.Children.Add(cellFav, 4, 5, 0, 13);
 
-				View					= cellView;
-			}// End of OnlineResourceCell() method.
+            cellFav.GestureRecognizers.Add(new TapGestureRecognizer
+            {
+                Command = new Command(
+                           () => cellFav.Source = isFavorited()),
+            });
 
-        public void CellFav_Clicked(object sender, EventArgs e)
+            View = cellView;
+		}// End of OnlineResourceCell() method.
+
+        public String isFavorited()
         {
-          //  System.Diagnostics.Debug.WriteLine("Favorite Button Clicked");
-            favClicked = true;
-            System.Diagnostics.Debug.WriteLine(favClicked);
-
-
+            if (favClicked == false)
+            {
+                Helpers.Settings.FavoriteSetting = false;
+                favClicked = true;
+                return "fav132.png";
+            }
+            else
+            {
+                //get all the items favorited for caching
+                //String title = ToString().;
+                //System.Diagnostics.Debug.WriteLine("item favorited = " + title);
+                Helpers.Settings.FavoriteSetting = true;
+                favClicked = false;
+                return "fav232.png";
+            }
         }
     }// End of OnlineResourceCell class.
 }// End of LossPortable namespace.

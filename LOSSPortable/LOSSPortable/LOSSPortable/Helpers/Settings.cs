@@ -21,8 +21,11 @@ namespace LOSSPortable.Helpers
 
         #region Setting Constants
 
-        private const string firstTimeKey = "first_key";
-        private static readonly bool firstDefault = true;
+        private const string portalAccessed = "portal_key";
+        private static readonly bool pAccessDefault = false;
+
+        private const string countKey = "portal_count";
+        private static readonly int countDefault = 0;
 
         private const string AnonymousKey = "anonymous_key";
         private static readonly bool AnonymousDefault = false;
@@ -45,14 +48,20 @@ namespace LOSSPortable.Helpers
         private const string EndpointArn = "endpointarn";
         private static readonly string EndpointArnDefault = null;
 
+        private const string favoriteKey = "favorite_key";
+        private static readonly bool FavoriteDefault = false;
         #endregion
 
-        public static bool FirstTimeSetting
+        public static bool portalAccessedSetting
         {
-            get {  return AppSettings.GetValueOrDefault(firstTimeKey, firstDefault); }
-            set {  AppSettings.AddOrUpdateValue(firstTimeKey, value); }
+            get {  return AppSettings.GetValueOrDefault(portalAccessed, pAccessDefault); }
+            set {  AppSettings.AddOrUpdateValue(portalAccessed, value); }
         }
-
+        public static int portalAccessCount
+        {
+            get { return AppSettings.GetValueOrDefault(countKey, countDefault); }
+            set { AppSettings.AddOrUpdateValue(countKey, value); }
+        }
         public static bool ContrastSetting
         {
             get {   return AppSettings.GetValueOrDefault(ContrastKey, ContrastDefault); }
@@ -94,5 +103,12 @@ namespace LOSSPortable.Helpers
             get { return AppSettings.GetValueOrDefault(EndpointArn, EndpointArnDefault); }
             set { AppSettings.AddOrUpdateValue(EndpointArnSetting, value);  }
         }
+
+        public static bool FavoriteSetting
+        {
+            get { return AppSettings.GetValueOrDefault(favoriteKey, FavoriteDefault); }
+            set { AppSettings.AddOrUpdateValue(favoriteKey, value); }
+        }
+
     }
 }

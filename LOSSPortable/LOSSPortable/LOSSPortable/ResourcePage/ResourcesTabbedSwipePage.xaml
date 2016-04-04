@@ -2,16 +2,16 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LOSSPortable.ResourcesTabbedSwipePage">
-  <!--<Label Text="Resources" VerticalOptions="Center" HorizontalOptions="Center" />-->
-	<TabbedPage.Children>
-		<CarouselPage x:Name ="Web"
+
+  <TabbedPage.Children>
+    <CarouselPage x:Name ="Web"
 									Title="Web">
-			<!--<CarouselPage.Children>
+      <!--<CarouselPage.Children>
 				<ContentPage x:Name="webContent">	</ContentPage>
 				<ContentPage/>
 				<ContentPage/>
 			</CarouselPage.Children>-->
-		</CarouselPage>
+    </CarouselPage>
 		<CarouselPage x:Name="Playlist"
 									Title="Playlist(s)">
 			<!--<CarouselPage.Children>

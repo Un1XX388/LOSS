@@ -361,6 +361,9 @@
   <ItemGroup>
     <BundleResource Include="Resources\vid6.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="splash.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

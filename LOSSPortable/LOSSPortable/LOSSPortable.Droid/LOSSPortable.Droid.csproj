@@ -254,6 +254,7 @@
     <Compile Include="GCMBootReceiver.cs" />
     <Compile Include="GCMIntentService.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="SplashActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -298,6 +299,11 @@
     <AndroidResource Include="Resources\drawable\App6.png" />
     <AndroidResource Include="Resources\drawable\logo2.png" />
     <AndroidResource Include="Resources\drawable\radialback2.xml" />
+    <AndroidResource Include="Resources\drawable\fav2.png" />
+    <AndroidResource Include="Resources\drawable\fav1.png" />
+    <AndroidResource Include="Resources\drawable\fav232.png" />
+    <AndroidResource Include="Resources\drawable\fav132.png" />
+    <AndroidResource Include="Resources\drawable\splash.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LOSSPortable\LOSSPortable.csproj">

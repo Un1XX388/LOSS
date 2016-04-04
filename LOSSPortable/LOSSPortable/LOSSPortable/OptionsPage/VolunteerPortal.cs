@@ -121,18 +121,16 @@ namespace LOSSPortable
             };
             this.Content = content;
 
-            login.FontSize = Device.GetNamedSize(NamedSize.Small, login);
-            login.Style = new Style(typeof(Label))
-            {
-                BaseResourceKey = Device.Styles.BodyStyleKey,
-                Setters = {
-                new Setter { Property = Label.TextColorProperty,Value = Color.White },
-                new Setter {Property = Label.FontFamilyProperty, Value = "Times New Roman" },
-
-                }
+            //login.FontSize = Device.GetNamedSize(NamedSize.Small, login);
+            //login.Style = new Style(typeof(Label))
+            //{
+            //    BaseResourceKey = Device.Styles.BodyStyleKey,
+            //    Setters = {
+            //    new Setter { Property = Label.TextColorProperty,Value = Color.White }
+            //    }
 
 
-            };
+            //};
 
             if (Helpers.Settings.SpeechSetting == true)
             {
@@ -141,6 +139,82 @@ namespace LOSSPortable
         }//end constructor VolunteerPortal
          //===========================================================================================================================
 
+        //===========================================================================================================================
+
+        //This function checks if Login or Logout is pressed and prompts user accordingly.
+
+        public async void login_check()
+        {
+
+
+            if (loggedIn == false) //login is currently displayed. set loggedIn to true to display logout
+            {
+                System.Diagnostics.Debug.WriteLine("Login currently displayed - loggedIn" + loggedIn);
+                //entry pop up for login
+                var r = await UserDialogs.Instance.LoginAsync(new LoginConfig
+                {
+                    Message = "Enter Credentials",
+                    LoginPlaceholder = Helpers.Settings.EmailSetting,
+                    //  PasswordPlaceholder = Helpers.Settings.PasswordSetting
+                });
+
+                var status = r.Ok ? "Success" : "Cancelled";
+                //  System.Diagnostics.Debug.WriteLine("after status = r.ok?");
+
+                // this.Result($"Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
+                if (status == "Success")
+                {
+                    Helpers.Settings.EmailSetting = r.LoginText;
+                    Helpers.Settings.PasswordSetting = r.Password;
+                    loggedIn = true;
+                    login.Text = "Logout";
+                    System.Diagnostics.Debug.WriteLine("status is success then logout should be displayed - loggedIn" + loggedIn);
+                    return;
+                }
+                else if (status == "Cancelled")
+                {
+                    // loggedIn = false;
+                    login.Text = "Login";
+                    System.Diagnostics.Debug.WriteLine("status is cancelled then login should be displayed - loggedIn" + loggedIn);
+                    return;
+                }
+            }
+
+            else if (loggedIn == true)//if logout is displayed
+            {
+                System.Diagnostics.Debug.WriteLine("Logout currently displayed - loggedIn" + loggedIn);
+
+                //pop up confirmation
+                var result = await DisplayAlert("Log Out", "Are you sure?", "Yes", "No");
+                if (result == false)
+                {
+                    // loggedIn = true;
+                    login.Text = "Logout";
+                    //       event_label.Text = String.Format("Logout canceled");
+                    System.Diagnostics.Debug.WriteLine("User clicked on No, logout should still be displayed - loggedIn" + loggedIn);
+                    return;
+                }
+                else
+                {
+                    loggedIn = false;
+                    login.Text = "Login";
+                    //       event_label.Text = String.Format("Logged out");
+                    System.Diagnostics.Debug.WriteLine("User clicked on Yes, login should be displayed - loggedIn" + loggedIn);
+                    return;
+                }
+            }
+
+        }
+
+        //===========================================================================================================================
+        //temporary function
+
+        void Result(string msg)
+        {
+            UserDialogs.Instance.Alert(msg);
+        }
+
+        //===========================================================================================================================
         //Displays options such as Edit Profile, Change Password, Login with Another Account, and Create a new account when Manage Account is tapped.
         async void manageAccount()
         {
@@ -149,14 +223,24 @@ namespace LOSSPortable
                 CrossTextToSpeech.Current.Speak("Manage Account");
             }
             var action = await DisplayActionSheet("Manage Account", "Cancel", null,
-                //"Edit Profile", 
+                //"Edit Profile",
+                "Forgot Password", 
                 "Change Password",
-                "Login with Another Account", "Create a New Account");
+                "Login with Another Account", 
+                "Create a New Account");
             switch (action)
             {
                 //case "Edit Profile":
                 //    await Navigation.PushAsync(new ProfilePage());
                 //    break;
+                case "Forgot Password":
+                    var s = await UserDialogs.Instance.PromptAsync(new PromptConfig
+                    {
+                        Message = "Enter E-Mail"
+                    });
+                    var stat = s.Ok ? "Success" : "Cancelled";
+
+                    break;
                 case "Change Password":
                     //var r = await UserDialogs.Instance.ConfirmAsync("", "Pick Title");
                     //var text = (r ? "Yes" : "No");
@@ -383,79 +467,6 @@ namespace LOSSPortable
                 temp = customPopUp();
                 _PopUpLayout.ShowPopup(temp);
             }
-        }
-
-        //===========================================================================================================================
-
-        //This function checks if Login or Logout is pressed and prompts user accordingly.
-
-        public async void login_check()
-        {
-            if (loggedIn == false) //login is currently displayed. set loggedIn to true to display logout
-            {
-                System.Diagnostics.Debug.WriteLine("Login currently displayed - loggedIn" + loggedIn);
-                //entry pop up for login
-                var r = await UserDialogs.Instance.LoginAsync(new LoginConfig
-                {
-                    Message = "Enter Credentials",
-                    LoginPlaceholder = Helpers.Settings.EmailSetting,
-                    PasswordPlaceholder = Helpers.Settings.PasswordSetting
-                });
-
-                var status = r.Ok ? "Success" : "Cancelled";
-                //  System.Diagnostics.Debug.WriteLine("after status = r.ok?");
-
-                // this.Result($"Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
-                if (status == "Success")
-                {
-                    Helpers.Settings.EmailSetting = r.LoginText;
-                    Helpers.Settings.PasswordSetting = r.Password;
-                    loggedIn = true;
-                    login.Text = "Logout";
-                    System.Diagnostics.Debug.WriteLine("status is success then logout should be displayed - loggedIn" + loggedIn);
-                    return;
-                }
-                else if (status == "Cancelled")
-                {
-                    // loggedIn = false;
-                    login.Text = "Login";
-                    System.Diagnostics.Debug.WriteLine("status is cancelled then login should be displayed - loggedIn" + loggedIn);
-                    return;
-                }
-            }
-
-            else if (loggedIn == true)//if logout is displayed
-            {
-                System.Diagnostics.Debug.WriteLine("Logout currently displayed - loggedIn" + loggedIn);
-
-                //pop up confirmation
-                var result = await DisplayAlert("Log Out", "Are you sure?", "Yes", "No");
-                if (result == false)
-                {
-                    // loggedIn = true;
-                    login.Text = "Logout";
-             //       event_label.Text = String.Format("Logout canceled");
-                    System.Diagnostics.Debug.WriteLine("User clicked on No, logout should still be displayed - loggedIn" + loggedIn);
-                    return;
-                }
-                else
-                {
-                    loggedIn = false;
-                    login.Text = "Login";
-             //       event_label.Text = String.Format("Logged out");
-                    System.Diagnostics.Debug.WriteLine("User clicked on Yes, login should be displayed - loggedIn" + loggedIn);
-                    return;
-                }
-            }
-
-        }
-
-        //===========================================================================================================================
-        //temporary function
-
-        void Result(string msg)
-        {
-            UserDialogs.Instance.Alert(msg);
         }
 
         //==================================================== Back Button Pressed ==============================================================

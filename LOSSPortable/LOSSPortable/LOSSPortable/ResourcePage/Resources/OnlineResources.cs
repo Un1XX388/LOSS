@@ -15,6 +15,8 @@ namespace LOSSPortable
 
         // Holds all info for each item on resources page.
         public ObservableCollection<OnlineRViewModel> online_resources { get; set; }
+        String favorite;
+        Boolean favClicked = false;
 
         // 
         public OnlineResources()
@@ -27,6 +29,9 @@ namespace LOSSPortable
             else {
                 BackgroundColor = Colors.background;
             }
+
+            OnlineResourceCell temp = new OnlineResourceCell();
+
 
             // Holds data to be displayed on this content page.
             online_resources = new ObservableCollection<OnlineRViewModel>();
@@ -43,8 +48,16 @@ namespace LOSSPortable
             // Set source of data for the list view used on this page.
             lstView.ItemsSource = online_resources;
 
+            //var cellFav = new Image();
+            //cellFav.VerticalOptions = LayoutOptions.Center;
+            //cellFav.HorizontalOptions = LayoutOptions.Center;
+            //cellFav.SetBinding(Image.SourceProperty, new Binding("Fav"));
+            //temp.cellView.Children.Add(cellFav, 4, 5, 0, 13);
+
+
             // Set layout for each element in this list view.
             lstView.ItemTemplate = new DataTemplate(typeof(OnlineResourceCell));
+           
 
             // Set behavior of element when selected by user.
             lstView.ItemSelected += Onselected;
@@ -52,8 +65,14 @@ namespace LOSSPortable
             // Assign the list view created above to this content page.
             Content = lstView;
 
+
+
+
+
             //populate listview with retrieved online resources from the server
             var tempList = LoadResources();
+
+
             for(int i = 0; i < tempList.Count; i++)
             {
 
@@ -64,21 +83,48 @@ namespace LOSSPortable
                     Description = tempList[i].Description,
                     URL         = tempList[i].URL,
                     Type        = tempList[i].Type,
-                    Fav         = "Fav"
-
+                    Fav         = tempList[i].Fav
                 });
-
-                            
             }
-
             // Accomodate iPhone status bar.
             Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
+
         }// End of OnlineResources() constructor.
 
+
+
+        public String isFavorited()
+        {
+            if (favClicked == false)
+            {
+                Helpers.Settings.FavoriteSetting = false;
+                favClicked = true;
+                return "fav132.png";
+            }
+            else
+            {
+                //get all the items favorited for caching
+                Helpers.Settings.FavoriteSetting = true;
+                favClicked = false;
+                return "fav232.png";
+            }
+        }
         //loads list of online resources from server
         private RangeObservableCollection<OnlineRViewModel> LoadResources()
         {
-            RangeObservableCollection<OnlineRViewModel> resources = AmazonUtils.getOnlineRList; ;
+            RangeObservableCollection<OnlineRViewModel> resources = AmazonUtils.getOnlineRList;
+            //if (Helpers.Settings.FavoriteSetting == true)
+            //{
+            //    favorite = "fav232.png";
+            //}
+            //else
+            //{
+            //    favorite = "fav132.png";
+            //} 
+            for (int k = 0; k < resources.Count; k++)
+            {
+                resources[k].Fav = "fav132.png";
+            }
             return resources;
         }
 
@@ -93,6 +139,8 @@ namespace LOSSPortable
             ((ListView)sender).SelectedItem = null;        // This deselects the item after it is selected.
 
             String title = e.SelectedItem.ToString().Split(',')[1];
+            String desc = e.SelectedItem.ToString().Split(',')[2];
+            String link = e.SelectedItem.ToString().Split(',')[3];
 
             //checks if the item type is pdf or website
             if (e.SelectedItem.ToString().Split(',')[4].Equals("PDF"))

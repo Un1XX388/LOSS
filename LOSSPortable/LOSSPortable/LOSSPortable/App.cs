@@ -5,7 +5,7 @@ namespace LOSSPortable
 {
     public class App : Application
     {
-		//
+
 		public Boolean HardwareAccelerated { get; set; }
 
 
@@ -17,8 +17,8 @@ namespace LOSSPortable
 
         protected override void OnStart()
         {
-            AmazonUtils.updateOnlineRList();
             AmazonUtils.updateInspirationalQuoteList();
+            AmazonUtils.updateOnlineRList();
 
             // Handle when your app starts
         }

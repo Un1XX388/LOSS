@@ -33,6 +33,24 @@ namespace LOSSPortable
                 BackgroundColor = Colors.background;
             }
 
+            row11_portal = new Button
+            {
+                //  Children = { aboutUs },
+                Text = "Access to Volunteer's Portal",
+                TextColor = Color.Gray,
+                HorizontalOptions = LayoutOptions.StartAndExpand,
+                HeightRequest = 35,
+                BackgroundColor = Color.Transparent
+
+            };
+            row11_portal.Clicked += Row11_portal_Clicked;
+
+            if (Helpers.Settings.portalAccessedSetting == true)
+            {
+                row11_portal.TextColor = Color.White;
+                Helpers.Settings.portalAccessCount = 7;
+
+            }
 
             Title = "Options";
             this.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);
@@ -375,17 +393,7 @@ namespace LOSSPortable
                 Padding = new Thickness(5, 5)
             };
 
-           row11_portal = new Button
-            {
-              //  Children = { aboutUs },
-                Text = "Access to Volunteer's Portal",
-                TextColor = Color.Gray,
-                HorizontalOptions = LayoutOptions.StartAndExpand,
-                HeightRequest = 35,
-                BackgroundColor = Color.Transparent
 
-            };
-            row11_portal.Clicked += Row11_portal_Clicked;
             //========== Page Content where everything needs to be inserted=============================================
 
             mainContent = new StackLayout
@@ -444,13 +452,16 @@ namespace LOSSPortable
             this.Content = content;
         }
 
-        int count = 0;
+        //====================================== Access To Volunteer's Portal =========================
+        int count = Helpers.Settings.portalAccessCount;
         private void Row11_portal_Clicked(object sender, EventArgs e)
         {
             count++;
             if(count >= 7)
             {
                 row11_portal.TextColor = Color.White;
+                Helpers.Settings.portalAccessedSetting = true;
+                Helpers.Settings.portalAccessCount = 7;
                 Navigation.PushAsync(new VolunteerPortal());
                // row11_portal.IsEnabled = true;
 
@@ -822,7 +833,7 @@ namespace LOSSPortable
                 {
                     Message = "Enter Credentials",
                     LoginPlaceholder = Helpers.Settings.EmailSetting,
-                    PasswordPlaceholder = Helpers.Settings.PasswordSetting
+                  //  PasswordPlaceholder = Helpers.Settings.PasswordSetting
                 });
                
                 var status = r.Ok ? "Success" : "Cancelled";

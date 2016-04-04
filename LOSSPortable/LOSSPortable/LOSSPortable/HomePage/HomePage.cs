@@ -278,7 +278,7 @@ namespace LOSSPortable
         void quoteList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             label1.Text = LoadQuotes().Message;
-            labelFrame.OutlineColor = Color.White;
+            //labelFrame.OutlineColor = Color.White;
         }
 
 
