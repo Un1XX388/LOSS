@@ -11,7 +11,13 @@ using Acr.UserDialogs;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
 using System.Threading;
-
+using Newtonsoft.Json;
+using Amazon.Lambda.Model;
+using Amazon.Util;
+using Amazon.Lambda;
+using System.IO;
+using Plugin.Geolocator;
+using Plugin.Geolocator.Abstractions;
 
 namespace LOSSPortable
 {
@@ -28,6 +34,10 @@ namespace LOSSPortable
         private int MessageCount;
         private Entry editor = new Entry();
         CancellationTokenSource ct = new CancellationTokenSource();
+
+        private double longitude;
+        private double latitude;
+
 
         String name;
         //        List<Message> msgs = new List<Message>(); //history of messaging
@@ -343,6 +353,8 @@ namespace LOSSPortable
 
             Navigation.PushAsync(new ReportMessage(msg));
         }
+
+
         private static string CalculateSha1Hash(string input)  //hashing
         {
             // step 1, calculate MD5 hash from input
@@ -370,8 +382,8 @@ namespace LOSSPortable
             System.Diagnostics.Debug.WriteLine("trying to send to server: ");   
             //message sending to server:
             try{
-                
-                await SaveAsync<ChatMessage>(message, ct.Token);
+                await PushMessage(message.ToFrom, message.Text);
+                //await SaveAsync<ChatMessage>(message, ct.Token);
                 System.Diagnostics.Debug.WriteLine("message sent to the server.");
                 }
             catch(Exception E)
@@ -380,15 +392,140 @@ namespace LOSSPortable
             };
             this.Content = outerStack;
         }
+        //-------------------------Get from Server-------------------------
+        public void  messagesFromServer() //upon recieving a chat History log
+        {//utilizes setChat(List<ChatMessage> msgs)
+            List<ChatMessage> msgs = new List<ChatMessage>();
+
+            setChat(msgs); //sets the chat to show the message history.
+        }
+
+        public void singleMessageFromServer(String ToFrom, String Time, String Message)    //upon recieving a single message.
+        {
+            ChatMessage newMsg = new ChatMessage();
+            newMsg.Id = AmazonUtils.Credentials.GetIdentityId();
+            newMsg.Text = Message;
+            newMsg.ToFrom = ToFrom;
+            newMsg.Sender = "placeholder";
+            newMsg.Reciever = "Reciever";
+            newMsg.Icon = "drawable/prof.png";
+            newMsg.Time = Time.Substring(5, 2)+":"+Time.Substring(8,2); //change to only include HH:mm
+            newMsg.Date = Time;
+
+            //include message in list of messages
+
+        }
 
         //-------------------------Server----------------------------------
-        public async Task SaveAsync<Message>(Message entity, CancellationToken ct)
+        
+        public async Task SaveAsync<Message>(Message entity, CancellationToken ct) //old function to send to server
         {
             var context = AmazonUtils.DDBContext;
             await context.SaveAsync<Message>(entity, ct);
             System.Diagnostics.Debug.WriteLine("entity saved");
         }
 
+
+        async private Task PushMessage(string toFrom, string text) //Function to create a Json object and send to server using a lambda function
+        {
+            try
+            {
+                MessageItem message = new MessageItem { Item = new ChatMessage { ToFrom = toFrom, Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ff"), Text = text } };
+                MessageJson messageJson = new MessageJson { operation = "create", tableName = "Message", payload = message };
+                string args = JsonConvert.SerializeObject(messageJson);
+                //System.Diagnostics.Debug.WriteLine(args);
+                var ir = new InvokeRequest()
+                {
+                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                    InvocationType = InvocationType.RequestResponse
+                };
+                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+
+
+                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+                resp.Payload.Position = 0;
+                var sr = new StreamReader(resp.Payload);
+                var myStr = sr.ReadToEnd();
+
+                //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Error:" + e);
+            }
+        }
+
+        //HANDSHAKE:
+        async private Task Handshake( ) //Function to create a Json object and send to server using a lambda function
+        {
+            try
+            {
+         
+
+                UserInfoItem message = new UserInfoItem { Item = new UserInfo { Latitude = latitude , Longitude= longitude , Nickname= name, Arn = " " + Helpers.Settings.EndpointArnSetting  } }; //Helpers.Settings.EndpointArnSetting
+                //await DisplayAlert("sending",latitude+" " + longitude + " " +name+ " ", "ok");
+                UserInfoJson messageJson = new UserInfoJson { operation = "create", tableName = "UnregisteredUser", payload = message };
+                string args = JsonConvert.SerializeObject(messageJson);
+                //System.Diagnostics.Debug.WriteLine(args);
+                var ir = new InvokeRequest()
+                {
+                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                    InvocationType = InvocationType.RequestResponse
+                };
+                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+
+
+                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+                resp.Payload.Position = 0;
+                var sr = new StreamReader(resp.Payload);
+                var myStr = sr.ReadToEnd();
+
+                //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Error:" + e);
+            }
+        }
+
+        //-------------------------geolocation-----------------------------
+        async private Task getLocation()
+        {
+            try
+            {
+                var locator = CrossGeolocator.Current;
+                locator.DesiredAccuracy = 100;
+                locator.PositionChanged += OnPositionChanged;
+                var position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
+                latitude =  Convert.ToDouble (position.Latitude  );
+                longitude = Convert.ToDouble (position.Longitude );
+
+                //label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
+                System.Diagnostics.Debug.WriteLine("type of long/lat is: " + latitude.GetType());
+                //await DisplayAlert("type", "" + latitude.GetType(), "ok");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                //label2.Text = "Unable to find location";
+                latitude = 0.00;
+                longitude = 0.00;
+            }
+
+        }
+
+        async private void OnPositionChanged(object sender, PositionEventArgs e)
+        {
+            var locator = CrossGeolocator.Current;
+            var position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
+            var latitude = position.Latitude.ToString();
+            var longtitude = position.Longitude.ToString();
+            //label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
+        }
         //-------------------------Caching---------------------------------
 
 
@@ -409,6 +546,10 @@ namespace LOSSPortable
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+
+            await getLocation(); //check geolocation
+            await Handshake(); //handshake attempt
+
             System.Diagnostics.Debug.WriteLine("trying to get cache.");
             Conversation con = await Get();
             this.MessageCount = con.msgs.Count;
@@ -417,6 +558,7 @@ namespace LOSSPortable
             this.setChat(con.msgs);
             this.Content = outerStack;
             ScrollEvent();
+            
         }
 
         public async Task<Conversation> Get()

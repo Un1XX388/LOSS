@@ -39,8 +39,10 @@
     <Compile Include="AWS\AmazonUtils.cs" />
     <Compile Include="AWS\MessageJson.cs" />
     <Compile Include="AWS\OnlineRViewModel.cs" />
+    <Compile Include="AWS\UserInfoJson.cs" />
     <Compile Include="ChatPage\Conversation.cs" />
     <Compile Include="ChatPage\Conversations.cs" />
+    <Compile Include="ChatPage\Handshake.cs" />
     <Compile Include="ChatPage\ReportM.cs" />
     <Compile Include="ChatPage\ReportMessage.cs" />
     <Compile Include="AWS\InspirationalQuote.cs" />

@@ -52,7 +52,7 @@ public ChatSelection()
             Title = "Chat Selection";
             Icon = "Accounts.png";
 
-            Label Desc = new Label { Text = "\nUpon toggling at attempt to connect you to an available volunteer will be made. \n\nFeel free to remain Anonymous by not entering a name.", FontSize = 20, FontFamily = "Arial" };
+            Label Desc = new Label { Text = "\nUpon toggling an attempt to connect you to an available volunteer will be made.\nIf you would like to be connected based on distance, ensure your location can be detected. \n\nFeel free to remain Anonymous by not entering a name.", FontSize = 20, FontFamily = "Arial" };
             Entry nameEntry = new Entry { Placeholder = "Enter your name: " };
 
             chatLink.Clicked += async (s, e) =>
