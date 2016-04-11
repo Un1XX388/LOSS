@@ -603,10 +603,5 @@ namespace LOSSPortable
             System.Diagnostics.Debug.WriteLine("creating new conv");
             return new Conversation();
         }
-
-        
-
     }
-
-
 }
