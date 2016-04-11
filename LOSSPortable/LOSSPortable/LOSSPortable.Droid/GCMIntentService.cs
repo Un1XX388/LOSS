@@ -94,18 +94,16 @@ namespace LOSSPortable.Droid
             }
 
             //Log.Info("Messages", "message received = " + message);
-            if (message != null)
-            {   
-                var current = (App)Xamarin.Forms.Application.Current;
-                
+            var current = (App)Xamarin.Forms.Application.Current;
+            if (current.ChatPageActive)
+            { 
                 current.displaySNS(message);
-                AndroidUtils.ShowNotification(this, "Message", message);
+                //AndroidUtils.ShowNotification(this, "Message", message);
             }
             else
             {
                 AndroidUtils.ShowNotification(this, "SNS Push", message);
             }
-            //show the message
         }
     }
 }

@@ -13,6 +13,7 @@ namespace LOSSPortable
         {
             MainPage = new LOSSPortable.RootPage();
 			HardwareAccelerated	= true;
+            ChatPageActive = false;
         }
 
         protected override void OnStart()
@@ -49,8 +50,8 @@ namespace LOSSPortable
         public void displaySNS(string message){
             Device.BeginInvokeOnMainThread(async () =>
             {
-                
-                MessagingCenter.Send<App, string>(this, "Hi", message);
+                ChatMessage msg = new ChatMessage { ToFrom = "ToFrom", Text = "Text", Time = "TIME"};
+                MessagingCenter.Send<App, ChatMessage>(this, "Hi", msg);
                 //System.Diagnostics.Debug.WriteLine("Message : " + message);
                 //var note = new ViewNote(message);
                 //await MainPage.Navigation.PushModalAsync(note);
