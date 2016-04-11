@@ -40,10 +40,8 @@ namespace LOSSPortable.Droid
             //{
             //    SetTheme(Resource.Style.DefaultTheme);
             //}
-
-            LoadApplication(new App());
-
             RegisterForGCM();
+            LoadApplication(new App());
         }
 
         private void RegisterForGCM()

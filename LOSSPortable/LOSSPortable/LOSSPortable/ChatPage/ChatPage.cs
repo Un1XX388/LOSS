@@ -400,7 +400,7 @@ namespace LOSSPortable
             editor.Unfocus();
             
             System.Diagnostics.Debug.WriteLine("unfocused.");
-            
+            MessagingCenter.Send<ChatPage>(this, "End");
 
             Store(conv);
             System.Diagnostics.Debug.WriteLine("storing");
@@ -409,6 +409,7 @@ namespace LOSSPortable
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+            MessagingCenter.Send<ChatPage>(this, "Start");
             System.Diagnostics.Debug.WriteLine("trying to get cache.");
             Conversation con = await Get();
             this.MessageCount = con.msgs.Count;

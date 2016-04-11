@@ -46,7 +46,7 @@ namespace LOSSPortable.Helpers
         private static readonly string PasswordDefault = "";
 
         private const string EndpointArn = "endpointarn";
-        private static readonly string EndpointArnDefault = null;
+        private static readonly string EndpointArnDefault = "";
 
         private const string favoriteKey = "favorite_key";
         private static readonly bool FavoriteDefault = false;
@@ -101,7 +101,7 @@ namespace LOSSPortable.Helpers
         public static string EndpointArnSetting
         {
             get { return AppSettings.GetValueOrDefault(EndpointArn, EndpointArnDefault); }
-            set { AppSettings.AddOrUpdateValue(EndpointArnSetting, value);  }
+            set { AppSettings.AddOrUpdateValue(EndpointArn, value);  }
         }
 
         public static bool FavoriteSetting

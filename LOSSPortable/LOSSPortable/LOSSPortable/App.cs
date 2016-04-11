@@ -7,7 +7,7 @@ namespace LOSSPortable
     {
 
 		public Boolean HardwareAccelerated { get; set; }
-
+        public Boolean ChatPageActive { get; set; }
 
         public App()
         {
@@ -19,7 +19,14 @@ namespace LOSSPortable
         {
             AmazonUtils.updateInspirationalQuoteList();
             AmazonUtils.updateOnlineRList();
-
+            MessagingCenter.Subscribe<ChatPage>(this, "Start", (sender) =>
+            {
+                ChatPageActive = true;
+            });
+            MessagingCenter.Subscribe<ChatPage>(this, "End", (sender) =>
+            {
+                ChatPageActive = false;
+            });
             // Handle when your app starts
         }
 
@@ -34,7 +41,21 @@ namespace LOSSPortable
 
         }
 
+        public Boolean chatDisplayed()
+        {
+            return ChatPageActive;
+        }
 
+        public void displaySNS(string message){
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                
+                MessagingCenter.Send<App, string>(this, "Hi", message);
+                //System.Diagnostics.Debug.WriteLine("Message : " + message);
+                //var note = new ViewNote(message);
+                //await MainPage.Navigation.PushModalAsync(note);
+            });
+        }
     }
 }
 
