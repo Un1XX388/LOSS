@@ -25,6 +25,10 @@ namespace LOSSPortable.iOS
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
             app.RegisterForRemoteNotifications();
+
+            App.ScreenHeight = (int)UIScreen.MainScreen.Bounds.Height;
+            App.ScreenWidth = (int)UIScreen.MainScreen.Bounds.Width;
+
             return base.FinishedLaunching(app, options);
         }
 

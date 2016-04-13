@@ -230,7 +230,7 @@ public ChatSelection()
                 longitude = Convert.ToDouble(position.Longitude);
 
                 //label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
-                System.Diagnostics.Debug.WriteLine("Got Location!");
+                //System.Diagnostics.Debug.WriteLine("Got Location!");
                 //await DisplayAlert("type", "" + latitude.GetType(), "ok");
             }
             catch (Exception ex)
