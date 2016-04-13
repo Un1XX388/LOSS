@@ -7,6 +7,7 @@ using Android.OS;
 using Android.Content;
 using Android.Util;
 using Android.Text;
+using System;
 
 namespace LOSSPortable.Droid
 {
@@ -78,6 +79,11 @@ namespace LOSSPortable.Droid
         {
             string message = string.Empty;
             Bundle extras = intent.Extras;
+            foreach (string key in extras.KeySet()){
+                string value = extras.GetString(key);
+                System.Diagnostics.Debug.WriteLine("key : " + key + " || content : " + value);
+
+            }
             if (!string.IsNullOrEmpty(extras.GetString("message")))
             {
                 message = extras.GetString("message");
@@ -87,16 +93,17 @@ namespace LOSSPortable.Droid
                 message = extras.GetString("default");
             }
 
-            Log.Info("Messages", "message received = " + message);
-            if (message.StartsWith("Test"))
-            {
-
+            //Log.Info("Messages", "message received = " + message);
+            var current = (App)Xamarin.Forms.Application.Current;
+            if (current.ChatPageActive)
+            { 
+                current.displaySNS(message);
+                //AndroidUtils.ShowNotification(this, "Message", message);
             }
             else
             {
                 AndroidUtils.ShowNotification(this, "SNS Push", message);
             }
-            //show the message
         }
     }
 }

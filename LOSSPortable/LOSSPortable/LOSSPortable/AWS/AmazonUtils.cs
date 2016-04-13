@@ -148,9 +148,9 @@ namespace LOSSPortable
                     PlatformApplicationArn = arn
                 }
             );
-            Helpers.Settings.EndpointArnSetting = response.EndpointArn;
-            _endpointArn = response.EndpointArn;
             
+            _endpointArn = response.EndpointArn;
+            Helpers.Settings.EndpointArnSetting = _endpointArn;
         }
 
         private static Task<List<InspirationalQuote>> queryQuotesList()

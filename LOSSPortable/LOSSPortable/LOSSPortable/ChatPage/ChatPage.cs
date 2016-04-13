@@ -545,7 +545,7 @@ namespace LOSSPortable
             editor.Unfocus();
             
             System.Diagnostics.Debug.WriteLine("unfocused.");
-            
+            MessagingCenter.Send<ChatPage>(this, "End");
 
             Store(conv);
             System.Diagnostics.Debug.WriteLine("storing");
@@ -562,7 +562,12 @@ namespace LOSSPortable
 
             await getLocation(); //check geolocation
             await Handshake(); //handshake attempt
-
+            MessagingCenter.Send<ChatPage>(this, "Start");
+            MessagingCenter.Subscribe<App, ChatMessage>(this, "Hi", (sender, arg) =>
+            {
+                // do something whenever the "Hi" message is sent
+                // using the 'arg' parameter which is a string
+            });
             System.Diagnostics.Debug.WriteLine("trying to get cache.");
             Conversation con = await Get();
             this.MessageCount = con.msgs.Count;
@@ -611,10 +616,5 @@ namespace LOSSPortable
             System.Diagnostics.Debug.WriteLine("creating new conv");
             return new Conversation();
         }
-
-        
-
     }
-
-
 }
