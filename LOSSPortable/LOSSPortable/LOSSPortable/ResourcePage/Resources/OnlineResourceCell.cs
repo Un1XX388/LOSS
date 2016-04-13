@@ -11,8 +11,14 @@ namespace LOSSPortable{
         public Boolean favClicked = false;
 
         public OnlineResourceCell(){
+            Color bg;
 
-				 Grid cellView			= new Grid{
+            if (Helpers.Settings.ContrastSetting == true) { bg = Colors.contrastBg; }
+            else { bg = Colors.background; }
+
+
+                Grid cellView			    = new Grid{
+                    BackgroundColor         = bg,
 					VerticalOptions			= LayoutOptions.FillAndExpand,
 					RowDefinitions			= { new RowDefinition{		Height	= new GridLength(1, GridUnitType.Star)} },
 					ColumnDefinitions		= { new ColumnDefinition{	Width	= new GridLength(1, GridUnitType.Star)} }
@@ -43,38 +49,38 @@ namespace LOSSPortable{
 				cellDesc.SetBinding(Label.TextProperty, new Binding("Description"));
 				cellView.Children.Add(cellDesc, 1, 4, 4, 30);
 
-            var cellFav = new Image();
-            cellFav.VerticalOptions = LayoutOptions.Center;
-            cellFav.HorizontalOptions = LayoutOptions.Center;
-            cellFav.SetBinding(Image.SourceProperty, new Binding("Fav"));
-            cellView.Children.Add(cellFav, 4, 5, 0, 13);
+            //var cellFav = new Image();
+            //cellFav.VerticalOptions = LayoutOptions.Center;
+            //cellFav.HorizontalOptions = LayoutOptions.Center;
+            //cellFav.SetBinding(Image.SourceProperty, new Binding("Fav"));
+            //cellView.Children.Add(cellFav, 4, 5, 0, 13);
 
-            cellFav.GestureRecognizers.Add(new TapGestureRecognizer
-            {
-                Command = new Command(
-                           () => cellFav.Source = isFavorited()),
-            });
+            //cellFav.GestureRecognizers.Add(new TapGestureRecognizer
+            //{
+            //    Command = new Command(
+            //               () => cellFav.Source = isFavorited()),
+            //});
 
             View = cellView;
 		}// End of OnlineResourceCell() method.
 
-        public String isFavorited()
-        {
-            if (favClicked == false)
-            {
-                Helpers.Settings.FavoriteSetting = false;
-                favClicked = true;
-                return "fav132.png";
-            }
-            else
-            {
-                //get all the items favorited for caching
-                //String title = ToString().;
-                //System.Diagnostics.Debug.WriteLine("item favorited = " + title);
-                Helpers.Settings.FavoriteSetting = true;
-                favClicked = false;
-                return "fav232.png";
-            }
-        }
+        //public String isFavorited()
+        //{
+        //    if (favClicked == false)
+        //    {
+        //        Helpers.Settings.FavoriteSetting = false;
+        //        favClicked = true;
+        //        return "fav132.png";
+        //    }
+        //    else
+        //    {
+        //        //get all the items favorited for caching
+        //        //String title = ToString().;
+        //        //System.Diagnostics.Debug.WriteLine("item favorited = " + title);
+        //        Helpers.Settings.FavoriteSetting = true;
+        //        favClicked = false;
+        //        return "fav232.png";
+        //    }
+        //}
     }// End of OnlineResourceCell class.
 }// End of LossPortable namespace.

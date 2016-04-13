@@ -46,8 +46,27 @@ namespace LOSSPortable
                 Title = "Options",
                 IconSource = "option.png",
                 TargetType = typeof(OptionsPage)
-            });
-
+            });           
+            
+            if (Helpers.Settings.LoginSetting == false)
+            {
+                masterPageItems.Add(new MasterPageItem
+                {
+                    Title = "Login",
+                    IconSource = "option.png",
+                    TargetType = typeof(LoginPage)
+                });
+            }
+            else
+            {
+                masterPageItems.Add(new MasterPageItem
+                {
+                    Title = "Logout",
+                    IconSource = "option.png",
+                    TargetType = typeof(Logout)
+                });
+            }
+            
             listView = new ListView
             {
 
@@ -64,13 +83,19 @@ namespace LOSSPortable
                     return imageCell;
                 }),
                 VerticalOptions = LayoutOptions.FillAndExpand,
-                SeparatorVisibility = SeparatorVisibility.Default
             };
 
             Icon = "drawable/menu.png";
             Title = "MENU";
             listView.RowHeight = 60;
-            listView.SeparatorColor = Color.FromHex("4D345D"); //separator between options
+            Device.OnPlatform(Android: () => {
+                listView.SeparatorVisibility = SeparatorVisibility.Default;
+                listView.SeparatorColor = Color.FromHex("4D345D"); //separator between options
+            },
+            iOS: () => {
+                listView.SeparatorVisibility = SeparatorVisibility.None;
+                listView.SeparatorColor = Color.FromHex("4D345D"); //separator between options
+            });
 
             var menuLabel = new ContentView
             {

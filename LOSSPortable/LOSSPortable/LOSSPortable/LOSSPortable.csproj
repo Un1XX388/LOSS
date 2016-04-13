@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="AWS\AmazonUtils.cs" />
+    <Compile Include="AWS\UserLogin.cs" />
     <Compile Include="AWS\MessageJson.cs" />
     <Compile Include="AWS\OnlineRViewModel.cs" />
     <Compile Include="ChatPage\Conversation.cs" />
@@ -50,6 +51,8 @@
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="HomePage\Location.cs" />
+    <Compile Include="OptionsPage\LoginPage.cs" />
+    <Compile Include="OptionsPage\Logout.cs" />
     <Compile Include="OptionsPage\VolunteerPortal.cs" />
     <Compile Include="ResourcePage\FavoritesPage.cs" />
     <Compile Include="ResourcePage\Resources\OnlineResources.cs" />

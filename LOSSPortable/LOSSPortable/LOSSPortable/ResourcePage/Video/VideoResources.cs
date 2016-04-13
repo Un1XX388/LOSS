@@ -31,6 +31,7 @@ namespace LOSSPortable
             ListView lstView = new ListView();
             // Set size (height) of each element displayed on this page.
             lstView.RowHeight = 100;
+            lstView.BackgroundColor = BackgroundColor;
             // Set the title of this page.
             this.Title = "Playlist(s)";
             // Set the source of data for page's list view.

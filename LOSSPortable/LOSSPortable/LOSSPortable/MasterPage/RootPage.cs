@@ -13,7 +13,7 @@ namespace LOSSPortable{
 		public RootPage(){
 			masterPage					= new MasterPage();
 			Master						= masterPage;
-			Detail						= new NavigationPage(new HomePage()) { BarBackgroundColor = customNavBarColor()}; 
+			Detail						= new NavigationPage(new HomePage()) { BarBackgroundColor = customNavBarColor(), BarTextColor = Color.White }; 
             masterPage.BackgroundColor	= Color.White;
             
 			masterPage.ListView.ItemSelected += OnItemSelected;
@@ -25,7 +25,7 @@ namespace LOSSPortable{
 			if (item != null){
                 try
                 {
-                    Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType)) { BarBackgroundColor = customNavBarColor() };
+                    Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType)) { BarBackgroundColor = customNavBarColor(), BarTextColor = Color.White };
                     masterPage.ListView.SelectedItem = null;
                     IsPresented = false;
                 }

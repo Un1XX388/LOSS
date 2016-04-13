@@ -17,7 +17,7 @@ namespace LOSSPortable
         public ObservableCollection<OnlineRViewModel> online_resources { get; set; }
         String favorite;
         Boolean favClicked = false;
-
+        int count = 0;
         // 
         public OnlineResources()
         {
@@ -57,18 +57,14 @@ namespace LOSSPortable
 
             // Set layout for each element in this list view.
             lstView.ItemTemplate = new DataTemplate(typeof(OnlineResourceCell));
-           
 
+            lstView.BackgroundColor = BackgroundColor;
             // Set behavior of element when selected by user.
             lstView.ItemSelected += Onselected;
 
             // Assign the list view created above to this content page.
             Content = lstView;
-
-
-
-
-
+            
             //populate listview with retrieved online resources from the server
             var tempList = LoadResources();
 
@@ -83,7 +79,7 @@ namespace LOSSPortable
                     Description = tempList[i].Description,
                     URL         = tempList[i].URL,
                     Type        = tempList[i].Type,
-                    Fav         = tempList[i].Fav
+                    //count       = 0
                 });
             }
             // Accomodate iPhone status bar.
@@ -93,42 +89,35 @@ namespace LOSSPortable
 
 
 
-        public String isFavorited()
-        {
-            if (favClicked == false)
-            {
-                Helpers.Settings.FavoriteSetting = false;
-                favClicked = true;
-                return "fav132.png";
-            }
-            else
-            {
-                //get all the items favorited for caching
-                Helpers.Settings.FavoriteSetting = true;
-                favClicked = false;
-                return "fav232.png";
-            }
-        }
+        //public String isFavorited()
+        //{
+        //    if (favClicked == false)
+        //    {
+        //        Helpers.Settings.FavoriteSetting = false;
+        //        favClicked = true;
+        //        return "fav132.png";
+        //    }
+        //    else
+        //    {
+        //        //get all the items favorited for caching
+        //        Helpers.Settings.FavoriteSetting = true;
+        //        favClicked = false;
+        //        return "fav232.png";
+        //    }
+        //}
         //loads list of online resources from server
         private RangeObservableCollection<OnlineRViewModel> LoadResources()
         {
             RangeObservableCollection<OnlineRViewModel> resources = AmazonUtils.getOnlineRList;
-            //if (Helpers.Settings.FavoriteSetting == true)
+   
+            //for (int k = 0; k < resources.Count; k++)
             //{
-            //    favorite = "fav232.png";
+            //    resources[k].Fav = "fav132.png";
             //}
-            //else
-            //{
-            //    favorite = "fav132.png";
-            //} 
-            for (int k = 0; k < resources.Count; k++)
-            {
-                resources[k].Fav = "fav132.png";
-            }
             return resources;
         }
 
-
+        
         void Onselected(object sender, SelectedItemChangedEventArgs e)
         {
 
@@ -141,10 +130,21 @@ namespace LOSSPortable
             String title = e.SelectedItem.ToString().Split(',')[1];
             String desc = e.SelectedItem.ToString().Split(',')[2];
             String link = e.SelectedItem.ToString().Split(',')[3];
+        //    int count = Convert.ToInt32(e.SelectedItem.ToString().Split(',')[5]);
+
+            count++;
+            System.Diagnostics.Debug.WriteLine(count);
+
+            if (count >= 5)
+            {
+                System.Diagnostics.Debug.WriteLine("REachead 5!");
+            }
+
 
             //checks if the item type is pdf or website
             if (e.SelectedItem.ToString().Split(',')[4].Equals("PDF"))
             {
+                
                 WebView webview = new WebView();
                 //http://stackoverflow.com/questions/2655972/how-can-i-display-a-pdf-document-into-a-webview
                 //using google docs viewer

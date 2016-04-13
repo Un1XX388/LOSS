@@ -24,7 +24,7 @@ namespace LOSSPortable
         public string Description { get; set; }
 
         public string Image { get; set; }
-        public string Fav { get; set; }
+        public int count { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -34,7 +34,7 @@ namespace LOSSPortable
 
         public override string ToString()
         {
-            return Image + ',' + Title + ',' + Description + ',' + URL + ',' + Type + ',' + Fav;
+            return Image + ',' + Title + ',' + Description + ',' + URL + ',' + Type + ',' + count;
         }// End of ToString() method.
     }
 }
