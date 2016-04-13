@@ -28,7 +28,7 @@ namespace LOSSPortable.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
             UserDialogs.Init(this);
 
-           // SetTheme(Resource.Style.DefaultTheme);
+            // SetTheme(Resource.Style.DefaultTheme);
 
             // CrossTextToSpeech.Current.Init();
             //if (Settings.ContrastSetting == true)
@@ -40,6 +40,10 @@ namespace LOSSPortable.Droid
             //{
             //    SetTheme(Resource.Style.DefaultTheme);
             //}
+
+            //screen size for idan:
+            App.ScreenWidth = (int)(Resources.DisplayMetrics.WidthPixels / Resources.DisplayMetrics.Density);
+            App.ScreenHeight = (int)(Resources.DisplayMetrics.HeightPixels / Resources.DisplayMetrics.Density);
 
             LoadApplication(new App());
 

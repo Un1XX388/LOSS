@@ -5,6 +5,8 @@ namespace LOSSPortable
 {
     public class App : Application
     {
+        public static int ScreenWidth;
+        public static int ScreenHeight;
 
 		public Boolean HardwareAccelerated { get; set; }
 

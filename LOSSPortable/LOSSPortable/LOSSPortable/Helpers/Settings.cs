@@ -101,7 +101,7 @@ namespace LOSSPortable.Helpers
         public static string EndpointArnSetting
         {
             get { return AppSettings.GetValueOrDefault(EndpointArn, EndpointArnDefault); }
-            set { AppSettings.AddOrUpdateValue(EndpointArnSetting, value);  }
+            set { AppSettings.AddOrUpdateValue(EndpointArn, value);  }
         }
 
         public static bool FavoriteSetting

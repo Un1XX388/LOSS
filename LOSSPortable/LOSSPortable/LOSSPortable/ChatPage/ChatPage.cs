@@ -46,7 +46,7 @@ namespace LOSSPortable
 
         public ChatPage(String inputname, List<ChatMessage> msgs, string key, string Name)  //use the key to store
         {   
-            if (Name=="" || Name=="Enter your name: " || Name == null )
+            if (Name== "" || Name=="Enter your name: " || Name == null )
             {
                 this.name = "Anonymous";
             }
@@ -185,8 +185,12 @@ namespace LOSSPortable
 
                 };
 
-                innerScroll.HeightRequest = 440;
-
+            //var heig = r.ParentView.Height;
+                //Device.Styles.
+                Rectangle bounds = outerStack.Bounds;
+                int innerSize = Convert.ToInt32(bounds.Height - (bounds.Height / 8));
+                innerScroll.HeightRequest =  App.ScreenHeight - 200; //440  -- change of 200;
+                System.Diagnostics.Debug.WriteLine("window size set to: " + innerSize);
                 Content = outerStack;
                 Title = "" + inputname;
                 
@@ -458,6 +462,7 @@ namespace LOSSPortable
         }
 
         //HANDSHAKE:
+        
         async private Task Handshake( ) //Function to create a Json object and send to server using a lambda function
         {
             try
@@ -465,8 +470,8 @@ namespace LOSSPortable
          
 
                 UserInfoItem message = new UserInfoItem { Item = new UserInfo { Latitude = latitude , Longitude= longitude , Nickname= name, Arn = " " + Helpers.Settings.EndpointArnSetting  } }; //Helpers.Settings.EndpointArnSetting
-                //await DisplayAlert("sending",latitude+" " + longitude + " " +name+ " ", "ok");
-                UserInfoJson messageJson = new UserInfoJson { operation = "create", tableName = "UnregisteredUser", payload = message };
+                //await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
+                UserInfoJson messageJson = new UserInfoJson { operation = "create", tableName = "User", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
                 //System.Diagnostics.Debug.WriteLine(args);
                 var ir = new InvokeRequest()
@@ -492,7 +497,10 @@ namespace LOSSPortable
             }
         }
 
+        
         //-------------------------geolocation-----------------------------
+
+            
         async private Task getLocation()
         {
             try
@@ -515,7 +523,7 @@ namespace LOSSPortable
                 latitude = 0.00;
                 longitude = 0.00;
             }
-
+            
         }
 
         async private void OnPositionChanged(object sender, PositionEventArgs e)
@@ -546,6 +554,11 @@ namespace LOSSPortable
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+
+            //screen size:
+            //int height = App.ScreenHeight;
+            //await DisplayAlert("screen height",""+height,"ok");
+
 
             await getLocation(); //check geolocation
             await Handshake(); //handshake attempt
