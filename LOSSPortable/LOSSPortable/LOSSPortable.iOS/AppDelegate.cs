@@ -32,6 +32,10 @@ namespace LOSSPortable.iOS
             );
             //app.RegisterUserNotifications(pushSettings);
             app.RegisterForRemoteNotifications();
+
+            App.ScreenHeight = (int)UIScreen.MainScreen.Bounds.Height;
+            App.ScreenWidth = (int)UIScreen.MainScreen.Bounds.Width;
+
             return base.FinishedLaunching(app, options);
         }
 
