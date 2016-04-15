@@ -159,7 +159,7 @@ public ChatSelection()
             {
                 base.OnAppearing();
 
-                await getLocation(); //check geolocation
+                //await getLocation(); //check geolocation
                 //await Handshake(); //handshake attempt
                 //await DisplayAlert("hello", "Handshake finished. long= "+longitude+ " lat= "+latitude , "ok");
 

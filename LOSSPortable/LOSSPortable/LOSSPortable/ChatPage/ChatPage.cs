@@ -24,7 +24,8 @@ namespace LOSSPortable
 
     public class ChatPage : ContentPage
     {
-
+        private String talkingToNickname = "User";
+        private String talkingToID;
         private String Key;
         private Button send;
         List<string> Messages = new List<string>();
@@ -222,7 +223,7 @@ namespace LOSSPortable
         }
 
 
-        private void DisplayResponse(ChatMessage message)
+        private void DisplayResponse(ChatMessage message) //adds message to log
         {
             String msg = message.Text;
             int numRows;
@@ -358,21 +359,7 @@ namespace LOSSPortable
             Navigation.PushAsync(new ReportMessage(msg));
         }
 
-
-        private static string CalculateSha1Hash(string input)  //hashing
-        {
-            // step 1, calculate MD5 hash from input
-            var hasher = WinRTCrypto.HashAlgorithmProvider.OpenAlgorithm(HashAlgorithm.Sha1);
-            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-            byte[] hash = hasher.HashData(inputBytes);
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hash.Length; i++)
-            {
-                sb.Append(hash[i].ToString("X2"));
-            }
-            return sb.ToString();
-        }
+        
 
         public void ScrollEvent()
         {
@@ -388,6 +375,7 @@ namespace LOSSPortable
             try{
                 await PushMessage(message.ToFrom, message.Text);
                 //await SaveAsync<ChatMessage>(message, ct.Token);
+                //await messageServer(message.Text, message.ToFrom);
                 System.Diagnostics.Debug.WriteLine("message sent to the server.");
                 }
             catch(Exception E)
@@ -434,7 +422,7 @@ namespace LOSSPortable
         {
             try
             {
-                MessageItem message = new MessageItem { Item = new ChatMessage { ToFrom = toFrom, Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ff"), Text = text } };
+                MessageItem message = new MessageItem { Item = new ChatMessage { ToFrom = this.talkingToID, Text = text } };
                 MessageJson messageJson = new MessageJson { operation = "create", tableName = "Message", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
                 //System.Diagnostics.Debug.WriteLine(args);
@@ -460,6 +448,84 @@ namespace LOSSPortable
                 System.Diagnostics.Debug.WriteLine("Error:" + e);
             }
         }
+        //--------------------------------------------------------------------
+        //SEND MESSAGE SERVER:
+
+        /*async private Task messageServer(String text, String toFrom) //Function to create a Json object and send to server using a lambda function
+        {
+            try
+            {
+                
+                MessageItem message = new MessageItem { Item = new ChatMessage { Text = text, ToFrom = toFrom } }; //Helpers.Settings.EndpointArnSetting
+                //await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
+                MessageJson messageJson = new MessageJson { operation = "create", tableName = "Message", payload = message };
+                string args = JsonConvert.SerializeObject(messageJson);
+                //System.Diagnostics.Debug.WriteLine(args);
+                var ir = new InvokeRequest()
+                {
+                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                    InvocationType = InvocationType.RequestResponse
+                };
+                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+
+
+                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+                resp.Payload.Position = 0;
+                var sr = new StreamReader(resp.Payload);
+                var myStr = sr.ReadToEnd();
+
+                //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Error:" + e);
+            }
+        }
+
+    */
+        //HANDSHAKE CHECK:
+        async private Task checkHandshake( )
+        {
+            try
+            {
+
+
+                UserInfoItem message = new UserInfoItem { }; //Helpers.Settings.EndpointArnSetting
+                //await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
+                UserInfoJson messageJson = new UserInfoJson { operation = "read", tableName = "User", payload = message };
+                string args = JsonConvert.SerializeObject(messageJson);
+                //System.Diagnostics.Debug.WriteLine(args);
+                var ir = new InvokeRequest()
+                {
+                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                    InvocationType = InvocationType.RequestResponse
+                };
+                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+
+
+                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+                resp.Payload.Position = 0;
+                var sr = new StreamReader(resp.Payload);
+                var myStr = sr.ReadToEnd();
+                HandshakeResponse response = JsonConvert.DeserializeObject<HandshakeResponse>(myStr);
+
+                await DisplayAlert("myStr","-"+myStr+"-",response.Nickname);
+                this.talkingToNickname = response.Nickname;
+                this.talkingToID = response.ID;
+                //talkingTo = myStr[2] ;//distance,nickname,ID
+                //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Error:" + e);
+            }
+            
+        }
+
 
         //HANDSHAKE:
         
@@ -562,11 +628,15 @@ namespace LOSSPortable
 
             await getLocation(); //check geolocation
             await Handshake(); //handshake attempt
+            //-------
+            await checkHandshake();
+
             MessagingCenter.Send<ChatPage>(this, "Start");
             MessagingCenter.Subscribe<App, ChatMessage>(this, "Hi", (sender, arg) =>
             {
-                // do something whenever the "Hi" message is sent
-                // using the 'arg' parameter which is a string
+                arg.Time = arg.Time.Substring(11, 2) + ":" + arg.Time.Substring(14, 2);
+                DisplayResponse(arg);
+                this.Content = outerStack;
             });
             System.Diagnostics.Debug.WriteLine("trying to get cache.");
             Conversation con = await Get();
