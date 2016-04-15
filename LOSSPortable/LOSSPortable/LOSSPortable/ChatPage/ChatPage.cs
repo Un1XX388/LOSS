@@ -233,7 +233,7 @@ namespace LOSSPortable
             }
             else
             {
-                numRows = msg.Length / 35;
+                numRows = msg.Length / 25;
             }
 
             Grid innerGrid = new Grid
@@ -512,7 +512,7 @@ namespace LOSSPortable
                 var myStr = sr.ReadToEnd();
                 HandshakeResponse response = JsonConvert.DeserializeObject<HandshakeResponse>(myStr);
 
-                await DisplayAlert("myStr","-"+myStr+"-",response.Nickname);
+                 //await DisplayAlert("myStr","-"+myStr+"-",response.Nickname);
                 this.talkingToNickname = response.Nickname;
                 this.talkingToID = response.ID;
                 //talkingTo = myStr[2] ;//distance,nickname,ID
@@ -617,6 +617,8 @@ namespace LOSSPortable
             System.Diagnostics.Debug.WriteLine("storing");
 
         }
+
+
         protected async override void OnAppearing()
         {
             base.OnAppearing();
@@ -628,15 +630,25 @@ namespace LOSSPortable
 
             await getLocation(); //check geolocation
             await Handshake(); //handshake attempt
+
             //-------
             await checkHandshake();
 
             MessagingCenter.Send<ChatPage>(this, "Start");
-            MessagingCenter.Subscribe<App, ChatMessage>(this, "Hi", (sender, arg) =>
+            MessagingCenter.Subscribe<App, ChatMessage>(this, "Hi", (sender, arg) => //adds message to log
             {
+
                 arg.Time = arg.Time.Substring(11, 2) + ":" + arg.Time.Substring(14, 2);
+                arg.Icon = "drawable/prof.png";
                 DisplayResponse(arg);
+                conv.msgs.Add(arg);
+                MessageCount++;
+                Messages.Add(arg.Text);
+                sendMessage(arg);
+                conv.msgs.Add(arg);
+                this.setChat(conv.msgs);
                 this.Content = outerStack;
+                ScrollEvent();
             });
             System.Diagnostics.Debug.WriteLine("trying to get cache.");
             Conversation con = await Get();
