@@ -254,6 +254,7 @@
     <Compile Include="GCMBootReceiver.cs" />
     <Compile Include="GCMIntentService.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="SNSMessage.cs" />
     <Compile Include="SplashActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainApplication.cs" />

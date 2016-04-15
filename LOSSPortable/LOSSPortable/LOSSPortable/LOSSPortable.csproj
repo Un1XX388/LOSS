@@ -52,7 +52,6 @@
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="HomePage\Location.cs" />
-    <Compile Include="iSNS.cs" />
     <Compile Include="OptionsPage\VolunteerPortal.cs" />
     <Compile Include="ResourcePage\FavoritesPage.cs" />
     <Compile Include="ResourcePage\Resources\OnlineResources.cs" />
@@ -79,6 +78,7 @@
     <Compile Include="ResourcePage\Resources\ResourceCell.cs" />
     <Compile Include="ResourcePage\Video\VideoViewModel.cs" />
     <Compile Include="ResourcePage\Video\VideoCell.cs" />
+    <Compile Include="SNSMessage.cs" />
     <Compile Include="Survey.cs" />
     <Compile Include="ResourcePage\Resources\ViewOnlineResource.cs" />
   </ItemGroup>
