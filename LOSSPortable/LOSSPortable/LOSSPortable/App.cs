@@ -62,9 +62,14 @@ namespace LOSSPortable
          */
         public void parseMessageObject(string msg)
         {
-            SNSMessage tmp = JsonConvert.DeserializeObject<SNSMessage>(msg);
-            ChatMessage message = new ChatMessage { ToFrom = tmp.ToFrom, Time = tmp.Time, Text = tmp.Text, Sender = tmp.Sender };
-            MessagingCenter.Send<App, ChatMessage>(this, "Hi", message);
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                //System.Diagnostics.Debug.WriteLine(msg);
+                SNSMessage tmp = JsonConvert.DeserializeObject<SNSMessage>(msg);
+                ChatMessage message = new ChatMessage { ToFrom = tmp.ToFrom, Time = tmp.Time, Text = tmp.Text, Sender = tmp.Sender };
+                MessagingCenter.Send<App, ChatMessage>(this, "Hi", message);
+            });
+            
         }
     }
 }

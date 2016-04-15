@@ -39,6 +39,7 @@
     <Compile Include="AWS\AmazonUtils.cs" />
     <Compile Include="AWS\MessageJson.cs" />
     <Compile Include="AWS\OnlineRViewModel.cs" />
+    <Compile Include="AWS\SNSMessage.cs" />
     <Compile Include="AWS\UserInfoJson.cs" />
     <Compile Include="ChatPage\Conversation.cs" />
     <Compile Include="ChatPage\Conversations.cs" />
@@ -79,7 +80,6 @@
     <Compile Include="ResourcePage\Resources\ResourceCell.cs" />
     <Compile Include="ResourcePage\Video\VideoViewModel.cs" />
     <Compile Include="ResourcePage\Video\VideoCell.cs" />
-    <Compile Include="SNSMessage.cs" />
     <Compile Include="Survey.cs" />
     <Compile Include="ResourcePage\Resources\ViewOnlineResource.cs" />
   </ItemGroup>

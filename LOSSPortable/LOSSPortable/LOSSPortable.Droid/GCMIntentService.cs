@@ -102,6 +102,7 @@ namespace LOSSPortable.Droid
                 SNSMessage msg = JsonConvert.DeserializeObject<SNSMessage>(message);
                 if (msg.Subject.Equals("Message"))
                 {
+                    System.Diagnostics.Debug.WriteLine("Chat Page : " + current.chatDisplayed().ToString());
                     try{
                         if (current.chatDisplayed())
                         {
@@ -113,6 +114,7 @@ namespace LOSSPortable.Droid
                         }
                         
                     }catch(Exception e){
+                        System.Diagnostics.Debug.WriteLine("error Parse" + e.ToString());
                         AndroidUtils.ShowNotification(this, "New Message!", msg.Sender + ": " + msg.Text);
                     }
                 }
