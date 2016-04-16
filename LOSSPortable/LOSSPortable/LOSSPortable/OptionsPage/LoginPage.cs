@@ -12,6 +12,8 @@ namespace LOSSPortable
     public class LoginPage: ContentPage
     {
         Boolean loggedIn = false;
+        Entry username;
+        Entry password;
 
         public LoginPage()
         {
@@ -25,10 +27,10 @@ namespace LOSSPortable
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.CenterAndExpand
             };
-            var username = new Entry { Placeholder = "Username" };
+            username = new Entry { Placeholder = "Username" };
             layout.Children.Add(username);
 
-            var password = new Entry { Placeholder = "Password", IsPassword = true };
+            password = new Entry { Placeholder = "Password", IsPassword = true };
             layout.Children.Add(password);
 
             Button Login = new Button { Text = "Log In", TextColor = Color.White };

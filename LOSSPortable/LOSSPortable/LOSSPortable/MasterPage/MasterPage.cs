@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Xamarin.Forms;
 using System;
+using Acr.UserDialogs;
 
 namespace LOSSPortable
 {
@@ -9,6 +10,10 @@ namespace LOSSPortable
         public ListView ListView { get { return listView; } }
 
         ListView listView;
+        Label login;
+        String logText = "Login";
+        Boolean loggedIn = false;
+        Image logImage;
 
         public MasterPage()
         {
@@ -46,27 +51,55 @@ namespace LOSSPortable
                 Title = "Options",
                 IconSource = "option.png",
                 TargetType = typeof(OptionsPage)
-            });           
-            
-            if (Helpers.Settings.LoginSetting == false)
+            });
+
+            //if (Helpers.Settings.LoginSetting == true)
+            //{
+            //    masterPageItems.Add(new MasterPageItem
+            //    {
+            //        Title = "Login",
+            //        IconSource = "option.png",
+            //        TargetType = typeof(LoginPage)
+            //    });
+
+            //}
+            //else
+            //{
+            //    masterPageItems.Add(new MasterPageItem
+            //    {
+            //        Title = "Logout",
+            //        IconSource = "option.png",
+            //        TargetType = typeof(Logout)
+            //    });
+            //}
+
+            logImage = new Image()
             {
-                masterPageItems.Add(new MasterPageItem
-                {
-                    Title = "Login",
-                    IconSource = "option.png",
-                    TargetType = typeof(LoginPage)
-                });
-            }
-            else
-            {
-                masterPageItems.Add(new MasterPageItem
-                {
-                    Title = "Logout",
-                    IconSource = "option.png",
-                    TargetType = typeof(Logout)
-                });
-            }
+                HorizontalOptions = LayoutOptions.Start
+            };
+            logImage.Source = Device.OnPlatform(iOS: ImageSource.FromFile("login64.png"), Android: ImageSource.FromFile("login64.png"), WinPhone: ImageSource.FromFile("login64.png"));
             
+
+            login = new Label
+            {
+                Text = logText,
+                TextColor = Color.Black,
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
+                HorizontalOptions = LayoutOptions.Start,
+                VerticalOptions = LayoutOptions.Start
+            };
+
+            StackLayout row8_login = new StackLayout
+            {
+                Children = { logImage, login },
+                GestureRecognizers = {
+                new TapGestureRecognizer {
+                        Command = new Command (
+                            ()=>login_check()),
+                },
+                },
+               // VerticalOptions = LayoutOptions.FillAndExpand,
+            };
             listView = new ListView
             {
 
@@ -82,7 +115,7 @@ namespace LOSSPortable
                     imageCell.SetBinding(ImageCell.ImageSourceProperty, "IconSource");
                     return imageCell;
                 }),
-                VerticalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.Fill,
             };
 
             Icon = "drawable/menu.png";
@@ -110,7 +143,7 @@ namespace LOSSPortable
                     Text = "MENU",
                 }
             };
-
+            
             var hotlineButton = new Button
             {
                 Text = string.Format("Call Suicide Hotline")
@@ -132,9 +165,88 @@ namespace LOSSPortable
                     Color = Color.FromHex("4D345D"),
                     HeightRequest = 6
                 });
+
             layout.Children.Add(listView);
+            layout.Children.Add(row8_login);
             layout.Children.Add(hotlineButton);
             Content = layout;
         }// End of MasterPage() method.
+
+        private void LoginButton_Clicked(object sender, EventArgs e)
+        {
+            login_check();
+        }
+
+        //This function checks if Login or Logout is pressed and prompts user accordingly.
+
+        public async void login_check()
+        {
+            if (loggedIn == false) //login is currently displayed. set loggedIn to true to display logout
+            {
+                System.Diagnostics.Debug.WriteLine("Login currently displayed - loggedIn" + loggedIn);
+                //entry pop up for login
+                //    var r = await UserDialogs.Instance.LoginAsync(new LoginConfig
+                //    {
+                //        Message = "Enter Credentials",
+                //        LoginPlaceholder = Helpers.Settings.EmailSetting,
+                //        //  PasswordPlaceholder = Helpers.Settings.PasswordSetting
+                //    });
+
+                //    var status = r.Ok ? "Success" : "Cancelled";
+                //    //  System.Diagnostics.Debug.WriteLine("after status = r.ok?");
+
+                //    // this.Result($"Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
+
+                //    if (status == "Success")
+                //    {
+                //        Helpers.Settings.EmailSetting = r.LoginText;
+                //       // Helpers.Settings.PasswordSetting = r.Password;
+                //        loggedIn = true;
+                //        login.Text = "Logout";
+                //        logImage.Source = Device.OnPlatform(iOS: ImageSource.FromFile("logout64.png"), Android: ImageSource.FromFile("logout64.png"), WinPhone: ImageSource.FromFile("logout64.png"));
+                //        System.Diagnostics.Debug.WriteLine("status is success then logout should be displayed - loggedIn" + loggedIn);
+                //        return;
+                //    }
+                //    else if (status == "Cancelled")
+                //    {
+                //        // loggedIn = false;
+                //        login.Text = "Login";
+                //        logImage.Source = Device.OnPlatform(iOS: ImageSource.FromFile("login64.png"), Android: ImageSource.FromFile("login64.png"), WinPhone: ImageSource.FromFile("login64.png"));
+                //        System.Diagnostics.Debug.WriteLine("status is cancelled then login should be displayed - loggedIn" + loggedIn);
+                //        return;
+                //    }
+                logImage.Source = Device.OnPlatform(iOS: ImageSource.FromFile("login64.png"), Android: ImageSource.FromFile("login64.png"), WinPhone: ImageSource.FromFile("login64.png"));
+                login.Text = "Logout";
+                loggedIn = true;
+                ((RootPage)App.Current.MainPage).NavigateTo();
+            }
+            else if (loggedIn == true)//if logout is displayed
+            {
+                System.Diagnostics.Debug.WriteLine("Logout currently displayed - loggedIn" + loggedIn);
+
+
+                //pop up confirmation
+                var result = await DisplayAlert("Log Out", "Are you sure?", "Yes", "No");
+                if (result == false)
+                {
+                    // loggedIn = true;
+                    login.Text = "Logout";
+                    logImage.Source = Device.OnPlatform(iOS: ImageSource.FromFile("logout64.png"), Android: ImageSource.FromFile("logout64.png"), WinPhone: ImageSource.FromFile("logout64.png"));
+                    System.Diagnostics.Debug.WriteLine("User clicked on No, logout should still be displayed - loggedIn" + loggedIn);
+                    return;
+                }
+                else
+                {
+                    loggedIn = false;
+                    login.Text = "Login";
+                    logImage.Source = Device.OnPlatform(iOS: ImageSource.FromFile("login64.png"), Android: ImageSource.FromFile("login64.png"), WinPhone: ImageSource.FromFile("login64.png"));
+                    System.Diagnostics.Debug.WriteLine("User clicked on Yes, login should be displayed - loggedIn" + loggedIn);
+                    return;
+                }
+            }
+
+        }
+
+
     }// End of MasterPage class.
 }// End of LOSSPortable namemspace.

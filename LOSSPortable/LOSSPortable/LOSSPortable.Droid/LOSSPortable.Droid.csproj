@@ -304,6 +304,10 @@
     <AndroidResource Include="Resources\drawable\fav232.png" />
     <AndroidResource Include="Resources\drawable\fav132.png" />
     <AndroidResource Include="Resources\drawable\splash.png" />
+    <AndroidResource Include="Resources\drawable\login64.png" />
+    <AndroidResource Include="Resources\drawable\logout64.png" />
+    <Content Include="Resources\login.png" />
+    <Content Include="Resources\logout.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LOSSPortable\LOSSPortable.csproj">

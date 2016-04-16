@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LOSSPortable.Droid", "LOSSPortable\LOSSPortable.Droid\LOSSPortable.Droid.csproj", "{90496C92-785F-4F0F-9D3A-B514D527CE5E}"
 EndProject
@@ -74,6 +74,7 @@ Global
 		{74CA5EE6-F6D7-4B5D-A7F5-1DC470CB38A5}.Debug|Any CPU.Build.0 = Debug|iPhone
 		{74CA5EE6-F6D7-4B5D-A7F5-1DC470CB38A5}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{74CA5EE6-F6D7-4B5D-A7F5-1DC470CB38A5}.Debug|iPhone.Build.0 = Debug|iPhone
+		{74CA5EE6-F6D7-4B5D-A7F5-1DC470CB38A5}.Debug|iPhone.Deploy.0 = Debug|iPhone
 		{74CA5EE6-F6D7-4B5D-A7F5-1DC470CB38A5}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
 		{74CA5EE6-F6D7-4B5D-A7F5-1DC470CB38A5}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
 		{74CA5EE6-F6D7-4B5D-A7F5-1DC470CB38A5}.Release|Any CPU.ActiveCfg = Release|iPhone

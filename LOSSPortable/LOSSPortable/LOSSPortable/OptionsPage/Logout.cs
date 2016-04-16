@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Acr.UserDialogs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,14 +15,22 @@ namespace LOSSPortable
             BackgroundColor = Color.White;
             var label = new Label()
             {
-                Text = "Logging out..."
+                Text = "You have logged out.",
+                TextColor = Color.Black,
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
             };
-            Content = label;
+          //  Content = label;
+
+            UserDialogs.Instance.ShowSuccess("You have successfully logged out.");
             Helpers.Settings.LoginSetting = false;
-            ((RootPage)App.Current.MainPage).NavigateTo();
+            redirect();
 
         }
-
+        
+        void redirect()
+        {
+           ((RootPage)App.Current.MainPage).NavigateTo();
+        }
 
     }
 }

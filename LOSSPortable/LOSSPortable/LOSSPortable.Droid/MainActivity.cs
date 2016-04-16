@@ -40,10 +40,12 @@ namespace LOSSPortable.Droid
             //{
             //    SetTheme(Resource.Style.DefaultTheme);
             //}
+            RegisterForGCM();
+            //screen size for idan:
+            App.ScreenWidth = (int) ( Resources.DisplayMetrics.WidthPixels / Resources.DisplayMetrics.Density   );
+            App.ScreenHeight = (int)( Resources.DisplayMetrics.HeightPixels / Resources.DisplayMetrics.Density  );
 
             LoadApplication(new App());
-
-            RegisterForGCM();
         }
 
         private void RegisterForGCM()

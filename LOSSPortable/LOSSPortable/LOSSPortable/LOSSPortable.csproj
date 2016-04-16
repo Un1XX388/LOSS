@@ -40,8 +40,10 @@
     <Compile Include="AWS\UserLogin.cs" />
     <Compile Include="AWS\MessageJson.cs" />
     <Compile Include="AWS\OnlineRViewModel.cs" />
+    <Compile Include="AWS\UserInfoJson.cs" />
     <Compile Include="ChatPage\Conversation.cs" />
     <Compile Include="ChatPage\Conversations.cs" />
+    <Compile Include="ChatPage\Handshake.cs" />
     <Compile Include="ChatPage\ReportM.cs" />
     <Compile Include="ChatPage\ReportMessage.cs" />
     <Compile Include="AWS\InspirationalQuote.cs" />
@@ -51,8 +53,10 @@
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="HomePage\Location.cs" />
+
     <Compile Include="OptionsPage\LoginPage.cs" />
     <Compile Include="OptionsPage\Logout.cs" />
+   <Compile Include="iSNS.cs" />
     <Compile Include="OptionsPage\VolunteerPortal.cs" />
     <Compile Include="ResourcePage\FavoritesPage.cs" />
     <Compile Include="ResourcePage\Resources\OnlineResources.cs" />

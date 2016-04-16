@@ -24,8 +24,26 @@ namespace LOSSPortable.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
+            app.RegisterForRemoteNotifications();
+
+            App.ScreenHeight = (int)UIScreen.MainScreen.Bounds.Height;
+            App.ScreenWidth = (int)UIScreen.MainScreen.Bounds.Width;
 
             return base.FinishedLaunching(app, options);
+        }
+
+        public override void RegisteredForRemoteNotifications(UIApplication application, NSData token)
+        {
+            var deviceToken = token.Description.Replace("<", "").Replace(">", "").Replace(" ", "");
+            if (!string.IsNullOrEmpty(deviceToken))
+            {
+                AmazonUtils.RegisterDevice(AmazonUtils.Platform.IOS, deviceToken);
+            }
+        }
+
+        public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
+        {
+            Console.WriteLine(@"Failed to register for remote notification {0}", error.Description);
         }
     }
 }

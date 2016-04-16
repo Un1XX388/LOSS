@@ -366,7 +366,7 @@ namespace LOSSPortable
 
             Label contact = new Label
             {
-                Text = "LOSS App",
+                Text = "e-LOSSteam",
                 TextColor = Color.White,
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Start

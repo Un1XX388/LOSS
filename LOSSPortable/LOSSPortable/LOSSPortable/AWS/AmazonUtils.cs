@@ -148,7 +148,7 @@ namespace LOSSPortable
                     PlatformApplicationArn = arn
                 }
             );
-
+            
             _endpointArn = response.EndpointArn;
             Helpers.Settings.EndpointArnSetting = _endpointArn;
         }

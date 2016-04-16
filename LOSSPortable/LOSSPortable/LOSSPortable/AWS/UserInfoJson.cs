@@ -8,22 +8,22 @@ using Newtonsoft.Json;
 
 namespace LOSSPortable
 {
-    public class MessageJson
+    public class UserInfoJson
     {
 
         public string operation { get; set; }
 
         public string tableName { get; set; }
 
-        public MessageItem payload { get; set; }
-        
+        public UserInfoItem  payload { get; set; }
+
 
     }
 
-    public class MessageItem
+    public class UserInfoItem
     {
-        public ChatMessage Item { get; set; }
+        public UserInfo Item { get; set; }
     }
 
-   
+
 }
