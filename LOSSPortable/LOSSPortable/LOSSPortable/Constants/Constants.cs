@@ -9,7 +9,7 @@ namespace LOSSPortable
 
         public const string AndroidPlatformApplicationArn = "arn:aws:sns:us-east-1:987221224788:app/GCM/LossPortable";
 
-        public const string iOSPlatformApplicationArn = "";
+        public const string iOSPlatformApplicationArn = "arn:aws:sns:us-east-1:987221224788:app/APNS_SANDBOX/LossPortable";
 
         public const string GoogleConsoleProjectId = "889411264837";
 

@@ -8,6 +8,8 @@ using Android.Content;
 using Android.Util;
 using Android.Text;
 using System;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace LOSSPortable.Droid
 {
@@ -95,15 +97,39 @@ namespace LOSSPortable.Droid
 
             //Log.Info("Messages", "message received = " + message);
             var current = (App)Xamarin.Forms.Application.Current;
-            if (current.ChatPageActive)
-            { 
-                current.displaySNS(message);
-                //AndroidUtils.ShowNotification(this, "Message", message);
+            try
+            {
+                SNSMessage msg = JsonConvert.DeserializeObject<SNSMessage>(message);
+                if (msg.Subject.Equals("Message"))
+                {
+                    System.Diagnostics.Debug.WriteLine("Chat Page : " + current.chatDisplayed().ToString());
+                    try{
+                        if (current.chatDisplayed())
+                        {
+                            current.parseMessageObject(JsonConvert.SerializeObject(msg));
+                        }
+                        else
+                        {
+                            AndroidUtils.ShowNotification(this, "New Message!", msg.Sender + ": " + msg.Text);
+                        }
+                        
+                    }catch(Exception e){
+                        System.Diagnostics.Debug.WriteLine("error Parse" + e.ToString());
+                        AndroidUtils.ShowNotification(this, "New Message!", msg.Sender + ": " + msg.Text);
+                    }
+                }
+                else if(msg.Subject.Equals("Announcement")){
+                    AndroidUtils.ShowNotification(this, msg.Title, msg.Text);
+                }
+                else{
+                    AndroidUtils.ShowNotification(this, msg.Title, msg.Text);
+                }
             }
-            else
+            catch (Exception e)
             {
                 AndroidUtils.ShowNotification(this, "SNS Push", message);
             }
+            
         }
     }
 }

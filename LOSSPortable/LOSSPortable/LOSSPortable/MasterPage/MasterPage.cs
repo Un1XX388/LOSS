@@ -14,6 +14,8 @@ namespace LOSSPortable
         String logText = "Login";
         Boolean loggedIn = false;
         Image logImage;
+        MasterPageItem temp;
+
 
         public MasterPage()
         {
@@ -53,53 +55,65 @@ namespace LOSSPortable
                 TargetType = typeof(OptionsPage)
             });
 
-            //if (Helpers.Settings.LoginSetting == true)
+            masterPageItems.Add(new MasterPageItem
+            {
+                Title = "Login",
+                IconSource = "login64.png",
+                TargetType = typeof(LoginPage)
+            });
+
+
+
+            //if (Helpers.Settings.LoginSetting == false)
             //{
             //    masterPageItems.Add(new MasterPageItem
             //    {
             //        Title = "Login",
             //        IconSource = "option.png",
-            //        TargetType = typeof(LoginPage)
+            //        TargetType = typeof(HomePage)
             //    });
 
             //}
             //else
             //{
+            //    Helpers.Settings.LoginSetting = false;
+
             //    masterPageItems.Add(new MasterPageItem
             //    {
             //        Title = "Logout",
             //        IconSource = "option.png",
-            //        TargetType = typeof(Logout)
+            //        TargetType = typeof(HomePage)
             //    });
+
             //}
 
-            logImage = new Image()
-            {
-                HorizontalOptions = LayoutOptions.Start
-            };
-            logImage.Source = Device.OnPlatform(iOS: ImageSource.FromFile("login64.png"), Android: ImageSource.FromFile("login64.png"), WinPhone: ImageSource.FromFile("login64.png"));
-            
+            //logImage = new Image()
+            //{
+            //    HorizontalOptions = LayoutOptions.Start
+            //};
+            //logImage.Source = Device.OnPlatform(iOS: ImageSource.FromFile("login64.png"), Android: ImageSource.FromFile("login64.png"), WinPhone: ImageSource.FromFile("login64.png"));
 
-            login = new Label
-            {
-                Text = logText,
-                TextColor = Color.Black,
-                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
-                HorizontalOptions = LayoutOptions.Start,
-                VerticalOptions = LayoutOptions.Start
-            };
 
-            StackLayout row8_login = new StackLayout
-            {
-                Children = { logImage, login },
-                GestureRecognizers = {
-                new TapGestureRecognizer {
-                        Command = new Command (
-                            ()=>login_check()),
-                },
-                },
-               // VerticalOptions = LayoutOptions.FillAndExpand,
-            };
+            //login = new Label
+            //{
+            //    Text = logText,
+            //    TextColor = Color.Black,
+            //    FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
+            //    HorizontalOptions = LayoutOptions.Start,
+            //    VerticalOptions = LayoutOptions.Start
+            //};
+
+            //StackLayout row8_login = new StackLayout
+            //{
+            //    Children = { logImage, login },
+            //    GestureRecognizers = {
+            //    new TapGestureRecognizer {
+            //            Command = new Command (
+            //                ()=>login_check()),
+            //    },
+            //    },
+            //   // VerticalOptions = LayoutOptions.FillAndExpand,
+            //};
             listView = new ListView
             {
 
@@ -115,7 +129,7 @@ namespace LOSSPortable
                     imageCell.SetBinding(ImageCell.ImageSourceProperty, "IconSource");
                     return imageCell;
                 }),
-                VerticalOptions = LayoutOptions.Fill,
+                VerticalOptions = LayoutOptions.FillAndExpand,
             };
 
             Icon = "drawable/menu.png";
@@ -167,7 +181,8 @@ namespace LOSSPortable
                 });
 
             layout.Children.Add(listView);
-            layout.Children.Add(row8_login);
+          //  layout.Children.Add(login);
+           // layout.Children.Add(row8_login);
             layout.Children.Add(hotlineButton);
             Content = layout;
         }// End of MasterPage() method.

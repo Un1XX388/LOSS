@@ -24,6 +24,13 @@ namespace LOSSPortable.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
+            var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
+              UIUserNotificationType.Alert |
+              UIUserNotificationType.Badge |
+              UIUserNotificationType.Sound,
+              null
+            );
+            //app.RegisterUserNotifications(pushSettings);
             app.RegisterForRemoteNotifications();
 
             App.ScreenHeight = (int)UIScreen.MainScreen.Bounds.Height;

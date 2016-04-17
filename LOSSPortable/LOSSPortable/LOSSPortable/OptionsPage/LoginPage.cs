@@ -17,7 +17,16 @@ namespace LOSSPortable
 
         public LoginPage()
         {
-           // BindingContext = new LoginViewModel(Navigation);
+            // BindingContext = new LoginViewModel(Navigation);
+            //sets the background color based on settings
+            if (Helpers.Settings.ContrastSetting == true)
+            {
+                BackgroundColor = Colors.contrastBg;
+            }
+            else
+            {
+                BackgroundColor = Colors.background;
+            }
 
             var layout = new StackLayout { Padding = 10 };
 

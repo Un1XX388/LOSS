@@ -14,7 +14,7 @@
     
     <item name="android:actionBarStyle">@style/CustomActionBar</item>
     
-    <item name="android:windowBackground">@drawable/radialback</item>
+    <item name="android:windowBackground">@drawable/splash</item>
     <!--<item name="android:windowBackground">@color/white</item>-->
     <item name="android:icon">@android:color/transparent</item>
   </style>
