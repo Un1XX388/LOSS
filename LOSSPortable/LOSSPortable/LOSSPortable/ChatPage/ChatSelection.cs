@@ -78,7 +78,7 @@ public ChatSelection()
             {
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
-
+                IsToggled = Helpers.Settings.ChatActiveSetting
             };
             readyToChat.Toggled += readyToChatF;
 
@@ -126,17 +126,19 @@ public ChatSelection()
         }
         void readyToChatF(object sender, ToggledEventArgs e)
         {
-
             System.Diagnostics.Debug.WriteLine("Switch toggled");
 
             if (readyToChat.IsToggled)
             {
+                Helpers.Settings.ChatActiveSetting = true;
                 chatAvailability.Text = "Ready to chat.";
                 stackLayout.Children.Add(chatLink);
                 System.Diagnostics.Debug.WriteLine("Added button chatLink.");
+                HandshakeStart();
             }
             else
             {
+                Helpers.Settings.ChatActiveSetting = false;
                 chatAvailability.Text = "Not Ready to chat.";
                 if (stackLayout.Children.Contains(chatLink))
                 {
@@ -147,8 +149,12 @@ public ChatSelection()
             this.Content = outerLayout;
         }
         //--------------------------------HANDSHAKE-------------------------------
-        
-
+        public async void HandshakeStart()
+        {
+                await getLocation(); //check geolocation
+                await Handshake(); //handshake attempt
+                await DisplayAlert("hello", "Handshake finished. long= "+longitude+ " lat= "+latitude , "ok");
+        }
         //-------------------------Caching---------------------------------
 
 
@@ -159,10 +165,7 @@ public ChatSelection()
             {
                 base.OnAppearing();
 
-                //await getLocation(); //check geolocation
-                //await Handshake(); //handshake attempt
-                //await DisplayAlert("hello", "Handshake finished. long= "+longitude+ " lat= "+latitude , "ok");
-
+                
                 outerLayout.Focus();
             }
             catch (Exception e)
