@@ -15,7 +15,7 @@ namespace LOSSPortable
 //        Switch anonymous_switcher;
         Switch speech_switcher;
         Switch push_switcher;
-        Boolean loggedIn = false;
+        Boolean loggedIn = true;
         Label login;
         String logText = "Login";
         PopupLayout _PopUpLayout;
@@ -45,12 +45,12 @@ namespace LOSSPortable
             };
             row11_portal.Clicked += Row11_portal_Clicked;
 
-            if (Helpers.Settings.portalAccessedSetting == true)
-            {
-                row11_portal.TextColor = Color.White;
-                Helpers.Settings.portalAccessCount = 7;
+            //if (Helpers.Settings.portalAccessedSetting == true)
+            //{
+            //    row11_portal.TextColor = Color.White;
+            //    Helpers.Settings.portalAccessCount = 7;
 
-            }
+            //}
 
             Title = "Options";
             this.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);
@@ -326,7 +326,7 @@ namespace LOSSPortable
                 GestureRecognizers = {
                 new TapGestureRecognizer {
                         Command = new Command (
-                            ()=>login_check()),
+                            ()=>logout()),
                 },
                 },
                 Orientation = StackOrientation.Horizontal,
@@ -366,7 +366,7 @@ namespace LOSSPortable
 
             Label contact = new Label
             {
-                Text = "LOSS App",
+                Text = "e-LOSSteam",
                 TextColor = Color.White,
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Start
@@ -436,11 +436,17 @@ namespace LOSSPortable
                     row10_about,
                     new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
                     new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
-                    row11_portal,
-                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5 },
+
+                    row8_login,
+                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
                     new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
 
-                    event_label },
+                    //row11_portal,
+                    //new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5 },
+                    //new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+
+                //    event_label
+                },
                 Padding = new Thickness(5, 5, 5, 5),
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
@@ -452,6 +458,34 @@ namespace LOSSPortable
             this.Content = content;
         }
 
+        public async void logout()
+        {
+            System.Diagnostics.Debug.WriteLine("Logout currently displayed - loggedIn" + loggedIn);
+
+            //pop up confirmation
+            var result = await DisplayAlert("Log Out", "Are you sure?", "Yes", "No");
+            if (result == false)
+            {
+                // loggedIn = true;
+                login.Text = "Logout";
+                event_label.Text = String.Format("Logout canceled");
+                System.Diagnostics.Debug.WriteLine("User clicked on No, logout should still be displayed ");
+                return;
+            }
+            else
+            {
+                loggedIn = false;
+                login.Text = "Login";
+                Helpers.Settings.LoginSetting = false;
+                //  Navigation.ModalStack(new MasterPage());//see masterBehavior
+                //await Navigation.PushAsync(new RootPage());
+                event_label.Text = String.Format("Logged out");
+                System.Diagnostics.Debug.WriteLine("User clicked on Yes, login should be displayed ");
+                return;
+            }
+
+        }
+
         //====================================== Access To Volunteer's Portal =========================
         int count = Helpers.Settings.portalAccessCount;
         private void Row11_portal_Clicked(object sender, EventArgs e)
@@ -460,7 +494,7 @@ namespace LOSSPortable
             if(count >= 7)
             {
                 row11_portal.TextColor = Color.White;
-                Helpers.Settings.portalAccessedSetting = true;
+              //  Helpers.Settings.portalAccessedSetting = true;
                 Helpers.Settings.portalAccessCount = 7;
                 Navigation.PushAsync(new VolunteerPortal());
                // row11_portal.IsEnabled = true;
@@ -858,7 +892,7 @@ namespace LOSSPortable
                 }
             }
 
-            else if (loggedIn == true)//if logout is displayed
+            if (loggedIn == true)//if logout is displayed
             {
                 System.Diagnostics.Debug.WriteLine("Logout currently displayed - loggedIn" + loggedIn);
 

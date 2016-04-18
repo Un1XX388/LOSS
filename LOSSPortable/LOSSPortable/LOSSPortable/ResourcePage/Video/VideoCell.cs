@@ -5,8 +5,16 @@ using System.Collections.ObjectModel;
 
 namespace LOSSPortable{
 	class VideoCell : ViewCell{
+
 			public VideoCell(){
-				Grid cellView			= new Grid{
+
+                 Color bg;
+
+                 if (Helpers.Settings.ContrastSetting == true) { bg = Colors.contrastBg; }
+                 else { bg = Colors.background; }
+
+                Grid cellView = new Grid {
+                    BackgroundColor         = bg,
 					VerticalOptions			= LayoutOptions.FillAndExpand,
 					RowDefinitions			= { new RowDefinition{		Height	= new GridLength(1, GridUnitType.Star)} },
 					ColumnDefinitions		= { new ColumnDefinition{	Width	= new GridLength(1, GridUnitType.Star)} }

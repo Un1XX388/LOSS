@@ -116,7 +116,7 @@ namespace LOSSPortable
 
             ScrollView content = new ScrollView
             {
-                Content = mainContent,
+                Content = mainContent, 
                 Orientation = ScrollOrientation.Vertical
             };
             this.Content = content;

@@ -26,14 +26,18 @@ namespace LOSSPortable
 
         public HomePage()
         {
+            Color bg;
+
             //sets the background color based on settings
             if (Helpers.Settings.ContrastSetting == true)
             {
                 BackgroundColor = Colors.contrastBg;
+                bg = Colors.contrastBg;
             }
             else
             {
                 BackgroundColor = Colors.background;
+                bg = Colors.background;
             }
 
             Title = "Home";
@@ -52,6 +56,7 @@ namespace LOSSPortable
             {
                 Content = label1,
                 OutlineColor = Color.Transparent,
+                BackgroundColor = bg,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.Center,
             };
@@ -245,6 +250,7 @@ namespace LOSSPortable
                     Url = "http://afsp.org/find-support/ive-lost-someone/find-a-support-group/",
                 },
                 VerticalOptions = LayoutOptions.FillAndExpand
+                
             };
 
             await Navigation.PushAsync(new ContentPage()

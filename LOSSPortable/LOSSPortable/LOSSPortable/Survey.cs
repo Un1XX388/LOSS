@@ -13,6 +13,7 @@ namespace LOSSPortable
 
         public Survey()
         {
+            Title = "Survey";
             browser = new WebView
             {
                 Source = "https://uta.qualtrics.com/SE/?SID=SV_3DhjZ0kSqV5thCB"

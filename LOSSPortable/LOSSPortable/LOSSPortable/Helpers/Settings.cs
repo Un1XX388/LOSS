@@ -21,8 +21,8 @@ namespace LOSSPortable.Helpers
 
         #region Setting Constants
 
-        private const string portalAccessed = "portal_key";
-        private static readonly bool pAccessDefault = false;
+        private const string login = "login_key";
+        private static readonly bool loginDefault = false;
 
         private const string countKey = "portal_count";
         private static readonly int countDefault = 0;
@@ -55,10 +55,10 @@ namespace LOSSPortable.Helpers
         private static readonly bool chatActiveDefault = false;
         #endregion
 
-        public static bool portalAccessedSetting
+        public static bool LoginSetting
         {
-            get {  return AppSettings.GetValueOrDefault(portalAccessed, pAccessDefault); }
-            set {  AppSettings.AddOrUpdateValue(portalAccessed, value); }
+            get {  return AppSettings.GetValueOrDefault(login, loginDefault); }
+            set {  AppSettings.AddOrUpdateValue(login, value); }
         }
         public static int portalAccessCount
         {
