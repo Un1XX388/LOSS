@@ -15,7 +15,7 @@ namespace LOSSPortable
 
         public string tableName { get; set; }
 
-        public MessageItem payload { get; set; }
+        public object payload { get; set; }
         
 
     }
@@ -25,5 +25,8 @@ namespace LOSSPortable
         public ChatMessage Item { get; set; }
     }
 
-   
+    public class UserItem
+    {
+        public UserLogin Item { get; set; }
+    }
 }

@@ -15,7 +15,7 @@ namespace LOSSPortable
         Boolean loggedIn = false;
         Image logImage;
         MasterPageItem temp;
-
+        ContentPage accountPage;
 
         public MasterPage()
         {
@@ -44,76 +44,27 @@ namespace LOSSPortable
 
             masterPageItems.Add(new MasterPageItem
             {
+                Title = "Account",
+                IconSource = "account.png",
+                TargetType = typeof(AccountPage)
+            });
+
+            masterPageItems.Add(new MasterPageItem
+            {
                 Title = "Survey",
                 IconSource = "survey.png",
                 TargetType = typeof(Survey)
             });
             masterPageItems.Add(new MasterPageItem
             {
-                Title = "Options",
-                IconSource = "option.png",
-                TargetType = typeof(OptionsPage)
-            });
-
-            masterPageItems.Add(new MasterPageItem
-            {
-                Title = "Login",
-                IconSource = "login64.png",
-                TargetType = typeof(LoginPage)
+                Title = "About Us",
+                IconSource = "about.png",
+                TargetType = typeof(AboutPage)
             });
 
 
 
-            //if (Helpers.Settings.LoginSetting == false)
-            //{
-            //    masterPageItems.Add(new MasterPageItem
-            //    {
-            //        Title = "Login",
-            //        IconSource = "option.png",
-            //        TargetType = typeof(HomePage)
-            //    });
 
-            //}
-            //else
-            //{
-            //    Helpers.Settings.LoginSetting = false;
-
-            //    masterPageItems.Add(new MasterPageItem
-            //    {
-            //        Title = "Logout",
-            //        IconSource = "option.png",
-            //        TargetType = typeof(HomePage)
-            //    });
-
-            //}
-
-            //logImage = new Image()
-            //{
-            //    HorizontalOptions = LayoutOptions.Start
-            //};
-            //logImage.Source = Device.OnPlatform(iOS: ImageSource.FromFile("login64.png"), Android: ImageSource.FromFile("login64.png"), WinPhone: ImageSource.FromFile("login64.png"));
-
-
-            //login = new Label
-            //{
-            //    Text = logText,
-            //    TextColor = Color.Black,
-            //    FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
-            //    HorizontalOptions = LayoutOptions.Start,
-            //    VerticalOptions = LayoutOptions.Start
-            //};
-
-            //StackLayout row8_login = new StackLayout
-            //{
-            //    Children = { logImage, login },
-            //    GestureRecognizers = {
-            //    new TapGestureRecognizer {
-            //            Command = new Command (
-            //                ()=>login_check()),
-            //    },
-            //    },
-            //   // VerticalOptions = LayoutOptions.FillAndExpand,
-            //};
             listView = new ListView
             {
 
@@ -261,7 +212,6 @@ namespace LOSSPortable
             }
 
         }
-
 
     }// End of MasterPage class.
 }// End of LOSSPortable namemspace.

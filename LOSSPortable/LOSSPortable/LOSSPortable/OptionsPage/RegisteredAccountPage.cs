@@ -1,29 +1,33 @@
-﻿using System;
-using Xamarin.Forms;
-using Acr.UserDialogs;
+﻿using Xamarin.Forms;
 using XLabs.Forms.Controls;
 using Plugin.TextToSpeech;
-
+using XLabs;
+using System;
+using Acr.UserDialogs;
+using Newtonsoft.Json;
+using Amazon.Lambda.Model;
+using Amazon.Util;
+using Amazon.Lambda;
+using System.IO;
+        
 namespace LOSSPortable
 {
-    public class OptionsPage : ContentPage
+    public class RegisteredAccountPage : ContentPage
     {
+        Entry username;
+        Entry email;
         StackLayout mainContent;
         Label event_label;
         Switch contrast_switcher;
-   //     Switch geolocation_switcher;
-//        Switch anonymous_switcher;
+        //     Switch geolocation_switcher;
+        //        Switch anonymous_switcher;
         Switch speech_switcher;
         Switch push_switcher;
-        Boolean loggedIn = true;
-        Label login;
-        String logText = "Login";
         PopupLayout _PopUpLayout;
-        Button row11_portal;
 
-        public OptionsPage()
+
+        public RegisteredAccountPage()
         {
-            //sets the background color based on settings
             if (Helpers.Settings.ContrastSetting == true)
             {
                 BackgroundColor = Colors.contrastBg;
@@ -32,37 +36,10 @@ namespace LOSSPortable
             {
                 BackgroundColor = Colors.background;
             }
-
-            row11_portal = new Button
-            {
-                //  Children = { aboutUs },
-                Text = "Access to Volunteer's Portal",
-                TextColor = Color.Gray,
-                HorizontalOptions = LayoutOptions.StartAndExpand,
-                HeightRequest = 35,
-                BackgroundColor = Color.Transparent
-
-            };
-            row11_portal.Clicked += Row11_portal_Clicked;
-
-            //if (Helpers.Settings.portalAccessedSetting == true)
-            //{
-            //    row11_portal.TextColor = Color.White;
-            //    Helpers.Settings.portalAccessCount = 7;
-
-            //}
-
-            Title = "Options";
             this.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);
-            /*
-             * //Anonymous switch
-             * //Notification settings
-             * //Display name ( accounts)
-             * Sync or reset information
-             * Account info (link to creation/switch)
-             * //Text-to-Speech
-             * //geolocation toggle
-             */
+
+            username = new Entry { Text = "Username", Placeholder = "Username", BackgroundColor = Color.White, TextColor = Color.Black};
+            email = new Entry { Text = "Email", BackgroundColor = Color.White, TextColor = Color.Black};
 
             event_label = new Label
             {
@@ -74,7 +51,7 @@ namespace LOSSPortable
 
             Label generalSettings = new Label
             {
-                Text = "General Settings",
+                Text = "Settings",
                 TextColor = Color.White,
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Start
@@ -150,43 +127,6 @@ namespace LOSSPortable
             //    Padding = new Thickness(5, 5)
             //};
 
-            //=============Anonymous Switch=====================================
-            //Label anonymous_label = new Label
-            //{
-            //    Text = "Anonymous Mode",
-            //    FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
-            //    HorizontalOptions = LayoutOptions.Center
-            //};
-
-            //anonymous_switcher = new Switch
-            //{
-            //    HorizontalOptions = LayoutOptions.Center,
-            //    VerticalOptions = LayoutOptions.CenterAndExpand,
-            //    IsToggled = Helpers.Settings.AnonymousSetting
-
-            //};
-            //anonymous_switcher.Toggled += anonymous_switcher_Toggled;
-
-            //StackLayout anonymous_stack = new StackLayout
-            //{
-            //    Children = { anonymous_label },
-            //    HorizontalOptions = LayoutOptions.Start
-            //};
-
-            //StackLayout anonymous_switcher_stack = new StackLayout
-            //{
-            //    Children = { anonymous_switcher },
-            //    HorizontalOptions = LayoutOptions.EndAndExpand
-            //};
-
-            //StackLayout row3_anonymous = new StackLayout
-            //{
-            //    Children = { anonymous_stack, anonymous_switcher_stack },
-            //    Orientation = StackOrientation.Horizontal,
-            //    Padding = new Thickness(5, 5)
-            //};
-
-
             //=============Speech Switch=====================================
             Label speech_label = new Label
             {
@@ -220,7 +160,7 @@ namespace LOSSPortable
 
             StackLayout row4_speech = new StackLayout
             {
-                Children = { speech_stack, speech_switcher_stack},
+                Children = { speech_stack, speech_switcher_stack },
                 Orientation = StackOrientation.Horizontal,
                 Padding = new Thickness(5, 5)
             };
@@ -292,45 +232,24 @@ namespace LOSSPortable
                 HorizontalOptions = LayoutOptions.Start
             };
 
-            //============================== Account used by user ================================
-            Label accountType = new Label
-            {
-                Text = "Manage Account",
-                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
-                HorizontalOptions = LayoutOptions.Center
-            };
 
-            //Edit Profile, Change Password, Login with different account, Create new account
-
-            StackLayout row7_account = new StackLayout
-            {
-                Children = { accountType },
-                GestureRecognizers = {
-                new TapGestureRecognizer {
-                     //   Command = new Command (()=>System.Diagnostics.Debug.WriteLine ("clicked")),
-                     Command = new Command (()=>manageAccount()),
-                },
-                },
-                Orientation = StackOrientation.Horizontal,
-                Padding = new Thickness(5, 5)
-            };
 
             //============================= Login ================================
-            login = new Label
+            Label changePassword = new Label
             {
-                Text = logText,
+                Text = "Change Password",
                 TextColor = Color.White,
                 FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center
             };
 
-            StackLayout row8_login = new StackLayout
+            StackLayout change_password = new StackLayout
             {
-                Children = { login },
+                Children = { changePassword },
                 GestureRecognizers = {
                 new TapGestureRecognizer {
                         Command = new Command (
-                            ()=>logout()),
+                            ()=>customPopUp()),
                 },
                 },
                 Orientation = StackOrientation.Horizontal,
@@ -367,38 +286,16 @@ namespace LOSSPortable
                 Padding = new Thickness(5, 5)
             };
 
-            //============================ About Us  =========================================
-
-            Label contact = new Label
+            Button logout = new Button
             {
-                Text = "e-LOSSteam",
-                TextColor = Color.White,
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
-                HorizontalOptions = LayoutOptions.Start
+                Text = "LOGOUT",
+                TextColor = Colors.barBackground,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                BackgroundColor = Color.FromHex("ffffe6"),
+                HeightRequest = 40,
+                WidthRequest = 300
             };
-
-            Label aboutUs = new Label
-            {
-                Text = "About Us",
-                TextColor = Color.White,
-                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
-                HorizontalOptions = LayoutOptions.Center
-            };
-
-            StackLayout row10_about = new StackLayout
-            {
-                Children = { aboutUs },
-                GestureRecognizers = {
-                
-                new TapGestureRecognizer {
-                   //     Command = new Command (()=>System.Diagnostics.Debug.WriteLine ("clicked")),
-                        Command = new Command (()=>Navigation.PushAsync(new AboutPage())),
-                },
-                },
-                Orientation = StackOrientation.Horizontal,
-                Padding = new Thickness(5, 5)
-            };
-
+            logout.Clicked += Logout_Clicked;
 
             //========== Page Content where everything needs to be inserted=============================================
 
@@ -406,53 +303,40 @@ namespace LOSSPortable
             {
 
                 Children = { new BoxView() { Color = Color.Transparent, HeightRequest = 4  },
-                    generalSettings,
-                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
-                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
-                    row1_contrast, //row2_geolocation,
-                  //  row3_anonymous,
-                    row4_speech, row5_push, row6_reset_sync,
-                    //
-                    //new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
-                    //account,
-                    //new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
-                    //new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                            username,
+                            new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
+                //            new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                            email,
+                            new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
+                            new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
 
-                    //row7_account,
-                    //new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
-                    //new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                  //          new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
+                            //account,
+                            //new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
+                            //new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
 
-                    //row8_login,
-                    //new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
-                    //new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                            generalSettings,
+                            new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
+                            new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                            row1_contrast, //row2_geolocation,
+                            row4_speech, row5_push,
+                            change_password,
+                            //new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
+                            //new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                            row6_reset_sync,
 
-                    new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
-                    report,
-                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5 },
-                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                            new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
+                            report,
+                            new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5 },
+                            new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
 
-                    row9_report,
-                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
-                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                            row9_report,
+                            new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
+                         //   new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+                            logout
 
-                    new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
-                    contact,
-                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
-                    new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
-                    row10_about,
-                    new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
-                    new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
-
-                  //  row8_login,
-                  //  new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
-                  //  new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
-
-                    //row11_portal,
-                    //new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5 },
-                    //new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
-
-                //    event_label
-                },
+                        //    event_label
+                        },
                 Padding = new Thickness(5, 5, 5, 5),
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
@@ -462,51 +346,15 @@ namespace LOSSPortable
                 Orientation = ScrollOrientation.Vertical
             };
             this.Content = content;
-        }
 
-        public async void logout()
+        }//end GeneralAccountPage()
+
+        private void Logout_Clicked(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Logout currently displayed - loggedIn" + loggedIn);
+            Helpers.Settings.LoginSetting = false;
+            UserDialogs.Instance.ShowSuccess("You have been successfully logged out.");
+            ((RootPage)App.Current.MainPage).NavigateTo();
 
-            //pop up confirmation
-            var result = await DisplayAlert("Log Out", "Are you sure?", "Yes", "No");
-            if (result == false)
-            {
-                // loggedIn = true;
-                login.Text = "Logout";
-                event_label.Text = String.Format("Logout canceled");
-                System.Diagnostics.Debug.WriteLine("User clicked on No, logout should still be displayed ");
-                return;
-            }
-            else
-            {
-                loggedIn = false;
-                login.Text = "Login";
-                Helpers.Settings.LoginSetting = false;
-                //  Navigation.ModalStack(new MasterPage());//see masterBehavior
-                //await Navigation.PushAsync(new RootPage());
-                event_label.Text = String.Format("Logged out");
-                System.Diagnostics.Debug.WriteLine("User clicked on Yes, login should be displayed ");
-                return;
-            }
-
-        }
-
-        //====================================== Access To Volunteer's Portal =========================
-        int count = Helpers.Settings.portalAccessCount;
-        private void Row11_portal_Clicked(object sender, EventArgs e)
-        {
-            count++;
-            if(count >= 7)
-            {
-                row11_portal.TextColor = Color.White;
-              //  Helpers.Settings.portalAccessedSetting = true;
-                Helpers.Settings.portalAccessCount = 7;
-                Navigation.PushAsync(new VolunteerPortal());
-               // row11_portal.IsEnabled = true;
-
-            }
-           
         }
 
         //================ Functions (actions) for Each Toggle Switch   =========================================
@@ -520,8 +368,8 @@ namespace LOSSPortable
             {
                 event_label.Text = String.Format("Settings have been reset");
                 contrast_switcher.IsToggled = Helpers.Settings.ContrastSetting = false;
-               // geolocation_switcher.IsToggled = Helpers.Settings.AnonymousSetting = true;
-          //      anonymous_switcher.IsToggled = Helpers.Settings.AnonymousSetting = false;
+                // geolocation_switcher.IsToggled = Helpers.Settings.AnonymousSetting = true;
+                //      anonymous_switcher.IsToggled = Helpers.Settings.AnonymousSetting = false;
                 speech_switcher.IsToggled = Helpers.Settings.SpeechSetting = false;
                 push_switcher.IsToggled = Helpers.Settings.PushSetting = true;
             }
@@ -560,19 +408,6 @@ namespace LOSSPortable
 
         //}
 
-        //Anonymous mode on and off
-        //void anonymous_switcher_Toggled(object sender, ToggledEventArgs e)
-        //{
-
-        //    event_label.Text = String.Format("Anonymity enabled? {0}", e.Value);
-        //    Helpers.Settings.AnonymousSetting = e.Value;
-        //    if (Helpers.Settings.SpeechSetting == true)
-        //    {
-        //        CrossTextToSpeech.Current.Speak("Anonymous Mode?" + e.Value);
-        //    }
-
-        //}
-
         //Text-to-Speech Implementation
         void speech_switcher_Toggled(object sender, ToggledEventArgs e)
         {
@@ -603,78 +438,26 @@ namespace LOSSPortable
 
         }
 
-        //===========================================================================================================================
-
-        public void defaultSetting()
-        {
-            Helpers.Settings.ContrastSetting = contrast_switcher.IsToggled = false;
-         //   Helpers.Settings.AnonymousSetting = anonymous_switcher.IsToggled = false;
-            Helpers.Settings.SpeechSetting = speech_switcher.IsToggled = false;
-            Helpers.Settings.PushSetting = push_switcher.IsToggled = true;
-        }
-
-        //===========================================================================================================================
-
-        //Displays options such as Edit Profile, Change Password, Login with Another Account, and Create a new account when Manage Account is tapped.
-        async void manageAccount()
-        {
-            if (Helpers.Settings.SpeechSetting == true)
-            {
-                CrossTextToSpeech.Current.Speak("Manage Account");
-            }
-            var action = await DisplayActionSheet("Manage Account", "Cancel", null, 
-                //"Edit Profile", 
-                "Change Password", 
-                "Login with Another Account", "Create a New Account");
-            switch (action)
-            {
-                //case "Edit Profile":
-                //    await Navigation.PushAsync(new ProfilePage());
-                //    break;
-                case "Change Password":
-                    //var r = await UserDialogs.Instance.ConfirmAsync("", "Pick Title");
-                    //var text = (r ? "Yes" : "No");
-                    //this.Result($"Confirmation Choice: {text}");
-                    customPopUp();
-                    break;
-                case "Login with Another Account":
-                    var r = await UserDialogs.Instance.LoginAsync(new LoginConfig
-                    {
-                        Message = "Enter Credentials"
-                    });
-                    var status = r.Ok ? "Success" : "Cancelled";
-                //    this.Result("Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
-                    event_label.Text = String.Format("Login With Another Account selected");
-
-                    break;
-                case "Create a New Account":
-                    var p = await UserDialogs.Instance.LoginAsync(new LoginConfig
-                    {
-                        Message = "Create A New Account"
-                    });
-                    var created = p.Ok ? "Success" : "Cancelled";
-                 //   this.Result("Login {created} - User Name: {p.LoginText} - Password: {p.Password}");
-                
-                    event_label.Text = String.Format("Create a New Account selected");
-                    break;              
-            }
-        }
-
-        //====================================== Customized pop-up for changing password ==========================
-
         StackLayout customPopUp()
         {
             _PopUpLayout = new PopupLayout();
 
+            var email = new ExtendedEntryCell
+            {
+                Label = "Email: ",
+                Placeholder = "Email",
+                IsPassword = false
+                // LabelColor = Color.Black
+            };
             var oldPswd = new ExtendedEntryCell
             {
-                
+
                 Label = "Existing Password: ",
                 Placeholder = "Password",
                 IsPassword = true
                 // LabelColor = Color.Black,
             };
-            
+
             var newPswd = new ExtendedEntryCell
             {
                 Label = "New Password: ",
@@ -700,13 +483,14 @@ namespace LOSSPortable
                                 {
                                     new TableSection("Change Password")
                                     {
+                                        email,
                                         oldPswd,
                                         newPswd,
                                         confirmPswd,
                                     }
-                                    
+
                                 }
-                                
+
                             },//end tableView
                             new StackLayout()
                             {
@@ -727,7 +511,7 @@ namespace LOSSPortable
                                         HorizontalOptions = LayoutOptions.CenterAndExpand,
                                         WidthRequest =140,
                                         Text = "OK",
-                                        Command = new Command (()=> closePopUp(oldPswd,newPswd,confirmPswd)),
+                                        Command = new Command (()=> closePopUp(email,oldPswd,newPswd,confirmPswd)),
                                     }
                                 }
                             }
@@ -770,25 +554,28 @@ namespace LOSSPortable
         //===========================================================================================================================
 
         //This function takes care of conditions:
-            //1. If old password and new password are same, it would prompt the user again with error message
-            //2. if new password and confirmation password are same, it would prompt the user again with error message
-           
+        //1. If old password and new password are same, it would prompt the user again with error message
+        //2. if new password and confirmation password are same, it would prompt the user again with error message
 
-        void closePopUp(ExtendedEntryCell oldPswd, ExtendedEntryCell newPswd, ExtendedEntryCell confirmPswd)
+
+        void closePopUp(ExtendedEntryCell email, ExtendedEntryCell oldPswd, ExtendedEntryCell newPswd, ExtendedEntryCell confirmPswd)
         {
             StackLayout temp;
 
+            String email_id = email.Text;
+
+            String oldPass = oldPswd.Text;
+            System.Diagnostics.Debug.WriteLine(oldPass);
+
+            String newPass = newPswd.Text;
+            System.Diagnostics.Debug.WriteLine(newPass);
+
+            String confirmPass = confirmPswd.Text;
+            System.Diagnostics.Debug.WriteLine(confirmPass);
 
             if (_PopUpLayout.IsPopupActive)
             {
-                String oldPass = oldPswd.Text;
-                System.Diagnostics.Debug.WriteLine(oldPass);
 
-                String newPass = newPswd.Text;
-                System.Diagnostics.Debug.WriteLine(newPass);
-
-                String confirmPass = confirmPswd.Text;
-                System.Diagnostics.Debug.WriteLine(confirmPass);
 
                 var existingPass = new Label
                 {
@@ -827,7 +614,7 @@ namespace LOSSPortable
                         BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
                         Orientation = StackOrientation.Horizontal,
                         Children = { temp },//The StackLayout (all passwords)
-                        Padding = 5 
+                        Padding = 5
                     };
 
                     _PopUpLayout.ShowPopup(PopUp);
@@ -856,82 +643,43 @@ namespace LOSSPortable
             {
                 temp = customPopUp();
                 _PopUpLayout.ShowPopup(temp);
+                updatePassword(email_id, oldPass, confirmPass);
             }
         }
 
-        //===========================================================================================================================
-        
-        //This function checks if Login or Logout is pressed and prompts user accordingly.
+        //==================================================== update password on server ==============================================================
 
-        public async void login_check()
+        public async void updatePassword(String email, String oldPass, String newPass)
         {
-            if (loggedIn == false) //login is currently displayed. set loggedIn to true to display logout
+            try
             {
-                System.Diagnostics.Debug.WriteLine("Login currently displayed - loggedIn" + loggedIn);
-                //entry pop up for login
-                var r = await UserDialogs.Instance.LoginAsync(new LoginConfig
-                {
-                    Message = "Enter Credentials",
-                    LoginPlaceholder = Helpers.Settings.EmailSetting,
-                  //  PasswordPlaceholder = Helpers.Settings.PasswordSetting
-                });
-               
-                var status = r.Ok ? "Success" : "Cancelled";
-              //  System.Diagnostics.Debug.WriteLine("after status = r.ok?");
+                UserItem user = new UserItem { Item = new UserLogin { Email = email, Password = oldPass, NewPassword = newPass, Arn = "" + Helpers.Settings.EndpointArnSetting } };
+                MessageJson messageJson = new MessageJson { operation = "update", tableName = "User", payload = user };
+                string args = JsonConvert.SerializeObject(messageJson);
 
-               // this.Result($"Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
-                if (status == "Success")
+                //System.Diagnostics.Debug.WriteLine(args);
+                var ir = new InvokeRequest()
                 {
-                    Helpers.Settings.EmailSetting = r.LoginText;
-                    Helpers.Settings.PasswordSetting = r.Password;
-                    loggedIn = true;
-                    login.Text = "Logout";
-                    System.Diagnostics.Debug.WriteLine("status is success then logout should be displayed - loggedIn" + loggedIn);
-                    return;
-                }
-                else if (status == "Cancelled")
-                {
-                    // loggedIn = false;
-                    login.Text = "Login";
-                    System.Diagnostics.Debug.WriteLine("status is cancelled then login should be displayed - loggedIn" + loggedIn);
-                    return;
-                }
+                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                    InvocationType = InvocationType.RequestResponse
+                };
+                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+
+                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+                resp.Payload.Position = 0;
+                var sr = new StreamReader(resp.Payload);
+                var myStr = sr.ReadToEnd();
+
+                //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Error:" + e);
             }
 
-            if (loggedIn == true)//if logout is displayed
-            {
-                System.Diagnostics.Debug.WriteLine("Logout currently displayed - loggedIn" + loggedIn);
-
-                //pop up confirmation
-                var result = await DisplayAlert("Log Out", "Are you sure?", "Yes", "No");
-                if (result == false)
-                {
-                    // loggedIn = true;
-                    login.Text = "Logout";
-                    event_label.Text = String.Format("Logout canceled");
-                    System.Diagnostics.Debug.WriteLine("User clicked on No, logout should still be displayed - loggedIn" + loggedIn);
-                    return;
-                }
-                else
-                {
-                    loggedIn = false;
-                    login.Text = "Login";
-                    event_label.Text = String.Format("Logged out");
-                    System.Diagnostics.Debug.WriteLine("User clicked on Yes, login should be displayed - loggedIn" + loggedIn);
-                    return;
-                }
-            }
- 
         }
- 
-        //===========================================================================================================================
-        //temporary function
-
-        void Result(string msg)
-        {
-            UserDialogs.Instance.Alert(msg);
-        }
-
         //==================================================== Back Button Pressed ==============================================================
 
         protected override Boolean OnBackButtonPressed() // back button pressed
@@ -939,6 +687,6 @@ namespace LOSSPortable
             ((RootPage)App.Current.MainPage).NavigateTo();
             return true;
         }
+
     }
-    
 }

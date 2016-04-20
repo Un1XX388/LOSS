@@ -370,6 +370,15 @@
   <ItemGroup>
     <BundleResource Include="Resources\logout.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\user-2-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\about-64.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

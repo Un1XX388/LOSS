@@ -307,6 +307,8 @@
     <AndroidResource Include="Resources\drawable\splash.png" />
     <AndroidResource Include="Resources\drawable\login64.png" />
     <AndroidResource Include="Resources\drawable\logout64.png" />
+    <AndroidResource Include="Resources\drawable\account.png" />
+    <AndroidResource Include="Resources\drawable\about.png" />
     <Content Include="Resources\login.png" />
     <Content Include="Resources\logout.png" />
   </ItemGroup>

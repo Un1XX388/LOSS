@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Amazon.DynamoDBv2.DataModel;
+using Acr.UserDialogs;
 
 namespace LOSSPortable
 {
@@ -80,7 +81,7 @@ namespace LOSSPortable
             {
                 Text = "Survivors of Suicide Handbook",
                 TextColor = Colors.barBackground,
-                HorizontalOptions = LayoutOptions.StartAndExpand,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
                 BackgroundColor = Color.FromHex("ffffe6"),
                 HeightRequest = 40,
                 WidthRequest = 300
@@ -91,7 +92,7 @@ namespace LOSSPortable
             {
                 Text = "Support Groups",
                 TextColor = Colors.barBackground,
-                HorizontalOptions = LayoutOptions.StartAndExpand,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
                 BackgroundColor = Color.FromHex("ffffe6"),
                 HeightRequest = 40,
                 WidthRequest = 300
@@ -145,7 +146,7 @@ namespace LOSSPortable
             try
             {
                 MessageItem message = new MessageItem{Item = new ChatMessage { ToFrom = toFrom, Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ff"), Text = text}};
-                MessageJson messageJson = new MessageJson { operation = "create", tableName = "Message", payload = message };
+                MessageJson messageJson = new MessageJson { operation = "create", tableName = "User", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
                 //System.Diagnostics.Debug.WriteLine(args);
                 var ir = new InvokeRequest(){
@@ -221,7 +222,8 @@ namespace LOSSPortable
             ai.BindingContext = this;
             ai.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
             this.IsBusy = true;
-            
+            UserDialogs.Instance.ShowLoading("Loading..");
+
 
             WebView webview = new WebView();
             //http://stackoverflow.com/questions/2655972/how-can-i-display-a-pdf-document-into-a-webview
@@ -237,13 +239,16 @@ namespace LOSSPortable
                 Content = webview
 
             });
+            UserDialogs.Instance.HideLoading();
+
         }
 
 
         async void sgLinkPressed(object sender, EventArgs e)
         {
 
-        //    sg_link.Enabled = false;
+            //    sg_link.Enabled = false;
+            UserDialogs.Instance.ShowLoading();
 
             WebView webView = new WebView
             {
@@ -261,10 +266,12 @@ namespace LOSSPortable
                 Content = webView
 
             });
-        //    sg_link.Enabled = true;
+            UserDialogs.Instance.HideLoading();
+
+            //    sg_link.Enabled = true;
         }
 
-        
+
 
         static Random rnd = new Random();
 

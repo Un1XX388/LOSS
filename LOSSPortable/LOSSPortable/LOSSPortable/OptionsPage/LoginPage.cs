@@ -1,6 +1,13 @@
 ﻿using Acr.UserDialogs;
+using Amazon.Lambda;
+using Amazon.Lambda.Model;
+using Amazon.Util;
+using Newtonsoft.Json;
+using Plugin.Geolocator;
+using Plugin.Geolocator.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel.Channels;
 using System.Text;
@@ -12,8 +19,12 @@ namespace LOSSPortable
     public class LoginPage: ContentPage
     {
         Boolean loggedIn = false;
-        Entry username;
+        Entry email;
         Entry password;
+        Button Login;
+
+        private double longitude;
+        private double latitude;
 
         public LoginPage()
         {
@@ -28,6 +39,20 @@ namespace LOSSPortable
                 BackgroundColor = Colors.background;
             }
 
+            Login = new Button { Text = "Login", TextColor = Color.White };
+
+            //if (Helpers.Settings.LoginSetting == true)
+            //{
+            //    loggedIn = true;
+            //    Login.Text = "Logout";
+            //}
+            //else
+            //{
+            //    loggedIn = false;
+            //    Login.Text = "Login";
+            //}
+            Login.Clicked += Login_Clicked;
+
             var layout = new StackLayout { Padding = 10 };
 
             var layout2 = new StackLayout
@@ -36,14 +61,12 @@ namespace LOSSPortable
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.CenterAndExpand
             };
-            username = new Entry { Placeholder = "Username" };
-            layout.Children.Add(username);
+            email = new Entry { Placeholder = "Email", BackgroundColor = Color.White, PlaceholderColor = Color.Gray, TextColor = Color.Black };
+            layout.Children.Add(email);
 
-            password = new Entry { Placeholder = "Password", IsPassword = true };
+            password = new Entry { Placeholder = "Password", IsPassword = true, BackgroundColor = Color.White, PlaceholderColor = Color.Gray, TextColor = Color.Black };
             layout.Children.Add(password);
 
-            Button Login = new Button { Text = "Log In", TextColor = Color.White };
-            Login.Clicked += Login_Clicked;
             layout.Children.Add(Login);
 
             var label = new Label
@@ -75,7 +98,7 @@ namespace LOSSPortable
 
             layout.Children.Add(label2);
 
-            Button signUpButton = new Button { Text = "Sign Up", TextColor = Color.White };
+            Button signUpButton = new Button { Text = "Create an Account", TextColor = Color.White };
             signUpButton.Clicked += SignUpButton_Clicked;
             layout.Children.Add(signUpButton);
 
@@ -85,88 +108,155 @@ namespace LOSSPortable
                 Content = layout
             };
 
+            
         }//LoginPage()
 
         public async void ForgotPassword()
         {
             var s = await UserDialogs.Instance.PromptAsync(new PromptConfig
             {
-                Message = "Enter E-Mail"
+                Message = "Enter E-Mail",
+                Placeholder = "you@example.com"
             });
             var stat = s.Ok ? "Success" : "Cancelled";
+           // System.Diagnostics.Debug.WriteLine(stat, s);
+
+            if (stat == "Success")
+            {
+                System.Diagnostics.Debug.WriteLine(stat + s.Text);
+                try
+                {
+                    UserItem user = new UserItem { Item = new UserLogin { Email = s.Text, Arn = "" + Helpers.Settings.EndpointArnSetting } };
+                    MessageJson messageJson = new MessageJson { operation = "forgotPassword", tableName = "User", payload = user };
+                    string args = JsonConvert.SerializeObject(messageJson);
+                      
+                    //System.Diagnostics.Debug.WriteLine(args);
+                    var ir = new InvokeRequest()
+                    {
+                        FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                        PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                        InvocationType = InvocationType.RequestResponse
+                    };
+                    //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+
+                    InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+                    resp.Payload.Position = 0;
+                    var sr = new StreamReader(resp.Payload);
+                    var myStr = sr.ReadToEnd();
+
+                    //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                    //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine("Error:" + e);
+                }
+            }
         }
 
         private void SignUpButton_Clicked(object sender, EventArgs e)
         {
-            login_check();
+            // login_check();
+            Navigation.PushAsync(new CreateUserPage());
         }
 
         private async void Login_Clicked(object sender, EventArgs e)
         {
-            loggedIn = true;
-            Helpers.Settings.LoginSetting = true;
+            //if (loggedIn == false)
+            //{
+                loggedIn = true;
+                Helpers.Settings.LoginSetting = true;
+                Login.Text = "Logout";
+                getLocation();
+                PushUser();
+                //UserDialogs.Instance.ShowLoading("Logging in ...");
+          //  }
+            //else
+            //{
+            //    loggedIn = false;
+            //    Helpers.Settings.LoginSetting = false;
+            //    Login.Text = "Login";
+            //   // ShowSuccess();
+            //}
+
             ((RootPage)App.Current.MainPage).NavigateTo();
+         //   UserDialogs.Instance.HideLoading();
+
         }
 
-        public async void login_check()
+        async private Task PushUser() //Function to create a Json object and send to server using a lambda function
         {
-            if (loggedIn == false) //login is currently displayed. set loggedIn to true to display logout
+            try
             {
-                System.Diagnostics.Debug.WriteLine("Login currently displayed - loggedIn" + loggedIn);
-                //entry pop up for login
-                var r = await UserDialogs.Instance.LoginAsync(new LoginConfig
+                UserItem user = new UserItem { Item = new UserLogin { Latitude = latitude, Longitude = longitude, Password = password.Text, Email = email.Text, Arn = "" + Helpers.Settings.EndpointArnSetting } };
+                MessageJson messageJson = new MessageJson { operation = "update", tableName = "User", payload = user };
+                string args = JsonConvert.SerializeObject(messageJson);
+                //System.Diagnostics.Debug.WriteLine(args);
+                var ir = new InvokeRequest()
                 {
-                    Message = "Enter Credentials",
-                    LoginPlaceholder = Helpers.Settings.EmailSetting,
-                    //  PasswordPlaceholder = Helpers.Settings.PasswordSetting
-                });
+                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                    InvocationType = InvocationType.RequestResponse
+                };
+                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
 
-                var status = r.Ok ? "Success" : "Cancelled";
-                //  System.Diagnostics.Debug.WriteLine("after status = r.ok?");
 
-                // this.Result($"Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
-                if (status == "Success")
-                {
-                    Helpers.Settings.EmailSetting = r.LoginText;
-                    Helpers.Settings.PasswordSetting = r.Password;
-                    loggedIn = true;
-                  //  login.Text = "Logout";
-                    System.Diagnostics.Debug.WriteLine("status is success then logout should be displayed - loggedIn" + loggedIn);
-                    return;
-                }
-                else if (status == "Cancelled")
-                {
-                 //   login.Text = "Login";
-                    System.Diagnostics.Debug.WriteLine("status is cancelled then login should be displayed - loggedIn" + loggedIn);
-                    return;
-                }
+                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+                resp.Payload.Position = 0;
+                var sr = new StreamReader(resp.Payload);
+                var myStr = sr.ReadToEnd();
+
+                //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
             }
-
-            else if (loggedIn == true)//if logout is displayed
+            catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("Logout currently displayed - loggedIn" + loggedIn);
+                System.Diagnostics.Debug.WriteLine("Error:" + e);
+            }
+        }
 
-                //pop up confirmation
-                var result = await DisplayAlert("Log Out", "Are you sure?", "Yes", "No");
-                if (result == false)
-                {
-                    // loggedIn = true;
-                    //login.Text = "Logout";
-                    //event_label.Text = String.Format("Logout canceled");
-                    System.Diagnostics.Debug.WriteLine("User clicked on No, logout should still be displayed - loggedIn" + loggedIn);
-                    return;
-                }
-                else
-                {
-                    loggedIn = false;
-                    //login.Text = "Login";
-                    //event_label.Text = String.Format("Logged out");
-                    System.Diagnostics.Debug.WriteLine("User clicked on Yes, login should be displayed - loggedIn" + loggedIn);
-                    return;
-                }
+        async private Task getLocation()
+        {
+            try
+            {
+                var locator = CrossGeolocator.Current;
+                locator.DesiredAccuracy = 100;
+                locator.PositionChanged += OnPositionChanged;
+                var position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
+                latitude = Convert.ToDouble(position.Latitude);
+                longitude = Convert.ToDouble(position.Longitude);
+
+                //label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
+                System.Diagnostics.Debug.WriteLine("type of long/lat is: " + latitude.GetType());
+                //await DisplayAlert("type", "" + latitude.GetType(), "ok");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                //label2.Text = "Unable to find location";
+                latitude = 0.00;
+                longitude = 0.00;
             }
 
         }
+
+        async private void OnPositionChanged(object sender, PositionEventArgs e)
+        {
+            var locator = CrossGeolocator.Current;
+            var position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
+            var latitude = position.Latitude.ToString();
+            var longtitude = position.Longitude.ToString();
+            //label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
+        }
+
+        //==================================================== Back Button Pressed ==============================================================
+
+        protected override Boolean OnBackButtonPressed() // back button pressed
+        {
+            ((RootPage)App.Current.MainPage).NavigateTo();
+            return true;
+        }
+
 
     }
 }
