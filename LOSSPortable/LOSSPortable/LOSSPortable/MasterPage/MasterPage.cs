@@ -67,7 +67,6 @@ namespace LOSSPortable
 
             listView = new ListView
             {
-
                 ItemsSource = masterPageItems,
                 ItemTemplate = new DataTemplate(() =>
                 {

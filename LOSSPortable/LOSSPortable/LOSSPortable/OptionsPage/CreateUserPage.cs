@@ -1,4 +1,5 @@
-﻿using Amazon.Lambda;
+﻿using Acr.UserDialogs;
+using Amazon.Lambda;
 using Amazon.Lambda.Model;
 using Amazon.Util;
 using Newtonsoft.Json;
@@ -76,32 +77,43 @@ namespace LOSSPortable
         async private void CreateAccount_Clicked(object sender, System.EventArgs e)
         {
             await getLocation();
-            try
+            if(nickname.Text == null || email.Text == null)
             {
-                UserItem user = new UserItem { Item = new UserLogin { Nickname = nickname.Text, Email = email.Text, Longitude = longitude, Latitude = latitude, UserType = usertype } };
-                MessageJson messageJson = new MessageJson { operation = "create", tableName = "User", payload = user };
-                string args = JsonConvert.SerializeObject(messageJson);
-                //System.Diagnostics.Debug.WriteLine(args);
-                var ir = new InvokeRequest()
-                {
-                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
-                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
-                    InvocationType = InvocationType.RequestResponse
-                };
-                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
-
-
-                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
-                resp.Payload.Position = 0;
-                var sr = new StreamReader(resp.Payload);
-                var myStr = sr.ReadToEnd();
-
-                //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
-                //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+                UserDialogs.Instance.ShowError("Please enter information in all fields.");
             }
-            catch (Exception e2)
+            else
             {
-                System.Diagnostics.Debug.WriteLine("Error:" + e2);
+                try
+                {
+                    UserItem user = new UserItem { Item = new UserLogin { Nickname = nickname.Text, Email = email.Text, Longitude = longitude, Latitude = latitude, UserType = usertype } };
+                    MessageJson messageJson = new MessageJson { operation = "create", tableName = "User", payload = user };
+                    string args = JsonConvert.SerializeObject(messageJson);
+                    //System.Diagnostics.Debug.WriteLine(args);
+                    var ir = new InvokeRequest()
+                    {
+                        FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                        PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                        InvocationType = InvocationType.RequestResponse
+                    };
+                    //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+
+
+                    InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+                    resp.Payload.Position = 0;
+                    var sr = new StreamReader(resp.Payload);
+                    var myStr = sr.ReadToEnd();
+
+                    UserDialogs.Instance.ShowSuccess("Thank you for signing up! Please check your email for password.");
+
+                    //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                    //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+                }
+                catch (Exception e2)
+                {
+                    System.Diagnostics.Debug.WriteLine("Error:" + e2);
+                }
+
+                ((RootPage)App.Current.MainPage).NavigateTo();
             }
 
         }

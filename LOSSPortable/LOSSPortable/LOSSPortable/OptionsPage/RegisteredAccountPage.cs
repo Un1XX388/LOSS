@@ -9,7 +9,8 @@ using Amazon.Lambda.Model;
 using Amazon.Util;
 using Amazon.Lambda;
 using System.IO;
-        
+using System.Text.RegularExpressions;
+
 namespace LOSSPortable
 {
     public class RegisteredAccountPage : ContentPage
@@ -382,30 +383,24 @@ namespace LOSSPortable
         //change background color - contrast
         void constrast_switcher_Toggled(object sender, ToggledEventArgs e)
         {
-
             if (contrast_switcher.IsToggled)
             {
                 this.Content.BackgroundColor = Colors.contrastBg;
                 event_label.Text = String.Format("High Contrast Mode Enabled? {0}", e.Value);
                 Helpers.Settings.ContrastSetting = e.Value;
-
             }
             else
             {
                 this.Content.BackgroundColor = Colors.background;
                 event_label.Text = String.Format("High Contrast Mode Enabled? {0}", e.Value);
                 Helpers.Settings.ContrastSetting = e.Value;
-
             }
-
         }
-
 
         //void geolocation_switcher_Toggled(object sender, ToggledEventArgs e)
         //{
         //    event_label.Text = String.Format("Geolocation enabled? {0}", e.Value);
         //    Helpers.Settings.locationSetting = e.Value;
-
         //}
 
         //Text-to-Speech Implementation
@@ -417,7 +412,6 @@ namespace LOSSPortable
                 event_label.Text = String.Format("Text to Speech? {0}", e.Value);
                 CrossTextToSpeech.Current.Speak("Text to Speech Mode On");
                 Helpers.Settings.SpeechSetting = e.Value;
-
             }
             else
             {
@@ -435,7 +429,6 @@ namespace LOSSPortable
             {
                 CrossTextToSpeech.Current.Speak("Notification Mode" + e.Value);
             }
-
         }
 
         StackLayout customPopUp()
@@ -445,8 +438,7 @@ namespace LOSSPortable
             var email = new ExtendedEntryCell
             {
                 Label = "Email: ",
-                Placeholder = "Email",
-                IsPassword = false
+                Placeholder = "Email"
                 // LabelColor = Color.Black
             };
             var oldPswd = new ExtendedEntryCell
@@ -488,9 +480,7 @@ namespace LOSSPortable
                                         newPswd,
                                         confirmPswd,
                                     }
-
                                 }
-
                             },//end tableView
                             new StackLayout()
                             {
@@ -525,7 +515,7 @@ namespace LOSSPortable
             var PopUp = new StackLayout
             {
                 WidthRequest = 300, // Important, the Popup has to have a size to be showed
-                HeightRequest = 270,
+                HeightRequest = 320,
                 BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
                 Orientation = StackOrientation.Horizontal,
                 Children = { passwordPop }//The StackLayout (all passwords)
@@ -562,7 +552,7 @@ namespace LOSSPortable
         {
             StackLayout temp;
 
-            String email_id = email.Text;
+            String email_id = email.Text.TrimEnd();
 
             String oldPass = oldPswd.Text;
             System.Diagnostics.Debug.WriteLine(oldPass);
@@ -593,6 +583,21 @@ namespace LOSSPortable
                     FontSize = 20
                 };
 
+                var no_email = new Label
+                {
+                    Text = "Please enter your e-mail address.",
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
+                    TextColor = Color.Red,
+                    FontSize = 20
+                };
+
+                var invalid_email = new Label
+                {
+                    Text = "Please enter a valid e-mail address.",
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
+                    TextColor = Color.Red,
+                    FontSize = 20
+                };
                 _PopUpLayout.DismissPopup();
                 ScrollView content = new ScrollView
                 {
@@ -601,7 +606,48 @@ namespace LOSSPortable
                 };
                 this.Content = content;
 
-                if (newPass != confirmPass)
+                if (email_id == null)
+                {
+                    temp = customPopUp();
+                    // temp.Children.Add(no_email);
+
+                    var PopUp = new StackLayout
+                    {
+                        WidthRequest = 300, // Important, the Popup has to have a size to be showed
+                        HeightRequest = 320,
+                        BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
+                        Orientation = StackOrientation.Horizontal,
+                        Children = { temp },//The StackLayout (all passwords)
+                        Padding = 5
+                    };
+
+                    _PopUpLayout.ShowPopup(PopUp);
+                    System.Diagnostics.Debug.WriteLine("Please enter your e-mail ID.");
+
+                }
+                else if (!(Regex.Match(email_id, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success))
+                {
+                    //Not Valid email    
+                    temp = customPopUp();
+                  //  UserDialogs.Instance.ShowError("Invalid Email");
+
+                    temp.Children.Add(invalid_email);
+
+                    var PopUp = new StackLayout
+                    {
+                        WidthRequest = 300, // Important, the Popup has to have a size to be showed
+                        HeightRequest = 320,
+                        BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
+                        Orientation = StackOrientation.Horizontal,
+                        Children = { temp },//The StackLayout (all passwords)
+                        Padding = 5
+                    };
+
+                    _PopUpLayout.ShowPopup(PopUp);
+                    System.Diagnostics.Debug.WriteLine("Invalid email");
+
+                }
+                else if (newPass != confirmPass)
                 {   //keep displaying pop up and display error message to user
 
                     temp = customPopUp();
@@ -638,12 +684,16 @@ namespace LOSSPortable
                     _PopUpLayout.ShowPopup(PopUp);
                     System.Diagnostics.Debug.WriteLine("Please pick a new password");
                 }
+                else
+                {
+                    updatePassword(email_id, oldPass, newPass);
+                    UserDialogs.Instance.ShowSuccess("Password has been changed successfully.");
+                }//update password
             }
             else //if no pop up is displayed
             {
                 temp = customPopUp();
                 _PopUpLayout.ShowPopup(temp);
-                updatePassword(email_id, oldPass, confirmPass);
             }
         }
 
@@ -653,7 +703,7 @@ namespace LOSSPortable
         {
             try
             {
-                UserItem user = new UserItem { Item = new UserLogin { Email = email, Password = oldPass, NewPassword = newPass, Arn = "" + Helpers.Settings.EndpointArnSetting } };
+                UserItem user = new UserItem { Item = new UserLogin { Email = email, Password = oldPass.TrimEnd(), NewPassword = newPass, Arn = "" + Helpers.Settings.EndpointArnSetting } };
                 MessageJson messageJson = new MessageJson { operation = "update", tableName = "User", payload = user };
                 string args = JsonConvert.SerializeObject(messageJson);
 
