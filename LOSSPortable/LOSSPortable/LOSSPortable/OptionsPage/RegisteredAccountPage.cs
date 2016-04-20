@@ -16,7 +16,7 @@ namespace LOSSPortable
     public class RegisteredAccountPage : ContentPage
     {
         Entry username;
-        Entry email;
+        Label email;
         StackLayout mainContent;
         Label event_label;
         Switch contrast_switcher;
@@ -40,7 +40,7 @@ namespace LOSSPortable
             this.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);
 
             username = new Entry { Text = "Username", Placeholder = "Username", BackgroundColor = Color.White, TextColor = Color.Black};
-            email = new Entry { Text = "Email", BackgroundColor = Color.White, TextColor = Color.Black};
+            email = new Label { Text = "Email:  " + Helpers.Settings.EmailSetting, TextColor = Color.White, FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label))};
 
             event_label = new Label
             {

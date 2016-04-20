@@ -18,7 +18,6 @@ namespace LOSSPortable
 {
     public class LoginPage: ContentPage
     {
-        Boolean loggedIn = false;
         Entry email;
         Entry password;
         Button Login;
@@ -162,30 +161,20 @@ namespace LOSSPortable
 
         private async void Login_Clicked(object sender, EventArgs e)
         {
-            //if (loggedIn == false)
-            //{
-                loggedIn = true;
-                Helpers.Settings.LoginSetting = true;
-                Login.Text = "Logout";
-                getLocation();
-                PushUser();
-                //UserDialogs.Instance.ShowLoading("Logging in ...");
-          //  }
-            //else
-            //{
-            //    loggedIn = false;
-            //    Helpers.Settings.LoginSetting = false;
-            //    Login.Text = "Login";
-            //   // ShowSuccess();
-            //}
+
+            UserDialogs.Instance.SuccessToast("Logging in..");
+
+            //loggedIn = true;
+            Helpers.Settings.LoginSetting = true;
+            PushUser();
 
             ((RootPage)App.Current.MainPage).NavigateTo();
-         //   UserDialogs.Instance.HideLoading();
 
         }
 
         async private Task PushUser() //Function to create a Json object and send to server using a lambda function
         {
+            getLocation();
             try
             {
                 UserItem user = new UserItem { Item = new UserLogin { Latitude = latitude, Longitude = longitude, Password = password.Text, Email = email.Text, Arn = "" + Helpers.Settings.EndpointArnSetting } };
@@ -213,6 +202,7 @@ namespace LOSSPortable
             {
                 System.Diagnostics.Debug.WriteLine("Error:" + e);
             }
+
         }
 
         async private Task getLocation()

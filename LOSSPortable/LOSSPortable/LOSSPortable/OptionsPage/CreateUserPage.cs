@@ -103,7 +103,7 @@ namespace LOSSPortable
                     var sr = new StreamReader(resp.Payload);
                     var myStr = sr.ReadToEnd();
 
-                    UserDialogs.Instance.ShowSuccess("Thank you for signing up! Please check your email for password.");
+                    UserDialogs.Instance.SuccessToast("Thank you for signing up!", "Please check your email for verification.", 3000 );
 
                     //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
                     //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
@@ -113,7 +113,9 @@ namespace LOSSPortable
                     System.Diagnostics.Debug.WriteLine("Error:" + e2);
                 }
 
+                Helpers.Settings.EmailSetting = email.Text;
                 ((RootPage)App.Current.MainPage).NavigateTo();
+
             }
 
         }
