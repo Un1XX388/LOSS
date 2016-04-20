@@ -99,9 +99,7 @@ public ChatSelection()
                             nameEntry,
                             readyToChat,
                             chatAvailability
-
                             }
-
                 };
 
                 innerScroll = new ScrollView
@@ -128,6 +126,7 @@ public ChatSelection()
             
 
         }
+
         void readyToChatF(object sender, ToggledEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("Switch toggled");
@@ -192,18 +191,18 @@ public ChatSelection()
             try
             {
                 UserInfoItem message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = "temp", Arn = "" + Helpers.Settings.EndpointArnSetting } }; //Helpers.Settings.EndpointArnSetting
-                //await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
-                await DisplayAlert("sent ", "sent to server: " + latitude + " " + longitude + " " + nameEntry.Text + " " + Helpers.Settings.EndpointArnSetting, "ok");
+                await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
+                await DisplayAlert("sent ", "sent to server: " + latitude + " " + longitude + " " + "Name" + " " + Helpers.Settings.EndpointArnSetting, "ok");
                 UserInfoJson messageJson = new UserInfoJson { operation = "create", tableName = "User", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
-                //System.Diagnostics.Debug.WriteLine(args);
+                System.Diagnostics.Debug.WriteLine(args);
                 var ir = new InvokeRequest()
                 {
                     FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
                     PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
                     InvocationType = InvocationType.RequestResponse
                 };
-                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+                System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
 
 
                 InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);

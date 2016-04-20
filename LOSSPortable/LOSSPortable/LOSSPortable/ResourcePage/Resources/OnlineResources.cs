@@ -14,10 +14,7 @@ namespace LOSSPortable
     {
 
         // Holds all info for each item on resources page.
-        public ObservableCollection<OnlineRViewModel> online_resources { get; set; }
-        String favorite;
-        Boolean favClicked = false;
-        int count = 0;
+        public RangeObservableCollection<OnlineRViewModel> online_resources { get; set; }
         // 
         public OnlineResources()
         {
@@ -34,7 +31,24 @@ namespace LOSSPortable
 
 
             // Holds data to be displayed on this content page.
-            online_resources = new ObservableCollection<OnlineRViewModel>();
+            online_resources = AmazonUtils.getOnlineRList;
+
+            //Switch case for differnet icons depending on file type
+            for (int i = 0; i < online_resources.Count; i++)
+            {
+                switch (online_resources[i].Type)
+                {
+                    case "Website":
+                        online_resources[i].Image = "online1.png";
+                        break;
+                    case "PDF":
+                        online_resources[i].Image = "quote64.png";
+                        break;
+                    default:
+                        online_resources[i].Image = "onlint1.png";
+                        break;
+                }
+            }
 
             // View type for this content page.
             ListView lstView = new ListView();
@@ -66,22 +80,7 @@ namespace LOSSPortable
             Content = lstView;
             
             //populate listview with retrieved online resources from the server
-            var tempList = LoadResources();
-
-
-            for(int i = 0; i < tempList.Count; i++)
-            {
-
-                online_resources.Add(new OnlineRViewModel
-                {
-                    Image       = "quote64.png",
-                    Title       = tempList[i].Title,
-                    Description = tempList[i].Description,
-                    URL         = tempList[i].URL,
-                    Type        = tempList[i].Type,
-                    //count       = 0
-                });
-            }
+            
             // Accomodate iPhone status bar.
             Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
 
@@ -126,30 +125,20 @@ namespace LOSSPortable
                 return;
             }
             ((ListView)sender).SelectedItem = null;        // This deselects the item after it is selected.
-
-            String title = e.SelectedItem.ToString().Split(',')[1];
-            String desc = e.SelectedItem.ToString().Split(',')[2];
-            String link = e.SelectedItem.ToString().Split(',')[3];
+            var select = e.SelectedItem as OnlineRViewModel;
+            String title = select.Title;
+            String desc = select.Description;
+            String link = select.URL;
         //    int count = Convert.ToInt32(e.SelectedItem.ToString().Split(',')[5]);
 
-            count++;
-            System.Diagnostics.Debug.WriteLine(count);
-
-            if (count >= 5)
-            {
-                System.Diagnostics.Debug.WriteLine("REachead 5!");
-            }
-
-
             //checks if the item type is pdf or website
-            if (e.SelectedItem.ToString().Split(',')[4].Equals("PDF"))
+            if (select.Type == "PDF")
             {
                 
                 WebView webview = new WebView();
                 //http://stackoverflow.com/questions/2655972/how-can-i-display-a-pdf-document-into-a-webview
                 //using google docs viewer
-                String pdf = e.SelectedItem.ToString().Split(',')[3];
-                webview.Source = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf;
+                webview.Source = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + link;
 
                 Navigation.PushAsync(new ContentPage()
                 {
@@ -163,7 +152,7 @@ namespace LOSSPortable
                 {
                     Source = new UrlWebViewSource
                     {
-                        Url = e.SelectedItem.ToString().Split(',')[3],
+                        Url = link,
                     },
                     VerticalOptions = LayoutOptions.FillAndExpand
                 };

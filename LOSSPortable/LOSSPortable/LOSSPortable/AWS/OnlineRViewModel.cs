@@ -24,17 +24,11 @@ namespace LOSSPortable
         public string Description { get; set; }
 
         public string Image { get; set; }
-        public int count { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public OnlineRViewModel()
         {
         }// End of OnlineResourceViewModel() method.
-
-        public override string ToString()
-        {
-            return Image + ',' + Title + ',' + Description + ',' + URL + ',' + Type + ',' + count;
-        }// End of ToString() method.
     }
 }
