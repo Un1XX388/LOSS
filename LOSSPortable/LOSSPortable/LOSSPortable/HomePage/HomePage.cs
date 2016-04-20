@@ -51,9 +51,7 @@ namespace LOSSPortable
                 new Setter { Property = Label.TextColorProperty,Value = Color.White },
                 new Setter {Property = Label.FontAttributesProperty, Value = FontAttributes.Italic },
                 new Setter {Property = Label.FontFamilyProperty, Value = "Times New Roman" },
-
                 }
-
             };
             labelFrame = new Frame
             {

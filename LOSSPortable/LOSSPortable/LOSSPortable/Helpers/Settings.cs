@@ -50,6 +50,9 @@ namespace LOSSPortable.Helpers
 
         private const string favoriteKey = "favorite_key";
         private static readonly bool FavoriteDefault = false;
+
+        private const string chatActive = "chatActive";
+        private static readonly bool chatActiveDefault = false;
         #endregion
 
         public static bool LoginSetting
@@ -108,6 +111,12 @@ namespace LOSSPortable.Helpers
         {
             get { return AppSettings.GetValueOrDefault(favoriteKey, FavoriteDefault); }
             set { AppSettings.AddOrUpdateValue(favoriteKey, value); }
+        }
+
+        public static bool ChatActiveSetting
+        {
+            get { return AppSettings.GetValueOrDefault(chatActive, chatActiveDefault); }
+            set { AppSettings.AddOrUpdateValue(chatActive, value); }
         }
 
     }

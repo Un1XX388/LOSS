@@ -24,6 +24,7 @@ namespace LOSSPortable
         {
             AmazonUtils.updateInspirationalQuoteList();
             AmazonUtils.updateOnlineRList();
+            AmazonUtils.updateOnlineVList();
             MessagingCenter.Subscribe<ChatPage>(this, "Start", (sender) =>
             {
                 ChatPageActive = true;
@@ -67,7 +68,15 @@ namespace LOSSPortable
                 //System.Diagnostics.Debug.WriteLine(msg);
                 SNSMessage tmp = JsonConvert.DeserializeObject<SNSMessage>(msg);
                 ChatMessage message = new ChatMessage { ToFrom = tmp.ToFrom, Time = tmp.Time, Text = tmp.Text, Sender = tmp.Sender };
-                MessagingCenter.Send<App, ChatMessage>(this, "Hi", message);
+                if (tmp.Subject == "Handshake")
+                {
+                    MessagingCenter.Send<App, ChatMessage>(this, "Handshake", message);
+                }
+                else
+                {   
+                    MessagingCenter.Send<App, ChatMessage>(this, "Hi", message);
+                }
+                
             });
             
         }

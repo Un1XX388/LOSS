@@ -195,7 +195,7 @@ namespace LOSSPortable
             var SearchBar = context.ScanAsync<OnlineRViewModel>(conditions);
             return SearchBar.GetNextSetAsync();
 
-            System.Diagnostics.Debug.WriteLine("inside queryOnlineRList()");
+            //System.Diagnostics.Debug.WriteLine("inside queryOnlineRList()");
         }
 
         public static void updateOnlineRList()
@@ -205,7 +205,7 @@ namespace LOSSPortable
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     onlineRList.AddRange(queryOnlineRList().Result);
-                    System.Diagnostics.Debug.WriteLine("UpdateOnlineRList()");
+                    //System.Diagnostics.Debug.WriteLine("UpdateOnlineRList()");
                 });
             });
         }
@@ -224,6 +224,43 @@ namespace LOSSPortable
             }
         }
 
+        //-----------------------------------------------------------------------------------------
+        private static Task<List<OnlineVViewModel>> queryOnlineVList()
+        {
+            var context = AmazonUtils.DDBContext;
+            List<ScanCondition> conditions = new List<ScanCondition>();
+            var SearchBar = context.ScanAsync<OnlineVViewModel>(conditions);
+            return SearchBar.GetNextSetAsync();
+
+            //System.Diagnostics.Debug.WriteLine("inside queryOnlineRList()");
+        }
+
+        public static void updateOnlineVList()
+        {
+            queryOnlineVList().ContinueWith(task =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    onlineVList.AddRange(queryOnlineVList().Result);
+                    //System.Diagnostics.Debug.WriteLine("UpdateOnlineRList()");
+                });
+            });
+        }
+
+        private static RangeObservableCollection<OnlineVViewModel> onlineVList = new RangeObservableCollection<OnlineVViewModel>();
+
+        public static RangeObservableCollection<OnlineVViewModel> getOnlineVList
+        {
+            get
+            {
+                return onlineVList;
+            }
+            set
+            {
+                onlineVList = value;
+            }
+        }
+
     }//end of class AmazonUtils
 
     public class RangeObservableCollection<T> : ObservableCollection<T>
@@ -239,7 +276,6 @@ namespace LOSSPortable
             }
             this.surpressEvents = false;
             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList()));
-
         }
 
         protected override void OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

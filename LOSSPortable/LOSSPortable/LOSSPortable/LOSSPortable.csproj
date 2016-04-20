@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="AWS\AmazonUtils.cs" />
+    <Compile Include="AWS\OnlineVViewModel.cs" />
     <Compile Include="AWS\UserLogin.cs" />
     <Compile Include="AWS\MessageJson.cs" />
     <Compile Include="AWS\OnlineRViewModel.cs" />
@@ -79,7 +80,7 @@
     <Compile Include="OptionsPage\ReportPage.cs" />
     <Compile Include="OptionsPage\Speech.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AWS\Message.cs" />
+    <Compile Include="AWS\ChatMessage.cs" />
     <Compile Include="ResourcePage\Video\PlaylistPage.cs" />
     <Compile Include="ResourcePage\Video\VideoResources.cs" />
     <Compile Include="ResourcePage\Resources\ResourceViewModel.cs" />

@@ -628,26 +628,26 @@ namespace LOSSPortable
             //await DisplayAlert("screen height",""+height,"ok");
 
 
-            await getLocation(); //check geolocation
-            await Handshake(); //handshake attempt
+            //await getLocation(); //check geolocation
+            //await Handshake(); //handshake attempt
 
             //-------
-            await checkHandshake();
+            //await checkHandshake();
 
             MessagingCenter.Send<ChatPage>(this, "Start");
             MessagingCenter.Subscribe<App, ChatMessage>(this, "Hi", (sender, arg) => //adds message to log
             {
-
-                arg.Time = arg.Time.Substring(11, 2) + ":" + arg.Time.Substring(14, 2);
+                try
+                {
+                    arg.Time = arg.Time.Substring(11, 2) + ":" + arg.Time.Substring(14, 2);
+                }
+                catch (Exception e)
+                {
+                    arg.Time = DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString();
+                }
                 arg.Icon = "drawable/prof.png";
                 DisplayResponse(arg);
                 conv.msgs.Add(arg);
-                MessageCount++;
-                Messages.Add(arg.Text);
-                sendMessage(arg);
-                conv.msgs.Add(arg);
-                this.setChat(conv.msgs);
-                this.Content = outerStack;
                 ScrollEvent();
             });
             System.Diagnostics.Debug.WriteLine("trying to get cache.");
