@@ -52,7 +52,11 @@ public ChatSelection()
                 BackgroundColor = Colors.background;
 
             }
-
+            MessagingCenter.Subscribe<App, ChatMessage>(this, "Handshake", (sender, arg) => //adds message to log
+            {
+                //ADD Code handling for handshake info here.
+                //ToFrom field contains the arn of the other user.
+            });
             Title = "Chat Selection";
             Icon = "Accounts.png";
 
