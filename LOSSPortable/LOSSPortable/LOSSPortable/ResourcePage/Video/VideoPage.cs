@@ -11,10 +11,12 @@ namespace LOSSPortable{
 		public WebView vid		= new WebView();
 		// Holds the url of the video for this page.
 		public string url;
-
+       
 		// 
 		public VideoPage(string pageTitle, string vidURL){
 			// Title of page.
+
+            
 			Title					= pageTitle;
 			// Set url for this page.
 			url						= vidURL;

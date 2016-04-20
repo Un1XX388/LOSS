@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="AWS\AmazonUtils.cs" />
+    <Compile Include="AWS\OnlinePlaylistModel.cs" />
     <Compile Include="AWS\OnlineVViewModel.cs" />
     <Compile Include="AWS\UserLogin.cs" />
     <Compile Include="AWS\MessageJson.cs" />

@@ -8,7 +8,7 @@ namespace LOSSPortable
     public class VideoResources : ContentPage
     {
         // Holds all info for each playlist.
-        public ObservableCollection<ResourceViewModel> playlist { get; set; }
+        public RangeObservableCollection<OnlinePlaylistModel> playlist { get; set; }
 
         // Gets info on each playlist and determines how it is displayed.
         public VideoResources()
@@ -26,7 +26,7 @@ namespace LOSSPortable
 
 
             // Holds data to be displayed on this content page.
-            playlist = new ObservableCollection<ResourceViewModel>();
+            playlist = AmazonUtils.getOnlinePlaylist;
             // View type for this content page.
             ListView lstView = new ListView();
             // Set size (height) of each element displayed on this page.
@@ -43,18 +43,7 @@ namespace LOSSPortable
             // Assign the list view created above to this content page.
             Content = lstView;
 
-            // The bellow items will be taken from the server in the final build (they are temporary).
-            // IMPORTANT NOTE:
-            // The max length of a title is 50 char + "..."
-            // The max length of a description is 90 char + "..."
-            // Video links from youtube playlists may not be used.
-            playlist.Add(new ResourceViewModel
-            {
-                Image = "vid1.jpg",
-                Title = "Uptown Special",
-                Description = "No description.",
-                Link = "https://www.youtube.com/playlist?list=PLpz-Cm0bpQJ4beQi28bBpwEq8nRauirQT"
-            });
+            
 
             // Accomodate iPhone status bar.
             this.Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
@@ -70,7 +59,8 @@ namespace LOSSPortable
             // This deselects the item after it is selected.
             ((ListView)sender).SelectedItem = null;
             // When given playlist is selected user is brought to the page listed below.
-            Navigation.PushAsync(new PlaylistPage());
+            var item = e.SelectedItem as OnlinePlaylistModel;
+            Navigation.PushAsync(new PlaylistPage(item.ID));
         }// End of Onselected() method.
     }// End of VideoResources class.
 }// End of namespace LOSS.

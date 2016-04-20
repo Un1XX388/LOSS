@@ -25,6 +25,7 @@ namespace LOSSPortable
             AmazonUtils.updateInspirationalQuoteList();
             AmazonUtils.updateOnlineRList();
             AmazonUtils.updateOnlineVList();
+            AmazonUtils.updateOnlinePlaylist();
             MessagingCenter.Subscribe<ChatPage>(this, "Start", (sender) =>
             {
                 ChatPageActive = true;

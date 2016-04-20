@@ -261,7 +261,47 @@ namespace LOSSPortable
             }
         }
 
-    }//end of class AmazonUtils
+    //end of class AmazonUtils
+
+    private static Task<List<OnlinePlaylistModel>> queryOnlinePlaylist()
+        {
+            var context = AmazonUtils.DDBContext;
+            List<ScanCondition> conditions = new List<ScanCondition>();
+            var SearchBar = context.ScanAsync<OnlinePlaylistModel>(conditions);
+            return SearchBar.GetNextSetAsync();
+
+            //System.Diagnostics.Debug.WriteLine("inside queryOnlineRList()");
+        }
+
+        public static void updateOnlinePlaylist()
+        {
+            queryOnlinePlaylist().ContinueWith(task =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    onlinePlaylist.AddRange(queryOnlinePlaylist().Result);
+                    //System.Diagnostics.Debug.WriteLine("UpdateOnlineRList()");
+                });
+            });
+        }
+
+        private static RangeObservableCollection<OnlinePlaylistModel> onlinePlaylist = new RangeObservableCollection<OnlinePlaylistModel>();
+
+        public static RangeObservableCollection<OnlinePlaylistModel> getOnlinePlaylist
+        {
+            get
+            {
+                return onlinePlaylist;
+            }
+            set
+            {
+                onlinePlaylist = value;
+            }
+        }
+
+    }
+}
+
 
     public class RangeObservableCollection<T> : ObservableCollection<T>
     {
@@ -286,4 +326,4 @@ namespace LOSSPortable
             }
         }
     }
-}
+
