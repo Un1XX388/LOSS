@@ -169,7 +169,7 @@ public ChatSelection()
                 base.OnAppearing();
 
                 
-                outerLayout.Focus();
+             //   outerLayout.Focus();
             }
             catch (Exception e)
             {

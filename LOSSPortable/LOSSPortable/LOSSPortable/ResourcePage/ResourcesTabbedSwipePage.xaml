@@ -5,7 +5,8 @@
 
   <TabbedPage.Children>
     <CarouselPage x:Name ="Web"
-									Title="Web">
+                  Title ="Web"
+									Icon="web.png">
       <!--<CarouselPage.Children>
 				<ContentPage x:Name="webContent">	</ContentPage>
 				<ContentPage/>
@@ -13,7 +14,8 @@
 			</CarouselPage.Children>-->
     </CarouselPage>
 		<CarouselPage x:Name="Playlist"
-									Title="Playlist(s)">
+                  Title="Playlist(s)"
+									Icon="playlist.png">
 			<!--<CarouselPage.Children>
 				<ContentPage/>
 				<ContentPage x:Name="videoContent"></ContentPage>
@@ -21,7 +23,8 @@
 			</CarouselPage.Children>-->
 		</CarouselPage>
 		<CarouselPage x:Name="Favorites"
-									Title="Favorites">
+                  Title="Most Watched"
+									Icon="watched.png">
 			<!--<CarouselPage.Children>
 				<ContentPage/>
 				<ContentPage/>

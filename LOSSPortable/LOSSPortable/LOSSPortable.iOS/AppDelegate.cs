@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using Acr.UserDialogs;
 
 namespace LOSSPortable.iOS
 {

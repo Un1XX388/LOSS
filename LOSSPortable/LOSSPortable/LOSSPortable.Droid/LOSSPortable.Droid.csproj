@@ -260,6 +260,7 @@
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CustomTabRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -305,10 +306,11 @@
     <AndroidResource Include="Resources\drawable\fav232.png" />
     <AndroidResource Include="Resources\drawable\fav132.png" />
     <AndroidResource Include="Resources\drawable\splash.png" />
-    <AndroidResource Include="Resources\drawable\login64.png" />
-    <AndroidResource Include="Resources\drawable\logout64.png" />
     <AndroidResource Include="Resources\drawable\account.png" />
     <AndroidResource Include="Resources\drawable\about.png" />
+    <AndroidResource Include="Resources\drawable\playlist.png" />
+    <AndroidResource Include="Resources\drawable\watched.png" />
+    <AndroidResource Include="Resources\drawable\web.png" />
     <Content Include="Resources\login.png" />
     <Content Include="Resources\logout.png" />
   </ItemGroup>

@@ -31,21 +31,33 @@ namespace LOSSPortable
             var page3 = new FavoritesPage();
 
             Web.Children.Add(page1);
-            Web.Children.Add(new ContentPage());
-            Web.Children.Add(new ContentPage());
+            Web.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
+            Web.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
 
-            Playlist.Children.Add(new ContentPage());
+            Playlist.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
             Playlist.Children.Add(page2);
-            Playlist.Children.Add(new ContentPage());
+            Playlist.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
 
-            Favorites.Children.Add(new ContentPage());
-            Favorites.Children.Add(new ContentPage());
+            Favorites.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
+            Favorites.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
             Favorites.Children.Add(new FavoritesPage());
 
             AttachCurrentPageChanged();
 
         }
 
+        public Color setBackgroundColor()
+        {
+            if(Helpers.Settings.ContrastSetting == true)
+            {
+                BackgroundColor = Colors.contrastBg;
+            }
+            else
+            {
+                BackgroundColor = Colors.background;
+            }
+            return BackgroundColor;
+        }
         private void AttachCurrentPageChanged()
         {
             Web.CurrentPageChanged += MultiPage_OnCurrentPageChanged;

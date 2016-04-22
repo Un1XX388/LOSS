@@ -371,13 +371,19 @@
     <BundleResource Include="Resources\logout.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\user.png" />
+    <BundleResource Include="Resources\about.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\user-2-64.png" />
+    <AndroidResource Include="Resources\account.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\about-64.png" />
+    <BundleResource Include="Resources\playlist.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\watched.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\web.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
