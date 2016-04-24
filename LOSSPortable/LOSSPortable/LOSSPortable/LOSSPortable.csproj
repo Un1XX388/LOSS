@@ -47,7 +47,7 @@
     <Compile Include="ChatPage\Conversation.cs" />
     <Compile Include="ChatPage\Conversations.cs" />
     <Compile Include="ChatPage\Handshake.cs" />
-    <Compile Include="ChatPage\HandshakeResponse.cs" />
+    <Compile Include="ChatPage\ConversationResponse.cs" />
     <Compile Include="ChatPage\ReportM.cs" />
     <Compile Include="ChatPage\ReportMessage.cs" />
     <Compile Include="AWS\InspirationalQuote.cs" />

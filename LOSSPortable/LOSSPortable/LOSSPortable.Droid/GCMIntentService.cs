@@ -102,7 +102,6 @@ namespace LOSSPortable.Droid
                 SNSMessage msg = JsonConvert.DeserializeObject<SNSMessage>(message);
                 if (msg.Subject.Equals("Message"))
                 {
-                    System.Diagnostics.Debug.WriteLine("Chat Page : " + current.chatDisplayed().ToString());
                     try{
                         if (current.chatDisplayed())
                         {
@@ -112,11 +111,29 @@ namespace LOSSPortable.Droid
                         {
                             AndroidUtils.ShowNotification(this, "New Message!", msg.Sender + ": " + msg.Text);
                         }
-                        
-                    }catch(Exception e){
-                        System.Diagnostics.Debug.WriteLine("error Parse" + e.ToString());
+                    }
+                    catch(NullReferenceException e){
+                        //System.Diagnostics.Debug.WriteLine("error Parse" + e.ToString());
                         AndroidUtils.ShowNotification(this, "New Message!", msg.Sender + ": " + msg.Text);
                     }
+                }
+                else if(msg.Subject.Equals("Handshake")){
+                    try
+                    {
+                        if (current != null)
+                        {
+                            current.parseMessageObject(JsonConvert.SerializeObject(msg));
+                        }
+                        else
+                        {
+                            AndroidUtils.ShowNotification(this, "New incoming conversation", msg.Sender + ": Wants to talk.");
+                        }
+                    }
+                    catch (NullReferenceException e)
+                    {
+                        AndroidUtils.ShowNotification(this, "New incoming conversation", msg.Sender + ": Wants to talk.");
+                    }
+
                 }
                 else if(msg.Subject.Equals("Announcement")){
                     AndroidUtils.ShowNotification(this, msg.Title, msg.Text);
@@ -125,7 +142,7 @@ namespace LOSSPortable.Droid
                     AndroidUtils.ShowNotification(this, msg.Title, msg.Text);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 AndroidUtils.ShowNotification(this, "SNS Push", message);
             }

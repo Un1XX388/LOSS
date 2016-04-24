@@ -12,6 +12,7 @@ using System.IO;
 using Amazon.Lambda;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
+using Newtonsoft.Json;
 
 namespace LOSSPortable
 {
@@ -25,24 +26,21 @@ namespace LOSSPortable
         private StackLayout stackLayout;
         private StackLayout outerLayout;
         private ScrollView innerScroll;
-        Entry nameEntry;
+        Entry nameEntry = new Entry { Placeholder = "Enter your display name: " };
+
+        Switch readyToChat = new Switch { HorizontalOptions = LayoutOptions.EndAndExpand, IsVisible = false, IsEnabled = false, VerticalOptions = LayoutOptions.CenterAndExpand, IsToggled = Helpers.Settings.ChatActiveSetting };
+        Label instructionLabel = new Label { Text = "Description of chat page goes here", FontSize = 22};
+        Label chatAvailability = new Label { HorizontalOptions = LayoutOptions.StartAndExpand, Text = "Not Ready to chat.", IsVisible = false, HorizontalTextAlignment = TextAlignment.Center, FontSize = 20, FontFamily = "Arial" };
+        Button update = new Button { Text = "Update", HeightRequest = 50, IsVisible = false, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22), BorderWidth = 1 };
+        Button startConversation = new Button { HorizontalOptions = LayoutOptions.FillAndExpand, Text = "Start Conversation", WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22), BorderWidth = 1 };
+        Button endConversation = new Button { HorizontalOptions = LayoutOptions.FillAndExpand, Text = "End Conversation", WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22), BorderWidth = 1 };
         private double longitude;
         private double latitude;
 
-
-        Switch readyToChat;
-        Label chatAvailability = new Label { Text = "Not Ready to chat.", HorizontalTextAlignment = TextAlignment.Center, FontSize = 20, FontFamily = "Arial" };
-
-        Button chatLink = new Button { Text = "Chat" , WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22) };
         
 
-        
-
-
-public ChatSelection()
+        public ChatSelection()
         {
-
-
             if (Helpers.Settings.ContrastSetting == true) //contrast mode
             {
                 BackgroundColor = Colors.contrastBg;
@@ -50,43 +48,110 @@ public ChatSelection()
             else
             {
                 BackgroundColor = Colors.background;
-
             }
-            MessagingCenter.Subscribe<App, ChatMessage>(this, "Handshake", (sender, arg) => //adds message to log
+
+            if (Helpers.Settings.ConversationOn == true)
             {
-                //ADD Code handling for handshake info here.
-                //ToFrom field contains the arn of the other user.
-            });
+                nameEntry.IsEnabled = false;
+                startConversation.Text = "Continue Conversation";
+                endConversation.IsVisible = true;
+                
+                startConversation.Clicked += async (s, e) =>
+                {
+                    try
+                    {
+                        //resume stored converation and go to chat page.
+                        await Navigation.PushAsync(new ChatPage("Volunteer", new List<ChatMessage>(), "12345", nameEntry.Text));  //navigate to a state page (not new).
+                    }
+                    catch (Exception E)
+                    {
+                        System.Diagnostics.Debug.WriteLine ("error"+E);
+                    }
+                };
+            }
+            else
+            {
+                startConversation.Text = "Start Conversation";
+                endConversation.IsVisible = false;
+                nameEntry.IsEnabled = true;
+                startConversation.Clicked += async (s, e) =>
+                {
+                    //Queries server for start of conversation
+                    await initiateConversation();
+                };
+            }
+
+            nameEntry.Text = Helpers.Settings.DisplayName;
+
+            /**
+             * When 'update' is pressed, the handshake is redone with the new 
+             */
+            update.Clicked += (s, e) =>
+            {
+                HandshakeStart();
+                update.IsVisible = false;
+                Helpers.Settings.DisplayName = nameEntry.Text;
+            };
+
+            /**
+             * When the 'display name' field is changed, update button becomes visible.
+             */
+            nameEntry.TextChanged += (s, e) =>
+            {
+                update.IsVisible = true;
+            };
+
+            endConversation.Clicked += (s, e) =>
+            {
+                //called when the conversation is to be ended.
+                //terminateConversation();
+                System.Diagnostics.Debug.WriteLine("terminateConversation()");
+                Helpers.Settings.ConversationOn = false;
+                startConversation.Text = "Start Conversation";
+                nameEntry.IsEnabled = true;
+                endConversation.IsVisible = false;
+
+                startConversation.Clicked += async (se, en) =>
+                {
+                    //Queries server for start of conversation
+                    await initiateConversation();
+                };
+            };
+
             Title = "Chat Selection";
             Icon = "Accounts.png";
 
-            Label Desc = new Label { Text = "\nUpon toggling an attempt to connect you to an available volunteer will be made.\nIf you would like to be connected based on distance, ensure your location can be detected. \n\nFeel free to remain Anonymous by not entering a name.", FontSize = 20, FontFamily = "Arial" };
-            Entry nameEntry = new Entry { Placeholder = "Enter your name: " };
+            //Take this out once this is being assigned by the login
+            Helpers.Settings.IsVolunteer = false;
 
-            chatLink.Clicked += async (s, e) =>
+
+            if (Helpers.Settings.IsVolunteer)
             {
-
-
-                await Handshake();
-                try //open a new chatPage
-                {
-                    await Navigation.PushAsync(new ChatPage("Volunteer", new List<ChatMessage>(), "12345", nameEntry.Text));  //navigate to a state page (not new).
-                }
-                catch (Exception E)
-                {
-                    System.Diagnostics.Debug.WriteLine ("error"+E);
-                }
-            };
-
-            readyToChat = new Switch
-            {
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.CenterAndExpand,
-                IsToggled = Helpers.Settings.ChatActiveSetting
-            };
-            readyToChat.Toggled += readyToChatF;
-
+                this.chatAvailability.IsVisible = true;
+                readyToChat.IsVisible = true;
+                readyToChat.IsEnabled = true;
+                readyToChat.Toggled += readyToChatF;
+                //queryServerActiveConversation();
+                System.Diagnostics.Debug.WriteLine("queryServerActiveConversation()"); 
+            }
             
+            var tmp = new StackLayout
+            {
+                Children =
+                {
+                    nameEntry, update
+                },
+                Orientation = StackOrientation.Horizontal,
+                HorizontalOptions = LayoutOptions.StartAndExpand 
+            };
+
+            var chatAvailtoChat = new StackLayout{
+                                Children = {
+                                    chatAvailability, 
+                                    readyToChat}
+                                ,
+                                Orientation = StackOrientation.Horizontal
+                            };
 
 
             Device.BeginInvokeOnMainThread(() =>   //automatically updates
@@ -95,17 +160,19 @@ public ChatSelection()
                 {
                     Children =
                             {
-                            Desc,
-                            nameEntry,
-                            readyToChat,
-                            chatAvailability
-                            }
+                            instructionLabel,
+                            tmp,
+                            chatAvailtoChat,
+                            startConversation, endConversation
+                            },
+                            HorizontalOptions = LayoutOptions.FillAndExpand,
+                            
                 };
 
                 innerScroll = new ScrollView
                 {
-                    VerticalOptions = LayoutOptions.Start,
-                    HorizontalOptions = LayoutOptions.Start,
+                    VerticalOptions = LayoutOptions.StartAndExpand,
+                    HorizontalOptions = LayoutOptions.StartAndExpand,
                     Padding = new Thickness(5, 5, 5, 10),
                     Content = stackLayout
 
@@ -122,32 +189,20 @@ public ChatSelection()
                 };
 
                 this.Content = outerLayout;
-            });
-            
-
+            }); 
         }
 
         void readyToChatF(object sender, ToggledEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Switch toggled");
-
             if (readyToChat.IsToggled)
             {
                 Helpers.Settings.ChatActiveSetting = true;
-                chatAvailability.Text = "Ready to chat.";
-                stackLayout.Children.Add(chatLink);
-                System.Diagnostics.Debug.WriteLine("Added button chatLink.");
-                HandshakeStart();
+                chatAvailability.Text = "Available to chat";
             }
             else
             {
                 Helpers.Settings.ChatActiveSetting = false;
-                chatAvailability.Text = "Not Ready to chat.";
-                if (stackLayout.Children.Contains(chatLink))
-                {
-                    stackLayout.Children.Remove(chatLink);
-                    System.Diagnostics.Debug.WriteLine("removed chatLink.");
-                }
+                chatAvailability.Text = "Not available";
             }
             this.Content = outerLayout;
         }
@@ -164,16 +219,25 @@ public ChatSelection()
         //------------------------------------------------------------------------
         protected async override void OnAppearing()
         {
-            try
-            {
-                base.OnAppearing();
 
-                
+            base.OnAppearing();
+            MessagingCenter.Subscribe<App, ChatMessage>(this, "Handshake", (sender, arg) => //adds message to log
+            {
+                Helpers.Settings.ConversationOn = true;    
+            });
+
+            if (Helpers.Settings.HandShakeDone == false)
+            {
+                HandshakeStart();
+                Helpers.Settings.HandShakeDone = true;
+            }
+            
+            try {
                 outerLayout.Focus();
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("bug: "+e);
+                System.Diagnostics.Debug.WriteLine("Error : " + e);
             }
         }
 
@@ -181,29 +245,54 @@ public ChatSelection()
         protected override Boolean OnBackButtonPressed() // back button pressed
         {
             ((RootPage)App.Current.MainPage).NavigateTo();
-            
             return true;
         }
 
+        async private Task initiateConversation(){
+                UserInfoItem message = new UserInfoItem { Item = new UserInfo { Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting } }; //Helpers.Settings.EndpointArnSetting
+                UserInfoJson messageJson = new UserInfoJson { operation = "newConversation", tableName = "User", payload = message };
+                string args = JsonConvert.SerializeObject(messageJson);
+                
+            var ir = new InvokeRequest()
+                {
+                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                    InvocationType = InvocationType.RequestResponse
+                };
+                
+
+                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+                resp.Payload.Position = 0;
+                var sr = new StreamReader(resp.Payload);
+                var myStr = sr.ReadToEnd();
+                try {
+                    var response = JsonConvert.DeserializeObject<ConversationResponse>(myStr);
+                    
+                    await Navigation.PushAsync(new ChatPage("Volunteer", new List<ChatMessage>(), "12345", nameEntry.Text)); 
+                }
+                catch(Exception e)
+                {
+                    DisplayAlert("Error", "No available volunteers, please try again later.", "OK");
+                }
+                
+        }
 
         async private Task Handshake() //Function to create a Json object and send to server using a lambda function
         {
             try
             {
-                UserInfoItem message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = "temp", Arn = "" + Helpers.Settings.EndpointArnSetting } }; //Helpers.Settings.EndpointArnSetting
-                await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
-                await DisplayAlert("sent ", "sent to server: " + latitude + " " + longitude + " " + "Name" + " " + Helpers.Settings.EndpointArnSetting, "ok");
+                UserInfoItem message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting } }; //Helpers.Settings.EndpointArnSetting
+                //await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
+                //await DisplayAlert("sent ", "sent to server: " + latitude + " " + longitude + " " + "Name" + " " + Helpers.Settings.EndpointArnSetting, "ok");
                 UserInfoJson messageJson = new UserInfoJson { operation = "create", tableName = "User", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
-                System.Diagnostics.Debug.WriteLine(args);
                 var ir = new InvokeRequest()
                 {
                     FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
                     PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
                     InvocationType = InvocationType.RequestResponse
                 };
-                System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
-
+                
 
                 InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
                 resp.Payload.Position = 0;
@@ -218,12 +307,12 @@ public ChatSelection()
             {
                 System.Diagnostics.Debug.WriteLine("Error:" + e);
             }
+            
         }
 
 
         //-------------------------geolocation-----------------------------
-
-
+        #region Geolocation
         async private Task getLocation()
         {
             try
@@ -234,19 +323,13 @@ public ChatSelection()
                 var position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
                 latitude = Convert.ToDouble(position.Latitude);
                 longitude = Convert.ToDouble(position.Longitude);
-
-                //label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
-                //System.Diagnostics.Debug.WriteLine("Got Location!");
-                //await DisplayAlert("type", "" + latitude.GetType(), "ok");
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex);
-                //label2.Text = "Unable to find location";
                 latitude = 0.00;
                 longitude = 0.00;
             }
-
         }
 
         async private void OnPositionChanged(object sender, PositionEventArgs e)
@@ -255,8 +338,7 @@ public ChatSelection()
             var position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
             var latitude = position.Latitude.ToString();
             var longtitude = position.Longitude.ToString();
-            //label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
         }
+        #endregion
     }
-
 }

@@ -67,7 +67,7 @@ namespace LOSSPortable
             Device.BeginInvokeOnMainThread(() =>
             {
                 //System.Diagnostics.Debug.WriteLine(msg);
-                SNSMessage tmp = JsonConvert.DeserializeObject<SNSMessage>(msg);
+                SNSMessagePCL tmp = JsonConvert.DeserializeObject<SNSMessagePCL>(msg);
                 ChatMessage message = new ChatMessage { ToFrom = tmp.ToFrom, Time = tmp.Time, Text = tmp.Text, Sender = tmp.Sender };
                 if (tmp.Subject == "Handshake")
                 {
@@ -77,7 +77,6 @@ namespace LOSSPortable
                 {   
                     MessagingCenter.Send<App, ChatMessage>(this, "Hi", message);
                 }
-                
             });
             
         }

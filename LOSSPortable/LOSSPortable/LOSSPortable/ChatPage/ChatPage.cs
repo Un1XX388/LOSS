@@ -47,6 +47,8 @@ namespace LOSSPortable
 
         public ChatPage(String inputname, List<ChatMessage> msgs, string key, string Name)  //use the key to store
         {   
+            
+
             if (Name== "" || Name=="Enter your name: " || Name == null )
             {
                 this.name = "Anonymous";
@@ -445,7 +447,7 @@ namespace LOSSPortable
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("Error:" + e);
+                System.Diagnostics.Debug.WriteLine("Error: " + e);
             }
         }
         //--------------------------------------------------------------------
@@ -563,7 +565,7 @@ namespace LOSSPortable
             }
         }
 
-        
+        #region geoLocation
         //-------------------------geolocation-----------------------------
 
             
@@ -600,6 +602,7 @@ namespace LOSSPortable
             var longtitude = position.Longitude.ToString();
             //label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
         }
+        #endregion
         //-------------------------Caching---------------------------------
 
 
@@ -618,21 +621,9 @@ namespace LOSSPortable
 
         }
 
-
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-
-            //screen size:
-            //int height = App.ScreenHeight;
-            //await DisplayAlert("screen height",""+height,"ok");
-
-
-            //await getLocation(); //check geolocation
-            //await Handshake(); //handshake attempt
-
-            //-------
-            //await checkHandshake();
 
             MessagingCenter.Send<ChatPage>(this, "Start");
             MessagingCenter.Subscribe<App, ChatMessage>(this, "Hi", (sender, arg) => //adds message to log
@@ -650,33 +641,27 @@ namespace LOSSPortable
                 conv.msgs.Add(arg);
                 ScrollEvent();
             });
-            System.Diagnostics.Debug.WriteLine("trying to get cache.");
             Conversation con = await Get();
             this.MessageCount = con.msgs.Count;
-            System.Diagnostics.Debug.WriteLine("returned messages: " + con.msgs.Count);
-            //await DisplayAlert("", con.msgs[0].getMessage(), "ok"); CAUSE OF BUGS
             this.setChat(con.msgs);
             this.Content = outerStack;
             ScrollEvent();
             
         }
 
+
         public async Task<Conversation> Get()
         { 
             try
             {
-                System.Diagnostics.Debug.WriteLine("fetching cached. object key = " + Key);
                 return await BlobCache.LocalMachine.GetOrCreateObject<Conversation>(Key, NewConv);
 
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException e)
             {
-                System.Diagnostics.Debug.WriteLine("error");
+                System.Diagnostics.Debug.WriteLine("error:" + e);
                 return new Conversation();
-
             }
-
-
         }
 
         public async Task Store<Conversation>(Conversation value)
@@ -685,17 +670,15 @@ namespace LOSSPortable
             try
             {
                 await BlobCache.LocalMachine.InsertObject(Key, conv);
-                System.Diagnostics.Debug.WriteLine("Finished storing");
             }
-            catch (Exception E)
+            catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("Error with storing in cache.");
+                System.Diagnostics.Debug.WriteLine("Error : " + e);
             }
         }
 
         public Conversation NewConv()
         {
-            System.Diagnostics.Debug.WriteLine("creating new conv");
             return new Conversation();
         }
     }

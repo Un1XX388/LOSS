@@ -5,10 +5,9 @@ using Amazon.Lambda.Model;
 namespace LOSSPortable
 {
 
-     
-    public class HandshakeResponse
+
+    public class ConversationResponse
     { //response from server
-       
 
         [DynamoDBProperty("Nickname")]
         public string Nickname { get; set; }
@@ -18,6 +17,9 @@ namespace LOSSPortable
 
         [DynamoDBProperty("Distance")]
         public string Distance { get; set; }
+
+        [DynamoDBProperty("Arns")]
+        public string ID { get; set; }
         
 
     }
