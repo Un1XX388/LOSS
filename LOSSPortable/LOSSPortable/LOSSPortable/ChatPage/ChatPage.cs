@@ -101,7 +101,7 @@ namespace LOSSPortable
             
 
             //var label = new Label { Text = "Message " + this.getName(), FontSize = 30, BackgroundColor = Color.Blue, TextColor = Color.White, XAlign = TextAlignment.Center };
-            send = new Button { Text = "Send" };
+			send = new Button { Text = "Send", TextColor = Color.White, BackgroundColor = Color.Gray, HorizontalOptions = LayoutOptions.FillAndExpand};
 
             //upon sending a message
             send.Clicked += delegate {
@@ -345,7 +345,7 @@ namespace LOSSPortable
 
         public void refreshView()
         {
-            gridLayout.Children.Clear();
+       //     gridLayout.Children.Clear();
 
             foreach (ChatMessage msg in conv.msgs) //INITIALIZE HISTORY OF MESSAGES
             {

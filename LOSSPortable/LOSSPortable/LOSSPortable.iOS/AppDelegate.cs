@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using Acr.UserDialogs;
 
 //using Amazon.SimpleNotificationService;
 //using Amazon.SimpleNotificationService.Model;

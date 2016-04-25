@@ -174,6 +174,7 @@ namespace LOSSPortable
             try
             {
                 var locator = CrossGeolocator.Current;
+				locator.AllowsBackgroundUpdates = true;
                 locator.DesiredAccuracy = 100;
                 locator.PositionChanged += OnPositionChanged;
                 var position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
