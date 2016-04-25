@@ -56,15 +56,11 @@ namespace LOSSPortable
             labelFrame = new Frame
             {
                 Content = label1,
-                OutlineColor = Color.Transparent,
+                OutlineColor = Color.White,
                 BackgroundColor = bg,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.Center,
             };
-            if (label1.Text != "")
-            {
-                labelFrame.OutlineColor = Color.White;
-            }
 
             var logo = new Image { Aspect = Aspect.AspectFit };
             logo.Source = Device.OnPlatform(
@@ -291,14 +287,6 @@ namespace LOSSPortable
         void quoteList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             label1.Text = LoadQuotes().Message;
-            //labelFrame.OutlineColor = Color.White;
         }
-
-
-        
-
-
-        
     }
-
 }

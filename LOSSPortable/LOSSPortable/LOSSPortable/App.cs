@@ -22,6 +22,7 @@ namespace LOSSPortable
 
         protected override void OnStart()
         {
+            Helpers.Settings.IsVolunteer = false;
             AmazonUtils.updateInspirationalQuoteList();
             AmazonUtils.updateOnlineRList();
             AmazonUtils.updateOnlineVList();
@@ -73,6 +74,10 @@ namespace LOSSPortable
                 if (tmp.Subject == "Handshake")
                 {
                     MessagingCenter.Send<App, ChatMessage>(this, "Handshake", message);
+                }
+                else if (tmp.Subject == "HandshakeEnd")
+                {
+                    MessagingCenter.Send<App, ChatMessage>(this, "HandshakeEnd", message);
                 }
                 else
                 {   

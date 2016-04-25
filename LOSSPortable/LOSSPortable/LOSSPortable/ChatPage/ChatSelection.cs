@@ -96,7 +96,7 @@ namespace LOSSPortable
             Icon = "Accounts.png";
 
             //Take this out once this is being assigned by the login
-            Helpers.Settings.IsVolunteer = false;
+            
 
 
             if (Helpers.Settings.IsVolunteer)
@@ -183,6 +183,7 @@ namespace LOSSPortable
                 startConversation.Text = "Start Conversation";
                 endConversation.IsVisible = false;
                 nameEntry.IsEnabled = true;
+                Helpers.Settings.ConversationOn = true;
                 startConversation.Clicked -= ContinueConversationEvent;
                 startConversation.Clicked += InitiateConversationEvent;
                 }
@@ -191,8 +192,6 @@ namespace LOSSPortable
             {
                 try
                 {
-                    //resume stored converation and go to chat page.
-                    
                     await Navigation.PushAsync(new ChatPage(this.nickName, new List<ChatMessage>(), "12345", nameEntry.Text));  //navigate to a state page (not new).
                 }
                 catch (Exception E)
@@ -242,10 +241,13 @@ namespace LOSSPortable
             base.OnAppearing();
             MessagingCenter.Subscribe<App, ChatMessage>(this, "Handshake", (sender, arg) => //adds message to log
             {
-                Helpers.Settings.ToFromArn = arg.ToFrom;
-                this.nickName = arg.Sender;
-                Helpers.Settings.ConversationOn = true;
-                continueConversationPath();
+                if (Helpers.Settings.IsVolunteer)
+                {
+                    Helpers.Settings.ToFromArn = arg.ToFrom;
+                    this.nickName = arg.Sender;
+                    Helpers.Settings.ConversationOn = true;
+                    continueConversationPath();
+                }
             });
 
             if (Helpers.Settings.HandShakeDone == false)
@@ -281,7 +283,6 @@ namespace LOSSPortable
                     PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
                     InvocationType = InvocationType.RequestResponse
                 };
-                
 
                 InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
                 resp.Payload.Position = 0;
@@ -380,7 +381,6 @@ namespace LOSSPortable
                 failure = true;
             }
             if (failure) { await DisplayAlert("Error", "Unable to connect to conversation request, please try again later.", "OK"); }
-            System.Diagnostics.Debug.WriteLine("terminateConversation : " + myStr);
         }
 
         async private Task Handshake() //Function to create a Json object and send to server using a lambda function
