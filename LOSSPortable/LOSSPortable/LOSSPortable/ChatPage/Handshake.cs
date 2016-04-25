@@ -22,6 +22,6 @@ namespace LOSSPortable
 
         [DynamoDBProperty("ID")]
         public string ID { get; set; }
-        
+
     }
 }

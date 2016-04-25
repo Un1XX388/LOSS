@@ -411,20 +411,11 @@ namespace LOSSPortable
         }
 
         //-------------------------Server----------------------------------
-        
-        public async Task SaveAsync<Message>(Message entity, CancellationToken ct) //old function to send to server
-        {
-            var context = AmazonUtils.DDBContext;
-            await context.SaveAsync<Message>(entity, ct);
-            System.Diagnostics.Debug.WriteLine("entity saved");
-        }
-
-
         async private Task PushMessage(string toFrom, string text) //Function to create a Json object and send to server using a lambda function
         {
             try
             {
-                MessageItem message = new MessageItem { Item = new ChatMessage { ToFrom = this.talkingToID, Text = text } };
+                MessageItem message = new MessageItem { Item = new ChatMessage { ToFrom = Helpers.Settings.ToFromArn, Text = text } };
                 MessageJson messageJson = new MessageJson { operation = "create", tableName = "Message", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
                 //System.Diagnostics.Debug.WriteLine(args);

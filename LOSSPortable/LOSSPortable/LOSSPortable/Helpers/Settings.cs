@@ -65,6 +65,9 @@ namespace LOSSPortable.Helpers
 
         private const string displayName = "displayName";
         private static readonly string displayNameDefault = "Anonymous";
+
+        private const string toFromArn = "toFromArn";
+        private static readonly string toFromArndefault = "";
         #endregion
 
         public static bool LoginSetting
@@ -153,6 +156,12 @@ namespace LOSSPortable.Helpers
         {
             get { return AppSettings.GetValueOrDefault(displayName, displayNameDefault); }
             set { AppSettings.AddOrUpdateValue(displayName, value); }
+        }
+
+        public static string ToFromArn
+        {
+            get { return AppSettings.GetValueOrDefault(toFromArn, toFromArndefault); }
+            set { AppSettings.AddOrUpdateValue(toFromArn, value); }
         }
     }
 }

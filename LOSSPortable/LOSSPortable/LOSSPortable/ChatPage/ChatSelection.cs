@@ -12,7 +12,6 @@ using System.IO;
 using Amazon.Lambda;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
-using Newtonsoft.Json;
 
 namespace LOSSPortable
 {
@@ -36,7 +35,7 @@ namespace LOSSPortable
         Button endConversation = new Button { HorizontalOptions = LayoutOptions.FillAndExpand, Text = "End Conversation", WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22), BorderWidth = 1 };
         private double longitude;
         private double latitude;
-
+        private string nickName = "";
         
 
         public ChatSelection()
@@ -50,37 +49,20 @@ namespace LOSSPortable
                 BackgroundColor = Colors.background;
             }
 
+            /**
+             * Checks to see if a conversation is already active, if true, when startConversation
+             * is pressed, moves to the ChatPage, otherwise initiate conversations with server.
+             */
             if (Helpers.Settings.ConversationOn == true)
             {
-                nameEntry.IsEnabled = false;
-                startConversation.Text = "Continue Conversation";
-                endConversation.IsVisible = true;
-                
-                startConversation.Clicked += async (s, e) =>
-                {
-                    try
-                    {
-                        //resume stored converation and go to chat page.
-                        await Navigation.PushAsync(new ChatPage("Volunteer", new List<ChatMessage>(), "12345", nameEntry.Text));  //navigate to a state page (not new).
-                    }
-                    catch (Exception E)
-                    {
-                        System.Diagnostics.Debug.WriteLine ("error"+E);
-                    }
-                };
+                continueConversationPath();
             }
             else
             {
-                startConversation.Text = "Start Conversation";
-                endConversation.IsVisible = false;
-                nameEntry.IsEnabled = true;
-                startConversation.Clicked += async (s, e) =>
-                {
-                    //Queries server for start of conversation
-                    await initiateConversation();
-                };
+                startConversationPath();
             }
 
+            //Sets displayName field to value saved
             nameEntry.Text = Helpers.Settings.DisplayName;
 
             /**
@@ -104,17 +86,10 @@ namespace LOSSPortable
             endConversation.Clicked += async (s, e) =>
             {
                 //called when the conversation is to be ended.
-                
                 Helpers.Settings.ConversationOn = false;
                 startConversation.Text = "Start Conversation";
-                nameEntry.IsEnabled = true;
-                endConversation.IsVisible = false;
                 await terminateConversation();
-                startConversation.Clicked += async (se, en) =>
-                {
-                    //Queries server for start of conversation
-                    await initiateConversation();
-                };
+                startConversationPath();
             };
 
             Title = "Chat Selection";
@@ -130,8 +105,7 @@ namespace LOSSPortable
                 readyToChat.IsVisible = true;
                 readyToChat.IsEnabled = true;
                 readyToChat.Toggled += readyToChatF;
-                //queryServerActiveConversation();
-                System.Diagnostics.Debug.WriteLine("queryServerActiveConversation()"); 
+                queryServerActiveConversation();
             }
             
             var tmp = new StackLayout
@@ -190,6 +164,53 @@ namespace LOSSPortable
                 this.Content = outerLayout;
             }); 
         }
+
+        /**
+         * If converation is acstive, then is disables display name changed,
+         * makes end conversation button visible, changes text of start conversatino
+         * button to continue conversation and changes
+         */
+        private void continueConversationPath()
+        {
+            nameEntry.IsEnabled = false;
+            startConversation.Text = "Continue Conversation";
+            endConversation.IsVisible = true;
+            startConversation.Clicked -= InitiateConversationEvent;
+            startConversation.Clicked += ContinueConversationEvent;
+            
+        }
+
+        private void startConversationPath(){
+                startConversation.Text = "Start Conversation";
+                endConversation.IsVisible = false;
+                nameEntry.IsEnabled = true;
+                startConversation.Clicked -= ContinueConversationEvent;
+                startConversation.Clicked += InitiateConversationEvent;
+                }
+
+        async void ContinueConversationEvent(object s, EventArgs e)
+            {
+                try
+                {
+                    //resume stored converation and go to chat page.
+                    
+                    await Navigation.PushAsync(new ChatPage("Volunteer", new List<ChatMessage>(), "12345", nameEntry.Text));  //navigate to a state page (not new).
+                }
+                catch (Exception E)
+                {
+                    System.Diagnostics.Debug.WriteLine("error" + E);
+                }
+            }
+
+        
+        
+        async void InitiateConversationEvent(object s, EventArgs e)
+                {
+                    
+                    await initiateConversation();
+                }
+
+
 
         void readyToChatF(object sender, ToggledEventArgs e)
         {
@@ -264,21 +285,39 @@ namespace LOSSPortable
                 resp.Payload.Position = 0;
                 var sr = new StreamReader(resp.Payload);
                 var myStr = sr.ReadToEnd();
+                Boolean failure = false;
                 try {
                     var response = JsonConvert.DeserializeObject<ConversationResponse>(myStr);
                     
-                    await Navigation.PushAsync(new ChatPage("Volunteer", new List<ChatMessage>(), "12345", nameEntry.Text)); 
+                    System.Diagnostics.Debug.WriteLine("initiateConversationresponse : " + myStr);
+                    System.Diagnostics.Debug.WriteLine("ToFromArn : " + response.ID);
+                    if (response.Success == "true")
+                    {
+                        nickName = response.Nickname;
+                        Helpers.Settings.ToFromArn = response.ID;
+                        continueConversationPath();
+                        await Navigation.PushAsync(new ChatPage(nickName, new List<ChatMessage>(), "12345", nameEntry.Text));
+                    }
+                    else
+                    {
+                        await DisplayAlert("Error", "No available volunteers, please try again later.", "OK");
+                    }
                 }
                 catch(Exception e)
                 {
-                    DisplayAlert("Error", "No available volunteers, please try again later.", "OK");
-                }  
+                    failure = true;
+                    
+                }
+                if (failure)
+                {
+                    await DisplayAlert("Error", "No available volunteers, please try again later.", "OK");
+                }
         }
 
         async private Task terminateConversation()
         {
             //ID = is from ToFrom Field
-            UserInfoItem message = new UserInfoItem { Item = new UserInfo {ID = ""} }; //Helpers.Settings.EndpointArnSetting
+            UserInfoItem message = new UserInfoItem { Item = new UserInfo { ID = Helpers.Settings.ToFromArn } }; //Helpers.Settings.EndpointArnSetting
             UserInfoJson messageJson = new UserInfoJson { operation = "stopConversation", tableName = "User", payload = message };
             string args = JsonConvert.SerializeObject(messageJson);
 
@@ -294,14 +333,12 @@ namespace LOSSPortable
             resp.Payload.Position = 0;
             var sr = new StreamReader(resp.Payload);
             var myStr = sr.ReadToEnd();
+            Helpers.Settings.ToFromArn = "";
+            System.Diagnostics.Debug.WriteLine("terminateConversation : " + myStr);
             
-            /*
-            * Implement what happens on terminateConversation here
-            */
-
         }
 
-        async private Task currentConversations()
+        async private Task queryServerActiveConversation()
         {
             UserInfoItem message = new UserInfoItem { Item = new UserInfo {} }; //Helpers.Settings.EndpointArnSetting
             UserInfoJson messageJson = new UserInfoJson { operation = "currentConversations", tableName = "User", payload = message };
@@ -319,11 +356,30 @@ namespace LOSSPortable
             resp.Payload.Position = 0;
             var sr = new StreamReader(resp.Payload);
             var myStr = sr.ReadToEnd();
+            Boolean failure = false;
+            try
+            {
 
-            /*
-            * Implement what happens on terminateConversation here
-            */
-
+                var response = JsonConvert.DeserializeObject<ConversationResponse>(myStr);
+                if (response.Success == "true")
+                {
+                    nickName = response.Nickname;
+                    Helpers.Settings.ToFromArn = response.ID;
+                    System.Diagnostics.Debug.WriteLine(response.ID);
+                    continueConversationPath();
+                }
+                else
+                {
+                    await DisplayAlert("Error", "Unable to connect to conversation request, please try again later.", "OK");
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+                failure = true;
+            }
+            if (failure) { await DisplayAlert("Error", "Unable to connect to conversation request, please try again later.", "OK"); }
+            System.Diagnostics.Debug.WriteLine("terminateConversation : " + myStr);
         }
 
         async private Task Handshake() //Function to create a Json object and send to server using a lambda function
