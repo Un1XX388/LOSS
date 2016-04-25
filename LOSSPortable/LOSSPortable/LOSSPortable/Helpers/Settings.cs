@@ -42,6 +42,9 @@ namespace LOSSPortable.Helpers
         private const string UserEmailKey = "useremail_key";
         private static readonly string UserEmailDefault = "";
 
+        private const string UserNameKey = "username_key";
+        private static readonly string UserNameDefault = "";
+
         private const string PasswordKey = "password_key";
         private static readonly string PasswordDefault = "";
 
@@ -95,6 +98,11 @@ namespace LOSSPortable.Helpers
             set { AppSettings.AddOrUpdateValue(UserEmailKey, value); }
         }
 
+        public static string UsernameSetting
+        {
+            get { return AppSettings.GetValueOrDefault(UserNameKey, UserNameDefault); }
+            set { AppSettings.AddOrUpdateValue(UserNameKey, value); }
+        }
         public static string PasswordSetting
         {
             get { return AppSettings.GetValueOrDefault(PasswordKey, PasswordDefault); }

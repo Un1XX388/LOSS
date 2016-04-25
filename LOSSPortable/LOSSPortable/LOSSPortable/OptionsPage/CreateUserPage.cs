@@ -17,6 +17,7 @@ namespace LOSSPortable
     {
         Entry email;
         Entry nickname;
+        Entry password;
         Button CreateAccount;
         String usertype;
 
@@ -25,6 +26,7 @@ namespace LOSSPortable
 
         public CreateUserPage()
         {
+            Title = "Create an Account";
             // BindingContext = new LoginViewModel(Navigation);
             //sets the background color based on settings
             if (Helpers.Settings.ContrastSetting == true)
@@ -49,6 +51,9 @@ namespace LOSSPortable
 
             nickname = new Entry { Placeholder = "Username", BackgroundColor = Color.White, PlaceholderColor = Color.Gray, TextColor = Color.Black };
             layout.Children.Add(nickname);
+
+            password = new Entry { Placeholder = "Password", BackgroundColor = Color.White, PlaceholderColor = Color.Gray, TextColor = Color.Black, IsPassword = true };
+            layout.Children.Add(password);
 
             CheckBox isVolunteer = new CheckBox
             {
@@ -76,16 +81,17 @@ namespace LOSSPortable
 
         async private void CreateAccount_Clicked(object sender, System.EventArgs e)
         {
+
             await getLocation();
-            if(nickname.Text == null || email.Text == null)
+            if(String.IsNullOrWhiteSpace(nickname.Text) || String.IsNullOrWhiteSpace(email.Text) || String.IsNullOrEmpty(password.Text))
             {
-                UserDialogs.Instance.ShowError("Please enter information in all fields.");
+                UserDialogs.Instance.ShowError("Please enter correct information in all fields.");
             }
             else
             {
                 try
                 {
-                    UserItem user = new UserItem { Item = new UserLogin { Nickname = nickname.Text, Email = email.Text, Longitude = longitude, Latitude = latitude, UserType = usertype } };
+                    UserItem user = new UserItem { Item = new UserLogin { Nickname = nickname.Text, Email = email.Text, Password = password.Text,Longitude = longitude, Latitude = latitude, UserType = usertype } };
                     MessageJson messageJson = new MessageJson { operation = "create", tableName = "User", payload = user };
                     string args = JsonConvert.SerializeObject(messageJson);
                     //System.Diagnostics.Debug.WriteLine(args);
@@ -103,19 +109,18 @@ namespace LOSSPortable
                     var sr = new StreamReader(resp.Payload);
                     var myStr = sr.ReadToEnd();
 
-                    UserDialogs.Instance.SuccessToast("Thank you for signing up!", "Please check your email for verification.", 3000 );
+                    UserDialogs.Instance.SuccessToast("Thank you for signing up!", "Please check your email for verification.", 3000);
+                    ((RootPage)App.Current.MainPage).NavigateTo();
+                    Helpers.Settings.UsernameSetting = nickname.Text;
+                    Helpers.Settings.EmailSetting = email.Text;
 
                     //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
-                    //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+                    System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
                 }
                 catch (Exception e2)
                 {
                     System.Diagnostics.Debug.WriteLine("Error:" + e2);
                 }
-
-                Helpers.Settings.EmailSetting = email.Text;
-                ((RootPage)App.Current.MainPage).NavigateTo();
-
             }
 
         }

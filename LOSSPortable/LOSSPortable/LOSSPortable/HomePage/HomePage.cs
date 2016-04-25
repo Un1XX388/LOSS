@@ -215,12 +215,12 @@ namespace LOSSPortable
 
         async void SOSLinkPressed(object sender, EventArgs e)
         {
-            ActivityIndicator ai = new ActivityIndicator();
-            ai.IsRunning = true;
-            ai.IsEnabled = true;
-            ai.BindingContext = this;
-            ai.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
-            this.IsBusy = true;
+            //ActivityIndicator ai = new ActivityIndicator();
+            //ai.IsRunning = true;
+            //ai.IsEnabled = true;
+            //ai.BindingContext = this;
+            //ai.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
+            //this.IsBusy = true;
             UserDialogs.Instance.ShowLoading("Loading..");
 
 
@@ -246,7 +246,6 @@ namespace LOSSPortable
         async void sgLinkPressed(object sender, EventArgs e)
         {
 
-            //    sg_link.Enabled = false;
             UserDialogs.Instance.ShowLoading();
 
             WebView webView = new WebView
@@ -267,7 +266,6 @@ namespace LOSSPortable
             });
             UserDialogs.Instance.HideLoading();
 
-            //    sg_link.Enabled = true;
         }
 
 
@@ -291,7 +289,7 @@ namespace LOSSPortable
         void quoteList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             label1.Text = LoadQuotes().Message;
-            //labelFrame.OutlineColor = Color.White;
+          //  labelFrame.OutlineColor = Color.White;
         }
 
 

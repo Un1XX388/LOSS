@@ -16,67 +16,78 @@ using Xamarin.Forms.Platform.Android;
 
 namespace LOSSPortable.Droid
 {
-    public class CustomTabRenderer : TabbedRenderer, ViewTreeObserver.IOnGlobalLayoutListener
+    public class CustomTabRenderer : TabbedRenderer
     {
         private Activity _activity;
-        Boolean _isFirstDesign = true;
+        Boolean _isFirstDesign;
+        
 
-        protected override void OnElementChanged(ElementChangedEventArgs<TabbedPage> e)
-        {
-            base.OnElementChanged(e);
-            ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
+        //    protected override void OnElementChanged(ElementChangedEventArgs<TabbedPage> e)
+        //    {
+        //        base.OnElementChanged(e);
+        //        ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
 
-            _activity = this.Context as Activity;
-        }
+        //        _activity = this.Context as Activity;
+        //    }
 
-        public void OnGlobalLayout()
-        {
-            if (_isFirstDesign)
-            {
-                ActionBar actionBar = _activity.ActionBar;
-                ActionBarTabsSetup(actionBar);
-               // Log.Info("Tab count: ", "Total:" + _activity.ActionBar.TabCount);
-            }
-        }
+        //    public void OnGlobalLayout()
+        //    {
+        //        if (_isFirstDesign)
+        //        {
+        //            ActionBar actionBar = _activity.ActionBar;
+        //            ActionBarTabsSetup(actionBar);
+        //            System.Diagnostics.Debug.WriteLine("Tab count: ", "Total:" + _activity.ActionBar.TabCount);
+        //        }
+        //    }
 
-        private void ActionBarTabsSetup(ActionBar actionBar)
-        {
-            if (actionBar.TabCount == 0) return;
-
-            if (this.Element.GetType() == typeof(ResourcesTabbedSwipePage))
-            {
-                if (actionBar.TabCount < 3) return;
-
-                ActionBar.Tab webTab = actionBar.GetTabAt(0);
-                webTab.SetIcon(Resource.Drawable.web);
-
-                ActionBar.Tab playlistTab = actionBar.GetTabAt(1);
-                playlistTab.SetIcon(Resource.Drawable.playlist);
-
-                ActionBar.Tab watchedTab = actionBar.GetTabAt(2);
-                watchedTab.SetIcon(Resource.Drawable.watched);
+        //    private void ActionBarTabsSetup(ActionBar actionBar)
+        //    {
+        //        if (actionBar.TabCount == 0) return;
 
 
-                // To ensure selected tab's icon is high-lighted
-                //actionBar.SelectTab(myAddress);
-                //actionBar.SelectTab(myProfile);
+        //        if (this.Element.GetType() == typeof(ResourcesTabbedSwipePage))
+        //        {
+        //            if (actionBar.TabCount < 3) return;
 
-                _isFirstDesign = false;
-            }
-        }
-        // May put this code in a different method - was just for testing
-        public override void OnWindowFocusChanged(bool hasWindowFocus)
-        {
-            // Here the magic happens:  get your ActionBar and select the tab you want to add an image
-            ActionBar actionBar = _activity.ActionBar;
+        //            ActionBar.Tab webTab = actionBar.GetTabAt(0);
+        //            webTab.SetIcon(Resource.Drawable.web);
 
-            if (actionBar.TabCount > 0)
-            {
-                Android.App.ActionBar.Tab tabOne = actionBar.GetTabAt(0);
+        //            ActionBar.Tab playlistTab = actionBar.GetTabAt(1);
+        //            playlistTab.SetIcon(Resource.Drawable.playlist);
 
-                tabOne.SetIcon(Resource.Drawable.web);
-            }
-            base.OnWindowFocusChanged(hasWindowFocus);
-        }
+        //            ActionBar.Tab watchedTab = actionBar.GetTabAt(2);
+        //            watchedTab.SetIcon(Resource.Drawable.watched);
+
+
+        //            // To ensure selected tab's icon is high-lighted
+        //            actionBar.SelectTab(webTab);
+        //            actionBar.SelectTab(playlistTab);
+        //            actionBar.SelectTab(watchedTab);
+
+        //            _isFirstDesign = false;
+        //        }
+        //    }
+        //    // May put this code in a different method - was just for testing
+        //    //public override void OnWindowFocusChanged(bool hasWindowFocus)
+        //    protected override void OnDraw(Android.Graphics.Canvas canvas)
+        //    {
+        //        // Here the magic happens:  get your ActionBar and select the tab you want to add an image
+        //        ActionBar actionBar = _activity.ActionBar;
+
+        //        if (actionBar.TabCount > 0)
+        //        {
+        //            Android.App.ActionBar.Tab tabOne = actionBar.GetTabAt(0);
+        //            tabOne.SetIcon(Resource.Drawable.web);
+
+        //            Android.App.ActionBar.Tab tabTwo = actionBar.GetTabAt(1);
+        //            tabOne.SetIcon(Resource.Drawable.playlist);
+
+        //            Android.App.ActionBar.Tab tabThree = actionBar.GetTabAt(2);
+        //            tabOne.SetIcon(Resource.Drawable.watched);
+
+        //        }
+        //        // base.OnWindowFocusChanged(hasWindowFocus);
+        //        base.OnDraw(canvas);
+        //    }
     }
 }

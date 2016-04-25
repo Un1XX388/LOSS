@@ -27,6 +27,7 @@ namespace LOSSPortable
                 BackgroundColor = Colors.background;
             }
 
+
             OnlineResourceCell temp = new OnlineResourceCell();
 
 
@@ -129,6 +130,10 @@ namespace LOSSPortable
             String title = select.Title;
             String desc = select.Description;
             String link = select.URL;
+            if(Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak(title);
+            }
         //    int count = Convert.ToInt32(e.SelectedItem.ToString().Split(',')[5]);
 
             //checks if the item type is pdf or website
@@ -165,6 +170,13 @@ namespace LOSSPortable
             }
         }// End of Onselected() method.
 
+        protected override void OnDisappearing()
+        {
+            CrossTextToSpeech.Dispose();
+
+            base.OnDisappearing();
+
+        }
         //navigate to homepage when back button pressed
         protected override Boolean OnBackButtonPressed()
         {

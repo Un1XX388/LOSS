@@ -16,7 +16,7 @@ using Xamarin.Forms;
 
 namespace LOSSPortable
 {
-    public class LoginPage: ContentPage
+    public class LoginPage : ContentPage
     {
         Entry email;
         Entry password;
@@ -27,6 +27,7 @@ namespace LOSSPortable
 
         public LoginPage()
         {
+            Title = "Account";
             // BindingContext = new LoginViewModel(Navigation);
             //sets the background color based on settings
             if (Helpers.Settings.ContrastSetting == true)
@@ -56,7 +57,7 @@ namespace LOSSPortable
 
             var layout2 = new StackLayout
             {
-                BackgroundColor = Color.Gray, 
+                BackgroundColor = Color.Gray,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.CenterAndExpand
             };
@@ -107,7 +108,7 @@ namespace LOSSPortable
                 Content = layout
             };
 
-            
+
         }//LoginPage()
 
         public async void ForgotPassword()
@@ -118,7 +119,7 @@ namespace LOSSPortable
                 Placeholder = "you@example.com"
             });
             var stat = s.Ok ? "Success" : "Cancelled";
-           // System.Diagnostics.Debug.WriteLine(stat, s);
+            // System.Diagnostics.Debug.WriteLine(stat, s);
 
             if (stat == "Success")
             {
@@ -128,7 +129,7 @@ namespace LOSSPortable
                     UserItem user = new UserItem { Item = new UserLogin { Email = s.Text, Arn = "" + Helpers.Settings.EndpointArnSetting } };
                     MessageJson messageJson = new MessageJson { operation = "forgotPassword", tableName = "User", payload = user };
                     string args = JsonConvert.SerializeObject(messageJson);
-                      
+
                     //System.Diagnostics.Debug.WriteLine(args);
                     var ir = new InvokeRequest()
                     {
@@ -165,10 +166,7 @@ namespace LOSSPortable
             UserDialogs.Instance.SuccessToast("Logging in..");
 
             //loggedIn = true;
-            Helpers.Settings.LoginSetting = true;
             PushUser();
-
-            ((RootPage)App.Current.MainPage).NavigateTo();
 
         }
 
@@ -195,8 +193,31 @@ namespace LOSSPortable
                 var sr = new StreamReader(resp.Payload);
                 var myStr = sr.ReadToEnd();
 
-                //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
-                //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+                //System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                //System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+                response tmp = JsonConvert.DeserializeObject<response>(myStr);
+                System.Diagnostics.Debug.WriteLine("Success: " + tmp.Success);
+
+                if(resp.StatusCode == 200)
+                {
+                    Helpers.Settings.LoginSetting = true;
+                    ((RootPage)App.Current.MainPage).NavigateTo();
+                }
+                else
+                {
+                    UserDialogs.Instance.ShowError("Incorrect credentials. Please try again.");
+                }
+                //if (tmp.Success == "true")
+                //{
+                //    Helpers.Settings.LoginSetting = true;
+                //    ((RootPage)App.Current.MainPage).NavigateTo();
+
+                //}
+                //else
+                //{
+                //    UserDialogs.Instance.ShowError("Incorrect credentials. Please try again.");
+                //}
+
             }
             catch (Exception e)
             {
@@ -248,5 +269,12 @@ namespace LOSSPortable
         }
 
 
+    }//end of LoginPage class
+
+    public class response{
+        public string CognitoID { get; set; }
+        public string Arn { get; set; }
+        public string Success { get; set; }
     }
+
 }

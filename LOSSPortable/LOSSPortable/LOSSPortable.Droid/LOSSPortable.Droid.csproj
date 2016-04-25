@@ -305,12 +305,14 @@
     <AndroidResource Include="Resources\drawable\fav1.png" />
     <AndroidResource Include="Resources\drawable\fav232.png" />
     <AndroidResource Include="Resources\drawable\fav132.png" />
-    <AndroidResource Include="Resources\drawable\splash.png" />
     <AndroidResource Include="Resources\drawable\account.png" />
     <AndroidResource Include="Resources\drawable\about.png" />
     <AndroidResource Include="Resources\drawable\playlist.png" />
     <AndroidResource Include="Resources\drawable\watched.png" />
     <AndroidResource Include="Resources\drawable\web.png" />
+    <AndroidResource Include="Resources\drawable\splash.png" />
+    <AndroidResource Include="Resources\drawable\nickname.png" />
+    <AndroidResource Include="Resources\drawable\edituser.png" />
     <Content Include="Resources\login.png" />
     <Content Include="Resources\logout.png" />
   </ItemGroup>

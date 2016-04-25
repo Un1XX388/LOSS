@@ -39,8 +39,18 @@ namespace LOSSPortable
             }
             this.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);
 
-            username = new Entry { Text = "Username", Placeholder = "Username", BackgroundColor = Color.White, TextColor = Color.Black};
-            email = new Label { Text = "Email:  " + Helpers.Settings.EmailSetting, TextColor = Color.White, FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label))};
+            Image edit = new Image
+            {
+                Source = Device.OnPlatform(
+                        iOS: ImageSource.FromFile("edituser.png"),
+                        Android: ImageSource.FromFile("edituser.png"),
+                        WinPhone: ImageSource.FromFile("edituser.png")),
+                HorizontalOptions = LayoutOptions.End
+            };
+
+            username = new Entry { Text = Helpers.Settings.UsernameSetting, BackgroundColor = Color.White, TextColor = Color.Black, IsEnabled = false, HorizontalOptions = LayoutOptions.StartAndExpand };
+            StackLayout user = new StackLayout { Children = { username, edit } };
+            email = new Label { Text = "Email:  " + Helpers.Settings.EmailSetting, TextColor = Color.White, FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label))};
 
             event_label = new Label
             {

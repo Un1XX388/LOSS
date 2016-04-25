@@ -9,7 +9,7 @@ using Android.OS;
 namespace LOSSPortable.Droid
 {
     [Activity(
-        Label = "Loss App",
+        Label = "e-LOSSTeam",
         Icon = "@drawable/App6",
         MainLauncher = true, 
         ConfigurationChanges = ConfigChanges.ScreenSize /*| ConfigChanges.Orientation*/,
