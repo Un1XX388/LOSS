@@ -177,7 +177,6 @@ namespace LOSSPortable
             endConversation.IsVisible = true;
             startConversation.Clicked -= InitiateConversationEvent;
             startConversation.Clicked += ContinueConversationEvent;
-            
         }
 
         private void startConversationPath(){
@@ -194,7 +193,7 @@ namespace LOSSPortable
                 {
                     //resume stored converation and go to chat page.
                     
-                    await Navigation.PushAsync(new ChatPage("Volunteer", new List<ChatMessage>(), "12345", nameEntry.Text));  //navigate to a state page (not new).
+                    await Navigation.PushAsync(new ChatPage(this.nickName, new List<ChatMessage>(), "12345", nameEntry.Text));  //navigate to a state page (not new).
                 }
                 catch (Exception E)
                 {
@@ -243,7 +242,10 @@ namespace LOSSPortable
             base.OnAppearing();
             MessagingCenter.Subscribe<App, ChatMessage>(this, "Handshake", (sender, arg) => //adds message to log
             {
-                Helpers.Settings.ConversationOn = true;    
+                Helpers.Settings.ToFromArn = arg.ToFrom;
+                this.nickName = arg.Sender;
+                Helpers.Settings.ConversationOn = true;
+                continueConversationPath();
             });
 
             if (Helpers.Settings.HandShakeDone == false)
@@ -335,7 +337,6 @@ namespace LOSSPortable
             var myStr = sr.ReadToEnd();
             Helpers.Settings.ToFromArn = "";
             System.Diagnostics.Debug.WriteLine("terminateConversation : " + myStr);
-            
         }
 
         async private Task queryServerActiveConversation()
