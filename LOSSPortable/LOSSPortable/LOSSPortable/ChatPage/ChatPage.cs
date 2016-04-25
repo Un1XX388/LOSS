@@ -488,45 +488,7 @@ namespace LOSSPortable
 
     */
         //HANDSHAKE CHECK:
-        async private Task checkHandshake( )
-        {
-            try
-            {
-
-
-                UserInfoItem message = new UserInfoItem { }; //Helpers.Settings.EndpointArnSetting
-                //await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
-                UserInfoJson messageJson = new UserInfoJson { operation = "read", tableName = "User", payload = message };
-                string args = JsonConvert.SerializeObject(messageJson);
-                //System.Diagnostics.Debug.WriteLine(args);
-                var ir = new InvokeRequest()
-                {
-                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
-                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
-                    InvocationType = InvocationType.RequestResponse
-                };
-                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
-
-
-                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
-                resp.Payload.Position = 0;
-                var sr = new StreamReader(resp.Payload);
-                var myStr = sr.ReadToEnd();
-                HandshakeResponse response = JsonConvert.DeserializeObject<HandshakeResponse>(myStr);
-
-                 //await DisplayAlert("myStr","-"+myStr+"-",response.Nickname);
-                this.talkingToNickname = response.Nickname;
-                this.talkingToID = response.ID;
-                //talkingTo = myStr[2] ;//distance,nickname,ID
-                //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
-                //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine("Error:" + e);
-            }
-            
-        }
+        
 
 
         //HANDSHAKE:

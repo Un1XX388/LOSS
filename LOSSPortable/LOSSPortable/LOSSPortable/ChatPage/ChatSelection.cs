@@ -101,16 +101,15 @@ namespace LOSSPortable
                 update.IsVisible = true;
             };
 
-            endConversation.Clicked += (s, e) =>
+            endConversation.Clicked += async (s, e) =>
             {
                 //called when the conversation is to be ended.
-                //terminateConversation();
-                System.Diagnostics.Debug.WriteLine("terminateConversation()");
+                
                 Helpers.Settings.ConversationOn = false;
                 startConversation.Text = "Start Conversation";
                 nameEntry.IsEnabled = true;
                 endConversation.IsVisible = false;
-
+                await terminateConversation();
                 startConversation.Clicked += async (se, en) =>
                 {
                     //Queries server for start of conversation
@@ -204,7 +203,7 @@ namespace LOSSPortable
                 Helpers.Settings.ChatActiveSetting = false;
                 chatAvailability.Text = "Not available";
             }
-            this.Content = outerLayout;
+            //this.Content = outerLayout;
         }
         //--------------------------------HANDSHAKE-------------------------------
         public async void HandshakeStart()
@@ -249,7 +248,7 @@ namespace LOSSPortable
         }
 
         async private Task initiateConversation(){
-                UserInfoItem message = new UserInfoItem { Item = new UserInfo { Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting } }; //Helpers.Settings.EndpointArnSetting
+                UserInfoItem message = new UserInfoItem { Item = new UserInfo { } }; //Helpers.Settings.EndpointArnSetting
                 UserInfoJson messageJson = new UserInfoJson { operation = "newConversation", tableName = "User", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
                 
@@ -273,8 +272,58 @@ namespace LOSSPortable
                 catch(Exception e)
                 {
                     DisplayAlert("Error", "No available volunteers, please try again later.", "OK");
-                }
-                
+                }  
+        }
+
+        async private Task terminateConversation()
+        {
+            //ID = is from ToFrom Field
+            UserInfoItem message = new UserInfoItem { Item = new UserInfo {ID = ""} }; //Helpers.Settings.EndpointArnSetting
+            UserInfoJson messageJson = new UserInfoJson { operation = "stopConversation", tableName = "User", payload = message };
+            string args = JsonConvert.SerializeObject(messageJson);
+
+            var ir = new InvokeRequest()
+            {
+                FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                InvocationType = InvocationType.RequestResponse
+            };
+
+
+            InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+            resp.Payload.Position = 0;
+            var sr = new StreamReader(resp.Payload);
+            var myStr = sr.ReadToEnd();
+            
+            /*
+            * Implement what happens on terminateConversation here
+            */
+
+        }
+
+        async private Task currentConversations()
+        {
+            UserInfoItem message = new UserInfoItem { Item = new UserInfo {} }; //Helpers.Settings.EndpointArnSetting
+            UserInfoJson messageJson = new UserInfoJson { operation = "currentConversations", tableName = "User", payload = message };
+            string args = JsonConvert.SerializeObject(messageJson);
+
+            var ir = new InvokeRequest()
+            {
+                FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                InvocationType = InvocationType.RequestResponse
+            };
+
+
+            InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+            resp.Payload.Position = 0;
+            var sr = new StreamReader(resp.Payload);
+            var myStr = sr.ReadToEnd();
+
+            /*
+            * Implement what happens on terminateConversation here
+            */
+
         }
 
         async private Task Handshake() //Function to create a Json object and send to server using a lambda function

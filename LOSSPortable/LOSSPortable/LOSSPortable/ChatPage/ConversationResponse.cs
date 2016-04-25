@@ -18,9 +18,5 @@ namespace LOSSPortable
         [DynamoDBProperty("Distance")]
         public string Distance { get; set; }
 
-        [DynamoDBProperty("Arns")]
-        public string ID { get; set; }
-        
-
     }
 }
