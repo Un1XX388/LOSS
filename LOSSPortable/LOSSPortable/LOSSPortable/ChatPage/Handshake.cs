@@ -20,8 +20,8 @@ namespace LOSSPortable
         [DynamoDBProperty("Arn")]
         public string Arn { get; set; }
 
-        
-
+        [DynamoDBProperty("ID")]
+        public string ID { get; set; }
 
     }
 }

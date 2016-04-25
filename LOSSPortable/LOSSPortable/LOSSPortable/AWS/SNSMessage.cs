@@ -15,7 +15,7 @@ namespace LOSSPortable
         "Sender": "Gerald"
     }
     */
-    public class SNSMessage
+    public class SNSMessagePCL
     {
         public string Subject { set; get; }
 

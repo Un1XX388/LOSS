@@ -6,6 +6,9 @@ using Foundation;
 using UIKit;
 using Acr.UserDialogs;
 
+//using Amazon.SimpleNotificationService;
+//using Amazon.SimpleNotificationService.Model;
+
 namespace LOSSPortable.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
@@ -25,14 +28,30 @@ namespace LOSSPortable.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
-            var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
-              UIUserNotificationType.Alert |
-              UIUserNotificationType.Badge |
-              UIUserNotificationType.Sound,
-              null
-            );
-            //app.RegisterUserNotifications(pushSettings);
-            app.RegisterForRemoteNotifications();
+            if (options.ContainsKey(UIApplication.LaunchOptionsRemoteNotificationKey))
+            {
+
+                NSDictionary remoteNotification = options[UIApplication.LaunchOptionsRemoteNotificationKey] as NSDictionary;
+                if (remoteNotification != null)
+                {
+                    //new UIAlertView(remoteNotification.AlertAction, remoteNotification.AlertBody, null, "OK", null).Show();
+                }
+            }
+
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
+                var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
+                                   UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                                   new NSSet());
+
+                UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
+                UIApplication.SharedApplication.RegisterForRemoteNotifications();
+            }
+            else
+            {
+                UIRemoteNotificationType notificationTypes = UIRemoteNotificationType.Alert | UIRemoteNotificationType.Badge | UIRemoteNotificationType.Sound;
+                UIApplication.SharedApplication.RegisterForRemoteNotificationTypes(notificationTypes);
+            }
 
             App.ScreenHeight = (int)UIScreen.MainScreen.Bounds.Height;
             App.ScreenWidth = (int)UIScreen.MainScreen.Bounds.Width;
@@ -40,12 +59,17 @@ namespace LOSSPortable.iOS
             return base.FinishedLaunching(app, options);
         }
 
-        public override void RegisteredForRemoteNotifications(UIApplication application, NSData token)
+        public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
+        {
+
+        }
+
+        public override async void RegisteredForRemoteNotifications(UIApplication application, NSData token)
         {
             var deviceToken = token.Description.Replace("<", "").Replace(">", "").Replace(" ", "");
             if (!string.IsNullOrEmpty(deviceToken))
             {
-                AmazonUtils.RegisterDevice(AmazonUtils.Platform.IOS, deviceToken);
+                await AmazonUtils.RegisterDevice(AmazonUtils.Platform.IOS, deviceToken);
             }
         }
 

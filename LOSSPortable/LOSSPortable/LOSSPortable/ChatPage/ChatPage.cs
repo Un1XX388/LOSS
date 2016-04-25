@@ -47,6 +47,8 @@ namespace LOSSPortable
 
         public ChatPage(String inputname, List<ChatMessage> msgs, string key, string Name)  //use the key to store
         {   
+            
+
             if (Name== "" || Name=="Enter your name: " || Name == null )
             {
                 this.name = "Anonymous";
@@ -409,20 +411,11 @@ namespace LOSSPortable
         }
 
         //-------------------------Server----------------------------------
-        
-        public async Task SaveAsync<Message>(Message entity, CancellationToken ct) //old function to send to server
-        {
-            var context = AmazonUtils.DDBContext;
-            await context.SaveAsync<Message>(entity, ct);
-            System.Diagnostics.Debug.WriteLine("entity saved");
-        }
-
-
         async private Task PushMessage(string toFrom, string text) //Function to create a Json object and send to server using a lambda function
         {
             try
             {
-                MessageItem message = new MessageItem { Item = new ChatMessage { ToFrom = this.talkingToID, Text = text } };
+                MessageItem message = new MessageItem { Item = new ChatMessage { ToFrom = Helpers.Settings.ToFromArn, Text = text } };
                 MessageJson messageJson = new MessageJson { operation = "create", tableName = "Message", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
                 //System.Diagnostics.Debug.WriteLine(args);
@@ -445,7 +438,7 @@ namespace LOSSPortable
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("Error:" + e);
+                System.Diagnostics.Debug.WriteLine("Error: " + e);
             }
         }
         //--------------------------------------------------------------------
@@ -486,45 +479,7 @@ namespace LOSSPortable
 
     */
         //HANDSHAKE CHECK:
-        async private Task checkHandshake( )
-        {
-            try
-            {
-
-
-                UserInfoItem message = new UserInfoItem { }; //Helpers.Settings.EndpointArnSetting
-                //await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
-                UserInfoJson messageJson = new UserInfoJson { operation = "read", tableName = "User", payload = message };
-                string args = JsonConvert.SerializeObject(messageJson);
-                //System.Diagnostics.Debug.WriteLine(args);
-                var ir = new InvokeRequest()
-                {
-                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
-                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
-                    InvocationType = InvocationType.RequestResponse
-                };
-                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
-
-
-                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
-                resp.Payload.Position = 0;
-                var sr = new StreamReader(resp.Payload);
-                var myStr = sr.ReadToEnd();
-                HandshakeResponse response = JsonConvert.DeserializeObject<HandshakeResponse>(myStr);
-
-                 //await DisplayAlert("myStr","-"+myStr+"-",response.Nickname);
-                this.talkingToNickname = response.Nickname;
-                this.talkingToID = response.ID;
-                //talkingTo = myStr[2] ;//distance,nickname,ID
-                //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
-                //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine("Error:" + e);
-            }
-            
-        }
+        
 
 
         //HANDSHAKE:
@@ -563,7 +518,7 @@ namespace LOSSPortable
             }
         }
 
-        
+        #region geoLocation
         //-------------------------geolocation-----------------------------
 
             
@@ -600,6 +555,7 @@ namespace LOSSPortable
             var longtitude = position.Longitude.ToString();
             //label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
         }
+        #endregion
         //-------------------------Caching---------------------------------
 
 
@@ -618,21 +574,9 @@ namespace LOSSPortable
 
         }
 
-
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-
-            //screen size:
-            //int height = App.ScreenHeight;
-            //await DisplayAlert("screen height",""+height,"ok");
-
-
-            //await getLocation(); //check geolocation
-            //await Handshake(); //handshake attempt
-
-            //-------
-            //await checkHandshake();
 
             MessagingCenter.Send<ChatPage>(this, "Start");
             MessagingCenter.Subscribe<App, ChatMessage>(this, "Hi", (sender, arg) => //adds message to log
@@ -650,33 +594,27 @@ namespace LOSSPortable
                 conv.msgs.Add(arg);
                 ScrollEvent();
             });
-            System.Diagnostics.Debug.WriteLine("trying to get cache.");
             Conversation con = await Get();
             this.MessageCount = con.msgs.Count;
-            System.Diagnostics.Debug.WriteLine("returned messages: " + con.msgs.Count);
-            //await DisplayAlert("", con.msgs[0].getMessage(), "ok"); CAUSE OF BUGS
             this.setChat(con.msgs);
             this.Content = outerStack;
             ScrollEvent();
             
         }
 
+
         public async Task<Conversation> Get()
         { 
             try
             {
-                System.Diagnostics.Debug.WriteLine("fetching cached. object key = " + Key);
                 return await BlobCache.LocalMachine.GetOrCreateObject<Conversation>(Key, NewConv);
 
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException e)
             {
-                System.Diagnostics.Debug.WriteLine("error");
+                System.Diagnostics.Debug.WriteLine("error:" + e);
                 return new Conversation();
-
             }
-
-
         }
 
         public async Task Store<Conversation>(Conversation value)
@@ -685,17 +623,15 @@ namespace LOSSPortable
             try
             {
                 await BlobCache.LocalMachine.InsertObject(Key, conv);
-                System.Diagnostics.Debug.WriteLine("Finished storing");
             }
-            catch (Exception E)
+            catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("Error with storing in cache.");
+                System.Diagnostics.Debug.WriteLine("Error : " + e);
             }
         }
 
         public Conversation NewConv()
         {
-            System.Diagnostics.Debug.WriteLine("creating new conv");
             return new Conversation();
         }
     }

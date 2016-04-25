@@ -112,8 +112,7 @@ namespace LOSSPortable
         public enum Platform
         {
             Android,
-            IOS,
-            WindowsPhone
+            IOS
         }
 
         private static IAmazonSimpleNotificationService _snsClient;
@@ -150,6 +149,7 @@ namespace LOSSPortable
             );
             
             _endpointArn = response.EndpointArn;
+            System.Diagnostics.Debug.WriteLine(_endpointArn);
             Helpers.Settings.EndpointArnSetting = _endpointArn;
         }
 

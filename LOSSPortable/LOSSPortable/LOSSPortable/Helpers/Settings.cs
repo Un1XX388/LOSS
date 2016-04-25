@@ -56,6 +56,21 @@ namespace LOSSPortable.Helpers
 
         private const string chatActive = "chatActive";
         private static readonly bool chatActiveDefault = false;
+
+        private const string handShakeDone = "handshakeDone";
+        private static readonly bool handShakeDefault = false;
+
+        private const string conversationOn = "conversationOn";
+        private static readonly bool conversationOnDefault = false;
+
+        private const string isVolunteer = "volunteer";
+        private static readonly bool isVolunteerDefault = false;
+
+        private const string displayName = "displayName";
+        private static readonly string displayNameDefault = "Anonymous";
+
+        private const string toFromArn = "toFromArn";
+        private static readonly string toFromArndefault = "";
         #endregion
 
         public static bool LoginSetting
@@ -127,5 +142,34 @@ namespace LOSSPortable.Helpers
             set { AppSettings.AddOrUpdateValue(chatActive, value); }
         }
 
+        public static bool HandShakeDone
+        {
+            get { return AppSettings.GetValueOrDefault(handShakeDone, handShakeDefault); }
+            set { AppSettings.AddOrUpdateValue(handShakeDone, value); }
+        }
+
+        public static bool ConversationOn
+        {
+            get { return AppSettings.GetValueOrDefault(conversationOn, conversationOnDefault); }
+            set { AppSettings.AddOrUpdateValue(conversationOn, value); }
+        }
+
+        public static bool IsVolunteer
+        {
+            get { return AppSettings.GetValueOrDefault(isVolunteer, isVolunteerDefault); }
+            set { AppSettings.AddOrUpdateValue(isVolunteer, value); }
+        }
+
+        public static string DisplayName
+        {
+            get { return AppSettings.GetValueOrDefault(displayName, displayNameDefault); }
+            set { AppSettings.AddOrUpdateValue(displayName, value); }
+        }
+
+        public static string ToFromArn
+        {
+            get { return AppSettings.GetValueOrDefault(toFromArn, toFromArndefault); }
+            set { AppSettings.AddOrUpdateValue(toFromArn, value); }
+        }
     }
 }
