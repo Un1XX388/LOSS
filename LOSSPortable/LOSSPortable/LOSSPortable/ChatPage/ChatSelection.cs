@@ -268,6 +268,8 @@ namespace LOSSPortable
         {
 
             base.OnAppearing();
+            MessagingCenter.Send<ChatSelection>(this, "Start");
+
             MessagingCenter.Subscribe<App, ChatMessage>(this, "Handshake", (sender, arg) => //adds message to log
             {
                 if (Helpers.Settings.IsVolunteer)
@@ -300,6 +302,11 @@ namespace LOSSPortable
             }
         }
 
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            MessagingCenter.Send<ChatSelection>(this, "End");
+        }
 
         protected override Boolean OnBackButtonPressed() // back button pressed
         {
