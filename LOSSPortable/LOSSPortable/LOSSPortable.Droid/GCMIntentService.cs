@@ -135,6 +135,20 @@ namespace LOSSPortable.Droid
                     }
 
                 }
+                else if (msg.Subject.Equals("HandshakeEnd"))
+                {
+                    try
+                    {
+                        if (current != null)
+                        {
+                            current.parseMessageObject(JsonConvert.SerializeObject(msg));
+                        }
+                    }
+                    catch (NullReferenceException e)
+                    {
+                        
+                    }
+                }
                 else if(msg.Subject.Equals("Announcement")){
                     AndroidUtils.ShowNotification(this, msg.Title, msg.Text);
                 }
