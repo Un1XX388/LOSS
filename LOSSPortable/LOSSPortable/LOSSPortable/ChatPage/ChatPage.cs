@@ -574,9 +574,20 @@ namespace LOSSPortable
 
         }
 
+        private async void terminateChat()
+        {
+            await DisplayAlert("Conversation ended", talkingToNickname + " has left the conversation", "OK");
+            await Navigation.PopAsync(true);
+        }
+
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+
+            MessagingCenter.Subscribe<App, ChatMessage>(this, "HandshakeEnd", (sender, arg) => //adds message to log
+            {
+                terminateChat();
+            });
 
             MessagingCenter.Send<ChatPage>(this, "Start");
             MessagingCenter.Subscribe<App, ChatMessage>(this, "Hi", (sender, arg) => //adds message to log

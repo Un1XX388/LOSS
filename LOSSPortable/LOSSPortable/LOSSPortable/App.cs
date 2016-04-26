@@ -12,6 +12,7 @@ namespace LOSSPortable
 
 		public Boolean HardwareAccelerated { get; set; }
         public Boolean ChatPageActive { get; set; }
+        public Boolean ChatSelectionPageActive { get; set; }
 
         public App()
         {
@@ -22,7 +23,7 @@ namespace LOSSPortable
 
         protected override void OnStart()
         {
-            Helpers.Settings.IsVolunteer = false;
+            Helpers.Settings.IsVolunteer = true;
             AmazonUtils.updateInspirationalQuoteList();
             AmazonUtils.updateOnlineRList();
             AmazonUtils.updateOnlineVList();
@@ -35,6 +36,16 @@ namespace LOSSPortable
             {
                 ChatPageActive = false;
             });
+            MessagingCenter.Subscribe<ChatSelection>(this, "Start", (sender) =>
+            {
+                ChatSelectionPageActive = true;
+            });
+            MessagingCenter.Subscribe<ChatSelection>(this, "End", (sender) =>
+            {
+                ChatSelectionPageActive = false;
+            });
+
+
             // Handle when your app starts
         }
 
