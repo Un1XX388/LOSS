@@ -126,14 +126,13 @@ namespace LOSSPortable.Droid
                         }
                         else
                         {
-                            AndroidUtils.ShowNotification(this, "New incoming conversation", msg.Sender + ": Wants to talk.");
+                            AndroidUtils.ShowNotification(this, "Incoming conversation", msg.Sender + ": Wants to talk.");
                         }
                     }
                     catch (NullReferenceException e)
                     {
-                        AndroidUtils.ShowNotification(this, "New incoming conversation", msg.Sender + ": Wants to talk.");
+                        AndroidUtils.ShowNotification(this, "Incoming conversation", msg.Sender + ": Wants to talk.");
                     }
-
                 }
                 else if (msg.Subject.Equals("HandshakeEnd"))
                 {

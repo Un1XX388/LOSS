@@ -22,7 +22,7 @@ namespace LOSSPortable
 
         protected override void OnStart()
         {
-            Helpers.Settings.IsVolunteer = false;
+            Helpers.Settings.IsVolunteer = true;
             AmazonUtils.updateInspirationalQuoteList();
             AmazonUtils.updateOnlineRList();
             AmazonUtils.updateOnlineVList();

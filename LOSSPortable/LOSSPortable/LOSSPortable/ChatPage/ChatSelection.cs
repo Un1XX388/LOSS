@@ -49,22 +49,35 @@ namespace LOSSPortable
                 BackgroundColor = Colors.background;
             }
 
-            /**
-             * Checks to see if a conversation is already active, if true, when startConversation
-             * is pressed, moves to the ChatPage, otherwise initiate conversations with server.
-             */
-            if (Helpers.Settings.ConversationOn == true)
+            //Sets displayName field to value saved
+            nameEntry.Text = Helpers.Settings.DisplayName;
+            Title = "Chat Selection";
+            Icon = "Accounts.png";
+
+
+            if (Helpers.Settings.IsVolunteer)
             {
-                continueConversationPath();
+                this.startConversation.IsVisible = false;
+                this.chatAvailability.IsVisible = true;
+                this.endConversation.IsVisible = false;
+                readyToChat.IsVisible = true;
+                readyToChat.IsEnabled = true;
+                readyToChat.Toggled += readyToChatF;
+                this.startConversation.IsEnabled = false;
+                queryServerActiveConversation();
             }
             else
             {
-                startConversationPath();
+                this.startConversation.IsVisible = true;
+                this.chatAvailability.IsVisible = false;
+                this.endConversation.IsVisible = false;
+                readyToChat.IsVisible = false;
+                readyToChat.IsEnabled = false;
+                this.startConversation.IsEnabled = false;
+                queryServerActiveConversation();
             }
 
-            //Sets displayName field to value saved
-            nameEntry.Text = Helpers.Settings.DisplayName;
-
+         
             /**
              * When 'update' is pressed, the handshake is redone with the new 
              */
@@ -87,25 +100,18 @@ namespace LOSSPortable
             {
                 //called when the conversation is to be ended.
                 Helpers.Settings.ConversationOn = false;
+                if (Helpers.Settings.IsVolunteer)
+                {
+
+                }
                 startConversation.Text = "Start Conversation";
                 await terminateConversation();
                 startConversationPath();
             };
 
-            Title = "Chat Selection";
-            Icon = "Accounts.png";
 
-            //Take this out once this is being assigned by the login
-            Helpers.Settings.IsVolunteer = true;
-     
-            if (Helpers.Settings.IsVolunteer)
-            {
-                this.chatAvailability.IsVisible = true;
-                readyToChat.IsVisible = true;
-                readyToChat.IsEnabled = true;
-                readyToChat.Toggled += readyToChatF;
-                queryServerActiveConversation();
-            }
+            
+
             
             var tmp = new StackLayout
             {
@@ -171,21 +177,46 @@ namespace LOSSPortable
          */
         private void continueConversationPath()
         {
-            nameEntry.IsEnabled = false;
-            startConversation.Text = "Continue Conversation";
-            endConversation.IsVisible = true;
-            startConversation.Clicked -= InitiateConversationEvent;
-            startConversation.Clicked += ContinueConversationEvent;
+            if (Helpers.Settings.IsVolunteer)
+            {
+                startConversation.Text = "Enter Conversation";
+                startConversation.IsVisible = true;
+                startConversation.IsEnabled = true;
+                nameEntry.IsEnabled = false;
+                endConversation.IsVisible = true;
+                startConversation.Clicked += ContinueConversationEvent;
+            }
+            else
+            {
+                startConversation.Text = "Continue Conversation";
+                startConversation.IsEnabled = true;
+                nameEntry.IsEnabled = false;
+                endConversation.IsVisible = true;
+                startConversation.Clicked -= InitiateConversationEvent;
+                startConversation.Clicked += ContinueConversationEvent;
+            }
         }
 
         private void startConversationPath(){
-                startConversation.Text = "Start Conversation";
+            if (Helpers.Settings.IsVolunteer)
+            {
+                startConversation.IsVisible = false;
+                startConversation.IsEnabled = true;
                 endConversation.IsVisible = false;
                 nameEntry.IsEnabled = true;
-                Helpers.Settings.ConversationOn = true;
+                startConversation.Clicked -= ContinueConversationEvent;
+            }
+            else
+            {
+                startConversation.Text = "Start Conversation";
+                startConversation.IsEnabled = true;
+                endConversation.IsVisible = false;
+                nameEntry.IsEnabled = true;
+                Helpers.Settings.ConversationOn = false;
                 startConversation.Clicked -= ContinueConversationEvent;
                 startConversation.Clicked += InitiateConversationEvent;
-                }
+            }        
+        }
 
         async void ContinueConversationEvent(object s, EventArgs e)
             {
@@ -203,7 +234,6 @@ namespace LOSSPortable
         
         async void InitiateConversationEvent(object s, EventArgs e)
                 {
-                    
                     await initiateConversation();
                 }
 
@@ -244,9 +274,15 @@ namespace LOSSPortable
                 {
                     Helpers.Settings.ToFromArn = arg.ToFrom;
                     this.nickName = arg.Sender;
-                    Helpers.Settings.ConversationOn = true;
                     continueConversationPath();
                 }
+            });
+
+            MessagingCenter.Subscribe<App, ChatMessage>(this, "HandshakeEnd", (sender, arg) => //adds message to log
+            {
+                this.nickName = "";
+                Helpers.Settings.ToFromArn = "";
+                startConversationPath();
             });
 
             if (Helpers.Settings.HandShakeDone == false)
@@ -290,9 +326,6 @@ namespace LOSSPortable
                 Boolean failure = false;
                 try {
                     var response = JsonConvert.DeserializeObject<ConversationResponse>(myStr);
-                    
-                    System.Diagnostics.Debug.WriteLine("initiateConversationresponse : " + myStr);
-                    System.Diagnostics.Debug.WriteLine("ToFromArn : " + response.ID);
                     if (response.Success == "true")
                     {
                         nickName = response.Nickname;
@@ -335,8 +368,8 @@ namespace LOSSPortable
             resp.Payload.Position = 0;
             var sr = new StreamReader(resp.Payload);
             var myStr = sr.ReadToEnd();
+            this.nickName = "";
             Helpers.Settings.ToFromArn = "";
-            System.Diagnostics.Debug.WriteLine("terminateConversation : " + myStr);
         }
 
         async private Task queryServerActiveConversation()
@@ -366,12 +399,17 @@ namespace LOSSPortable
                 {
                     nickName = response.Nickname;
                     Helpers.Settings.ToFromArn = response.ID;
-                    System.Diagnostics.Debug.WriteLine(response.ID);
                     continueConversationPath();
+                }
+                else if (response.Success == "false")
+                {
+                    nickName = "";
+                    Helpers.Settings.ToFromArn = "";
+                    startConversationPath();
                 }
                 else
                 {
-                    await DisplayAlert("Error", "Unable to connect to conversation request, please try again later.", "OK");
+                    await DisplayAlert("Error", "No active conversations.", "OK");
                 }
             }
             catch (Exception e)
@@ -379,7 +417,7 @@ namespace LOSSPortable
                 System.Diagnostics.Debug.WriteLine(e);
                 failure = true;
             }
-            if (failure) { await DisplayAlert("Error", "Unable to connect to conversation request, please try again later.", "OK"); }
+            if (failure) { await DisplayAlert("Error", "No active conversations", "OK"); }
         }
 
         async private Task Handshake() //Function to create a Json object and send to server using a lambda function
