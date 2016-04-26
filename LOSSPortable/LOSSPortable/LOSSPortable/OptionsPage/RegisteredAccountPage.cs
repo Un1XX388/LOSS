@@ -290,7 +290,7 @@ namespace LOSSPortable
                 Children = { reportLink },
                 GestureRecognizers = {
                 new TapGestureRecognizer {
-                        Command = new Command (()=>Navigation.PushAsync(new ReportPage())),
+                        Command = new Command (()=> reportProblem()),
                 },
                 },
                 Orientation = StackOrientation.Horizontal,
@@ -316,24 +316,16 @@ namespace LOSSPortable
                 Children = { new BoxView() { Color = Color.Transparent, HeightRequest = 4  },
                             username,
                             new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
-                //            new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
                             email,
                             new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
                             new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
-
-                  //          new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
-                            //account,
-                            //new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
-                            //new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
-
                             generalSettings,
                             new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
                             new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
                             row1_contrast, //row2_geolocation,
                             row4_speech, row5_push,
                             change_password,
-                            //new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
-                            //new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
+             
                             row6_reset_sync,
 
                             new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
@@ -360,19 +352,74 @@ namespace LOSSPortable
 
         }//end GeneralAccountPage()
 
-        private void Logout_Clicked(object sender, EventArgs e)
-        {
-            Helpers.Settings.LoginSetting = false;
-            UserDialogs.Instance.ShowSuccess("You have been successfully logged out.");
-            ((RootPage)App.Current.MainPage).NavigateTo();
 
+        private void reportProblem()
+        {
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Report A Problem");
+            }
+            Navigation.PushAsync(new ReportPage());
         }
 
+        private async void Logout_Clicked(object sender, EventArgs e)
+        {
+
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Logout");
+            }
+            try
+            {
+                System.Diagnostics.Debug.WriteLine(Helpers.Settings.EndpointArnSetting);
+                UserItem user = new UserItem { Item = new UserLogin { Arn = Helpers.Settings.EndpointArnSetting} };
+                MessageJson messageJson = new MessageJson { operation = "logout", tableName = "User", payload = user };
+                string args = JsonConvert.SerializeObject(messageJson);
+                //System.Diagnostics.Debug.WriteLine(args);
+                var ir = new InvokeRequest()
+                {
+                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                    InvocationType = InvocationType.RequestResponse
+                };
+                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+
+
+                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+                resp.Payload.Position = 0;
+                var sr = new StreamReader(resp.Payload);
+                var myStr = sr.ReadToEnd();
+
+                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+
+                response tmp = JsonConvert.DeserializeObject<response>(myStr);
+                if (tmp.Success == "true")
+                {
+                    Helpers.Settings.LoginSetting = false;
+                    UserDialogs.Instance.ShowSuccess("You have been successfully logged out.");
+                    ((RootPage)App.Current.MainPage).NavigateTo();
+                }
+                else
+                {
+                    UserDialogs.Instance.ShowError("Unable to log out.");
+                }
+            }
+            catch(Exception e2)
+            {
+                System.Diagnostics.Debug.WriteLine("Error:" + e2);
+            }
+
+        }
         //================ Functions (actions) for Each Toggle Switch   =========================================
 
         //default setting
         async void resetPressed(object sender, EventArgs e)
         {
+            if(Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Reset to Default Settings?");
+            }
             var result = await DisplayAlert("Reset application", "Reset app to default settings and delete any cached info?", "Yes", "No");
 
             if (result)
@@ -393,17 +440,28 @@ namespace LOSSPortable
         //change background color - contrast
         void constrast_switcher_Toggled(object sender, ToggledEventArgs e)
         {
+
             if (contrast_switcher.IsToggled)
             {
                 this.Content.BackgroundColor = Colors.contrastBg;
                 event_label.Text = String.Format("High Contrast Mode Enabled? {0}", e.Value);
-                Helpers.Settings.ContrastSetting = e.Value;
+                Helpers.Settings.ContrastSetting = e.Value;            
             }
             else
             {
                 this.Content.BackgroundColor = Colors.background;
-                event_label.Text = String.Format("High Contrast Mode Enabled? {0}", e.Value);
+                event_label.Text = String.Format("High Contrast Mode Enabled?", e.Value);
                 Helpers.Settings.ContrastSetting = e.Value;
+
+            }
+
+            if (Helpers.Settings.SpeechSetting == true && Helpers.Settings.ContrastSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Contrast Mode On");
+            }
+            else if(Helpers.Settings.SpeechSetting == true && Helpers.Settings.ContrastSetting == false)
+            {
+                CrossTextToSpeech.Current.Speak("Contrast Mode Off");
             }
         }
 
@@ -428,6 +486,7 @@ namespace LOSSPortable
                 event_label.Text = String.Format("Text to Speech? {0}", e.Value);
                 Helpers.Settings.SpeechSetting = e.Value;
             }
+
         }
 
         //Notifications On-Off
@@ -437,7 +496,7 @@ namespace LOSSPortable
             Helpers.Settings.PushSetting = e.Value;
             if (Helpers.Settings.SpeechSetting == true)
             {
-                CrossTextToSpeech.Current.Speak("Notification Mode" + e.Value);
+                CrossTextToSpeech.Current.Speak("Notification Mode On");
             }
         }
 
@@ -711,6 +770,11 @@ namespace LOSSPortable
 
         public async void updatePassword(String email, String oldPass, String newPass)
         {
+            if(Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Change Password");
+            }
+
             try
             {
                 UserItem user = new UserItem { Item = new UserLogin { Email = email, Password = oldPass.TrimEnd(), NewPassword = newPass, Arn = "" + Helpers.Settings.EndpointArnSetting } };
@@ -738,7 +802,6 @@ namespace LOSSPortable
             {
                 System.Diagnostics.Debug.WriteLine("Error:" + e);
             }
-
         }
         //==================================================== Back Button Pressed ==============================================================
 

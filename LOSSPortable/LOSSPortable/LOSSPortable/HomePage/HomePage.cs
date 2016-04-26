@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Amazon.DynamoDBv2.DataModel;
 using Acr.UserDialogs;
+using Plugin.TextToSpeech;
 
 namespace LOSSPortable
 {
@@ -221,6 +222,13 @@ namespace LOSSPortable
             //ai.BindingContext = this;
             //ai.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
             //this.IsBusy = true;
+
+        
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Survivors of Suicide Handbook");
+            }
+        
             UserDialogs.Instance.ShowLoading("Loading..");
 
 
@@ -245,7 +253,10 @@ namespace LOSSPortable
 
         async void sgLinkPressed(object sender, EventArgs e)
         {
-
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Find a Support Group");
+            }
             UserDialogs.Instance.ShowLoading();
 
             WebView webView = new WebView

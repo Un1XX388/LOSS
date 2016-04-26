@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
+using Plugin.TextToSpeech;
 
 namespace LOSSPortable{
 	// This displays all the videos in the selected palylist.
@@ -63,7 +64,9 @@ namespace LOSSPortable{
 			// This deselects the item after it is selected.
 			((ListView)sender).SelectedItem = null;
             var select = e.SelectedItem as OnlineVViewModel;
-			VideoPage temp = new VideoPage(select.Title, select.URL);
+
+
+            VideoPage temp = new VideoPage(select.Title, select.URL);
             if (Device.OS == TargetPlatform.iOS)
             {
                 NavigationPage.SetHasNavigationBar(temp, true);

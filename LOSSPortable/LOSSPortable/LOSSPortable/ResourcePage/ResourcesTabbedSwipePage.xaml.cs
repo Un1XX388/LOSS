@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plugin.TextToSpeech;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace LOSSPortable
         public ResourcesTabbedSwipePage()
         {
             Title = "Resources";
-            
+
             //sets the background color based on settings
             if (Helpers.Settings.ContrastSetting == true)
             {

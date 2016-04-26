@@ -235,6 +235,7 @@ namespace LOSSPortable
             Label login = new Label
             {
                 Text = "Login/Register Portal",
+
                 TextColor = Color.White,
                 FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center
@@ -246,7 +247,7 @@ namespace LOSSPortable
                 GestureRecognizers = {
                 new TapGestureRecognizer {
                         Command = new Command (
-                            ()=>Navigation.PushAsync(new LoginPage())),
+                            ()=>Login()),
                 },
                 },
                 Orientation = StackOrientation.Horizontal,
@@ -276,7 +277,7 @@ namespace LOSSPortable
                 Children = { reportLink },
                 GestureRecognizers = {
                 new TapGestureRecognizer {
-                        Command = new Command (()=>Navigation.PushAsync(new ReportPage())),
+                        Command = new Command (()=>reportProblem()),
                 },
                 },
                 Orientation = StackOrientation.Horizontal,
@@ -329,10 +330,30 @@ namespace LOSSPortable
         }//end GeneralAccountPage()
 
         //================ Functions (actions) for Each Toggle Switch   =========================================
+        private void Login()
+        {
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Login/ Register Portal");
+            }
+            Navigation.PushAsync(new LoginPage());
+        }
 
-        //default setting
+        private void reportProblem()
+        {
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Report A Problem");
+            }
+            Navigation.PushAsync(new ReportPage());
+        }
+
         async void resetPressed(object sender, EventArgs e)
         {
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Reset to Default Settings?");
+            }
             var result = await DisplayAlert("Reset application", "Reset app to default settings and delete any cached info?", "Yes", "No");
 
             if (result)
@@ -359,24 +380,29 @@ namespace LOSSPortable
                 this.Content.BackgroundColor = Colors.contrastBg;
                 event_label.Text = String.Format("High Contrast Mode Enabled? {0}", e.Value);
                 Helpers.Settings.ContrastSetting = e.Value;
-
             }
             else
             {
                 this.Content.BackgroundColor = Colors.background;
-                event_label.Text = String.Format("High Contrast Mode Enabled? {0}", e.Value);
+                event_label.Text = String.Format("High Contrast Mode Enabled?", e.Value);
                 Helpers.Settings.ContrastSetting = e.Value;
 
             }
 
+            if (Helpers.Settings.SpeechSetting == true && Helpers.Settings.ContrastSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Contrast Mode On");
+            }
+            else if (Helpers.Settings.SpeechSetting == true && Helpers.Settings.ContrastSetting == false)
+            {
+                CrossTextToSpeech.Current.Speak("Contrast Mode Off");
+            }
         }
-
 
         //void geolocation_switcher_Toggled(object sender, ToggledEventArgs e)
         //{
         //    event_label.Text = String.Format("Geolocation enabled? {0}", e.Value);
         //    Helpers.Settings.locationSetting = e.Value;
-
         //}
 
         //Text-to-Speech Implementation
@@ -388,13 +414,13 @@ namespace LOSSPortable
                 event_label.Text = String.Format("Text to Speech? {0}", e.Value);
                 CrossTextToSpeech.Current.Speak("Text to Speech Mode On");
                 Helpers.Settings.SpeechSetting = e.Value;
-
             }
             else
             {
                 event_label.Text = String.Format("Text to Speech? {0}", e.Value);
                 Helpers.Settings.SpeechSetting = e.Value;
             }
+
         }
 
         //Notifications On-Off
@@ -404,11 +430,9 @@ namespace LOSSPortable
             Helpers.Settings.PushSetting = e.Value;
             if (Helpers.Settings.SpeechSetting == true)
             {
-                CrossTextToSpeech.Current.Speak("Notification Mode" + e.Value);
+                CrossTextToSpeech.Current.Speak("Notification Mode On");
             }
-
         }
-
         //==================================================== Back Button Pressed ==============================================================
 
         protected override Boolean OnBackButtonPressed() // back button pressed

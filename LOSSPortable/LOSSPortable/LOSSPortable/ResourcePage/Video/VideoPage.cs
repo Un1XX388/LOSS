@@ -7,6 +7,7 @@ using System.Collections.Generic;
 namespace LOSSPortable{
 	//
 	public class VideoPage : ContentPage{
+
 		// Holds the layout for this page.
 		public WebView vid		= new WebView();
 		// Holds the url of the video for this page.

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plugin.TextToSpeech;
+using System;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 
@@ -60,6 +61,10 @@ namespace LOSSPortable
             ((ListView)sender).SelectedItem = null;
             // When given playlist is selected user is brought to the page listed below.
             var item = e.SelectedItem as OnlinePlaylistModel;
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak(item.Title);
+            }
             Navigation.PushAsync(new PlaylistPage(item.ID));
         }// End of Onselected() method.
     }// End of VideoResources class.

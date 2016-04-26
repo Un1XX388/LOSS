@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plugin.TextToSpeech;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,10 @@ namespace LOSSPortable{
 		public string	IconSource	{ get; set; }
 
 		public Type		TargetType	{ get; set; }
-	}// End of MasterPageItem class.
+
+       
+    }// End of MasterPageItem class.
+
+
+
 }// End of LOSSPortable namespace.

@@ -5,6 +5,7 @@ using Amazon.Util;
 using Newtonsoft.Json;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
+using Plugin.TextToSpeech;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -81,6 +82,10 @@ namespace LOSSPortable
 
         async private void CreateAccount_Clicked(object sender, System.EventArgs e)
         {
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Create Account");
+            }
 
             await getLocation();
             if(String.IsNullOrWhiteSpace(nickname.Text) || String.IsNullOrWhiteSpace(email.Text) || String.IsNullOrEmpty(password.Text))

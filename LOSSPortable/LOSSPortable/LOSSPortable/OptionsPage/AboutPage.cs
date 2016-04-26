@@ -10,6 +10,7 @@ namespace LOSSPortable
 {
     public class AboutPage : ContentPage
     {
+        Label aboutUs;
         public AboutPage()
         {
             //sets the background color based on settings
@@ -26,7 +27,7 @@ namespace LOSSPortable
             Title = "About Us";
             this.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);
 
-            Label info = new Label
+            aboutUs = new Label
             {
                 Text = "\t\tThis app, e-LOSSteam, builds on Dr. Frank R. Campbell’s vision of “an active model of postvention…to let suicide survivors know that resources exist as soon as possible following the death” through a program he dubbed LOSS (Local Outreach to Suicide Survivors) Team"+
                         "\n\n\t\tThis app was conceived by Dr.Regina T.Praetorius, PhD, LMSW - AP after collaborating with Dr.Campbell and others in her community to build a LOSS Team.While establishing her community’s team," + 
@@ -42,7 +43,7 @@ namespace LOSSPortable
 
             var maincontent = new StackLayout
             {
-                Children = { info },
+                Children = { aboutUs },
                 Padding = 10
 
             };
@@ -54,12 +55,16 @@ namespace LOSSPortable
             };
             this.Content = content;
 
-            if(Helpers.Settings.SpeechSetting == true)
-            {
-                CrossTextToSpeech.Current.Speak(info.Text);
-            }
         }
 
+        protected override void OnAppearing()
+        {
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak(aboutUs.Text);
+            }
+            base.OnAppearing();
+        }
         //stop text to speech when navigation bar back button is pressed
         protected override void OnDisappearing()
         {
@@ -69,17 +74,14 @@ namespace LOSSPortable
 
         }
 
+        //==================================================== Back Button Pressed ==============================================================
+
         //stop text to speech when phone back button is pressed
-        protected override bool OnBackButtonPressed()
+        protected override Boolean OnBackButtonPressed() // back button pressed
         {
-            // If you want to continue going back
-            base.OnBackButtonPressed();
             CrossTextToSpeech.Dispose();
-            return false;
-
-            // If you want to stop the back button
+            ((RootPage)App.Current.MainPage).NavigateTo();
             return true;
-
         }
     }
 }

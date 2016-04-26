@@ -193,30 +193,22 @@ namespace LOSSPortable
                 var sr = new StreamReader(resp.Payload);
                 var myStr = sr.ReadToEnd();
 
-                //System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
-                //System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
-                response tmp = JsonConvert.DeserializeObject<response>(myStr);
-                System.Diagnostics.Debug.WriteLine("Success: " + tmp.Success);
+                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
 
-                if(resp.StatusCode == 200)
+                response tmp = JsonConvert.DeserializeObject<response>(myStr);
+                //System.Diagnostics.Debug.WriteLine("Success: " + tmp.Success);
+
+                if (tmp.Success == "true")
                 {
                     Helpers.Settings.LoginSetting = true;
                     ((RootPage)App.Current.MainPage).NavigateTo();
+
                 }
                 else
                 {
                     UserDialogs.Instance.ShowError("Incorrect credentials. Please try again.");
                 }
-                //if (tmp.Success == "true")
-                //{
-                //    Helpers.Settings.LoginSetting = true;
-                //    ((RootPage)App.Current.MainPage).NavigateTo();
-
-                //}
-                //else
-                //{
-                //    UserDialogs.Instance.ShowError("Incorrect credentials. Please try again.");
-                //}
 
             }
             catch (Exception e)

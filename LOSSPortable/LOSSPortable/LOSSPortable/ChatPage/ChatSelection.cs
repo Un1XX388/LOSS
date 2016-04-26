@@ -96,7 +96,7 @@ namespace LOSSPortable
             Icon = "Accounts.png";
 
             //Take this out once this is being assigned by the login
-            Helpers.Settings.IsVolunteer = false;
+            Helpers.Settings.IsVolunteer = true;
 
 
             if (Helpers.Settings.IsVolunteer)
