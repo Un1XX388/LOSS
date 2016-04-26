@@ -39,17 +39,29 @@ namespace LOSSPortable
             }
             this.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);
 
-            Image edit = new Image
+            Image nickname = new Image
             {
                 Source = Device.OnPlatform(
-                        iOS: ImageSource.FromFile("edituser.png"),
-                        Android: ImageSource.FromFile("edituser.png"),
-                        WinPhone: ImageSource.FromFile("edituser.png")),
-                HorizontalOptions = LayoutOptions.End
+                        iOS: ImageSource.FromFile("nickname.png"),
+                        Android: ImageSource.FromFile("nickname.png"),
+                        WinPhone: ImageSource.FromFile("nickname.png")),
+                        HorizontalOptions = LayoutOptions.Start
             };
 
-            username = new Entry { Text = Helpers.Settings.UsernameSetting, BackgroundColor = Color.White, TextColor = Color.Black, IsEnabled = false, HorizontalOptions = LayoutOptions.StartAndExpand };
-            StackLayout user = new StackLayout { Children = { username, edit } };
+            username = new Entry {
+                Placeholder = Helpers.Settings.UsernameSetting,
+                BackgroundColor = Color.White,
+                TextColor = Color.Black,
+                HorizontalOptions = LayoutOptions.FillAndExpand
+            };
+            username.TextChanged += Username_TextChanged;
+
+            StackLayout user = new StackLayout {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                Orientation = StackOrientation.Horizontal,
+                Children = { nickname, username }
+            };
+
             email = new Label { Text = "Email:  " + Helpers.Settings.EmailSetting, TextColor = Color.White, FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label))};
 
             event_label = new Label
@@ -306,6 +318,7 @@ namespace LOSSPortable
                 HeightRequest = 40,
                 WidthRequest = 300
             };
+
             logout.Clicked += Logout_Clicked;
 
             //========== Page Content where everything needs to be inserted=============================================
@@ -314,7 +327,7 @@ namespace LOSSPortable
             {
 
                 Children = { new BoxView() { Color = Color.Transparent, HeightRequest = 4  },
-                            username,
+                            user,
                             new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
                             email,
                             new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
@@ -352,6 +365,35 @@ namespace LOSSPortable
 
         }//end GeneralAccountPage()
 
+        private async void Username_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Helpers.Settings.UsernameSetting = username.Text;
+            try
+            {
+                UserItem user = new UserItem { Item = new UserLogin { Nickname = username.Text} };
+                MessageJson messageJson = new MessageJson { operation = "update", tableName = "User", payload = user };
+                string args = JsonConvert.SerializeObject(messageJson);
+                //System.Diagnostics.Debug.WriteLine(args);
+                var ir = new InvokeRequest()
+                {
+                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                    InvocationType = InvocationType.RequestResponse
+                };
+                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+
+
+                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+                resp.Payload.Position = 0;
+                var sr = new StreamReader(resp.Payload);
+                var myStr = sr.ReadToEnd();
+            }
+            catch (Exception e2)
+            {
+                System.Diagnostics.Debug.WriteLine("Error:" + e2);
+            }
+
+        }
 
         private void reportProblem()
         {
@@ -506,8 +548,11 @@ namespace LOSSPortable
 
             var email = new ExtendedEntryCell
             {
+                
                 Label = "Email: ",
-                Placeholder = "Email"
+                Placeholder = "Email",
+                Keyboard = Keyboard.Email,
+                IsPassword = false
                 // LabelColor = Color.Black
             };
             var oldPswd = new ExtendedEntryCell

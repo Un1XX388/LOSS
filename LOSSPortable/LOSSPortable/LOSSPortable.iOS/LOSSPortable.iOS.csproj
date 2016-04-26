@@ -378,9 +378,6 @@
     <BundleResource Include="Resources\about.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\account.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\playlist.png" />
   </ItemGroup>
   <ItemGroup>
@@ -388,6 +385,9 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\web.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\account.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
