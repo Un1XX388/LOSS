@@ -389,6 +389,12 @@
   <ItemGroup>
     <AndroidResource Include="Resources\account.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\email.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\username.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

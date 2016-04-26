@@ -16,7 +16,7 @@ namespace LOSSPortable
     public class RegisteredAccountPage : ContentPage
     {
         Entry username;
-        Label email;
+        Entry email;
         StackLayout mainContent;
         Label event_label;
         Switch contrast_switcher;
@@ -42,9 +42,9 @@ namespace LOSSPortable
             Image nickname = new Image
             {
                 Source = Device.OnPlatform(
-                        iOS: ImageSource.FromFile("nickname.png"),
-                        Android: ImageSource.FromFile("nickname.png"),
-                        WinPhone: ImageSource.FromFile("nickname.png")),
+                        iOS: ImageSource.FromFile("username.png"),
+                        Android: ImageSource.FromFile("username.png"),
+                        WinPhone: ImageSource.FromFile("username.png")),
                         HorizontalOptions = LayoutOptions.Start
             };
 
@@ -62,7 +62,30 @@ namespace LOSSPortable
                 Children = { nickname, username }
             };
 
-            email = new Label { Text = "Email:  " + Helpers.Settings.EmailSetting, TextColor = Color.White, FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label))};
+            Image emailIcon = new Image
+            {
+                Source = Device.OnPlatform(
+                       iOS: ImageSource.FromFile("email.png"),
+                       Android: ImageSource.FromFile("email.png"),
+                       WinPhone: ImageSource.FromFile("email.png")),
+                HorizontalOptions = LayoutOptions.Start
+            };
+            email = new Entry
+            {
+                Placeholder = Helpers.Settings.EmailSetting,
+                BackgroundColor = Color.White,
+                PlaceholderColor = Color.Black,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                IsEnabled = false
+            };
+        //    email = new Label { Text = "Email:  " + Helpers.Settings.EmailSetting, TextColor = Color.White, FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label))};
+
+            StackLayout emailLayout = new StackLayout
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                Orientation = StackOrientation.Horizontal,
+                Children = { emailIcon, email }
+            };
 
             event_label = new Label
             {
@@ -329,7 +352,7 @@ namespace LOSSPortable
                 Children = { new BoxView() { Color = Color.Transparent, HeightRequest = 4  },
                             user,
                             new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
-                            email,
+                            emailLayout,
                             new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.5  },
                             new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
                             generalSettings,
