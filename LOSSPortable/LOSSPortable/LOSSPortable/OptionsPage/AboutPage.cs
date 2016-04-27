@@ -68,10 +68,18 @@ namespace LOSSPortable
         //stop text to speech when navigation bar back button is pressed
         protected override void OnDisappearing()
         {
+			System.Diagnostics.Debug.WriteLine ("inside OnDisppearing method");
+			if (Device.OS == TargetPlatform.iOS) 
+			{
+				System.Diagnostics.Debug.WriteLine ("if targetplatform ios");
+
+				Content = null;			
+			}
             CrossTextToSpeech.Dispose();
+			System.Diagnostics.Debug.WriteLine ("after dispose");
 
-            base.OnDisappearing();
-
+			base.OnDisappearing();
+	
         }
 
         //==================================================== Back Button Pressed ==============================================================

@@ -139,11 +139,11 @@ namespace LOSSPortable
 
         //    int count = Convert.ToInt32(e.SelectedItem.ToString().Split(',')[5]);
 
+			WebView webview = new WebView();
+
             //checks if the item type is pdf or website
             if (select.Type == "PDF")
             {
-                
-                WebView webview = new WebView();
                 //http://stackoverflow.com/questions/2655972/how-can-i-display-a-pdf-document-into-a-webview
                 //using google docs viewer
                 webview.Source = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + link;
@@ -153,21 +153,17 @@ namespace LOSSPortable
                     Title = title,
                     Content = webview
                 });
-						
             }
             else
-            {
-                WebView webView = new WebView
-                {
-					Source = link,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-					HorizontalOptions = LayoutOptions.FillAndExpand
-                };
+			{
+				webview.Source = link;
+				webview.VerticalOptions = LayoutOptions.FillAndExpand;
+				webview.HorizontalOptions = LayoutOptions.FillAndExpand;
 
                 Navigation.PushAsync(new ContentPage()
                 {
                     Title = title,
-                    Content = webView
+                    Content = webview
                 });
 							
             }
