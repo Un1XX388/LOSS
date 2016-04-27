@@ -98,20 +98,17 @@ namespace LOSSPortable
 
             endConversation.Clicked += async (s, e) =>
             {
-                //called when the conversation is to be ended.
-                Helpers.Settings.ConversationOn = false;
-                if (Helpers.Settings.IsVolunteer)
-                {
-
-                }
-                startConversation.Text = "Start Conversation";
                 await terminateConversation();
                 startConversationPath();
             };
-
-
-            
-
+            if (Helpers.Settings.ChatActiveSetting)
+            {
+                this.chatAvailability.Text = "Available";
+            }
+            else
+            {
+                this.chatAvailability.Text = "Not available";
+            }
             
             var tmp = new StackLayout
             {
@@ -188,7 +185,7 @@ namespace LOSSPortable
             }
             else
             {
-                startConversation.Text = "Continue Conversation";
+                startConversation.Text = "Enter Conversation";
                 startConversation.IsEnabled = true;
                 nameEntry.IsEnabled = false;
                 endConversation.IsVisible = true;
@@ -212,7 +209,6 @@ namespace LOSSPortable
                 startConversation.IsEnabled = true;
                 endConversation.IsVisible = false;
                 nameEntry.IsEnabled = true;
-                Helpers.Settings.ConversationOn = false;
                 startConversation.Clicked -= ContinueConversationEvent;
                 startConversation.Clicked += InitiateConversationEvent;
             }        
@@ -318,8 +314,8 @@ namespace LOSSPortable
                 UserInfoItem message = new UserInfoItem { Item = new UserInfo { } }; //Helpers.Settings.EndpointArnSetting
                 UserInfoJson messageJson = new UserInfoJson { operation = "newConversation", tableName = "User", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
-                
-            var ir = new InvokeRequest()
+                System.Diagnostics.Debug.WriteLine("newConversation: " + args);
+                var ir = new InvokeRequest()
                 {
                     FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
                     PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
@@ -332,6 +328,7 @@ namespace LOSSPortable
                 var myStr = sr.ReadToEnd();
                 Boolean failure = false;
                 try {
+                    System.Diagnostics.Debug.WriteLine("newConversations : " + myStr);
                     var response = JsonConvert.DeserializeObject<ConversationResponse>(myStr);
                     if (response.Success == "true")
                     {
@@ -362,7 +359,7 @@ namespace LOSSPortable
             UserInfoItem message = new UserInfoItem { Item = new UserInfo { ID = Helpers.Settings.ToFromArn } }; //Helpers.Settings.EndpointArnSetting
             UserInfoJson messageJson = new UserInfoJson { operation = "stopConversation", tableName = "User", payload = message };
             string args = JsonConvert.SerializeObject(messageJson);
-
+            System.Diagnostics.Debug.WriteLine("stopConversation: " + args);
             var ir = new InvokeRequest()
             {
                 FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
@@ -375,6 +372,7 @@ namespace LOSSPortable
             resp.Payload.Position = 0;
             var sr = new StreamReader(resp.Payload);
             var myStr = sr.ReadToEnd();
+            System.Diagnostics.Debug.WriteLine("stopConversation : " + myStr);
             this.nickName = "";
             Helpers.Settings.ToFromArn = "";
         }
@@ -385,6 +383,7 @@ namespace LOSSPortable
             UserInfoJson messageJson = new UserInfoJson { operation = "currentConversations", tableName = "User", payload = message };
             string args = JsonConvert.SerializeObject(messageJson);
 
+            System.Diagnostics.Debug.WriteLine("currentConversation: " + args);
             var ir = new InvokeRequest()
             {
                 FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
@@ -402,6 +401,7 @@ namespace LOSSPortable
             {
 
                 var response = JsonConvert.DeserializeObject<ConversationResponse>(myStr);
+                System.Diagnostics.Debug.WriteLine("currentConversations : " + myStr);
                 if (response.Success == "true")
                 {
                     nickName = response.Nickname;

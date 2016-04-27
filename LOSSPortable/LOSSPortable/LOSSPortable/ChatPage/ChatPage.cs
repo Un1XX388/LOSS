@@ -559,13 +559,13 @@ namespace LOSSPortable
         //-------------------------Caching---------------------------------
 
 
-
+        
         protected override void OnDisappearing() //leaving the page ->cache history
         {
-
+            base.OnDisappearing();
             editor.Keyboard = null;
             editor.Unfocus();
-            
+            MessagingCenter.Unsubscribe<App>(this, "HandshakeEnd");
             System.Diagnostics.Debug.WriteLine("unfocused.");
             MessagingCenter.Send<ChatPage>(this, "End");
 

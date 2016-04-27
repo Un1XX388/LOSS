@@ -10,7 +10,7 @@ namespace LOSSPortable{
         public RangeObservableCollection<OnlineVViewModel> vids { get; set; }
         
 		// Gets all relavent info for each video and determines how it should be displayed.
-		public PlaylistPage(string playList){
+		public PlaylistPage(string playList, string title){
             System.Diagnostics.Debug.WriteLine("PlayList Selected : " + playList);
             //sets the background color based on settings
             if (Helpers.Settings.ContrastSetting == true)
@@ -41,7 +41,7 @@ namespace LOSSPortable{
 			// Set size (height) of each element displayed on this page.
 			VidLstView.RowHeight	= 100;
 			// Set the title of this page.
-			this.Title				= "Uptown Special";
+			this.Title				= title;
 			// Set the source of data for page's list view.
 			VidLstView.ItemsSource	= vids;
 			// Set layout for each element in this list view.

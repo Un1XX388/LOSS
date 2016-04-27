@@ -23,11 +23,13 @@ namespace LOSSPortable
 
         protected override void OnStart()
         {
-            Helpers.Settings.IsVolunteer = true;
+            Helpers.Settings.IsVolunteer = false;
             AmazonUtils.updateInspirationalQuoteList();
             AmazonUtils.updateOnlineRList();
             AmazonUtils.updateOnlineVList();
             AmazonUtils.updateOnlinePlaylist();
+            ChatPageActive = false;
+            ChatSelectionPageActive = false;
             MessagingCenter.Subscribe<ChatPage>(this, "Start", (sender) =>
             {
                 ChatPageActive = true;
@@ -65,15 +67,6 @@ namespace LOSSPortable
             return ChatPageActive;
         }
 
-
-        /*
-            {
-            "Seen": "False",
-            "Text": "Hello",
-            "Time": "2016-04-06 16:38:08.618757",
-            "ToFrom": "U-79854921478565921900#R-6031175061964857259"
-            }
-         */
         public void parseMessageObject(string msg)
         {
             Device.BeginInvokeOnMainThread(() =>
