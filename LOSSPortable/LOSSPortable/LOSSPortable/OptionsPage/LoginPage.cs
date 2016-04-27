@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.ServiceModel.Channels;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -116,41 +117,66 @@ namespace LOSSPortable
             var s = await UserDialogs.Instance.PromptAsync(new PromptConfig
             {
                 Message = "Enter E-Mail",
-                Placeholder = "you@example.com"
+                Placeholder = "youremail@example.com",
+                InputType = InputType.Email
             });
             var stat = s.Ok ? "Success" : "Cancelled";
             // System.Diagnostics.Debug.WriteLine(stat, s);
-
+           
             if (stat == "Success")
             {
                 System.Diagnostics.Debug.WriteLine(stat + s.Text);
-                try
-                {
-                    UserItem user = new UserItem { Item = new UserLogin { Email = s.Text, Arn = "" + Helpers.Settings.EndpointArnSetting } };
-                    MessageJson messageJson = new MessageJson { operation = "forgotPassword", tableName = "User", payload = user };
-                    string args = JsonConvert.SerializeObject(messageJson);
-
-                    //System.Diagnostics.Debug.WriteLine(args);
-                    var ir = new InvokeRequest()
+                //if (!(Regex.Match(s.Text, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success))
+                //{
+                //    UserDialogs.Instance.ShowError("Invalid Email. Please try again.");
+                //}
+                //else
+                //{
+                    try
                     {
-                        FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
-                        PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
-                        InvocationType = InvocationType.RequestResponse
-                    };
-                    //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+                        UserItem user = new UserItem { Item = new UserLogin { Email = s.Text.TrimEnd(), Arn = "" + Helpers.Settings.EndpointArnSetting } };
+                        MessageJson messageJson = new MessageJson { operation = "forgotPassword", tableName = "User", payload = user };
+                        string args = JsonConvert.SerializeObject(messageJson);
 
-                    InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
-                    resp.Payload.Position = 0;
-                    var sr = new StreamReader(resp.Payload);
-                    var myStr = sr.ReadToEnd();
+                        //System.Diagnostics.Debug.WriteLine(args);
+                        var ir = new InvokeRequest()
+                        {
+                            FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                            PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                            InvocationType = InvocationType.RequestResponse
+                        };
+                        //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+
+                        InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+                        resp.Payload.Position = 0;
+                        var sr = new StreamReader(resp.Payload);
+                        var myStr = sr.ReadToEnd();
+
+                        System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                        System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+
+                        response tmp = JsonConvert.DeserializeObject<response>(myStr);
+                        //System.Diagnostics.Debug.WriteLine("Success: " + tmp.Success);
+
+                        if (tmp.Success == "true")
+                        {
+                            UserDialogs.Instance.ShowSuccess("Your password has been reset. Please check your email.");
+
+                        }
+                        else
+                        {
+                            UserDialogs.Instance.ShowError("Incorrect email. Please try again.");
+                        }
 
                     //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
                     //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
                 }
-                catch (Exception e)
-                {
-                    System.Diagnostics.Debug.WriteLine("Error:" + e);
-                }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Error:" + e);
+                    }
+
+              //  }
             }
         }
 
@@ -172,50 +198,61 @@ namespace LOSSPortable
 
         async private Task PushUser() //Function to create a Json object and send to server using a lambda function
         {
-            getLocation();
-            try
-            {
-                UserItem user = new UserItem { Item = new UserLogin { Latitude = latitude, Longitude = longitude, Password = password.Text, Email = email.Text, Arn = "" + Helpers.Settings.EndpointArnSetting } };
-                MessageJson messageJson = new MessageJson { operation = "update", tableName = "User", payload = user };
-                string args = JsonConvert.SerializeObject(messageJson);
-                //System.Diagnostics.Debug.WriteLine(args);
-                var ir = new InvokeRequest()
+            //if (!(Regex.Match(email.Text, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success))
+            //{
+            //    UserDialogs.Instance.ShowError("Invalid Email. Please try again.");
+            //}
+            //else
+            //{
+                getLocation();
+                try
                 {
-                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
-                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
-                    InvocationType = InvocationType.RequestResponse
-                };
-                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+                    UserItem user = new UserItem { Item = new UserLogin { Latitude = latitude, Longitude = longitude, Password = password.Text, Email = email.Text, Arn = "" + Helpers.Settings.EndpointArnSetting } };
+                    MessageJson messageJson = new MessageJson { operation = "update", tableName = "User", payload = user };
+                    string args = JsonConvert.SerializeObject(messageJson);
+                    //System.Diagnostics.Debug.WriteLine(args);
+                    var ir = new InvokeRequest()
+                    {
+                        FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                        PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
+                        InvocationType = InvocationType.RequestResponse
+                    };
+                    //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
 
 
-                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
-                resp.Payload.Position = 0;
-                var sr = new StreamReader(resp.Payload);
-                var myStr = sr.ReadToEnd();
+                    InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
+                    resp.Payload.Position = 0;
+                    var sr = new StreamReader(resp.Payload);
+                    var myStr = sr.ReadToEnd();
 
-                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
-                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+                    System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                    System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
 
-                response tmp = JsonConvert.DeserializeObject<response>(myStr);
-                //System.Diagnostics.Debug.WriteLine("Success: " + tmp.Success);
+                    response tmp = JsonConvert.DeserializeObject<response>(myStr);
+                    //System.Diagnostics.Debug.WriteLine("Success: " + tmp.Success);
 
-                if (tmp.Success == "true")
-                {
-                    Helpers.Settings.LoginSetting = true;
-                    ((RootPage)App.Current.MainPage).NavigateTo();
+                    if (tmp.Success == "true")
+                    {
+                        Helpers.Settings.LoginSetting = true;
+                        ((RootPage)App.Current.MainPage).NavigateTo();
+                        if (tmp.ActualUserType == "Volunteer")
+                        {
+                            Helpers.Settings.IsVolunteer = true;
+                        }
+                    }
+                    else
+                    {
+                        UserDialogs.Instance.ShowError("Incorrect credentials. Please try again.");
+                    }
 
                 }
-                else
+                catch (Exception e)
                 {
-                    UserDialogs.Instance.ShowError("Incorrect credentials. Please try again.");
+                    System.Diagnostics.Debug.WriteLine("Error:" + e);
                 }
 
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine("Error:" + e);
-            }
 
+            //}
         }
 
         async private Task getLocation()
@@ -267,6 +304,7 @@ namespace LOSSPortable
         public string CognitoID { get; set; }
         public string Arn { get; set; }
         public string Success { get; set; }
+        public string ActualUserType { get; set; }
     }
 
 }

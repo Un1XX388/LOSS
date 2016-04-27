@@ -311,8 +311,8 @@
     <AndroidResource Include="Resources\drawable\watched.png" />
     <AndroidResource Include="Resources\drawable\web.png" />
     <AndroidResource Include="Resources\drawable\splash.png" />
-    <AndroidResource Include="Resources\drawable\nickname.png" />
-    <AndroidResource Include="Resources\drawable\edituser.png" />
+    <AndroidResource Include="Resources\drawable\username.png" />
+    <AndroidResource Include="Resources\drawable\email.png" />
     <Content Include="Resources\login.png" />
     <Content Include="Resources\logout.png" />
   </ItemGroup>
