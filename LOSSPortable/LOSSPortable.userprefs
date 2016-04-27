@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="LOSSPortable\LOSSPortable.Droid\LOSSPortable.Droid.csproj">
+﻿<Properties StartupItem="LOSSPortable/LOSSPortable.iOS/LOSSPortable.iOS.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.Nexus_5_API_23_x86" />
   <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

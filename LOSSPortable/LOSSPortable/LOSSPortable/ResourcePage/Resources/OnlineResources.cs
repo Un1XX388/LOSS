@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Acr.UserDialogs;
 
 namespace LOSSPortable
 {
@@ -134,6 +135,8 @@ namespace LOSSPortable
             {
                 CrossTextToSpeech.Current.Speak(title);
             }
+			UserDialogs.Instance.ShowLoading();
+
         //    int count = Convert.ToInt32(e.SelectedItem.ToString().Split(',')[5]);
 
             //checks if the item type is pdf or website
@@ -150,16 +153,15 @@ namespace LOSSPortable
                     Title = title,
                     Content = webview
                 });
+						
             }
             else
             {
                 WebView webView = new WebView
                 {
-                    Source = new UrlWebViewSource
-                    {
-                        Url = link,
-                    },
-                    VerticalOptions = LayoutOptions.FillAndExpand
+					Source = link,
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+					HorizontalOptions = LayoutOptions.FillAndExpand
                 };
 
                 Navigation.PushAsync(new ContentPage()
@@ -167,7 +169,11 @@ namespace LOSSPortable
                     Title = title,
                     Content = webView
                 });
+							
             }
+
+			UserDialogs.Instance.HideLoading();
+
         }// End of Onselected() method.
 
         protected override void OnDisappearing()

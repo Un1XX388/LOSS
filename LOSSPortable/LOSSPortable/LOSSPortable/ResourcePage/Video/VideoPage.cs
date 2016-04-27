@@ -17,6 +17,15 @@ namespace LOSSPortable{
 		public VideoPage(string pageTitle, string vidURL){
 			// Title of page.
 
+			//sets the background color based on settings
+			if (Helpers.Settings.ContrastSetting == true) 
+			{
+				BackgroundColor = Colors.contrastBg;
+			} 
+			else 
+			{
+				BackgroundColor = Colors.background;
+			}
             
 			Title					= pageTitle;
 			// Set url for this page.

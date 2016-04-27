@@ -28,15 +28,15 @@ namespace LOSSPortable.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
-            if (options.ContainsKey(UIApplication.LaunchOptionsRemoteNotificationKey))
-            {
-
-                NSDictionary remoteNotification = options[UIApplication.LaunchOptionsRemoteNotificationKey] as NSDictionary;
-                if (remoteNotification != null)
-                {
-                    //new UIAlertView(remoteNotification.AlertAction, remoteNotification.AlertBody, null, "OK", null).Show();
-                }
-            }
+           // if (options.ContainsKey(UIApplication.LaunchOptionsRemoteNotificationKey))
+//            {
+//
+//                NSDictionary remoteNotification = options[UIApplication.LaunchOptionsRemoteNotificationKey] as NSDictionary;
+//                if (remoteNotification != null)
+//                {
+//                    //new UIAlertView(remoteNotification.AlertAction, remoteNotification.AlertBody, null, "OK", null).Show();
+//                }
+//            }
 
             if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
             {

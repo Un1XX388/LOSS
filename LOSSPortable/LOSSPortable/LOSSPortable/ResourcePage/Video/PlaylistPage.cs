@@ -44,6 +44,7 @@ namespace LOSSPortable{
 			this.Title				= "Uptown Special";
 			// Set the source of data for page's list view.
 			VidLstView.ItemsSource	= vids;
+			VidLstView.BackgroundColor = BackgroundColor;
 			// Set layout for each element in this list view.
 			VidLstView.ItemTemplate	= new DataTemplate(typeof(VideoCell));
 			// Set behavior of element when selected by user.
