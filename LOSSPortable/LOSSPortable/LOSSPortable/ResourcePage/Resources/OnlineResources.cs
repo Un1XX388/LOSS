@@ -147,6 +147,8 @@ namespace LOSSPortable
                 //http://stackoverflow.com/questions/2655972/how-can-i-display-a-pdf-document-into-a-webview
                 //using google docs viewer
                 webview.Source = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + link;
+                webview.VerticalOptions = LayoutOptions.FillAndExpand;
+                webview.HorizontalOptions = LayoutOptions.FillAndExpand;
 
                 Navigation.PushAsync(new ContentPage()
                 {

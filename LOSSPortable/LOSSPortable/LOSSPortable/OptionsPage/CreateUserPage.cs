@@ -152,7 +152,6 @@ namespace LOSSPortable
                 latitude = 0.00;
                 longitude = 0.00;
             }
-
         }
 
         async private void OnPositionChanged(object sender, PositionEventArgs e)

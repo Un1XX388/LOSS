@@ -12,6 +12,7 @@ namespace LOSSPortable
 
 		public Boolean HardwareAccelerated { get; set; }
         public Boolean ChatPageActive { get; set; }
+        public Boolean ChatSelectionPageActive { get; set; }
 
         public App()
         {
@@ -27,6 +28,8 @@ namespace LOSSPortable
             AmazonUtils.updateOnlineRList();
             AmazonUtils.updateOnlineVList();
             AmazonUtils.updateOnlinePlaylist();
+            ChatPageActive = false;
+            ChatSelectionPageActive = false;
             MessagingCenter.Subscribe<ChatPage>(this, "Start", (sender) =>
             {
                 ChatPageActive = true;
@@ -35,6 +38,16 @@ namespace LOSSPortable
             {
                 ChatPageActive = false;
             });
+            MessagingCenter.Subscribe<ChatSelection>(this, "Start", (sender) =>
+            {
+                ChatSelectionPageActive = true;
+            });
+            MessagingCenter.Subscribe<ChatSelection>(this, "End", (sender) =>
+            {
+                ChatSelectionPageActive = false;
+            });
+
+
             // Handle when your app starts
         }
 
@@ -54,15 +67,6 @@ namespace LOSSPortable
             return ChatPageActive;
         }
 
-
-        /*
-            {
-            "Seen": "False",
-            "Text": "Hello",
-            "Time": "2016-04-06 16:38:08.618757",
-            "ToFrom": "U-79854921478565921900#R-6031175061964857259"
-            }
-         */
         public void parseMessageObject(string msg)
         {
             Device.BeginInvokeOnMainThread(() =>

@@ -65,7 +65,7 @@ namespace LOSSPortable
             {
                 CrossTextToSpeech.Current.Speak(item.Title);
             }
-            Navigation.PushAsync(new PlaylistPage(item.ID));
+            Navigation.PushAsync(new PlaylistPage(item.ID, item.Title));
         }// End of Onselected() method.
     }// End of VideoResources class.
 }// End of namespace LOSS.
