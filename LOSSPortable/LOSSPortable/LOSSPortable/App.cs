@@ -23,6 +23,7 @@ namespace LOSSPortable
 
         protected override void OnStart()
         {
+            Constants.date = DateTime.UtcNow.AddDays(-1);
             Helpers.Settings.IsVolunteer = true;
             AmazonUtils.updateInspirationalQuoteList();
             AmazonUtils.updateOnlineRList();

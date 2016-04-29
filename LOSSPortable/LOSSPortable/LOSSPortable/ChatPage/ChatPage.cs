@@ -25,8 +25,6 @@ namespace LOSSPortable
     public class ChatPage : ContentPage
     {
         private String talkingToNickname = "User";
-        private String talkingToID;
-        private String Key;
         private Button send;
         List<string> Messages = new List<string>();
         private Grid gridLayout;
@@ -35,20 +33,17 @@ namespace LOSSPortable
         private int MessageCount;
         private Entry editor = new Entry();
         CancellationTokenSource ct = new CancellationTokenSource();
-
-        private double longitude;
-        private double latitude;
-
-
+        private Boolean terminate;
+        private DateTime date;
         String name;
         //        List<Message> msgs = new List<Message>(); //history of messaging
-        public static Conversation conv = new Conversation();
         
-
+        
         public ChatPage(string UserName)  //use the key to store
         {
 
-
+            date = Constants.date;
+            terminate = true;
             if (UserName == "" || UserName == "Enter your name: " || UserName == null)
             {
                 this.name = "Anonymous";
@@ -78,7 +73,6 @@ namespace LOSSPortable
             
             editor.Placeholder = "Enter Message: ";
 
-            
             editor.Focused += delegate {
 
                 System.Diagnostics.Debug.WriteLine("messages count = " + MessageCount);
@@ -98,6 +92,9 @@ namespace LOSSPortable
 
             send = new Button { Text = "Send", TextColor = Color.White, BackgroundColor = Color.Gray, HorizontalOptions = LayoutOptions.FillAndExpand};
 
+
+            
+
             //upon sending a message
             send.Clicked += delegate {
                 String mes = editor.Text;
@@ -114,7 +111,6 @@ namespace LOSSPortable
                     DisplayAlert("Alert", "Processor Usage" + ex.Message + mes, "OK");
                 }
 
-
                 ChatMessage message = new ChatMessage();
                 //constructor:
                 message.ToFrom = "" + AmazonUtils.Credentials.GetIdentityId() + "#" + AmazonUtils.Credentials.GetIdentityId();
@@ -128,9 +124,9 @@ namespace LOSSPortable
                 // "Sender: ", mes, "drawable/prof.png", " " + currentTime() );
                 //msgs.Add(message);
 
-                System.Diagnostics.Debug.WriteLine("message info: " + message.ToFrom + message.Time + message.Text);
+                //System.Diagnostics.Debug.WriteLine("message info: " + message.ToFrom + message.Time + message.Text);
                 DisplayResponse(message);
-                conv.msgs.Add(message);
+                Constants.conv.msgs.Add(message);
                 MessageCount++;
                 sendMessage(message);
             };
@@ -190,11 +186,11 @@ namespace LOSSPortable
                 innerScroll.HeightRequest =  App.ScreenHeight - 200; //440  -- change of 200;
                 System.Diagnostics.Debug.WriteLine("window size set to: " + innerSize);
                 Content = outerStack;
-                Title = "" + conv.name;
+                Title = "" + Constants.conv.name;
                 
             });
 
-            refreshView();
+            //refreshView();
         }
 
         //individual message tapped in chat:
@@ -307,20 +303,7 @@ namespace LOSSPortable
             return name;
         }
 
-        public void setChat(List<ChatMessage> msgs)
-        {
-            foreach (ChatMessage m in msgs)
-            {
-                conv.msgs.Add(m);
-            }
-            conv.name = this.name;
-            refreshView();
-        }
-        public List<ChatMessage> getChat()
-        {
-            return conv.msgs;
-        }
-
+        
         public String currentTime()
         {
             var datetime = DateTime.Now;
@@ -334,19 +317,16 @@ namespace LOSSPortable
 
         public void deleteMessage(String id)
         {
-            ChatMessage found = conv.msgs.Find(x => x.Id == id);
-            conv.msgs.Remove(found);
+            ChatMessage found = Constants.conv.msgs.Find(x => x.Id == id);
+            Constants.conv.msgs.Remove(found);
             MessageCount--;
             
-
             refreshView();
         }
 
         public void refreshView()
         {
-       //     gridLayout.Children.Clear();
-
-            foreach (ChatMessage msg in conv.msgs) //INITIALIZE HISTORY OF MESSAGES
+            foreach (ChatMessage msg in Constants.conv.msgs)
             {
                 DisplayResponse(msg);
             }
@@ -372,10 +352,8 @@ namespace LOSSPortable
             System.Diagnostics.Debug.WriteLine("trying to send to server: ");   
             //message sending to server:
             try{
-                await PushMessage(message.ToFrom, message.Text);
-                //await SaveAsync<ChatMessage>(message, ct.Token);
-                //await messageServer(message.Text, message.ToFrom);
-                //System.Diagnostics.Debug.WriteLine("message sent to the server.");
+                //DisplayResponse(message);
+                await PushMessage(message.Text);
                 }
             catch(Exception E)
             {
@@ -388,21 +366,22 @@ namespace LOSSPortable
         {
             List<ChatMessage> msgs = new List<ChatMessage>();
             foreach (MessageLst i in MessageList){
-                msgs.Add(singleMessageFromServer(i.ToFrom, i.Time, i.Text));
+                Constants.conv.msgs.Add(singleMessageFromServer(i.ToFrom, i.Time, i.Text));
             }
-            setChat(msgs); //sets the chat to show the message history.
+            //setChat(msgs); //sets the chat to show the message history.
+            refreshView();
         }
 
         public ChatMessage singleMessageFromServer(String ToFrom, String Time, String Message)    //upon recieving a single message.
         {
             string Sender;
-            if (ToFrom.StartsWith(conv.id))
+            if (ToFrom.StartsWith(Constants.conv.id))
             {
                 Sender = this.name;
             }
             else
             {
-                Sender = conv.name;
+                Sender = Constants.conv.name;
             }
             ChatMessage newMsg = new ChatMessage()
             {
@@ -413,12 +392,15 @@ namespace LOSSPortable
                 Time = "",
                 ToFrom = ToFrom
             };
-            newMsg.Time = Time.Substring(11, 2) + ":" + Time.Substring(14, 2); //change to only include HH:mm
+            DateTime dt = Convert.ToDateTime(Time);
+            var diff = DateTime.UtcNow - DateTime.Now;
+            
+            newMsg.Time = (dt - diff).ToString("HH:mm"); //change to only include HH:mm
             return newMsg;
         }
 
         //-------------------------Server----------------------------------
-        async private Task PushMessage(string toFrom, string text) //Function to create a Json object and send to server using a lambda function
+        async private Task PushMessage(string text) //Function to create a Json object and send to server using a lambda function
         {
             try
             {
@@ -453,14 +435,7 @@ namespace LOSSPortable
         {
             try
             {
-                UserInfoItem message;
-                if (conv.msgs.Count > 0) {
-                    message = new UserInfoItem { Item = new MessageLst { ToFrom = Helpers.Settings.ToFromArn, Time = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss:ffff") } }; //Helpers.Settings.EndpointArnSetting
-                }
-                else
-                {
-                    message = new UserInfoItem { Item = new MessageLst { ToFrom = Helpers.Settings.ToFromArn, Time = DateTime.UtcNow.AddDays(-1).ToString("yyyy-MM-dd HH:mm:ss:ffff")} }; //Helpers.Settings.EndpointArnSetting
-                }
+                UserInfoItem message = new UserInfoItem { Item = new MessageLst { ToFrom = Helpers.Settings.ToFromArn, Time = date.ToString("yyyy-MM-dd HH:mm:ss:ffff") } }; //Helpers.Settings.EndpointArnSetting
                 UserInfoJson messageJson = new UserInfoJson { operation = "read", tableName = "Message", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
                 var ir = new InvokeRequest()
@@ -470,14 +445,13 @@ namespace LOSSPortable
                     InvocationType = InvocationType.RequestResponse
                 };
 
-
                 InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
                 resp.Payload.Position = 0;
                 var sr = new StreamReader(resp.Payload);
                 var myStr = sr.ReadToEnd();
                 try
                 {
-                    System.Diagnostics.Debug.WriteLine("newConversations : " + myStr);
+                    System.Diagnostics.Debug.WriteLine("Returned Messages : " + myStr);
                     var response = JsonConvert.DeserializeObject<ConversationResponse>(myStr);
                     if (response.Success == "true")
                     {
@@ -503,12 +477,14 @@ namespace LOSSPortable
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-
             MessagingCenter.Subscribe<App, ChatMessage>(this, "ConversationEnd", (sender, arg) => //adds message to log
             {
                 MessagingCenter.Send<ChatPage>(this, "End");
                 MessagingCenter.Unsubscribe<App>(this, "ConversationEnd");
-                terminateChat();
+                if (terminate) {
+                    terminate = false;
+                    terminateChat();
+                }
             });
 
             MessagingCenter.Send<ChatPage>(this, "Start");
@@ -525,27 +501,27 @@ namespace LOSSPortable
                 }
                 arg.Icon = "drawable/prof.png";
                 DisplayResponse(arg);
-                conv.msgs.Add(arg);
+                Constants.conv.msgs.Add(arg);
                 ScrollEvent();
             });
+            
             await LoadMessages();
-            Conversation con = await Get(this.Key);
-            this.MessageCount = con.msgs.Count;
+           
+            this.MessageCount = Constants.conv.msgs.Count;
             
             this.Content = outerStack;
             ScrollEvent();
-
         }
         
         protected override void OnDisappearing() //leaving the page ->cache history
         {
-            
             editor.Keyboard = null;
             editor.Unfocus();
             
             MessagingCenter.Send<ChatPage>(this, "End");
-            Store(conv);
             System.Diagnostics.Debug.WriteLine("storing");
+            Constants.date = DateTime.UtcNow;
+            System.Diagnostics.Debug.WriteLine("Date should be updated : " + Constants.date.ToString());
             base.OnDisappearing();
         }
 
@@ -555,50 +531,5 @@ namespace LOSSPortable
             this.send.IsEnabled = false;
         }
 
-        public async Task eraseCache()
-        {
-                await BlobCache.LocalMachine.InvalidateAll();
-        }
-
-        public async Task<Conversation> Get(string key)
-        {
-            if (Helpers.Settings.MessageCacheKey != key)
-            {
-                await eraseCache();
-                Helpers.Settings.MessageCacheKey = key;
-                return new Conversation();
-            }
-            else
-            {
-                try
-                {
-                    return await BlobCache.LocalMachine.GetOrCreateObject<Conversation>(Key, NewConv);
-
-                }
-                catch (KeyNotFoundException e)
-                {
-                    System.Diagnostics.Debug.WriteLine("error:" + e);
-                    return new Conversation();
-                }
-            }
-        }
-
-        public async Task Store<Conversation>(Conversation value)
-        {
-
-            try
-            {
-                await BlobCache.LocalMachine.InsertObject(Key, conv);
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine("Error : " + e);
-            }
-        }
-
-        public Conversation NewConv()
-        {
-            return new Conversation();
-        }
     }
 }

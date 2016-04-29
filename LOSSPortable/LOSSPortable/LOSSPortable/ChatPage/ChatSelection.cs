@@ -77,6 +77,9 @@ namespace LOSSPortable
                 queryServerActiveConversation();
             }
 
+
+            
+            
          
             /**
              * When 'update' is pressed, the handshake is redone with the new 
@@ -218,15 +221,19 @@ namespace LOSSPortable
 
         async void ContinueConversationEvent(object s, EventArgs e)
             {
+                startConversation.Clicked -= ContinueConversationEvent;
+                
                 try
                 {
-                    startConversation.Clicked -= ContinueConversationEvent;
-                    await Navigation.PushAsync(new ChatPage(nameEntry.Text));  //navigate to a state page (not new).
+                    var stack = Navigation.NavigationStack;
+                    if (stack[stack.Count - 1].GetType() != typeof(ChatPage))
+                        await Navigation.PushAsync(new ChatPage(nameEntry.Text), false);
                 }
                 catch (Exception E)
                 {
                     System.Diagnostics.Debug.WriteLine("error" + E);
                 }
+                startConversation.Clicked += ContinueConversationEvent;
             }
 
         
@@ -272,7 +279,7 @@ namespace LOSSPortable
                 if (Helpers.Settings.IsVolunteer)
                 {
                     Helpers.Settings.ToFromArn = arg.ToFrom;
-                    this.nickName = arg.Sender;
+                    Constants.conv.name = arg.Sender;
                     continueConversationPath();
                 }
             });
@@ -289,7 +296,6 @@ namespace LOSSPortable
                 HandshakeStart();
                 Helpers.Settings.HandShakeDone = true;
             }
-            
             try {
                 outerLayout.Focus();
             }
@@ -333,12 +339,14 @@ namespace LOSSPortable
                     var response = JsonConvert.DeserializeObject<ConversationResponse>(myStr);
                     if (response.Success == "true")
                     {
-                        ChatPage.conv.name = response.Nickname;
-                        ChatPage.conv.id = response.ID;
-                        ChatPage.conv.msgs.Clear();
+                        Constants.conv.name = response.Nickname;
+                        Constants.conv.id = response.ID;
+                        Constants.conv.msgs.Clear();
                         Helpers.Settings.ToFromArn = response.ID;
                         continueConversationPath();
-                        await Navigation.PushAsync(new ChatPage(nameEntry.Text));
+                        var stack = Navigation.NavigationStack;
+                        if (stack[stack.Count - 1].GetType() != typeof(ChatPage))
+                            await Navigation.PushAsync(new ChatPage(nameEntry.Text), false);
                     }
                     else
                     {
@@ -378,8 +386,8 @@ namespace LOSSPortable
             System.Diagnostics.Debug.WriteLine("stopConversation : " + myStr);
             this.nickName = "";
             Helpers.Settings.ToFromArn = "";
-            ChatPage.conv.name = "";
-            ChatPage.conv.id = "";
+            Constants.conv.name = "";
+            Constants.conv.id = "";
         }
 
         async private Task queryServerActiveConversation()
@@ -411,15 +419,15 @@ namespace LOSSPortable
                 {
                     if (response.Conversations[0].ID != Helpers.Settings.ToFromArn)
                     {
-                        ChatPage.conv.name = response.Conversations[0].Nickname;
-                        ChatPage.conv.id = response.Conversations[0].ID;
+                        Constants.conv.name = response.Conversations[0].Nickname;
+                        Constants.conv.id = response.Conversations[0].ID;
                         Helpers.Settings.ToFromArn = response.Conversations[0].ID;
-                        ChatPage.conv.msgs.Clear();
+                        Constants.conv.msgs.Clear();
                     }
                     else
                     {
-                        ChatPage.conv.name = response.Conversations[0].Nickname;
-                        ChatPage.conv.id = response.Conversations[0].ID;
+                        Constants.conv.name = response.Conversations[0].Nickname;
+                        Constants.conv.id = response.Conversations[0].ID;
                     }
                     continueConversationPath();
                 }

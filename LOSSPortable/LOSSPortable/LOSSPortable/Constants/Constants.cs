@@ -16,5 +16,8 @@ namespace LOSSPortable
         public static RegionEndpoint COGNITO_REGION = RegionEndpoint.USEast1;
 
         public static RegionEndpoint DYNAMODB_REGION = RegionEndpoint.USEast1;
+
+        public static DateTime date;
+        public static Conversation conv = new Conversation();
     }
 }
