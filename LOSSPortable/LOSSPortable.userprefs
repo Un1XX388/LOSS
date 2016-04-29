@@ -1,6 +1,12 @@
-﻿<Properties StartupItem="LOSSPortable\LOSSPortable.Droid\LOSSPortable.Droid.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.Nexus_5_API_23_x86" />
-  <MonoDevelop.Ide.Workbench />
+﻿<Properties StartupItem="LOSSPortable/LOSSPortable.iOS/LOSSPortable.iOS.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.Senior Design’s iPhone" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="LOSSPortable/LOSSPortable.iOS/Info.plist">
+    <Files>
+      <File FileName="LOSSPortable/LOSSPortable/ResourcePage/Resources/OnlineResources.cs" Line="159" Column="1" />
+      <File FileName="LOSSPortable/LOSSPortable.iOS/AppDelegate.cs" Line="4" Column="1" />
+      <File FileName="LOSSPortable/LOSSPortable.iOS/Info.plist" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

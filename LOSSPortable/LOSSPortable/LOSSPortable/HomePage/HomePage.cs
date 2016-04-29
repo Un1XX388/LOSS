@@ -253,19 +253,18 @@ namespace LOSSPortable
             {
                 CrossTextToSpeech.Current.Speak("Find a Support Group");
             }
+
+			String url = "http://afsp.org/find-support/ive-lost-someone/find-a-support-group/";
             UserDialogs.Instance.ShowLoading();
 
             WebView webView = new WebView
             {
-                Source = new UrlWebViewSource
-                {
-                    Url = "http://afsp.org/find-support/ive-lost-someone/find-a-support-group/",
-                },
-                VerticalOptions = LayoutOptions.FillAndExpand
-                
+				Source = url,
+                VerticalOptions = LayoutOptions.FillAndExpand,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
             };
 
-            await Navigation.PushAsync(new ContentPage()
+			await Navigation.PushAsync(new ContentPage()
             {
                 Title = "Find A Support Group",
                 Content = webView
