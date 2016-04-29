@@ -36,31 +36,29 @@ namespace LOSSPortable
         private Entry editor = new Entry();
         CancellationTokenSource ct = new CancellationTokenSource();
 
-        private static List<ChatMessage> msgs;
-
         private double longitude;
         private double latitude;
 
 
         String name;
         //        List<Message> msgs = new List<Message>(); //history of messaging
-        Conversation conv = new Conversation();
+        public static Conversation conv = new Conversation();
         
 
-        public ChatPage(String inputname, string key, string Name)  //use the key to store
-        {   
-            
+        public ChatPage(string UserName)  //use the key to store
+        {
 
-            if (Name== "" || Name=="Enter your name: " || Name == null )
+
+            if (UserName == "" || UserName == "Enter your name: " || UserName == null)
             {
                 this.name = "Anonymous";
             }
             else
             {
-                if (Name.Length > 10)
-                { Name = Name.Substring(0, 10) + "..."; }
+                if (UserName.Length > 10)
+                { UserName = UserName.Substring(0, 10) + "..."; }
 
-                this.name = Name;
+                this.name = UserName;
             }
 
             if (Helpers.Settings.ContrastSetting == true)
@@ -74,18 +72,13 @@ namespace LOSSPortable
 
             }
             
-            this.Key = key;
-            conv.msgs = msgs;
-
             Title = "Chat";
             Icon = "Accounts.png";
 
-            //entry:
             
             editor.Placeholder = "Enter Message: ";
 
-            //double height = innerScroll.HeightRequest;
-
+            
             editor.Focused += delegate {
 
                 System.Diagnostics.Debug.WriteLine("messages count = " + MessageCount);
@@ -103,8 +96,7 @@ namespace LOSSPortable
             };
             
 
-            //var label = new Label { Text = "Message " + this.getName(), FontSize = 30, BackgroundColor = Color.Blue, TextColor = Color.White, XAlign = TextAlignment.Center };
-			send = new Button { Text = "Send", TextColor = Color.White, BackgroundColor = Color.Gray, HorizontalOptions = LayoutOptions.FillAndExpand};
+            send = new Button { Text = "Send", TextColor = Color.White, BackgroundColor = Color.Gray, HorizontalOptions = LayoutOptions.FillAndExpand};
 
             //upon sending a message
             send.Clicked += delegate {
@@ -198,7 +190,7 @@ namespace LOSSPortable
                 innerScroll.HeightRequest =  App.ScreenHeight - 200; //440  -- change of 200;
                 System.Diagnostics.Debug.WriteLine("window size set to: " + innerSize);
                 Content = outerStack;
-                Title = "" + inputname;
+                Title = "" + conv.name;
                 
             });
 
@@ -206,7 +198,7 @@ namespace LOSSPortable
         }
 
         //individual message tapped in chat:
-        async void OnLabelClicked(Label label, ChatMessage msg, int Type)
+        async void OnLabelClicked(object s, EventArgs e, Label label, ChatMessage msg, int Type)
         {
             var action = await DisplayActionSheet(null, null, null, "Hide Text", "Report", "Delete Message");
             switch (action)
@@ -216,7 +208,8 @@ namespace LOSSPortable
                     reportMessage(msg);
                     break;
                 case "Hide Text":
-                    label.Text = "\n" + "***" + "\t";
+                    var labels = s as Label;
+                    labels.IsVisible = false;
                     break;
                 case "Delete Message":
                     deleteMessage(msg.Id);
@@ -284,7 +277,7 @@ namespace LOSSPortable
             var tgr = new TapGestureRecognizer();
 
 
-            tgr.Tapped += (s, e) => OnLabelClicked(response, message, 1);
+            tgr.Tapped += (s, e) => OnLabelClicked(s, e, response, message, 1);
             response.GestureRecognizers.Add(tgr);
             response.VerticalOptions = LayoutOptions.Start;
             int labelLength = 2 + numRows;
@@ -316,7 +309,10 @@ namespace LOSSPortable
 
         public void setChat(List<ChatMessage> msgs)
         {
-            conv.msgs = msgs;
+            foreach (ChatMessage m in msgs)
+            {
+                conv.msgs.Add(m);
+            }
             conv.name = this.name;
             refreshView();
         }
@@ -365,12 +361,10 @@ namespace LOSSPortable
         }
 
         
-
         public void ScrollEvent()
         {
             innerScroll.ScrollToAsync(0, innerScroll.HeightRequest * (MessageCount + 10), true);
             System.Diagnostics.Debug.WriteLine("message count= " + MessageCount);
-             
         }
 
         public async void sendMessage(ChatMessage message)
@@ -401,15 +395,25 @@ namespace LOSSPortable
 
         public ChatMessage singleMessageFromServer(String ToFrom, String Time, String Message)    //upon recieving a single message.
         {
+            string Sender;
+            if (ToFrom.StartsWith(conv.id))
+            {
+                Sender = this.name;
+            }
+            else
+            {
+                Sender = conv.name;
+            }
             ChatMessage newMsg = new ChatMessage()
             {
                 Text = Message,
-                Sender = "placeholder",
+                
+                Sender = Sender,
                 Icon = "drawable/prof.png",
                 Time = "",
                 ToFrom = ToFrom
             };
-            newMsg.Time = Time.Substring(5, 2)+":"+Time.Substring(8,2); //change to only include HH:mm
+            newMsg.Time = Time.Substring(11, 2) + ":" + Time.Substring(14, 2); //change to only include HH:mm
             return newMsg;
         }
 
@@ -449,7 +453,14 @@ namespace LOSSPortable
         {
             try
             {
-                UserInfoItem message = new UserInfoItem { Item = new MessageLst { ToFrom = Helpers.Settings.ToFromArn, Time = DateTime.UtcNow.ToString()} }; //Helpers.Settings.EndpointArnSetting
+                UserInfoItem message;
+                if (conv.msgs.Count > 0) {
+                    message = new UserInfoItem { Item = new MessageLst { ToFrom = Helpers.Settings.ToFromArn, Time = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss:ffff") } }; //Helpers.Settings.EndpointArnSetting
+                }
+                else
+                {
+                    message = new UserInfoItem { Item = new MessageLst { ToFrom = Helpers.Settings.ToFromArn, Time = DateTime.UtcNow.AddDays(-1).ToString("yyyy-MM-dd HH:mm:ss:ffff")} }; //Helpers.Settings.EndpointArnSetting
+                }
                 UserInfoJson messageJson = new UserInfoJson { operation = "read", tableName = "Message", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
                 var ir = new InvokeRequest()
@@ -541,7 +552,7 @@ namespace LOSSPortable
         private async void terminateChat()
         {
             await DisplayAlert("Conversation ended", talkingToNickname + " has left the conversation", "OK");
-            await Navigation.PopAsync();
+            this.send.IsEnabled = false;
         }
 
         public async Task eraseCache()

@@ -221,7 +221,7 @@ namespace LOSSPortable
                 try
                 {
                     startConversation.Clicked -= ContinueConversationEvent;
-                    await Navigation.PushAsync(new ChatPage(this.nickName, this.nickName, nameEntry.Text));  //navigate to a state page (not new).
+                    await Navigation.PushAsync(new ChatPage(nameEntry.Text));  //navigate to a state page (not new).
                 }
                 catch (Exception E)
                 {
@@ -333,10 +333,12 @@ namespace LOSSPortable
                     var response = JsonConvert.DeserializeObject<ConversationResponse>(myStr);
                     if (response.Success == "true")
                     {
-                        nickName = response.Nickname;
+                        ChatPage.conv.name = response.Nickname;
+                        ChatPage.conv.id = response.ID;
+                        ChatPage.conv.msgs.Clear();
                         Helpers.Settings.ToFromArn = response.ID;
                         continueConversationPath();
-                        await Navigation.PushAsync(new ChatPage(this.nickName, this.nickName, nameEntry.Text));
+                        await Navigation.PushAsync(new ChatPage(nameEntry.Text));
                     }
                     else
                     {
@@ -376,6 +378,8 @@ namespace LOSSPortable
             System.Diagnostics.Debug.WriteLine("stopConversation : " + myStr);
             this.nickName = "";
             Helpers.Settings.ToFromArn = "";
+            ChatPage.conv.name = "";
+            ChatPage.conv.id = "";
         }
 
         async private Task queryServerActiveConversation()
@@ -405,8 +409,18 @@ namespace LOSSPortable
                 System.Diagnostics.Debug.WriteLine("currentConversations : " + myStr);
                 if (response.Success == "true")
                 {
-                    nickName = response.Conversations[0].Nickname;
-                    Helpers.Settings.ToFromArn = response.Conversations[0].ID;
+                    if (response.Conversations[0].ID != Helpers.Settings.ToFromArn)
+                    {
+                        ChatPage.conv.name = response.Conversations[0].Nickname;
+                        ChatPage.conv.id = response.Conversations[0].ID;
+                        Helpers.Settings.ToFromArn = response.Conversations[0].ID;
+                        ChatPage.conv.msgs.Clear();
+                    }
+                    else
+                    {
+                        ChatPage.conv.name = response.Conversations[0].Nickname;
+                        ChatPage.conv.id = response.Conversations[0].ID;
+                    }
                     continueConversationPath();
                 }
                 else if (response.Success == "false")
