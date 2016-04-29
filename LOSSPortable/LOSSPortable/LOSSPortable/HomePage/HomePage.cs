@@ -289,7 +289,6 @@ namespace LOSSPortable
             }
             int size = quoteList.Count;
             int num = rnd.Next(0, size - 1);
-            System.Diagnostics.Debug.WriteLine("Size : " + size + "\n num :" + num);
             return quoteList[num];
         }
 

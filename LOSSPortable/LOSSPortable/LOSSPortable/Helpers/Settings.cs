@@ -71,6 +71,10 @@ namespace LOSSPortable.Helpers
 
         private const string toFromArn = "toFromArn";
         private static readonly string toFromArndefault = "";
+
+        private const string messageCacheKey = "messageCacheKey";
+        private static readonly string messageCacheKeyDefault = "";
+
         #endregion
 
         public static bool LoginSetting
@@ -170,6 +174,12 @@ namespace LOSSPortable.Helpers
         {
             get { return AppSettings.GetValueOrDefault(toFromArn, toFromArndefault); }
             set { AppSettings.AddOrUpdateValue(toFromArn, value); }
+        }
+
+        public static string MessageCacheKey
+        {
+            get { return AppSettings.GetValueOrDefault(messageCacheKey, messageCacheKeyDefault); }
+            set { AppSettings.AddOrUpdateValue(messageCacheKey, value); }
         }
     }
 }

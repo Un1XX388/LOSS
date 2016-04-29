@@ -190,6 +190,7 @@ namespace LOSSPortable
                 nameEntry.IsEnabled = false;
                 endConversation.IsVisible = true;
                 startConversation.Clicked -= InitiateConversationEvent;
+                startConversation.Clicked -= ContinueConversationEvent;
                 startConversation.Clicked += ContinueConversationEvent;
             }
         }
@@ -210,6 +211,7 @@ namespace LOSSPortable
                 endConversation.IsVisible = false;
                 nameEntry.IsEnabled = true;
                 startConversation.Clicked -= ContinueConversationEvent;
+                startConversation.Clicked -= InitiateConversationEvent;
                 startConversation.Clicked += InitiateConversationEvent;
             }        
         }
@@ -218,7 +220,8 @@ namespace LOSSPortable
             {
                 try
                 {
-                    await Navigation.PushAsync(new ChatPage(this.nickName, new List<ChatMessage>(), "12345", nameEntry.Text));  //navigate to a state page (not new).
+                    startConversation.Clicked -= ContinueConversationEvent;
+                    await Navigation.PushAsync(new ChatPage(this.nickName, this.nickName, nameEntry.Text));  //navigate to a state page (not new).
                 }
                 catch (Exception E)
                 {
@@ -232,8 +235,6 @@ namespace LOSSPortable
                 {
                     await initiateConversation();
                 }
-
-
 
         void readyToChatF(object sender, ToggledEventArgs e)
         {
@@ -335,7 +336,7 @@ namespace LOSSPortable
                         nickName = response.Nickname;
                         Helpers.Settings.ToFromArn = response.ID;
                         continueConversationPath();
-                        await Navigation.PushAsync(new ChatPage(nickName, new List<ChatMessage>(), "12345", nameEntry.Text));
+                        await Navigation.PushAsync(new ChatPage(this.nickName, this.nickName, nameEntry.Text));
                     }
                     else
                     {
@@ -404,8 +405,8 @@ namespace LOSSPortable
                 System.Diagnostics.Debug.WriteLine("currentConversations : " + myStr);
                 if (response.Success == "true")
                 {
-                    nickName = response.Nickname;
-                    Helpers.Settings.ToFromArn = response.ID;
+                    nickName = response.Conversations[0].Nickname;
+                    Helpers.Settings.ToFromArn = response.Conversations[0].ID;
                     continueConversationPath();
                 }
                 else if (response.Success == "false")
@@ -431,7 +432,7 @@ namespace LOSSPortable
         {
             try
             {
-                UserInfoItem message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting } }; //Helpers.Settings.EndpointArnSetting
+                UserInfoItem message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting, Available = true } }; //Helpers.Settings.EndpointArnSetting
                 //await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
                 //await DisplayAlert("sent ", "sent to server: " + latitude + " " + longitude + " " + "Name" + " " + Helpers.Settings.EndpointArnSetting, "ok");
                 UserInfoJson messageJson = new UserInfoJson { operation = "create", tableName = "User", payload = message };

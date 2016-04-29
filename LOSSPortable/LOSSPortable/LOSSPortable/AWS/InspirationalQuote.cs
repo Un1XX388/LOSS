@@ -12,9 +12,6 @@ namespace LOSSPortable
     public class InspirationalQuote
     {
         [DynamoDBHashKey]
-        public string id { get; set; }
-
-        [DynamoDBProperty]
         public string Message { get; set; }
     }
 }

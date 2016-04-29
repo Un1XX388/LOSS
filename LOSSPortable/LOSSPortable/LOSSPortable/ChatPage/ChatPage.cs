@@ -36,6 +36,8 @@ namespace LOSSPortable
         private Entry editor = new Entry();
         CancellationTokenSource ct = new CancellationTokenSource();
 
+        private static List<ChatMessage> msgs;
+
         private double longitude;
         private double latitude;
 
@@ -45,7 +47,7 @@ namespace LOSSPortable
         Conversation conv = new Conversation();
         
 
-        public ChatPage(String inputname, List<ChatMessage> msgs, string key, string Name)  //use the key to store
+        public ChatPage(String inputname, string key, string Name)  //use the key to store
         {   
             
 
@@ -63,6 +65,7 @@ namespace LOSSPortable
 
             if (Helpers.Settings.ContrastSetting == true)
             {
+                
                 BackgroundColor = Colors.contrastBg;
             }
             else
@@ -70,9 +73,9 @@ namespace LOSSPortable
                 BackgroundColor = Colors.background;
 
             }
-
+            
             this.Key = key;
-            conv.msgs = msgs; 
+            conv.msgs = msgs;
 
             Title = "Chat";
             Icon = "Accounts.png";
@@ -365,7 +368,7 @@ namespace LOSSPortable
 
         public void ScrollEvent()
         {
-            innerScroll.ScrollToAsync(0, innerScroll.HeightRequest * (MessageCount + 10), false);
+            innerScroll.ScrollToAsync(0, innerScroll.HeightRequest * (MessageCount + 10), true);
             System.Diagnostics.Debug.WriteLine("message count= " + MessageCount);
              
         }
@@ -378,7 +381,7 @@ namespace LOSSPortable
                 await PushMessage(message.ToFrom, message.Text);
                 //await SaveAsync<ChatMessage>(message, ct.Token);
                 //await messageServer(message.Text, message.ToFrom);
-                System.Diagnostics.Debug.WriteLine("message sent to the server.");
+                //System.Diagnostics.Debug.WriteLine("message sent to the server.");
                 }
             catch(Exception E)
             {
@@ -387,27 +390,27 @@ namespace LOSSPortable
             this.Content = outerStack;
         }
         //-------------------------Get from Server-------------------------
-        public void  messagesFromServer() //upon recieving a chat History log
-        {//utilizes setChat(List<ChatMessage> msgs)
+        public void messagesFromServer(MessageLst[] MessageList) //upon recieving a chat History log
+        {
             List<ChatMessage> msgs = new List<ChatMessage>();
-
+            foreach (MessageLst i in MessageList){
+                msgs.Add(singleMessageFromServer(i.ToFrom, i.Time, i.Text));
+            }
             setChat(msgs); //sets the chat to show the message history.
         }
 
-        public void singleMessageFromServer(String ToFrom, String Time, String Message)    //upon recieving a single message.
+        public ChatMessage singleMessageFromServer(String ToFrom, String Time, String Message)    //upon recieving a single message.
         {
-            ChatMessage newMsg = new ChatMessage();
-            newMsg.Id = AmazonUtils.Credentials.GetIdentityId();
-            newMsg.Text = Message;
-            newMsg.ToFrom = ToFrom;
-            newMsg.Sender = "placeholder";
-            newMsg.Reciever = "Reciever";
-            newMsg.Icon = "drawable/prof.png";
+            ChatMessage newMsg = new ChatMessage()
+            {
+                Text = Message,
+                Sender = "placeholder",
+                Icon = "drawable/prof.png",
+                Time = "",
+                ToFrom = ToFrom
+            };
             newMsg.Time = Time.Substring(5, 2)+":"+Time.Substring(8,2); //change to only include HH:mm
-            newMsg.Date = Time;
-
-            //include message in list of messages
-
+            return newMsg;
         }
 
         //-------------------------Server----------------------------------
@@ -441,32 +444,40 @@ namespace LOSSPortable
                 System.Diagnostics.Debug.WriteLine("Error: " + e);
             }
         }
-        //--------------------------------------------------------------------
-        //SEND MESSAGE SERVER:
 
-        /*async private Task messageServer(String text, String toFrom) //Function to create a Json object and send to server using a lambda function
+        async private Task LoadMessages() //Function to create a Json object and send to server using a lambda function
         {
             try
             {
-                
-                MessageItem message = new MessageItem { Item = new ChatMessage { Text = text, ToFrom = toFrom } }; //Helpers.Settings.EndpointArnSetting
-                //await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
-                MessageJson messageJson = new MessageJson { operation = "create", tableName = "Message", payload = message };
+                UserInfoItem message = new UserInfoItem { Item = new MessageLst { ToFrom = Helpers.Settings.ToFromArn, Time = DateTime.UtcNow.ToString()} }; //Helpers.Settings.EndpointArnSetting
+                UserInfoJson messageJson = new UserInfoJson { operation = "read", tableName = "Message", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
-                //System.Diagnostics.Debug.WriteLine(args);
                 var ir = new InvokeRequest()
                 {
                     FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
                     PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
                     InvocationType = InvocationType.RequestResponse
                 };
-                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
 
 
                 InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
                 resp.Payload.Position = 0;
                 var sr = new StreamReader(resp.Payload);
                 var myStr = sr.ReadToEnd();
+                try
+                {
+                    System.Diagnostics.Debug.WriteLine("newConversations : " + myStr);
+                    var response = JsonConvert.DeserializeObject<ConversationResponse>(myStr);
+                    if (response.Success == "true")
+                    {
+                        var messages = response.MessageList;
+                        messagesFromServer(messages);
+                    }
+                }
+                catch (Exception e)
+                {
+
+                }
 
                 //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
                 //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
@@ -475,117 +486,17 @@ namespace LOSSPortable
             {
                 System.Diagnostics.Debug.WriteLine("Error:" + e);
             }
-        }
 
-    */
-        //HANDSHAKE CHECK:
-        
-
-
-        //HANDSHAKE:
-        
-        async private Task Handshake( ) //Function to create a Json object and send to server using a lambda function
-        {
-            try
-            {
-         
-
-                UserInfoItem message = new UserInfoItem { Item = new UserInfo { Latitude = latitude , Longitude= longitude , Nickname= name, Arn = " " + Helpers.Settings.EndpointArnSetting  } }; //Helpers.Settings.EndpointArnSetting
-                //await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
-                UserInfoJson messageJson = new UserInfoJson { operation = "create", tableName = "User", payload = message };
-                string args = JsonConvert.SerializeObject(messageJson);
-                //System.Diagnostics.Debug.WriteLine(args);
-                var ir = new InvokeRequest()
-                {
-                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
-                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
-                    InvocationType = InvocationType.RequestResponse
-                };
-                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
-
-
-                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
-                resp.Payload.Position = 0;
-                var sr = new StreamReader(resp.Payload);
-                var myStr = sr.ReadToEnd();
-
-                //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
-                //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine("Error:" + e);
-            }
-        }
-
-        #region geoLocation
-        //-------------------------geolocation-----------------------------
-
-            
-        async private Task getLocation()
-        {
-            try
-            {
-                var locator = CrossGeolocator.Current;
-                locator.DesiredAccuracy = 100;
-                locator.PositionChanged += OnPositionChanged;
-                var position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
-                latitude =  Convert.ToDouble (position.Latitude  );
-                longitude = Convert.ToDouble (position.Longitude );
-
-                //label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
-                System.Diagnostics.Debug.WriteLine("type of long/lat is: " + latitude.GetType());
-                //await DisplayAlert("type", "" + latitude.GetType(), "ok");
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-                //label2.Text = "Unable to find location";
-                latitude = 0.00;
-                longitude = 0.00;
-            }
-            
-        }
-
-        async private void OnPositionChanged(object sender, PositionEventArgs e)
-        {
-            var locator = CrossGeolocator.Current;
-            var position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
-            var latitude = position.Latitude.ToString();
-            var longtitude = position.Longitude.ToString();
-            //label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
-        }
-        #endregion
-        //-------------------------Caching---------------------------------
-
-
-        
-        protected override void OnDisappearing() //leaving the page ->cache history
-        {
-            base.OnDisappearing();
-            editor.Keyboard = null;
-            editor.Unfocus();
-            MessagingCenter.Unsubscribe<App>(this, "HandshakeEnd");
-            System.Diagnostics.Debug.WriteLine("unfocused.");
-            MessagingCenter.Send<ChatPage>(this, "End");
-
-            Store(conv);
-            System.Diagnostics.Debug.WriteLine("storing");
-
-        }
-
-        private async void terminateChat()
-        {
-            await DisplayAlert("Conversation ended", talkingToNickname + " has left the conversation", "OK");
-            await Navigation.PopAsync(true);
         }
 
         protected async override void OnAppearing()
         {
             base.OnAppearing();
 
-            MessagingCenter.Subscribe<App, ChatMessage>(this, "HandshakeEnd", (sender, arg) => //adds message to log
+            MessagingCenter.Subscribe<App, ChatMessage>(this, "ConversationEnd", (sender, arg) => //adds message to log
             {
+                MessagingCenter.Send<ChatPage>(this, "End");
+                MessagingCenter.Unsubscribe<App>(this, "ConversationEnd");
                 terminateChat();
             });
 
@@ -599,32 +510,65 @@ namespace LOSSPortable
                 catch (Exception e)
                 {
                     arg.Time = DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString();
+
                 }
                 arg.Icon = "drawable/prof.png";
                 DisplayResponse(arg);
                 conv.msgs.Add(arg);
                 ScrollEvent();
             });
-            Conversation con = await Get();
+            await LoadMessages();
+            Conversation con = await Get(this.Key);
             this.MessageCount = con.msgs.Count;
-            this.setChat(con.msgs);
+            
             this.Content = outerStack;
             ScrollEvent();
+
+        }
+        
+        protected override void OnDisappearing() //leaving the page ->cache history
+        {
             
+            editor.Keyboard = null;
+            editor.Unfocus();
+            
+            MessagingCenter.Send<ChatPage>(this, "End");
+            Store(conv);
+            System.Diagnostics.Debug.WriteLine("storing");
+            base.OnDisappearing();
         }
 
+        private async void terminateChat()
+        {
+            await DisplayAlert("Conversation ended", talkingToNickname + " has left the conversation", "OK");
+            await Navigation.PopAsync();
+        }
 
-        public async Task<Conversation> Get()
-        { 
-            try
-            {
-                return await BlobCache.LocalMachine.GetOrCreateObject<Conversation>(Key, NewConv);
+        public async Task eraseCache()
+        {
+                await BlobCache.LocalMachine.InvalidateAll();
+        }
 
-            }
-            catch (KeyNotFoundException e)
+        public async Task<Conversation> Get(string key)
+        {
+            if (Helpers.Settings.MessageCacheKey != key)
             {
-                System.Diagnostics.Debug.WriteLine("error:" + e);
+                await eraseCache();
+                Helpers.Settings.MessageCacheKey = key;
                 return new Conversation();
+            }
+            else
+            {
+                try
+                {
+                    return await BlobCache.LocalMachine.GetOrCreateObject<Conversation>(Key, NewConv);
+
+                }
+                catch (KeyNotFoundException e)
+                {
+                    System.Diagnostics.Debug.WriteLine("error:" + e);
+                    return new Conversation();
+                }
             }
         }
 

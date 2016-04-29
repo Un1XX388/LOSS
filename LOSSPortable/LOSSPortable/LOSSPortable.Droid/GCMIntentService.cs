@@ -120,7 +120,7 @@ namespace LOSSPortable.Droid
                 else if(msg.Subject.Equals("Handshake")){
                     try
                     {
-                        if (current.ChatSelectionPageActive)
+                        if (current.ChatSelectionPageActive || current.ChatPageActive)
                         {
                             current.parseMessageObject(JsonConvert.SerializeObject(msg));
                         }

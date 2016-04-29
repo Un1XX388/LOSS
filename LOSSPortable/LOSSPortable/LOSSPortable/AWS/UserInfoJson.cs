@@ -22,7 +22,7 @@ namespace LOSSPortable
 
     public class UserInfoItem
     {
-        public UserInfo Item { get; set; }
+        public object Item { get; set; }
     }
 
 
