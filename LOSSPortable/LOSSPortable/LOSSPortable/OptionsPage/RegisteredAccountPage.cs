@@ -461,6 +461,7 @@ namespace LOSSPortable
                 response tmp = JsonConvert.DeserializeObject<response>(myStr);
                 if (tmp.Success == "true")
                 {
+                    Helpers.Settings.IsVolunteer = false;
                     Helpers.Settings.LoginSetting = false;
                     UserDialogs.Instance.ShowSuccess("You have been successfully logged out.");
                     ((RootPage)App.Current.MainPage).NavigateTo();
