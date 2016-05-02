@@ -308,6 +308,8 @@ namespace LOSSPortable
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
+            MessagingCenter.Unsubscribe<App, ChatMessage>(this, "Handshake");
+            MessagingCenter.Unsubscribe<App, ChatMessage>(this, "HandshakeEnd");
             MessagingCenter.Send<ChatSelection>(this, "End");
         }
 

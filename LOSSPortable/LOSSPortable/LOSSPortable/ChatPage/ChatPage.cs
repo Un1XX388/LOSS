@@ -492,11 +492,13 @@ namespace LOSSPortable
             {
                 try
                 {
-                    arg.Time = arg.Time.Substring(11, 2) + ":" + arg.Time.Substring(14, 2);
+                    DateTime dt = Convert.ToDateTime(arg.Time);
+                    var diff = DateTime.UtcNow - DateTime.Now;
+                    arg.Time = (dt - diff).ToString("HH:mm"); //change to only include HH:mm
                 }
                 catch (Exception e)
                 {
-                    arg.Time = DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString();
+                    arg.Time = DateTime.Now.Hour.ToString("HH:mm");
 
                 }
                 arg.Icon = "drawable/prof.png";
@@ -517,7 +519,7 @@ namespace LOSSPortable
         {
             editor.Keyboard = null;
             editor.Unfocus();
-            
+            MessagingCenter.Unsubscribe<App, ChatMessage>(this, "Hi"); 
             MessagingCenter.Send<ChatPage>(this, "End");
             System.Diagnostics.Debug.WriteLine("storing");
             Constants.date = DateTime.UtcNow;
