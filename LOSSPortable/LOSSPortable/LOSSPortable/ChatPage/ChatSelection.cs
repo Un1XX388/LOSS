@@ -38,7 +38,7 @@ namespace LOSSPortable
         private string nickName = "";
         
 
-        public ChatSelection()
+        public ChatSelection() //general constructor for chat selection. initializes the page with layout, images, colors, buttons,  and actions
         {
             if (Helpers.Settings.ContrastSetting == true) //contrast mode
             {
@@ -132,7 +132,7 @@ namespace LOSSPortable
                             };
 
 
-            Device.BeginInvokeOnMainThread(() =>   //automatically updates
+            Device.BeginInvokeOnMainThread(() =>   //automatically updates when page loads
             {
                 stackLayout = new StackLayout
                 {
@@ -258,7 +258,8 @@ namespace LOSSPortable
             //this.Content = outerLayout;
         }
         //--------------------------------HANDSHAKE-------------------------------
-        public async void HandshakeStart()
+        //Starts the handshake by getting the geolocation and then starting the handshake to find a nearby volunteer
+        public async void HandshakeStart() 
         {
                 await getLocation(); //check geolocation
                 await Handshake(); //handshake attempt
@@ -268,7 +269,8 @@ namespace LOSSPortable
 
 
         //------------------------------------------------------------------------
-        protected async override void OnAppearing()
+       
+        protected async override void OnAppearing() 
         {
 
             base.OnAppearing();
@@ -311,7 +313,7 @@ namespace LOSSPortable
             MessagingCenter.Send<ChatSelection>(this, "End");
         }
 
-        protected override Boolean OnBackButtonPressed() // back button pressed
+        protected override Boolean OnBackButtonPressed() // back button pressed navigate to the homepage.
         {
             ((RootPage)App.Current.MainPage).NavigateTo();
             return true;
@@ -486,6 +488,7 @@ namespace LOSSPortable
 
         //-------------------------geolocation-----------------------------
         #region Geolocation
+        //creates the geolocation based on your specific coordinates. if disabled, returns (0,0)
         async private Task getLocation()
         {
             try
@@ -505,13 +508,13 @@ namespace LOSSPortable
             }
         }
 
-        async private void OnPositionChanged(object sender, PositionEventArgs e)
+        async private void OnPositionChanged(object sender, PositionEventArgs e) //updates geolocation
         {
             var locator = CrossGeolocator.Current;
             var position = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
             var latitude = position.Latitude.ToString();
             var longtitude = position.Longitude.ToString();
         }
-        #endregion
+        #endregion 
     }
 }

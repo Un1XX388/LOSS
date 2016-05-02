@@ -39,7 +39,7 @@ namespace LOSSPortable
         //        List<Message> msgs = new List<Message>(); //history of messaging
         
         
-        public ChatPage(string UserName)  //use the key to store
+        public ChatPage(string UserName)  //General constructor for chatPage
         {
 
             date = Constants.date;
@@ -193,7 +193,7 @@ namespace LOSSPortable
             //refreshView();
         }
 
-        //individual message tapped in chat:
+        //individual message tapped in chat-> allow to report a message, hide the text, or delete the message
         async void OnLabelClicked(object s, EventArgs e, Label label, ChatMessage msg, int Type)
         {
             var action = await DisplayActionSheet(null, null, null, "Hide Text", "Report", "Delete Message");
@@ -217,7 +217,7 @@ namespace LOSSPortable
         }
 
 
-        private void DisplayResponse(ChatMessage message) //adds message to log
+        private void DisplayResponse(ChatMessage message) //adds input message to log 
         {
             String msg = message.Text;
             int numRows;
@@ -315,7 +315,7 @@ namespace LOSSPortable
 
         }
 
-        public void deleteMessage(String id)
+        public void deleteMessage(String id) //given the ID of a message, delete said message from messages.
         {
             ChatMessage found = Constants.conv.msgs.Find(x => x.Id == id);
             Constants.conv.msgs.Remove(found);
@@ -324,7 +324,7 @@ namespace LOSSPortable
             refreshView();
         }
 
-        public void refreshView()
+        public void refreshView() //refreshes the view of the layout to display modifications
         {
             foreach (ChatMessage msg in Constants.conv.msgs)
             {
@@ -334,20 +334,20 @@ namespace LOSSPortable
             this.Content = outerStack;
         }
 
-        public void reportMessage(ChatMessage msg)
+        public void reportMessage(ChatMessage msg) //Enables users to report selected message based on specific criteria
         {
 
             Navigation.PushAsync(new ReportMessage(msg));
         }
 
         
-        public void ScrollEvent()
+        public void ScrollEvent() //Animation for chatpage to scroll to the bottom and display the latest message. 
         {
             innerScroll.ScrollToAsync(0, innerScroll.HeightRequest * (MessageCount + 10), true);
             System.Diagnostics.Debug.WriteLine("message count= " + MessageCount);
         }
 
-        public async void sendMessage(ChatMessage message)
+        public async void sendMessage(ChatMessage message) //Sending a message to the server and therefore enabling the recipient to view the message. 
         {
             System.Diagnostics.Debug.WriteLine("trying to send to server: ");   
             //message sending to server:
@@ -372,7 +372,7 @@ namespace LOSSPortable
             refreshView();
         }
 
-        public ChatMessage singleMessageFromServer(String ToFrom, String Time, String Message)    //upon recieving a single message.
+        public ChatMessage singleMessageFromServer(String ToFrom, String Time, String Message)    //upon recieving a single message, add it to the log of messages.
         {
             string Sender;
             if (ToFrom.StartsWith(Constants.conv.id))
@@ -474,7 +474,7 @@ namespace LOSSPortable
 
         }
 
-        protected async override void OnAppearing()
+        protected async override void OnAppearing() //Functionality to start the page that reads the history from the server and displays the log.
         {
             base.OnAppearing();
             MessagingCenter.Subscribe<App, ChatMessage>(this, "ConversationEnd", (sender, arg) => //adds message to log

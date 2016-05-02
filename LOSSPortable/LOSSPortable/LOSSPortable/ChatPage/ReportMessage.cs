@@ -25,7 +25,7 @@ namespace LOSSPortable
 
 
 
-        public ReportMessage(ChatMessage msg)
+        public ReportMessage(ChatMessage msg) //general constructor for report message 
         {
             temp = new ReportM();
             this.msg = msg;
@@ -95,7 +95,7 @@ namespace LOSSPortable
 
         }
 
-        async void onSubmitPressed(Object sender, EventArgs e)
+        async void onSubmitPressed(Object sender, EventArgs e) //sending a report of a message. creates a report object and sends it to the server 
         {
             temp.Comment = editor.Text;
             temp.Message = msg.Text;
