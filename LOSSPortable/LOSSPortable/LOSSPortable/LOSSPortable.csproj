@@ -63,7 +63,6 @@
     <Compile Include="OptionsPage\LoginPage.cs" />
     <Compile Include="OptionsPage\Logout.cs" />
     <Compile Include="OptionsPage\RegisteredAccountPage.cs" />
-    <Compile Include="OptionsPage\VolunteerPortal.cs" />
     <Compile Include="ResourcePage\FavoritesPage.cs" />
     <Compile Include="ResourcePage\Resources\OnlineResources.cs" />
     <Compile Include="ResourcePage\ResourcesTabbedSwipePage.xaml.cs">

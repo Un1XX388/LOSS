@@ -176,7 +176,6 @@ namespace LOSSPortable
                         System.Diagnostics.Debug.WriteLine("Error:" + e);
                     }
 
-              //  }
             }
         }
 
@@ -239,6 +238,9 @@ namespace LOSSPortable
                         {
                             Helpers.Settings.IsVolunteer = true;
                         }
+                        Helpers.Settings.EmailSetting = email.Text;
+                        Helpers.Settings.UserIDSetting = tmp.ID;
+                        Helpers.Settings.UsernameSetting = tmp.OldNickname;
                     }
                     else
                     {
@@ -305,6 +307,9 @@ namespace LOSSPortable
         public string Arn { get; set; }
         public string Success { get; set; }
         public string ActualUserType { get; set; }
+        public string ID { get; set; }
+        public string OldNickname { get; set; }
+
     }
 
 }

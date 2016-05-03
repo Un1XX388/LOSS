@@ -45,8 +45,8 @@ namespace LOSSPortable.Helpers
         private const string UserNameKey = "username_key";
         private static readonly string UserNameDefault = "";
 
-        private const string PasswordKey = "password_key";
-        private static readonly string PasswordDefault = "";
+        private const string UserIDKey = "userid_key";
+        private static readonly string UserIDDefault = "";
 
         private const string EndpointArn = "endpointarn";
         private static readonly string EndpointArnDefault = "";
@@ -122,12 +122,12 @@ namespace LOSSPortable.Helpers
             get { return AppSettings.GetValueOrDefault(UserNameKey, UserNameDefault); }
             set { AppSettings.AddOrUpdateValue(UserNameKey, value); }
         }
-        public static string PasswordSetting
-        {
-            get { return AppSettings.GetValueOrDefault(PasswordKey, PasswordDefault); }
-            set { AppSettings.AddOrUpdateValue(PasswordKey, value); }
-        }
 
+        public static string UserIDSetting
+        {
+            get { return AppSettings.GetValueOrDefault(UserIDKey, UserIDDefault); }
+            set { AppSettings.AddOrUpdateValue(UserIDKey, value); }
+        }
         public static string EndpointArnSetting
         {
             get { return AppSettings.GetValueOrDefault(EndpointArn, EndpointArnDefault); }

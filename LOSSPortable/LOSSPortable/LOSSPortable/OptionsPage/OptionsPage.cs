@@ -502,7 +502,7 @@ namespace LOSSPortable
                 row11_portal.TextColor = Color.White;
               //  Helpers.Settings.portalAccessedSetting = true;
                 Helpers.Settings.portalAccessCount = 7;
-                Navigation.PushAsync(new VolunteerPortal());
+             //   Navigation.PushAsync(new VolunteerPortal());
                // row11_portal.IsEnabled = true;
 
             }
@@ -883,7 +883,6 @@ namespace LOSSPortable
                 if (status == "Success")
                 {
                     Helpers.Settings.EmailSetting = r.LoginText;
-                    Helpers.Settings.PasswordSetting = r.Password;
                     loggedIn = true;
                     login.Text = "Logout";
                     System.Diagnostics.Debug.WriteLine("status is success then logout should be displayed - loggedIn" + loggedIn);

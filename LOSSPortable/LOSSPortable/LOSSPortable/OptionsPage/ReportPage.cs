@@ -117,7 +117,7 @@ namespace LOSSPortable
             {
                 ReportProblem temp = new ReportProblem();
 
-                temp.id = AmazonUtils.Credentials.GetIdentityId(); ;
+                temp.id = Helpers.Settings.UserIDSetting ;
                 temp.Date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ffff");
                 temp.Message = reason.Text;
                 temp.Type = reportType;
