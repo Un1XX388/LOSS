@@ -114,7 +114,6 @@ namespace LOSSPortable
 
             var mainContent = new StackLayout
             {
-                //  Style = (Style)Application.Current.Resources["key"],
                 Padding = new Thickness(30, Device.OnPlatform(20, 0, 0), 30, 30),
                 Children = {
                     new BoxView() { Color = Color.Transparent, HeightRequest = 5  },

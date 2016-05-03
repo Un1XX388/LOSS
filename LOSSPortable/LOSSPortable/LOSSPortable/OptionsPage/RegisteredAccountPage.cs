@@ -10,13 +10,14 @@ using Amazon.Util;
 using Amazon.Lambda;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace LOSSPortable
 {
     public class RegisteredAccountPage : ContentPage
     {
         Entry username;
-        Entry email;
+        Label email;
         StackLayout mainContent;
         Label event_label;
         Switch contrast_switcher;
@@ -45,7 +46,7 @@ namespace LOSSPortable
                         iOS: ImageSource.FromFile("username.png"),
                         Android: ImageSource.FromFile("username.png"),
                         WinPhone: ImageSource.FromFile("username.png")),
-                        HorizontalOptions = LayoutOptions.Start
+                HorizontalOptions = LayoutOptions.Start
             };
 
             username = new Entry {
@@ -70,15 +71,8 @@ namespace LOSSPortable
                        WinPhone: ImageSource.FromFile("email.png")),
                 HorizontalOptions = LayoutOptions.Start
             };
-            email = new Entry
-            {
-                Placeholder = Helpers.Settings.EmailSetting,
-                BackgroundColor = Color.White,
-                PlaceholderColor = Color.Black,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                IsEnabled = false
-            };
-        //    email = new Label { Text = "Email:  " + Helpers.Settings.EmailSetting, TextColor = Color.White, FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label))};
+
+            email = new Label { Text = Helpers.Settings.EmailSetting, TextColor = Color.White, FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) };
 
             StackLayout emailLayout = new StackLayout
             {
@@ -138,42 +132,7 @@ namespace LOSSPortable
                 Padding = new Thickness(5, 5)
             };
 
-            //=============GEOLOCATION ROW=====================================
-            //Label geolocation_label = new Label
-            //{
-            //    Text = "Geolocation",
-            //    FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
-            //    HorizontalOptions = LayoutOptions.Center
-            //};
-
-            //geolocation_switcher = new Switch
-            //{
-            //    HorizontalOptions = LayoutOptions.Center,
-            //    VerticalOptions = LayoutOptions.CenterAndExpand,
-            //    IsToggled = Helpers.Settings.locationSetting
-            //};
-            //geolocation_switcher.Toggled += geolocation_switcher_Toggled;
-
-            //StackLayout geolocation_stack = new StackLayout
-            //{
-            //    Children = { geolocation_label },
-            //    HorizontalOptions = LayoutOptions.Start
-            //};
-
-            //StackLayout geolocation_switcher_stack = new StackLayout
-            //{
-            //    Children = { geolocation_switcher },
-            //    HorizontalOptions = LayoutOptions.EndAndExpand
-            //};
-
-            //StackLayout row2_geolocation = new StackLayout
-            //{
-            //    Children = { geolocation_stack, geolocation_switcher_stack },
-            //    Orientation = StackOrientation.Horizontal,
-            //    Padding = new Thickness(5, 5)
-            //};
-
-            //=============Speech Switch=====================================
+            //============= Speech Switch ========================================================================
             Label speech_label = new Label
             {
                 Text = "Text-to-Speech",
@@ -295,6 +254,7 @@ namespace LOSSPortable
                 GestureRecognizers = {
                 new TapGestureRecognizer {
                         Command = new Command (
+                            // ()=>Navigation.PushAsync(new ChangePassword())),
                             ()=>customPopUp()),
                 },
                 },
@@ -361,7 +321,7 @@ namespace LOSSPortable
                             row1_contrast, //row2_geolocation,
                             row4_speech, row5_push,
                             change_password,
-             
+
                             row6_reset_sync,
 
                             new BoxView() { Color = Color.Transparent, HeightRequest = 1  },
@@ -393,7 +353,7 @@ namespace LOSSPortable
             Helpers.Settings.UsernameSetting = username.Text;
             try
             {
-                UserItem user = new UserItem { Item = new UserLogin { Nickname = username.Text} };
+                UserItem user = new UserItem { Item = new UserLogin { Nickname = username.Text } };
                 MessageJson messageJson = new MessageJson { operation = "update", tableName = "User", payload = user };
                 string args = JsonConvert.SerializeObject(messageJson);
                 //System.Diagnostics.Debug.WriteLine(args);
@@ -437,7 +397,7 @@ namespace LOSSPortable
             try
             {
                 System.Diagnostics.Debug.WriteLine(Helpers.Settings.EndpointArnSetting);
-                UserItem user = new UserItem { Item = new UserLogin { Arn = Helpers.Settings.EndpointArnSetting} };
+                UserItem user = new UserItem { Item = new UserLogin { Arn = Helpers.Settings.EndpointArnSetting } };
                 MessageJson messageJson = new MessageJson { operation = "logout", tableName = "User", payload = user };
                 string args = JsonConvert.SerializeObject(messageJson);
                 //System.Diagnostics.Debug.WriteLine(args);
@@ -471,7 +431,7 @@ namespace LOSSPortable
                     UserDialogs.Instance.ShowError("Unable to log out.");
                 }
             }
-            catch(Exception e2)
+            catch (Exception e2)
             {
                 System.Diagnostics.Debug.WriteLine("Error:" + e2);
             }
@@ -482,7 +442,7 @@ namespace LOSSPortable
         //default setting
         async void resetPressed(object sender, EventArgs e)
         {
-            if(Helpers.Settings.SpeechSetting == true)
+            if (Helpers.Settings.SpeechSetting == true)
             {
                 CrossTextToSpeech.Current.Speak("Reset to Default Settings?");
             }
@@ -511,7 +471,7 @@ namespace LOSSPortable
             {
                 this.Content.BackgroundColor = Colors.contrastBg;
                 event_label.Text = String.Format("High Contrast Mode Enabled? {0}", e.Value);
-                Helpers.Settings.ContrastSetting = e.Value;            
+                Helpers.Settings.ContrastSetting = e.Value;
             }
             else
             {
@@ -525,7 +485,7 @@ namespace LOSSPortable
             {
                 CrossTextToSpeech.Current.Speak("Contrast Mode On");
             }
-            else if(Helpers.Settings.SpeechSetting == true && Helpers.Settings.ContrastSetting == false)
+            else if (Helpers.Settings.SpeechSetting == true && Helpers.Settings.ContrastSetting == false)
             {
                 CrossTextToSpeech.Current.Speak("Contrast Mode Off");
             }
@@ -570,30 +530,31 @@ namespace LOSSPortable
         {
             _PopUpLayout = new PopupLayout();
 
-            var email = new ExtendedEntryCell
+            var email = new EntryCell
             {
-                
+
                 Label = "Email: ",
                 Placeholder = "Email",
                 Keyboard = Keyboard.Email,
-                IsPassword = false
+                LabelColor = Color.Black
                 // LabelColor = Color.Black
             };
+            
             var oldPswd = new ExtendedEntryCell
             {
 
                 Label = "Existing Password: ",
                 Placeholder = "Password",
-                IsPassword = true
-                // LabelColor = Color.Black,
+                IsPassword = true,
+                LabelColor = Color.Black,
             };
 
             var newPswd = new ExtendedEntryCell
             {
                 Label = "New Password: ",
                 Placeholder = "Password",
-                IsPassword = true
-                // LabelColor = Color.Black
+                IsPassword = true,
+                LabelColor = Color.Black
             };
 
             var confirmPswd = new ExtendedEntryCell()
@@ -601,8 +562,8 @@ namespace LOSSPortable
                 Label = "Confirm Password: ",
                 Placeholder = "Password",
                 IsPassword = true,
+                LabelColor = Color.Black
             };
-
 
             StackLayout passwordPop = new StackLayout
             {
@@ -650,21 +611,67 @@ namespace LOSSPortable
             _PopUpLayout.Content = mainContent;
             Content = _PopUpLayout;
 
-            var PopUp = new StackLayout
+            var PopUpInHalt = new StackLayout
             {
                 WidthRequest = 300, // Important, the Popup has to have a size to be showed
-                HeightRequest = 320,
-                BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
+                HeightRequest = 310,
+                //  BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
+                BackgroundColor = Color.White,
                 Orientation = StackOrientation.Horizontal,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.FillAndExpand,
                 Children = { passwordPop }//The StackLayout (all passwords)
             };
 
-            _PopUpLayout.ShowPopup(PopUp);
+            var PopUp = new Frame {
+                Content = PopUpInHalt,
+                BackgroundColor = Color.White,
+                HasShadow = true,
+                OutlineColor = Color.Black,
+                
+                HorizontalOptions = LayoutOptions.Start,
+                VerticalOptions = LayoutOptions.Start
+            };
+            
+            if (Device.OS == TargetPlatform.iOS)
+            {
+                waitiOS(PopUpInHalt);
+            }
+            else {
+                _PopUpLayout.ShowPopup(PopUpInHalt);
+            }
 
             return passwordPop;
 
         }
 
+        async void waitiOS(StackLayout PopUp)
+        {
+            await Task.Delay(1);
+            _PopUpLayout.ShowPopup(PopUp);
+        }
+
+        //void customPopUp()
+        //{
+
+        //    PopupLayout _PopUpLayout = new PopupLayout();
+        //    var pop = new ChangePassword();
+
+        //    _PopUpLayout.Content = mainContent;
+        //    Content = _PopUpLayout;
+
+        //    var PopUp = pop.Content;
+        //    PopUp.BackgroundColor = Color.White;
+        //    PopUp.HorizontalOptions = LayoutOptions.FillAndExpand;
+        //    PopUp.VerticalOptions = LayoutOptions.CenterAndExpand;
+        //    PopUp.HeightRequest = 400;
+        //    PopUp.WidthRequest = 320;
+        //    //        WidthRequest = 300, // Important, the Popup has to have a size to be showed
+        //    //        HeightRequest = 320,
+        //    _PopUpLayout.ShowPopup(PopUp);
+
+
+        //}
         //===========================================================================================================================
 
         // Closes Pop Up when Cancel button is pressed
@@ -686,7 +693,7 @@ namespace LOSSPortable
         //2. if new password and confirmation password are same, it would prompt the user again with error message
 
 
-        void closePopUp(ExtendedEntryCell email, ExtendedEntryCell oldPswd, ExtendedEntryCell newPswd, ExtendedEntryCell confirmPswd)
+        void closePopUp(EntryCell email, ExtendedEntryCell oldPswd, ExtendedEntryCell newPswd, ExtendedEntryCell confirmPswd)
         {
             StackLayout temp;
 
@@ -767,7 +774,7 @@ namespace LOSSPortable
                 {
                     //Not Valid email    
                     temp = customPopUp();
-                  //  UserDialogs.Instance.ShowError("Invalid Email");
+                    //  UserDialogs.Instance.ShowError("Invalid Email");
 
                     temp.Children.Add(invalid_email);
 
@@ -839,7 +846,7 @@ namespace LOSSPortable
 
         public async void updatePassword(String email, String oldPass, String newPass)
         {
-            if(Helpers.Settings.SpeechSetting == true)
+            if (Helpers.Settings.SpeechSetting == true)
             {
                 CrossTextToSpeech.Current.Speak("Change Password");
             }
@@ -880,5 +887,88 @@ namespace LOSSPortable
             return true;
         }
 
+    }//end class RegisteredAccountPage
+
+    public class ChangePassword: ContentPage{
+        public ChangePassword()
+        {
+
+            BackgroundColor = Color.White;
+
+            var email_text = new Label { Text = "Email: ", TextColor = Color.Black, FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label))};
+            var old_text = new Label { Text = "Current Password: ", TextColor = Color.Black, FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)) };
+            var new_text = new Label { Text = "New Password: ", TextColor = Color.Black, FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)) };
+            var confirm_text = new Label { Text = "Confirm Password: ", TextColor = Color.Black, FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)) };
+
+
+            var email = new Entry
+            {
+
+                Text = "Email: ",
+                TextColor = Color.Gray,
+                Keyboard = Keyboard.Email,
+                BackgroundColor = Color.White,
+                HorizontalOptions = LayoutOptions.FillAndExpand
+            };
+            var oldPswd = new Entry
+            {
+
+                Text = "Existing Password: ",
+                TextColor = Color.Gray,
+                BackgroundColor = Color.White,
+                IsPassword = true,
+                HorizontalOptions = LayoutOptions.FillAndExpand
+            };
+
+            var newPswd = new Entry
+            {
+                Text = "New Password: ",
+                BackgroundColor = Color.White,
+                IsPassword = true,
+                HorizontalOptions = LayoutOptions.FillAndExpand
+            };
+
+            var confirmPswd = new Entry
+            {
+                Text = "Confirm Password: ",
+                TextColor = Color.Gray,
+                BackgroundColor = Color.White,
+                IsPassword = true,
+                HorizontalOptions = LayoutOptions.FillAndExpand
+            };
+
+            var buttons = new StackLayout()
+            {
+                HorizontalOptions = LayoutOptions.Center,
+                Orientation = StackOrientation.Horizontal,
+                Children = {
+                        new Button()
+                        {
+                            VerticalOptions = LayoutOptions.Start,
+                            HorizontalOptions = LayoutOptions.CenterAndExpand,
+                            WidthRequest =140,
+                            Text = "Cancel",
+                        //    Command = new Command (()=> CancelPopup()),
+                        },
+                        new Button()
+                        {
+                            VerticalOptions = LayoutOptions.Start,
+                            HorizontalOptions = LayoutOptions.CenterAndExpand,
+                            WidthRequest =140,
+                            Text = "OK",
+                        //    Command = new Command (()=> closePopUp(email,oldPswd,newPswd,confirmPswd)),
+                        }
+                    }
+            };
+
+            var table = new StackLayout()
+            {
+                Children = {email_text, email, old_text, oldPswd, new_text, newPswd, confirm_text, confirmPswd, buttons},
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+
+            };
+            Padding = new Thickness(30, Device.OnPlatform(20, 0, 0), 30, 30);
+            Content = table;
+        }
     }
 }
