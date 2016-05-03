@@ -242,7 +242,7 @@ namespace LOSSPortable
             //============================= Login ================================
             Label changePassword = new Label
             {
-                Text = "Change Password",
+                Text = "Reset Password",
                 TextColor = Color.White,
                 FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Center
@@ -254,8 +254,8 @@ namespace LOSSPortable
                 GestureRecognizers = {
                 new TapGestureRecognizer {
                         Command = new Command (
-                            // ()=>Navigation.PushAsync(new ChangePassword())),
-                            ()=>customPopUp()),
+                             ()=>Navigation.PushAsync(new ChangePassword())),
+                           // ()=>customPopUp()),
                 },
                 },
                 Orientation = StackOrientation.Horizontal,
@@ -370,6 +370,7 @@ namespace LOSSPortable
                 resp.Payload.Position = 0;
                 var sr = new StreamReader(resp.Payload);
                 var myStr = sr.ReadToEnd();
+
             }
             catch (Exception e2)
             {
@@ -491,11 +492,7 @@ namespace LOSSPortable
             }
         }
 
-        //void geolocation_switcher_Toggled(object sender, ToggledEventArgs e)
-        //{
-        //    event_label.Text = String.Format("Geolocation enabled? {0}", e.Value);
-        //    Helpers.Settings.locationSetting = e.Value;
-        //}
+
 
         //Text-to-Speech Implementation
         void speech_switcher_Toggled(object sender, ToggledEventArgs e)
@@ -526,359 +523,129 @@ namespace LOSSPortable
             }
         }
 
-        StackLayout customPopUp()
+        //==================================================== Back Button Pressed ==============================================================
+
+        protected override Boolean OnBackButtonPressed() // back button pressed
         {
-            _PopUpLayout = new PopupLayout();
+            ((RootPage)App.Current.MainPage).NavigateTo();
+            return true;
+        }
 
-            var email = new EntryCell
+    }//end class RegisteredAccountPage
+
+    public class ChangePassword: ContentPage{
+
+        StackLayout mainContent;
+
+        public ChangePassword()
+        {
+            Title = "Cancel";
+            if (Helpers.Settings.ContrastSetting == true)
             {
+                BackgroundColor = Colors.contrastBg;
+            }
+            else
+            {
+                BackgroundColor = Colors.background;
+            }
 
-                Label = "Email: ",
-                Placeholder = "Email",
+
+            var email_text = new Label { Text = "Email: ", TextColor = Color.White, FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))};
+            var old_text = new Label { Text = "Current Password: ", TextColor = Color.White, FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) };
+            var new_text = new Label { Text = "New Password: ", TextColor = Color.White, FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) };
+            var confirm_text = new Label { Text = "Confirm Password: ", TextColor = Color.White, FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) };
+
+
+            var email = new Entry
+            {
+                Placeholder = "youremail@example.com",
+                TextColor = Color.Black,
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Entry)),
                 Keyboard = Keyboard.Email,
-                LabelColor = Color.Black
-                // LabelColor = Color.Black
+                PlaceholderColor = Color.White,
+                HorizontalOptions = LayoutOptions.FillAndExpand
             };
-            
-            var oldPswd = new ExtendedEntryCell
+            var oldPswd = new Entry
             {
-
-                Label = "Existing Password: ",
-                Placeholder = "Password",
+                TextColor = Color.Black,
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Entry)),
+                PlaceholderColor = Color.White,
                 IsPassword = true,
-                LabelColor = Color.Black,
+                HorizontalOptions = LayoutOptions.FillAndExpand
             };
 
-            var newPswd = new ExtendedEntryCell
+            var newPswd = new Entry
             {
-                Label = "New Password: ",
-                Placeholder = "Password",
+                TextColor = Color.Black,
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Entry)),
+                PlaceholderColor = Color.White,
                 IsPassword = true,
-                LabelColor = Color.Black
+                HorizontalOptions = LayoutOptions.FillAndExpand
             };
 
-            var confirmPswd = new ExtendedEntryCell()
+            var confirmPswd = new Entry
             {
-                Label = "Confirm Password: ",
-                Placeholder = "Password",
+                TextColor = Color.Black,
+                FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Entry)),
+                PlaceholderColor = Color.White,
                 IsPassword = true,
-                LabelColor = Color.Black
+                HorizontalOptions = LayoutOptions.FillAndExpand
             };
 
-            StackLayout passwordPop = new StackLayout
-            {
-                Children = {
-                            new TableView
-                            {
-                                Root = new TableRoot("Change Password")
-                                {
-                                    new TableSection("Change Password")
-                                    {
-                                        email,
-                                        oldPswd,
-                                        newPswd,
-                                        confirmPswd,
-                                    }
-                                }
-                            },//end tableView
-                            new StackLayout()
-                            {
-                                HorizontalOptions = LayoutOptions.Center,
-                                Orientation = StackOrientation.Horizontal,
-                                Children = {
-                                    new Button()
-                                    {
-                                        VerticalOptions = LayoutOptions.Start,
-                                        HorizontalOptions = LayoutOptions.CenterAndExpand,
-                                        WidthRequest =140,
-                                        Text = "Cancel",
-                                        Command = new Command (()=> CancelPopup()),
-                                    },
-                                    new Button()
-                                    {
-                                        VerticalOptions = LayoutOptions.Start,
-                                        HorizontalOptions = LayoutOptions.CenterAndExpand,
-                                        WidthRequest =140,
-                                        Text = "OK",
-                                        Command = new Command (()=> closePopUp(email,oldPswd,newPswd,confirmPswd)),
-                                    }
-                                }
-                            }
-                        },
-                HorizontalOptions = LayoutOptions.StartAndExpand
-            };
 
-            _PopUpLayout.Content = mainContent;
-            Content = _PopUpLayout;
-
-            var PopUpInHalt = new StackLayout
+            var reset = new Button()
             {
-                WidthRequest = 300, // Important, the Popup has to have a size to be showed
-                HeightRequest = 330,
-                //  BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
-                BackgroundColor = Color.White,
-                Orientation = StackOrientation.Horizontal,
+                Text = "RESET",
+                TextColor = Colors.barBackground,
+                BackgroundColor = Color.FromHex("ffffe6"),
                 HorizontalOptions = LayoutOptions.FillAndExpand,
-                VerticalOptions = LayoutOptions.FillAndExpand,
-                Children = { passwordPop }//The StackLayout (all passwords)
+                Command = new Command(() => Reset_Clicked(email.Text, oldPswd.Text, newPswd.Text, confirmPswd.Text))
             };
 
-            var PopUp = new Frame {
-                Content = PopUpInHalt,
-                BackgroundColor = Color.White,
-                HasShadow = true,
-                OutlineColor = Color.Black,
-                
-                HorizontalOptions = LayoutOptions.Start,
-                VerticalOptions = LayoutOptions.Start
+            mainContent = new StackLayout()
+            {
+                Children = { old_text, oldPswd, new_text, newPswd, confirm_text, confirmPswd, reset },
+                VerticalOptions = LayoutOptions.StartAndExpand,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                Padding = 10
             };
+
+            Content = mainContent;
+        }//end ChangePassword constructor
+
+
+        //============================= OK button Pressed - Check for errors otherwise update password ========================================
+
+        private void Reset_Clicked(String email, String oldPass, String newPass, String confirmPass)
+        {
+
+            if ((String.IsNullOrWhiteSpace(email)) || (String.IsNullOrEmpty(oldPass)) || (String.IsNullOrEmpty(newPass)) || (String.IsNullOrEmpty(confirmPass)))
+            {
+                UserDialogs.Instance.ErrorToast("Please provide information in all fields.");
+            }
+            else if (!(Regex.Match(email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success))
+            {
+                UserDialogs.Instance.ErrorToast("Invalid e-mail.");
+            }
+            else if (newPass == oldPass)
+            {
+                UserDialogs.Instance.ErrorToast("Please pick a new password.");
+            }
+            else if (newPass != confirmPass)
+            {
+                UserDialogs.Instance.ErrorToast("Passwords don't match.");
+            }
+            else
+            {
+                updatePassword(oldPass, newPass);
+            }
+
             
-            if (Device.OS == TargetPlatform.iOS)
-            {
-                waitiOS(PopUpInHalt);
-            }
-            else {
-                _PopUpLayout.ShowPopup(PopUpInHalt);
-            }
-
-            return passwordPop;
-
+            Content = mainContent;
         }
-
-        async void waitiOS(StackLayout PopUp)
-        {
-            await Task.Delay(1);
-            _PopUpLayout.ShowPopup(PopUp);
-        }
-
-        //void customPopUp()
-        //{
-
-        //    PopupLayout _PopUpLayout = new PopupLayout();
-        //    var pop = new ChangePassword();
-
-        //    _PopUpLayout.Content = mainContent;
-        //    Content = _PopUpLayout;
-
-        //    var PopUp = pop.Content;
-        //    PopUp.BackgroundColor = Color.White;
-        //    PopUp.HorizontalOptions = LayoutOptions.FillAndExpand;
-        //    PopUp.VerticalOptions = LayoutOptions.CenterAndExpand;
-        //    PopUp.HeightRequest = 400;
-        //    PopUp.WidthRequest = 320;
-        //    //        WidthRequest = 300, // Important, the Popup has to have a size to be showed
-        //    //        HeightRequest = 320,
-        //    _PopUpLayout.ShowPopup(PopUp);
-
-
-        //}
-        //===========================================================================================================================
-
-        // Closes Pop Up when Cancel button is pressed
-        void CancelPopup()
-        {
-            _PopUpLayout.DismissPopup();
-            ScrollView content = new ScrollView
-            {
-                Content = mainContent,
-                Orientation = ScrollOrientation.Vertical
-            };
-            this.Content = content;
-        }
-
-        //===========================================================================================================================
-
-        //This function takes care of conditions:
-        //1. If old password and new password are same, it would prompt the user again with error message
-        //2. if new password and confirmation password are same, it would prompt the user again with error message
-
-
-        void closePopUp(EntryCell email, ExtendedEntryCell oldPswd, ExtendedEntryCell newPswd, ExtendedEntryCell confirmPswd)
-        {
-            StackLayout temp;
-
-            String email_id = email.Text.TrimEnd();
-
-            String oldPass = oldPswd.Text;
-            System.Diagnostics.Debug.WriteLine(oldPass);
-
-            String newPass = newPswd.Text;
-            System.Diagnostics.Debug.WriteLine(newPass);
-
-            String confirmPass = confirmPswd.Text;
-            System.Diagnostics.Debug.WriteLine(confirmPass);
-
-            if (_PopUpLayout.IsPopupActive)
-            {
-
-
-                var existingPass = new Label
-                {
-                    Text = "Please pick a new password",
-                    HorizontalOptions = LayoutOptions.CenterAndExpand,
-                    TextColor = Color.Red,
-                    FontSize = 20
-                };
-
-                var mismatch = new Label
-                {
-                    Text = "Passwords don't match.",
-                    HorizontalOptions = LayoutOptions.CenterAndExpand,
-                    TextColor = Color.Red,
-                    FontSize = 20
-                };
-
-                var no_email = new Label
-                {
-                    Text = "Please enter your e-mail address.",
-                    HorizontalOptions = LayoutOptions.CenterAndExpand,
-                    TextColor = Color.Red,
-                    FontSize = 20
-                };
-
-                var invalid_email = new Label
-                {
-                    Text = "Please enter a valid e-mail address.",
-                    HorizontalOptions = LayoutOptions.CenterAndExpand,
-                    TextColor = Color.Red,
-                    FontSize = 20
-                };
-                _PopUpLayout.DismissPopup();
-                ScrollView content = new ScrollView
-                {
-                    Content = mainContent,
-                    Orientation = ScrollOrientation.Vertical
-                };
-                this.Content = content;
-
-                if (email_id == null)
-                {
-                    temp = customPopUp();
-                    // temp.Children.Add(no_email);
-
-                    var PopUp = new StackLayout
-                    {
-                        WidthRequest = 300, // Important, the Popup has to have a size to be showed
-                        HeightRequest = 320,
-                        BackgroundColor = Color.White,
-                        Orientation = StackOrientation.Horizontal,
-                        Children = { temp },//The StackLayout (all passwords)
-                        Padding = 5
-                    };
-
-                    if (Device.OS == TargetPlatform.iOS)
-                    {
-                        waitiOS(PopUp);
-                    }
-                    else {
-                        _PopUpLayout.ShowPopup(PopUp);
-                    }
-
-                    System.Diagnostics.Debug.WriteLine("Please enter your e-mail ID.");
-
-                }
-                else if (!(Regex.Match(email_id, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success))
-                {
-                    //Not Valid email    
-                    temp = customPopUp();
-                    //  UserDialogs.Instance.ShowError("Invalid Email");
-
-                    temp.Children.Add(invalid_email);
-
-                    var PopUp = new StackLayout
-                    {
-                        WidthRequest = 300, // Important, the Popup has to have a size to be showed
-                        HeightRequest = 320,
-                        BackgroundColor = Color.White,
-                        Orientation = StackOrientation.Horizontal,
-                        Children = { temp },//The StackLayout (all passwords)
-                        Padding = 5
-                    };
-
-                    if (Device.OS == TargetPlatform.iOS)
-                    {
-                        waitiOS(PopUp);
-                    }
-                    else {
-                        _PopUpLayout.ShowPopup(PopUp);
-                    }
-
-                    System.Diagnostics.Debug.WriteLine("Invalid email");
-
-                }
-                else if (newPass != confirmPass)
-                {   //keep displaying pop up and display error message to user
-
-                    temp = customPopUp();
-                    temp.Children.Add(mismatch);
-
-                    var PopUp = new StackLayout
-                    {
-                        WidthRequest = 300, // Important, the Popup has to have a size to be showed
-                        HeightRequest = 320,
-                        BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
-                        Orientation = StackOrientation.Horizontal,
-                        Children = { temp },//The StackLayout (all passwords)
-                        Padding = 5
-                    };
-
-                    if (Device.OS == TargetPlatform.iOS)
-                    {
-                        waitiOS(PopUp);
-                    }
-                    else {
-                        _PopUpLayout.ShowPopup(PopUp);
-                    }
-
-                    System.Diagnostics.Debug.WriteLine("Passwords don't match");
-                }
-                else if (oldPass == newPass)
-                {
-                    temp = customPopUp();
-                    temp.Children.Add(existingPass);
-
-                    var PopUp = new StackLayout
-                    {
-                        WidthRequest = 300, // Important, the Popup has to have a size to be showed
-                        HeightRequest = 320,
-                        BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
-                        Orientation = StackOrientation.Horizontal,
-                        Children = { temp },//The StackLayout (all passwords)
-                        Padding = 5
-                    };
-
-                    if (Device.OS == TargetPlatform.iOS)
-                    {
-                        waitiOS(PopUp);
-                    }
-                    else {
-                        _PopUpLayout.ShowPopup(PopUp);
-                    }
-                    System.Diagnostics.Debug.WriteLine("Please pick a new password");
-                }
-                else
-                {
-                    updatePassword(email_id, oldPass, newPass);
-                    UserDialogs.Instance.ShowSuccess("Password has been changed successfully.");
-                }//update password
-            }
-            else //if no pop up is displayed
-            {
-                temp = customPopUp();
-                if (Device.OS == TargetPlatform.iOS)
-                {
-                    waitiOS(temp);
-                }
-                else {
-                    _PopUpLayout.ShowPopup(temp);
-                }
-
-            }
-        }
-
         //==================================================== update password on server ==============================================================
 
-        public async void updatePassword(String email, String oldPass, String newPass)
+        public async void updatePassword(String oldPass, String newPass)
         {
             if (Helpers.Settings.SpeechSetting == true)
             {
@@ -887,7 +654,7 @@ namespace LOSSPortable
 
             try
             {
-                UserItem user = new UserItem { Item = new UserLogin { Email = email, Password = oldPass.TrimEnd(), NewPassword = newPass, Arn = "" + Helpers.Settings.EndpointArnSetting } };
+                UserItem user = new UserItem { Item = new UserLogin { Email = Helpers.Settings.EmailSetting, Password = oldPass.TrimEnd(), NewPassword = newPass, Arn = "" + Helpers.Settings.EndpointArnSetting } };
                 MessageJson messageJson = new MessageJson { operation = "update", tableName = "User", payload = user };
                 string args = JsonConvert.SerializeObject(messageJson);
 
@@ -905,104 +672,18 @@ namespace LOSSPortable
                 var sr = new StreamReader(resp.Payload);
                 var myStr = sr.ReadToEnd();
 
-                //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
-                //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
+                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
+
+
+                UserDialogs.Instance.ShowSuccess("Password updated successfully.");
+                Navigation.PopAsync();
+                
             }
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine("Error:" + e);
             }
-        }
-        //==================================================== Back Button Pressed ==============================================================
-
-        protected override Boolean OnBackButtonPressed() // back button pressed
-        {
-            ((RootPage)App.Current.MainPage).NavigateTo();
-            return true;
-        }
-
-    }//end class RegisteredAccountPage
-
-    public class ChangePassword: ContentPage{
-        public ChangePassword()
-        {
-
-            BackgroundColor = Color.White;
-
-            var email_text = new Label { Text = "Email: ", TextColor = Color.Black, FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label))};
-            var old_text = new Label { Text = "Current Password: ", TextColor = Color.Black, FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)) };
-            var new_text = new Label { Text = "New Password: ", TextColor = Color.Black, FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)) };
-            var confirm_text = new Label { Text = "Confirm Password: ", TextColor = Color.Black, FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)) };
-
-
-            var email = new Entry
-            {
-
-                Text = "Email: ",
-                TextColor = Color.Gray,
-                Keyboard = Keyboard.Email,
-                BackgroundColor = Color.White,
-                HorizontalOptions = LayoutOptions.FillAndExpand
-            };
-            var oldPswd = new Entry
-            {
-
-                Text = "Existing Password: ",
-                TextColor = Color.Gray,
-                BackgroundColor = Color.White,
-                IsPassword = true,
-                HorizontalOptions = LayoutOptions.FillAndExpand
-            };
-
-            var newPswd = new Entry
-            {
-                Text = "New Password: ",
-                BackgroundColor = Color.White,
-                IsPassword = true,
-                HorizontalOptions = LayoutOptions.FillAndExpand
-            };
-
-            var confirmPswd = new Entry
-            {
-                Text = "Confirm Password: ",
-                TextColor = Color.Gray,
-                BackgroundColor = Color.White,
-                IsPassword = true,
-                HorizontalOptions = LayoutOptions.FillAndExpand
-            };
-
-            var buttons = new StackLayout()
-            {
-                HorizontalOptions = LayoutOptions.Center,
-                Orientation = StackOrientation.Horizontal,
-                Children = {
-                        new Button()
-                        {
-                            VerticalOptions = LayoutOptions.Start,
-                            HorizontalOptions = LayoutOptions.CenterAndExpand,
-                            WidthRequest =140,
-                            Text = "Cancel",
-                        //    Command = new Command (()=> CancelPopup()),
-                        },
-                        new Button()
-                        {
-                            VerticalOptions = LayoutOptions.Start,
-                            HorizontalOptions = LayoutOptions.CenterAndExpand,
-                            WidthRequest =140,
-                            Text = "OK",
-                        //    Command = new Command (()=> closePopUp(email,oldPswd,newPswd,confirmPswd)),
-                        }
-                    }
-            };
-
-            var table = new StackLayout()
-            {
-                Children = {email_text, email, old_text, oldPswd, new_text, newPswd, confirm_text, confirmPswd, buttons},
-                VerticalOptions = LayoutOptions.CenterAndExpand,
-
-            };
-            Padding = new Thickness(30, Device.OnPlatform(20, 0, 0), 30, 30);
-            Content = table;
         }
     }
 }

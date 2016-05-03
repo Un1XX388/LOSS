@@ -42,16 +42,6 @@ namespace LOSSPortable
 
             Login = new Button { Text = "Login", TextColor = Color.White };
 
-            //if (Helpers.Settings.LoginSetting == true)
-            //{
-            //    loggedIn = true;
-            //    Login.Text = "Logout";
-            //}
-            //else
-            //{
-            //    loggedIn = false;
-            //    Login.Text = "Login";
-            //}
             Login.Clicked += Login_Clicked;
 
             var layout = new StackLayout { Padding = 10 };
@@ -62,7 +52,7 @@ namespace LOSSPortable
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.CenterAndExpand
             };
-            email = new Entry { Placeholder = "Email", BackgroundColor = Color.White, PlaceholderColor = Color.Gray, TextColor = Color.Black };
+            email = new Entry { Placeholder = "Email", BackgroundColor = Color.White, PlaceholderColor = Color.Gray, TextColor = Color.Black, Keyboard = Keyboard.Email};
             layout.Children.Add(email);
 
             password = new Entry { Placeholder = "Password", IsPassword = true, BackgroundColor = Color.White, PlaceholderColor = Color.Gray, TextColor = Color.Black };
@@ -76,8 +66,8 @@ namespace LOSSPortable
                 FontSize = Device.GetNamedSize(NamedSize.Default, typeof(Label)),
                 TextColor = Color.Gray,
                 VerticalOptions = LayoutOptions.Center,
-                HorizontalTextAlignment = TextAlignment.Center, // Center the text in the blue box.
-                VerticalTextAlignment = TextAlignment.Center, // Center the text in the blue box.
+                HorizontalTextAlignment = TextAlignment.Center, 
+                VerticalTextAlignment = TextAlignment.Center
             };
             label.GestureRecognizers.Add(new TapGestureRecognizer {
                 Command = new Command(
@@ -89,7 +79,7 @@ namespace LOSSPortable
             var label2 = new Label
             {
                 Text = "or",
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
                 TextColor = Color.White,
                 VerticalOptions = LayoutOptions.Center,
                 HorizontalTextAlignment = TextAlignment.Center, // Center the text in the blue box.
