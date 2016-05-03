@@ -32,12 +32,16 @@ namespace LOSSPortable
                 TargetType = typeof(ResourcesTabbedSwipePage)
             });
 
-            masterPageItems.Add(new MasterPageItem
-            {
-                Title = "Conversations",
-                IconSource = "chat.png",
-                TargetType = typeof(ChatSelection)
-            });
+			//disabled conversations menu item on iOS for sponsor. Conversations tab only displayed on Android.
+			Device.OnPlatform(Android: () => {
+				
+	            masterPageItems.Add(new MasterPageItem
+	            {
+	                Title = "Conversations",
+	                IconSource = "chat.png",
+	                TargetType = typeof(ChatSelection)
+	            });
+			}); 
 
             masterPageItems.Add(new MasterPageItem
             {
@@ -78,6 +82,7 @@ namespace LOSSPortable
             Icon = "drawable/menu.png";
             Title = "MENU";
             listView.RowHeight = 60;
+			listView.BackgroundColor = Color.FromHex ("B3B3B3");
             Device.OnPlatform(Android: () => {
                 listView.SeparatorVisibility = SeparatorVisibility.Default;
                 listView.SeparatorColor = Color.FromHex("4D345D"); //separator between options
@@ -106,7 +111,7 @@ namespace LOSSPortable
                 Text = string.Format("Call Suicide Hotline")
             };
             hotlineButton.Clicked += (sender, args) => {
-                Device.OpenUri(new Uri(string.Format("tel:{0}", "+11111111111")));
+				Device.OpenUri(new Uri(string.Format("tel:{0}", "+1(800)2738255")));
             };
 
             var layout = new StackLayout

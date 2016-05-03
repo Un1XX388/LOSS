@@ -254,8 +254,7 @@ namespace LOSSPortable
                 GestureRecognizers = {
                 new TapGestureRecognizer {
                         Command = new Command (
-                             ()=>Navigation.PushAsync(new ChangePassword())),
-                           // ()=>customPopUp()),
+							()=> Navigation.PushAsync(new ChangePassword())),
                 },
                 },
                 Orientation = StackOrientation.Horizontal,
@@ -533,14 +532,20 @@ namespace LOSSPortable
 
     }//end class RegisteredAccountPage
 
+
+
+	//======================================================== ChangePassword Class ===========================================================
     public class ChangePassword: ContentPage{
 
         StackLayout mainContent;
 
         public ChangePassword()
         {
-            Title = "Cancel";
-            if (Helpers.Settings.ContrastSetting == true)
+			Title = "";
+
+			NavigationPage.SetBackButtonTitle(this, "Cancel");
+
+			if(Helpers.Settings.ContrastSetting == true)
             {
                 BackgroundColor = Colors.contrastBg;
             }
@@ -596,8 +601,7 @@ namespace LOSSPortable
             var reset = new Button()
             {
                 Text = "RESET",
-                TextColor = Colors.barBackground,
-                BackgroundColor = Color.FromHex("ffffe6"),
+				TextColor = Color.White,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 Command = new Command(() => Reset_Clicked(email.Text, oldPswd.Text, newPswd.Text, confirmPswd.Text))
             };
@@ -625,15 +629,17 @@ namespace LOSSPortable
             }
             else if (!(Regex.Match(email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success))
             {
-                UserDialogs.Instance.ErrorToast("Invalid e-mail.");
+				UserDialogs.Instance.ErrorToast ("Invalid e-mail.");
             }
             else if (newPass == oldPass)
             {
                 UserDialogs.Instance.ErrorToast("Please pick a new password.");
+
             }
             else if (newPass != confirmPass)
             {
                 UserDialogs.Instance.ErrorToast("Passwords don't match.");
+
             }
             else
             {
@@ -677,7 +683,7 @@ namespace LOSSPortable
 
 
                 UserDialogs.Instance.ShowSuccess("Password updated successfully.");
-                Navigation.PopAsync();
+                await Navigation.PopAsync();
                 
             }
             catch (Exception e)
