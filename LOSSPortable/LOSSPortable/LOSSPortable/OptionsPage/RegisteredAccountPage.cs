@@ -614,7 +614,7 @@ namespace LOSSPortable
             var PopUpInHalt = new StackLayout
             {
                 WidthRequest = 300, // Important, the Popup has to have a size to be showed
-                HeightRequest = 310,
+                HeightRequest = 330,
                 //  BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
                 BackgroundColor = Color.White,
                 Orientation = StackOrientation.Horizontal,
@@ -760,13 +760,20 @@ namespace LOSSPortable
                     {
                         WidthRequest = 300, // Important, the Popup has to have a size to be showed
                         HeightRequest = 320,
-                        BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
+                        BackgroundColor = Color.White,
                         Orientation = StackOrientation.Horizontal,
                         Children = { temp },//The StackLayout (all passwords)
                         Padding = 5
                     };
 
-                    _PopUpLayout.ShowPopup(PopUp);
+                    if (Device.OS == TargetPlatform.iOS)
+                    {
+                        waitiOS(PopUp);
+                    }
+                    else {
+                        _PopUpLayout.ShowPopup(PopUp);
+                    }
+
                     System.Diagnostics.Debug.WriteLine("Please enter your e-mail ID.");
 
                 }
@@ -782,13 +789,20 @@ namespace LOSSPortable
                     {
                         WidthRequest = 300, // Important, the Popup has to have a size to be showed
                         HeightRequest = 320,
-                        BackgroundColor = Color.FromHex("3f3f3f"), // for Android and WP
+                        BackgroundColor = Color.White,
                         Orientation = StackOrientation.Horizontal,
                         Children = { temp },//The StackLayout (all passwords)
                         Padding = 5
                     };
 
-                    _PopUpLayout.ShowPopup(PopUp);
+                    if (Device.OS == TargetPlatform.iOS)
+                    {
+                        waitiOS(PopUp);
+                    }
+                    else {
+                        _PopUpLayout.ShowPopup(PopUp);
+                    }
+
                     System.Diagnostics.Debug.WriteLine("Invalid email");
 
                 }
@@ -808,7 +822,14 @@ namespace LOSSPortable
                         Padding = 5
                     };
 
-                    _PopUpLayout.ShowPopup(PopUp);
+                    if (Device.OS == TargetPlatform.iOS)
+                    {
+                        waitiOS(PopUp);
+                    }
+                    else {
+                        _PopUpLayout.ShowPopup(PopUp);
+                    }
+
                     System.Diagnostics.Debug.WriteLine("Passwords don't match");
                 }
                 else if (oldPass == newPass)
@@ -826,7 +847,13 @@ namespace LOSSPortable
                         Padding = 5
                     };
 
-                    _PopUpLayout.ShowPopup(PopUp);
+                    if (Device.OS == TargetPlatform.iOS)
+                    {
+                        waitiOS(PopUp);
+                    }
+                    else {
+                        _PopUpLayout.ShowPopup(PopUp);
+                    }
                     System.Diagnostics.Debug.WriteLine("Please pick a new password");
                 }
                 else
@@ -838,7 +865,14 @@ namespace LOSSPortable
             else //if no pop up is displayed
             {
                 temp = customPopUp();
-                _PopUpLayout.ShowPopup(temp);
+                if (Device.OS == TargetPlatform.iOS)
+                {
+                    waitiOS(temp);
+                }
+                else {
+                    _PopUpLayout.ShowPopup(temp);
+                }
+
             }
         }
 
