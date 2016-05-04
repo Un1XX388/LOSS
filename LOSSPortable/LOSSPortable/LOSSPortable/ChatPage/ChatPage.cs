@@ -33,7 +33,7 @@ namespace LOSSPortable
         private int MessageCount;
         private Entry editor = new Entry();
         CancellationTokenSource ct = new CancellationTokenSource();
-        private Boolean terminate;
+        private static Boolean terminate;
         private DateTime date;
         String name;
         //        List<Message> msgs = new List<Message>(); //history of messaging
@@ -477,17 +477,10 @@ namespace LOSSPortable
         protected async override void OnAppearing() //Functionality to start the page that reads the history from the server and displays the log.
         {
             base.OnAppearing();
-            MessagingCenter.Subscribe<App, ChatMessage>(this, "ConversationEnd", (sender, arg) => //adds message to log
-            {
-                MessagingCenter.Send<ChatPage>(this, "End");
-                MessagingCenter.Unsubscribe<App>(this, "ConversationEnd");
-                if (terminate) {
-                    terminate = false;
-                    terminateChat();
-                }
-            });
+            
 
             MessagingCenter.Send<ChatPage>(this, "Start");
+            MessagingCenter.Unsubscribe<App, ChatMessage>(this, "Hi");
             MessagingCenter.Subscribe<App, ChatMessage>(this, "Hi", (sender, arg) => //adds message to log
             {
                 try
@@ -506,7 +499,17 @@ namespace LOSSPortable
                 Constants.conv.msgs.Add(arg);
                 ScrollEvent();
             });
-            
+            MessagingCenter.Unsubscribe<App>(this, "ConversationEnd");
+            MessagingCenter.Subscribe<App, ChatMessage>(this, "ConversationEnd", (sender, arg) => //adds message to log
+            {
+                MessagingCenter.Send<ChatPage>(this, "End");
+                MessagingCenter.Unsubscribe<App>(this, "ConversationEnd");
+                this.send.IsEnabled = false;
+                if (terminate)
+                {
+                    terminateChat();
+                }
+            });
             await LoadMessages();
            
             this.MessageCount = Constants.conv.msgs.Count;
@@ -529,9 +532,11 @@ namespace LOSSPortable
 
         private async void terminateChat()
         {
-            await DisplayAlert("Conversation ended", talkingToNickname + " has left the conversation", "OK");
-            this.send.IsEnabled = false;
+            
+            if (terminate) { 
+                terminate = false; 
+                await DisplayAlert("Conversation ended", "User has left the conversation", "OK");
+            }   
         }
-
     }
 }

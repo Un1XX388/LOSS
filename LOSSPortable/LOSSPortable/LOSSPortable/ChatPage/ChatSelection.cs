@@ -20,8 +20,6 @@ namespace LOSSPortable
     public class ChatSelection : ContentPage
     {
 
-        
-      
         private StackLayout stackLayout;
         private StackLayout outerLayout;
         private ScrollView innerScroll;
@@ -35,7 +33,7 @@ namespace LOSSPortable
         Button endConversation = new Button { HorizontalOptions = LayoutOptions.FillAndExpand, Text = "End Conversation", WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22), BorderWidth = 1 };
         private double longitude;
         private double latitude;
-        private string nickName = "";
+        
         
 
         public ChatSelection() //general constructor for chat selection. initializes the page with layout, images, colors, buttons,  and actions
@@ -53,13 +51,27 @@ namespace LOSSPortable
             nameEntry.Text = Helpers.Settings.DisplayName;
             Title = "Chat Selection";
             Icon = "Accounts.png";
+            ActivityIndicator loading = new ActivityIndicator()
+            {
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                Color = Color.Black,
+                BindingContext = this,
+                IsEnabled = true,
+                IsRunning = false
 
+            };
+            loading.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
+            //loading.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
 
             if (Helpers.Settings.IsVolunteer)
             {
                 this.startConversation.IsVisible = false;
                 this.chatAvailability.IsVisible = true;
                 this.endConversation.IsVisible = false;
+                this.nameEntry.IsVisible = false;
+                this.nameEntry.IsEnabled = false;
+                this.nameEntry.Text = Helpers.Settings.DisplayName;
                 readyToChat.IsVisible = true;
                 readyToChat.IsEnabled = true;
                 readyToChat.Toggled += readyToChatF;
@@ -86,6 +98,7 @@ namespace LOSSPortable
              */
             update.Clicked += (s, e) =>
             {
+                this.startConversation.IsEnabled = false;
                 HandshakeStart();
                 update.IsVisible = false;
                 Helpers.Settings.DisplayName = nameEntry.Text;
@@ -182,7 +195,9 @@ namespace LOSSPortable
                 startConversation.Text = "Enter Conversation";
                 startConversation.IsVisible = true;
                 startConversation.IsEnabled = true;
-                nameEntry.IsEnabled = false;
+                this.nameEntry.IsVisible = false;
+                this.nameEntry.IsEnabled = false;
+                this.nameEntry.Text = Helpers.Settings.DisplayName;
                 endConversation.IsVisible = true;
                 startConversation.Clicked += ContinueConversationEvent;
             }
@@ -204,7 +219,9 @@ namespace LOSSPortable
                 startConversation.IsVisible = false;
                 startConversation.IsEnabled = true;
                 endConversation.IsVisible = false;
-                nameEntry.IsEnabled = true;
+                this.nameEntry.IsVisible = false;
+                this.nameEntry.IsEnabled = false;
+                this.nameEntry.Text = Helpers.Settings.DisplayName;
                 startConversation.Clicked -= ContinueConversationEvent;
             }
             else
@@ -249,11 +266,13 @@ namespace LOSSPortable
             {
                 Helpers.Settings.ChatActiveSetting = true;
                 chatAvailability.Text = "Available to chat";
+                HandshakeStart();
             }
             else
             {
                 Helpers.Settings.ChatActiveSetting = false;
                 chatAvailability.Text = "Not available";
+                HandshakeStart();
             }
             //this.Content = outerLayout;
         }
@@ -261,9 +280,12 @@ namespace LOSSPortable
         //Starts the handshake by getting the geolocation and then starting the handshake to find a nearby volunteer
         public async void HandshakeStart() 
         {
-                await getLocation(); //check geolocation
-                await Handshake(); //handshake attempt
-                await DisplayAlert("hello", "Handshake finished. long= "+longitude+ " lat= "+latitude , "ok");
+            this.IsBusy = true;
+            this.startConversation.IsEnabled = false;
+            await getLocation(); //check geolocation
+            await Handshake(); //handshake attempt
+            this.startConversation.IsEnabled = true;
+            this.IsBusy = false;
         }
         //-------------------------Caching---------------------------------
 
@@ -288,7 +310,7 @@ namespace LOSSPortable
 
             MessagingCenter.Subscribe<App, ChatMessage>(this, "HandshakeEnd", (sender, arg) => //adds message to log
             {
-                this.nickName = "";
+
                 Helpers.Settings.ToFromArn = "";
                 startConversationPath();
             });
@@ -310,8 +332,6 @@ namespace LOSSPortable
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            MessagingCenter.Unsubscribe<App, ChatMessage>(this, "Handshake");
-            MessagingCenter.Unsubscribe<App, ChatMessage>(this, "HandshakeEnd");
             MessagingCenter.Send<ChatSelection>(this, "End");
         }
 
@@ -388,7 +408,6 @@ namespace LOSSPortable
             var sr = new StreamReader(resp.Payload);
             var myStr = sr.ReadToEnd();
             System.Diagnostics.Debug.WriteLine("stopConversation : " + myStr);
-            this.nickName = "";
             Helpers.Settings.ToFromArn = "";
             Constants.conv.name = "";
             Constants.conv.id = "";
@@ -437,7 +456,6 @@ namespace LOSSPortable
                 }
                 else if (response.Success == "false")
                 {
-                    nickName = "";
                     Helpers.Settings.ToFromArn = "";
                     startConversationPath();
                 }
@@ -458,8 +476,18 @@ namespace LOSSPortable
         {
             try
             {
-                UserInfoItem message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting, Available = true } }; //Helpers.Settings.EndpointArnSetting
-                //await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
+                UserInfoItem message;
+                if (Helpers.Settings.IsVolunteer)
+                {
+                    if(Helpers.Settings.ChatActiveSetting){
+                        message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting, Available = true } };
+                    }else{
+                        message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting, Available = false } };
+                    }
+                }
+                else{
+                    message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting, Available = true } }; //Helpers.Settings.EndpointArnSetting
+                }//await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
                 //await DisplayAlert("sent ", "sent to server: " + latitude + " " + longitude + " " + "Name" + " " + Helpers.Settings.EndpointArnSetting, "ok");
                 UserInfoJson messageJson = new UserInfoJson { operation = "create", tableName = "User", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
@@ -470,7 +498,6 @@ namespace LOSSPortable
                     InvocationType = InvocationType.RequestResponse
                 };
                 
-
                 InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
                 resp.Payload.Position = 0;
                 var sr = new StreamReader(resp.Payload);

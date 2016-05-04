@@ -25,7 +25,7 @@ namespace LOSSPortable
         public string Description { get; set; }
 
         [DynamoDBProperty]
-        public string ImageURL { get; set; }
+        public string Image { get; set; }
 
         private Image image;
 
@@ -36,7 +36,7 @@ namespace LOSSPortable
                     image = new Image { Aspect = Aspect.AspectFit };
                     image.Source = new UriImageSource
                     {
-                        Uri = new Uri(ImageURL),
+                        Uri = new Uri(Image),
                         CachingEnabled = true,
                         CacheValidity = new TimeSpan(5, 0, 0, 0)
                     };
