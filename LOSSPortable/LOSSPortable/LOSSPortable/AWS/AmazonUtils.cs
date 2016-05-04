@@ -200,12 +200,12 @@ namespace LOSSPortable
 
         public static void updateOnlineRList()
         {
+            onlineRList = new RangeObservableCollection<OnlineRViewModel>();
             queryOnlineRList().ContinueWith(task =>
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     onlineRList.AddRange(queryOnlineRList().Result);
-                    //System.Diagnostics.Debug.WriteLine("UpdateOnlineRList()");
                 });
             });
         }
@@ -237,6 +237,7 @@ namespace LOSSPortable
 
         public static void updateOnlineVList()
         {
+            onlineVList = new RangeObservableCollection<OnlineVViewModel>();
             queryOnlineVList().ContinueWith(task =>
             {
                 Device.BeginInvokeOnMainThread(() =>
@@ -275,6 +276,7 @@ namespace LOSSPortable
 
         public static void updateOnlinePlaylist()
         {
+            onlinePlaylist = new RangeObservableCollection<OnlinePlaylistModel>();
             queryOnlinePlaylist().ContinueWith(task =>
             {
                 Device.BeginInvokeOnMainThread(() =>
