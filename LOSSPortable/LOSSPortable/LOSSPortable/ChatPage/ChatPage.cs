@@ -194,21 +194,24 @@ namespace LOSSPortable
         }
 
         //individual message tapped in chat-> allow to report a message, hide the text, or delete the message
-        async void OnLabelClicked(object s, EventArgs e, Label label, ChatMessage msg, int Type)
+        async void OnLabelClicked(object s, EventArgs e, ChatMessage msg, int Type)
         {
             var action = await DisplayActionSheet(null, null, null, "Hide Text", "Report", "Delete Message");
+            Grid grid;
             switch (action)
             {
                 case "Report":
                     //await DisplayAlert("Alert", "Reporting not implemented yet.", "OK");
                     reportMessage(msg);
                     break;
-                case "Hide Text":
-                    var labels = s as Label;
-                    labels.IsVisible = false;
+                case "Hide Message":
+                    grid = s as Grid;
+                    grid.IsVisible = false;
                     break;
                 case "Delete Message":
-                    deleteMessage(msg.Id);
+                    grid = s as Grid;
+                    grid.IsVisible = false;
+                    deleteMessage(msg);
                     break;
 
             }
@@ -250,7 +253,7 @@ namespace LOSSPortable
             { innerGrid.BackgroundColor = Color.FromHex("f2f2f2"); }
             else
             { innerGrid.BackgroundColor = Color.FromHex("d9d9d9"); }
-
+           
 
 
 
@@ -264,7 +267,7 @@ namespace LOSSPortable
             Label name = new Label { Text = message.Sender, TextColor = Color.Black, FontAttributes = FontAttributes.Bold, FontSize = 20, FontFamily = "Arial" }; //, XAlign = TextAlignment.Start
             name.VerticalOptions = LayoutOptions.StartAndExpand;
 
-            var datetime = DateTime.Now;
+            //var datetime = DateTime.Now;
             Label time = new Label { Text = message.Time.Substring(0,5), TextColor = Color.Black, FontSize = 20, FontFamily = "Arial" };
             
 
@@ -273,8 +276,8 @@ namespace LOSSPortable
             var tgr = new TapGestureRecognizer();
 
 
-            tgr.Tapped += (s, e) => OnLabelClicked(s, e, response, message, 1);
-            response.GestureRecognizers.Add(tgr);
+            tgr.Tapped += (s, e) => OnLabelClicked(s, e, message, 1);
+            //response.GestureRecognizers.Add(tgr);
             response.VerticalOptions = LayoutOptions.Start;
             int labelLength = 2 + numRows;
 
@@ -291,7 +294,7 @@ namespace LOSSPortable
             innerGrid.Children.Add(time,4,0);
 
             innerGrid.Children.Add(response, 0, 5, 1, labelLength);
-
+            innerGrid.GestureRecognizers.Add(tgr);
             gridLayout.Children.AddVertical(innerGrid);
             gridLayout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
@@ -315,13 +318,12 @@ namespace LOSSPortable
 
         }
 
-        public void deleteMessage(String id) //given the ID of a message, delete said message from messages.
+        public void deleteMessage(ChatMessage msg) //given the ID of a message, delete said message from messages.
         {
-            ChatMessage found = Constants.conv.msgs.Find(x => x.Id == id);
-            Constants.conv.msgs.Remove(found);
-            MessageCount--;
+            Constants.conv.msgs.Remove(msg);
+            //MessageCount--;
             
-            refreshView();
+            //refreshView();
         }
 
         public void refreshView() //refreshes the view of the layout to display modifications
@@ -336,7 +338,7 @@ namespace LOSSPortable
 
         public void reportMessage(ChatMessage msg) //Enables users to report selected message based on specific criteria
         {
-
+            Navigation.PopAsync();
             Navigation.PushAsync(new ReportMessage(msg));
         }
 
@@ -510,6 +512,14 @@ namespace LOSSPortable
                     terminateChat();
                 }
             });
+            this.innerScroll = new ScrollView
+            {
+                VerticalOptions = LayoutOptions.Start,
+                HorizontalOptions = LayoutOptions.Start,
+                Padding = new Thickness(5, 5, 5, 10),
+                //BackgroundColor = Color.FromHex("CCCCFF"),
+                Content = gridLayout
+            };
             await LoadMessages();
            
             this.MessageCount = Constants.conv.msgs.Count;

@@ -3626,8 +3626,8 @@ namespace LOSSPortable.Droid
 			// aapt resource value: 0x7f020073
 			public const int mr_ic_settings_light = 2130837619;
 			
-			// aapt resource value: 0x7f02008c
-			public const int notification_template_icon_bg = 2130837644;
+			// aapt resource value: 0x7f020088
+			public const int notification_template_icon_bg = 2130837640;
 			
 			// aapt resource value: 0x7f020074
 			public const int online1 = 2130837620;
@@ -3636,70 +3636,58 @@ namespace LOSSPortable.Droid
 			public const int option = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int phone = 2130837622;
+			public const int pdf = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int play = 2130837623;
+			public const int phone = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int playlist = 2130837624;
+			public const int play = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int prof = 2130837625;
+			public const int playlist = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int prof2 = 2130837626;
+			public const int prof = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int quote64 = 2130837627;
+			public const int prof2 = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int radialback = 2130837628;
+			public const int quote64 = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int radialback2 = 2130837629;
+			public const int radialback = 2130837629;
 			
 			// aapt resource value: 0x7f02007e
-			public const int roundedbg = 2130837630;
+			public const int radialback2 = 2130837630;
 			
 			// aapt resource value: 0x7f02007f
-			public const int roundedbgdark = 2130837631;
+			public const int roundedbg = 2130837631;
 			
 			// aapt resource value: 0x7f020080
-			public const int splash = 2130837632;
+			public const int roundedbgdark = 2130837632;
 			
 			// aapt resource value: 0x7f020081
-			public const int survey = 2130837633;
+			public const int splash = 2130837633;
 			
 			// aapt resource value: 0x7f020082
-			public const int username = 2130837634;
+			public const int survey = 2130837634;
 			
 			// aapt resource value: 0x7f020083
-			public const int vid1 = 2130837635;
+			public const int username = 2130837635;
 			
 			// aapt resource value: 0x7f020084
-			public const int vid2 = 2130837636;
+			public const int videoplay64 = 2130837636;
 			
 			// aapt resource value: 0x7f020085
-			public const int vid3 = 2130837637;
+			public const int watched = 2130837637;
 			
 			// aapt resource value: 0x7f020086
-			public const int vid4 = 2130837638;
+			public const int web = 2130837638;
 			
 			// aapt resource value: 0x7f020087
-			public const int vid5 = 2130837639;
-			
-			// aapt resource value: 0x7f020088
-			public const int vid6 = 2130837640;
-			
-			// aapt resource value: 0x7f020089
-			public const int videoplay64 = 2130837641;
-			
-			// aapt resource value: 0x7f02008a
-			public const int watched = 2130837642;
-			
-			// aapt resource value: 0x7f02008b
-			public const int web = 2130837643;
+			public const int webdesign = 2130837639;
 			
 			static Drawable()
 			{

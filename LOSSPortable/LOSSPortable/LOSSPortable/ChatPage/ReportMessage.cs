@@ -30,7 +30,7 @@ namespace LOSSPortable
             temp = new ReportM();
             this.msg = msg;
 
-            Title = "Report Message from: " + msg.Sender;
+            Title = "Report Message from: " + Constants.conv.name;
             //var result = "";
 
 
@@ -51,7 +51,7 @@ namespace LOSSPortable
 
             picker.Items.Add("Offensive Language");
             picker.Items.Add("Spam");
-            picker.Items.Add("Thread");
+            picker.Items.Add("Threat");
             picker.Items.Add("Solicitation");
 
             picker.SelectedIndexChanged += (sender, args) =>
@@ -111,8 +111,8 @@ namespace LOSSPortable
             await SaveAsync<ReportM>(temp, ct.Token);
 
             UserDialogs.Instance.ShowSuccess("Thank you! Message report has been submitted.");
-            //await Navigation.PopAsync();
-
+            
+            await Navigation.PopAsync();
         }
 
         public async Task SaveAsync<ReportM>(ReportM entity, CancellationToken ct)

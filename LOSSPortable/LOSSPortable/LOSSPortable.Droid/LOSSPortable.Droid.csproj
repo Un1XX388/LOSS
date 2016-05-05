@@ -283,12 +283,6 @@
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\drawable\menu.png" />
     <AndroidResource Include="Resources\drawable\radialback.xml" />
-    <AndroidResource Include="Resources\drawable\vid1.jpg" />
-    <AndroidResource Include="Resources\drawable\vid2.jpg" />
-    <AndroidResource Include="Resources\drawable\vid3.jpg" />
-    <AndroidResource Include="Resources\drawable\vid4.jpg" />
-    <AndroidResource Include="Resources\drawable\vid5.jpg" />
-    <AndroidResource Include="Resources\drawable\vid6.jpg" />
     <AndroidResource Include="Resources\drawable\prof.png" />
     <AndroidResource Include="Resources\drawable\prof2.png" />
     <AndroidResource Include="Resources\drawable\homepage.png" />
@@ -313,6 +307,9 @@
     <AndroidResource Include="Resources\drawable\splash.png" />
     <AndroidResource Include="Resources\drawable\username.png" />
     <AndroidResource Include="Resources\drawable\email.png" />
+    <AndroidResource Include="Resources\drawable\pdf.png" />
+    <Content Include="Resources\drawable\globe.png" />
+    <AndroidResource Include="Resources\drawable\webdesign.png" />
     <Content Include="Resources\login.png" />
     <Content Include="Resources\logout.png" />
   </ItemGroup>

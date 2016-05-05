@@ -41,13 +41,13 @@ namespace LOSSPortable
                 switch (online_resources[i].Type)
                 {
                     case "Website":
-                        online_resources[i].Image = "online1.png";
+                        online_resources[i].Image = "webdesign.png";
                         break;
                     case "PDF":
-                        online_resources[i].Image = "quote64.png";
+                        online_resources[i].Image = "pdf.png";
                         break;
                     default:
-                        online_resources[i].Image = "onlint1.png";
+                        online_resources[i].Image = "webdesign.png";
                         break;
                 }
             }
