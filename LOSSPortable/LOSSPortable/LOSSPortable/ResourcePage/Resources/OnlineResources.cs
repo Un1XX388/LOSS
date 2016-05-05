@@ -56,7 +56,7 @@ namespace LOSSPortable
             ListView lstView = new ListView();
 
             // Set size (height) of each element displayed on this page.
-            lstView.RowHeight = 70;
+            lstView.RowHeight = 100;
 
             // Set title of this page.
 

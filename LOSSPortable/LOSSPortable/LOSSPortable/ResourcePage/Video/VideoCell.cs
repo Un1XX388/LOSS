@@ -10,12 +10,13 @@ namespace LOSSPortable{
 
                  Color bg;
 
-                 if (Helpers.Settings.ContrastSetting == true) { bg = Colors.contrastBg; }
+                 if (Helpers.Settings.ContrastSetting) { bg = Colors.contrastBg; }
                  else { bg = Colors.background; }
 
                 Grid cellView = new Grid {
                     BackgroundColor         = bg,
 					VerticalOptions			= LayoutOptions.FillAndExpand,
+                    HorizontalOptions       = LayoutOptions.StartAndExpand,
 					RowDefinitions			= { new RowDefinition{		Height	= new GridLength(1, GridUnitType.Star)} },
 					ColumnDefinitions		= { new ColumnDefinition{	Width	= new GridLength(1, GridUnitType.Star)} }
 				};// End of Grid.

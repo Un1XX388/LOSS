@@ -357,6 +357,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\globe.png" />
+    <AndroidResource Include="Resources\webdesign.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

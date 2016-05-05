@@ -16,10 +16,10 @@ namespace LOSSPortable{
             if (Helpers.Settings.ContrastSetting == true) { bg = Colors.contrastBg; }
             else { bg = Colors.background; }
 
-
                 Grid cellView			    = new Grid{
                     BackgroundColor         = bg,
 					VerticalOptions			= LayoutOptions.FillAndExpand,
+                    HorizontalOptions       = LayoutOptions.StartAndExpand,
 					RowDefinitions			= { new RowDefinition{		Height	= new GridLength(1, GridUnitType.Star)} },
 					ColumnDefinitions		= { new ColumnDefinition{	Width	= new GridLength(1, GridUnitType.Star)} }
 				};// End of Grid.
@@ -63,24 +63,5 @@ namespace LOSSPortable{
 
             View = cellView;
 		}// End of OnlineResourceCell() method.
-
-        //public String isFavorited()
-        //{
-        //    if (favClicked == false)
-        //    {
-        //        Helpers.Settings.FavoriteSetting = false;
-        //        favClicked = true;
-        //        return "fav132.png";
-        //    }
-        //    else
-        //    {
-        //        //get all the items favorited for caching
-        //        //String title = ToString().;
-        //        //System.Diagnostics.Debug.WriteLine("item favorited = " + title);
-        //        Helpers.Settings.FavoriteSetting = true;
-        //        favClicked = false;
-        //        return "fav232.png";
-        //    }
-        //}
     }// End of OnlineResourceCell class.
 }// End of LossPortable namespace.
