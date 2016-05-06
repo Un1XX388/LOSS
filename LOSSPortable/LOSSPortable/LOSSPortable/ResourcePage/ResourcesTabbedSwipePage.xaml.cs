@@ -36,8 +36,8 @@ namespace LOSSPortable
             Web.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
 
             Playlist.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
+			//Playlist.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
             Playlist.Children.Add(page2);
-            Playlist.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
 
 //            Favorites.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
 //            Favorites.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
