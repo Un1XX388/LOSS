@@ -66,7 +66,7 @@ namespace LOSSPortable
 
             if (Helpers.Settings.IsVolunteer)
             {
-                this.instructionLabel.Text = "If a char request has been made, press the 'Enter Conversation' button to enter the converation. To terminate a conversation, press the 'Terminate Converation'. To toggle availability for chat requests, use the switch below.";
+                this.instructionLabel.Text = "If a chat request has been made, press the 'Enter Conversation' button to enter the converation. To terminate a conversation, press the 'Terminate Converation'. To toggle availability for chat requests, use the switch below.";
                 this.startConversation.IsVisible = false;
                 this.chatAvailability.IsVisible = true;
                 this.endConversation.IsVisible = false;

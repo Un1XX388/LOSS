@@ -204,7 +204,7 @@ namespace LOSSPortable
                     //await DisplayAlert("Alert", "Reporting not implemented yet.", "OK");
                     reportMessage(msg);
                     break;
-                case "Hide Message":
+                case "Hide Text":
                     grid = s as Grid;
                     grid.IsVisible = false;
                     break;
