@@ -24,7 +24,9 @@ namespace LOSSPortable{
 				// Create image for cell.
 				var cellThum			= new Image();
 				cellThum.SetBinding(Image.SourceProperty, new Binding("Image"));
-				cellView.Children.Add(cellThum, 0, 2, 1, 17);
+                cellThum.Aspect = Aspect.AspectFill;
+                cellView.Children.Add(cellThum, 0, 2, 1, 17);
+                
 
 				// Create name for cell.
 				var cellName			= new Label(){
