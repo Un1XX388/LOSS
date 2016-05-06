@@ -25,7 +25,11 @@ namespace LOSSPortable{
 				};// End of Grid.
 
 				// Create image for cell.
-				var cellThum			= new Image();
+			var cellThum			= new Image(){
+				
+				Aspect = Aspect.AspectFit
+			};
+
 				cellThum.SetBinding(Image.SourceProperty, new Binding("Image"));
 				cellView.Children.Add(cellThum, 0, 1, 1, 12);
 

@@ -25,7 +25,7 @@ namespace LOSSPortable{
 				var cellThum			= new Image();
 				cellThum.SetBinding(Image.SourceProperty, new Binding("Image"));
                 cellThum.Aspect = Aspect.AspectFill;
-                cellView.Children.Add(cellThum, 0, 2, 1, 17);
+				cellView.Children.Add(cellThum, 0, 1, 1, 12);
                 
 
 				// Create name for cell.
@@ -36,7 +36,7 @@ namespace LOSSPortable{
 					FontAttributes			= FontAttributes.Bold
 				};
 				cellName.SetBinding(Label.TextProperty, new Binding("Title"));
-				cellView.Children.Add(cellName, 2, 5, 0, 7);
+				cellView.Children.Add(cellName, 1, 4, 0, 4);
 
 				// Create description for cell.
 				var cellDesc			= new Label(){
@@ -46,7 +46,7 @@ namespace LOSSPortable{
 					FontAttributes			= FontAttributes.Italic
 				};
 				cellDesc.SetBinding(Label.TextProperty, new Binding("Description"));
-				cellView.Children.Add(cellDesc, 2, 5, 7, 30);
+				cellView.Children.Add(cellDesc, 1, 4, 4, 30);
 
 				this.View				= cellView;
 			}// End of ResourceCell() method.

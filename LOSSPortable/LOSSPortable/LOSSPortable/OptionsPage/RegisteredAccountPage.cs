@@ -597,6 +597,13 @@ namespace LOSSPortable
                 HorizontalOptions = LayoutOptions.FillAndExpand
             };
 
+			var cancel = new Button ()
+			{ 
+				Text = "Cancel",
+				TextColor = Color.White,
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				Command = new Command(() => Navigation.PopAsync())
+			};
 
             var reset = new Button()
             {
@@ -608,7 +615,7 @@ namespace LOSSPortable
 
             mainContent = new StackLayout()
             {
-                Children = { old_text, oldPswd, new_text, newPswd, confirm_text, confirmPswd, reset },
+                Children = { old_text, oldPswd, new_text, newPswd, confirm_text, confirmPswd, reset, cancel },
                 VerticalOptions = LayoutOptions.StartAndExpand,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 Padding = 10

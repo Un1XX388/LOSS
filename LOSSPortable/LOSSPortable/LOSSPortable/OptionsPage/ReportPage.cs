@@ -36,7 +36,7 @@ namespace LOSSPortable
 
 
             //===================Equivalent of drop down list to choose report options from ================
-            Picker picker = new Picker
+			Picker picker = new Picker
             {
                 Title = "Select a Reason:",
                 BackgroundColor = Color.Default
@@ -49,14 +49,20 @@ namespace LOSSPortable
 
             picker.SelectedIndexChanged += (sender, args) =>
             {
+				
                 reportType = picker.Items[picker.SelectedIndex];                
             };
 
             //==============================================================================================
-            label.Text = "Select A Report Type: ";
+            label.Text = "Press to select a report type";
+			label.TextColor = Color.White;
             label.FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label));
+			label.GestureRecognizers.Add(new TapGestureRecognizer{Command = new Command (()=> OnLabelClicked())});
+
+			var line = new BoxView () { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  };
 
             label2.Text = "\nBriefly explain your reason: \n";
+			label2.TextColor = Color.White;
             label2.FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label));
             //========================== Editor for Multiple Lines of Text ==============================
 
@@ -92,13 +98,21 @@ namespace LOSSPortable
 
             mainContent = new StackLayout
             {
-                Children = { label, picker, label2, reason, submitButton }
+                Children = { label, //picker,
+					line,
+					label2, reason, submitButton }
 
             };
             this.Content = mainContent;
         }
 
         //============================================ FUNCTIONS ===============================================
+
+		async void OnLabelClicked ()
+		{
+			var action = await DisplayActionSheet ("Select a Reason", "Cancel", null, "Report Bugs and Other Issues", "Report Content", "Send Feedback");
+			reportType = action;
+		}
 
         public async Task SaveAsync<ReportProblem> (ReportProblem entity, CancellationToken ct)
         {

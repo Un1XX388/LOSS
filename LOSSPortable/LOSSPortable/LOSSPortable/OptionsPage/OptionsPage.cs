@@ -167,18 +167,6 @@ namespace LOSSPortable
             //};
             //anonymous_switcher.Toggled += anonymous_switcher_Toggled;
 
-            //StackLayout anonymous_stack = new StackLayout
-            //{
-            //    Children = { anonymous_label },
-            //    HorizontalOptions = LayoutOptions.Start
-            //};
-
-            //StackLayout anonymous_switcher_stack = new StackLayout
-            //{
-            //    Children = { anonymous_switcher },
-            //    HorizontalOptions = LayoutOptions.EndAndExpand
-            //};
-
             //StackLayout row3_anonymous = new StackLayout
             //{
             //    Children = { anonymous_stack, anonymous_switcher_stack },

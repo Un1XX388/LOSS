@@ -39,9 +39,9 @@ namespace LOSSPortable
             Playlist.Children.Add(page2);
             Playlist.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
 
-            Favorites.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
-            Favorites.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
-            Favorites.Children.Add(new FavoritesPage());
+//            Favorites.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
+//            Favorites.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
+//            Favorites.Children.Add(new FavoritesPage());
 
             AttachCurrentPageChanged();
 
@@ -63,7 +63,7 @@ namespace LOSSPortable
         {
             Web.CurrentPageChanged += MultiPage_OnCurrentPageChanged;
             Playlist.CurrentPageChanged += MultiPage_OnCurrentPageChanged;
-            Favorites.CurrentPageChanged += MultiPage_OnCurrentPageChanged;
+//            Favorites.CurrentPageChanged += MultiPage_OnCurrentPageChanged;
             this.CurrentPageChanged += MultiPage1_OnCurrentPageChanged;
 
             System.Diagnostics.Debug.WriteLine("In AttachCurrentPageChanged function!");
@@ -75,7 +75,7 @@ namespace LOSSPortable
             //  CurrentPageChanged -= MultiPage_OnCurrentPageChanged;
             Web.CurrentPageChanged -= MultiPage_OnCurrentPageChanged;
             Playlist.CurrentPageChanged -= MultiPage_OnCurrentPageChanged;
-            Favorites.CurrentPageChanged -= MultiPage_OnCurrentPageChanged;
+ //           Favorites.CurrentPageChanged -= MultiPage_OnCurrentPageChanged;
             this.CurrentPageChanged -= MultiPage1_OnCurrentPageChanged;
 
         }
