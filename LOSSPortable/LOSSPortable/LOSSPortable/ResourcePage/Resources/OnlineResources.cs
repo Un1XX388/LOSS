@@ -38,6 +38,11 @@ namespace LOSSPortable
             //Switch case for differnet icons depending on file type
             for (int i = 0; i < online_resources.Count; i++)
             {
+				if (Device.OS == TargetPlatform.iOS) {
+					if (online_resources [i].Description.Length > 110) {
+						online_resources [i].Description = online_resources [i].Description.Substring (0, 110) + "...";
+					}
+				}
                 switch (online_resources[i].Type)
                 {
                     case "Website":

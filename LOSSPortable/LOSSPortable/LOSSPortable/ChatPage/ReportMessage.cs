@@ -34,30 +34,33 @@ namespace LOSSPortable
             //var result = "";
 
 
-            /*Button picker = new Button { Text = " Select Reason ", WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22) };
+            Button picker = new Button { Text = " Select Reason ", WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22) };
             picker.Clicked += async delegate
             {
-                result = await DisplayActionSheet(null, "Cancel", null, "Offensive Language", "Spam", "Threat", "Solicitation");
+                var result = await DisplayActionSheet(null, "Cancel", null, "Offensive Language", "Spam", "Threat", "Solicitation");
                 if (result != "" && result !="Cancel")
                     picker.Text = result;
-            };
-            */
-            Picker picker = new Picker
-            {
-                Title = "Select a Reason:",
-                BackgroundColor = Color.Default
-
+					reportType = result;
             };
 
-            picker.Items.Add("Offensive Language");
-            picker.Items.Add("Spam");
-            picker.Items.Add("Threat");
-            picker.Items.Add("Solicitation");
 
-            picker.SelectedIndexChanged += (sender, args) =>
-            {
-                reportType = picker.Items[picker.SelectedIndex];
-            };
+
+//            Picker picker = new Picker
+//            {
+//                Title = "Select a Reason:",
+//                BackgroundColor = Color.Default
+//
+//            };
+//
+//            picker.Items.Add("Offensive Language");
+//            picker.Items.Add("Spam");
+//            picker.Items.Add("Threat");
+//            picker.Items.Add("Solicitation");
+//
+//            picker.SelectedIndexChanged += (sender, args) =>
+//            {
+//                reportType = picker.Items[picker.SelectedIndex];
+//            };
 
             Label exp = new Label
             {

@@ -111,7 +111,6 @@
     <BundleResource Include="Resources\Default-Portrait%402x.png" />
     <BundleResource Include="Resources\Default.png" />
     <BundleResource Include="Resources\Default%402x.png" />
-    <BundleResource Include="Resources\Icon-60%402x.png" />
     <BundleResource Include="Resources\Icon-60%403x.png" />
     <BundleResource Include="Resources\Icon-76%402x.png" />
     <BundleResource Include="Resources\Icon-76.png" />
@@ -121,6 +120,9 @@
     <BundleResource Include="Resources\Icon-Small%403x.png" />
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
     <BundleResource Include="Resources\account.png" />
+    <BundleResource Include="Resources\pdf.png" />
+    <BundleResource Include="Resources\webdesign.png" />
+    <BundleResource Include="Resources\app6square-2.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -353,11 +355,7 @@
     <BundleResource Include="Resources\username.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\pdf.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Resources\globe.png" />
-    <AndroidResource Include="Resources\webdesign.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
