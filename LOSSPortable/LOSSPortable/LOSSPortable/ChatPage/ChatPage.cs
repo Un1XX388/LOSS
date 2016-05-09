@@ -96,6 +96,7 @@ namespace LOSSPortable
                 TextColor = Color.Purple,
                 HorizontalOptions = LayoutOptions.Start,
                 VerticalOptions = LayoutOptions.Start,
+                BackgroundColor = Color.White,
                 HeightRequest = 50,
                 WidthRequest = 50,
                 FontSize = 30,
@@ -306,7 +307,8 @@ namespace LOSSPortable
         private void AddMessageToChat(ChatMessage msgObj)
         {
             bool val;
-            if (msgObj.Sender == this.mainUser)
+            
+            if (msgObj.ToFrom.StartsWith(Constants.conv.id))
             {
                 val = true;
             }
@@ -353,7 +355,6 @@ namespace LOSSPortable
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 BackgroundColor = user ? Constants.rightMessageColor : Constants.leftMessageColor,
                 WidthRequest = width * 0.70,
-                //HasShadow = true
             };
             TapGestureRecognizer messageFrameTapped = new TapGestureRecognizer();
             messageFrameTapped.Tapped += (s, e) => MessageFrameTapped_Tapped(s, e, msgObj);
