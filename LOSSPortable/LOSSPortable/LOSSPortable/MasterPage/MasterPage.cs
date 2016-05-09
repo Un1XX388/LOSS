@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using Xamarin.Forms;
 using System;
-using Acr.UserDialogs;
-using Plugin.TextToSpeech;
 
 namespace LOSSPortable
 {
@@ -31,17 +29,13 @@ namespace LOSSPortable
                 IconSource = "play.png",
                 TargetType = typeof(ResourcesTabbedSwipePage)
             });
-
-			//disabled conversations menu item on iOS for sponsor. Conversations tab only displayed on Android.
-			Device.OnPlatform(Android: () => {
-				
-	            masterPageItems.Add(new MasterPageItem
-	            {
-	                Title = "Conversations",
-	                IconSource = "chat.png",
-	                TargetType = typeof(ChatSelection)
-	            });
-			}); 
+	
+	        masterPageItems.Add(new MasterPageItem
+	        {
+	            Title = "Conversations",
+	            IconSource = "chat.png",
+	            TargetType = typeof(ChatSelection)
+	        });
 
             masterPageItems.Add(new MasterPageItem
             {
@@ -63,6 +57,7 @@ namespace LOSSPortable
                 TargetType = typeof(AboutPage)
             });
 
+            //populate pull-out menu with above items 
             listView = new ListView
             {
                 ItemsSource = masterPageItems,

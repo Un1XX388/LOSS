@@ -1,7 +1,6 @@
 ﻿using Xamarin.Forms;
 using XLabs.Forms.Controls;
 using Plugin.TextToSpeech;
-using XLabs;
 using System;
 using Acr.UserDialogs;
 using Newtonsoft.Json;
@@ -10,7 +9,6 @@ using Amazon.Util;
 using Amazon.Lambda;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace LOSSPortable
 {
@@ -21,8 +19,6 @@ namespace LOSSPortable
         StackLayout mainContent;
         Label event_label;
         Switch contrast_switcher;
-        //     Switch geolocation_switcher;
-        //        Switch anonymous_switcher;
         Switch speech_switcher;
         Switch push_switcher;
         PopupLayout _PopUpLayout;
@@ -30,6 +26,7 @@ namespace LOSSPortable
 
         public RegisteredAccountPage()
         {
+            //set background color of page based on contrast settings
             if (Helpers.Settings.ContrastSetting == true)
             {
                 BackgroundColor = Colors.contrastBg;
@@ -39,6 +36,7 @@ namespace LOSSPortable
                 BackgroundColor = Colors.background;
             }
             this.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);
+
 
             Image nickname = new Image
             {
@@ -149,8 +147,6 @@ namespace LOSSPortable
             };
             speech_switcher.Toggled += speech_switcher_Toggled;
 
-            // Speech speech = new Speech();
-
             StackLayout speech_stack = new StackLayout
             {
                 Children = { speech_label },
@@ -239,7 +235,7 @@ namespace LOSSPortable
 
 
 
-            //============================= Login ================================
+            //============================= Change Password ================================
             Label changePassword = new Label
             {
                 Text = "Reset Password",
@@ -330,10 +326,7 @@ namespace LOSSPortable
 
                             row9_report,
                             new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
-                         //   new BoxView() { Color = Color.Transparent, HeightRequest = 5  },
                             logout
-
-                        //    event_label
                         },
                 Padding = new Thickness(5, 5, 5, 5),
                 VerticalOptions = LayoutOptions.FillAndExpand
@@ -347,6 +340,13 @@ namespace LOSSPortable
 
         }//end GeneralAccountPage()
 
+        //=============================================== FUNCTIONS ======================================================
+
+        /// <summary>
+        /// When username changes text, it updates username, pushing it onto the server
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Username_TextChanged(object sender, TextChangedEventArgs e)
         {
             Helpers.Settings.UsernameSetting = username.Text;
@@ -378,6 +378,7 @@ namespace LOSSPortable
 
         }
 
+       //================================== Report Problem
         private void reportProblem()
         {
             if (Helpers.Settings.SpeechSetting == true)
@@ -387,6 +388,11 @@ namespace LOSSPortable
             Navigation.PushAsync(new ReportPage());
         }
 
+        /// <summary>
+        /// Logout functionality, sends relevant user information to server to log out and update settings constants
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Logout_Clicked(object sender, EventArgs e)
         {
 
@@ -439,7 +445,7 @@ namespace LOSSPortable
         }
         //================ Functions (actions) for Each Toggle Switch   =========================================
 
-        //default setting
+        //================= reset setting =============================================
         async void resetPressed(object sender, EventArgs e)
         {
             if (Helpers.Settings.SpeechSetting == true)
@@ -463,7 +469,7 @@ namespace LOSSPortable
             }
         }
 
-        //change background color - contrast
+        //============================ change background color - contrast =============================
         void constrast_switcher_Toggled(object sender, ToggledEventArgs e)
         {
 
@@ -491,9 +497,7 @@ namespace LOSSPortable
             }
         }
 
-
-
-        //Text-to-Speech Implementation
+        //========================== Text-to-Speech Implementation ================================
         void speech_switcher_Toggled(object sender, ToggledEventArgs e)
         {
             if (speech_switcher.IsToggled)
@@ -511,7 +515,7 @@ namespace LOSSPortable
 
         }
 
-        //Notifications On-Off
+        //================================= Notifications On-Off ================================================
         void push_switcher_Toggled(object sender, ToggledEventArgs e)
         {
             event_label.Text = String.Format("Notifications enabled? {0}", e.Value);

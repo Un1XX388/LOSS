@@ -43,7 +43,7 @@ namespace LOSSPortable
             }
 
             Title = "Home";
-            label1.Text = LoadQuotes().Message;
+            label1.Text = LoadQuotes().Message;             // inspirational quote retrieved from the server
             label1.FontSize = 20;
             label1.Style = new Style(typeof(Label))
             {
@@ -71,7 +71,8 @@ namespace LOSSPortable
             logo.VerticalOptions = LayoutOptions.StartAndExpand;
             logo.HeightRequest = 200;
 
-            //909479
+            //========================================== Most Helpful Resources ============================
+            //Survivors of Suicide Handbook
             var SOS_link = new Button
             {
                 Text = "Survivors of Suicide Handbook",
@@ -83,6 +84,7 @@ namespace LOSSPortable
             };
             SOS_link.Clicked += SOSLinkPressed;
 
+            //Support group
             var sg_link = new Button
             {
                 Text = "Support Groups",
@@ -94,7 +96,7 @@ namespace LOSSPortable
             };
             sg_link.Clicked += sgLinkPressed;
 
-
+           
             StackLayout links = new StackLayout
             {
                 Padding = new Thickness(0, Device.OnPlatform(30, 0, 0), 0, 0),
@@ -105,7 +107,6 @@ namespace LOSSPortable
                                  SOS_link,
                                  new BoxView() { Color = Color.Gray, HeightRequest = 1, Opacity = 0.1  },
                                  sg_link },
-                                // BackgroundColor = Color.FromHex("735974")
                                 },
 
                             },
@@ -123,7 +124,6 @@ namespace LOSSPortable
                     },
                     links
                 },
-                //  VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
             };
             ScrollView content = new ScrollView
@@ -134,37 +134,9 @@ namespace LOSSPortable
             this.Content = content;
 
         }
+        //========================================================= FUNCTIONS =========================================================
 
-        async private void PushMessage(string toFrom, string text)
-        {
-            try
-            {
-                MessageItem message = new MessageItem{Item = new ChatMessage { ToFrom = toFrom, Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ff"), Text = text}};
-                MessageJson messageJson = new MessageJson { operation = "create", tableName = "User", payload = message };
-                string args = JsonConvert.SerializeObject(messageJson);
-                //System.Diagnostics.Debug.WriteLine(args);
-                var ir = new InvokeRequest(){
-                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
-                    PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
-                    InvocationType = InvocationType.RequestResponse
-                };
-                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
-
-
-                InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
-                resp.Payload.Position = 0;
-                var sr = new StreamReader(resp.Payload);
-                var myStr = sr.ReadToEnd();
-
-//                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
-//                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error:" + e);
-            }
-        }
-
+        //detects user location 
         async private Task getLocation()
         {
             try
@@ -195,30 +167,10 @@ namespace LOSSPortable
             label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
         }
 
-        protected override void OnAppearing()
-        {
-            this.IsBusy=false;
-            base.OnAppearing();
-
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-        }
-        
-        
-
+        //navigate and display Survivors of Suicide Handbook on button press
         async void SOSLinkPressed(object sender, EventArgs e)
-        {
-            //ActivityIndicator ai = new ActivityIndicator();
-            //ai.IsRunning = true;
-            //ai.IsEnabled = true;
-            //ai.BindingContext = this;
-            //ai.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
-            //this.IsBusy = true;
-
-        
+        {    
+            // if TTS is enabled, read the name   
             if (Helpers.Settings.SpeechSetting == true)
             {
                 CrossTextToSpeech.Current.Speak("Survivors of Suicide Handbook");
@@ -245,7 +197,7 @@ namespace LOSSPortable
 
         }
 
-
+        //navigate and display Support Groups AFSP page on button press
         async void sgLinkPressed(object sender, EventArgs e)
         {
             if (Helpers.Settings.SpeechSetting == true)
@@ -273,8 +225,7 @@ namespace LOSSPortable
 
         }
 
-
-
+        //Generate random quotes pulled from the server
         static Random rnd = new Random();
 
         private InspirationalQuote LoadQuotes()
@@ -290,10 +241,10 @@ namespace LOSSPortable
             return quoteList[num];
         }
 
+        //Display quote on homepage
         void quoteList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             label1.Text = LoadQuotes().Message;
-          //  labelFrame.OutlineColor = Color.White;
         }
     }
 }

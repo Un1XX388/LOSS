@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace LOSSPortable
 {
+    //This class is used by OnlineResources Page
+
     [DynamoDBTable("Resource")]
     public class OnlineRViewModel: INotifyPropertyChanged 
     {

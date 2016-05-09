@@ -1,8 +1,7 @@
 ﻿using Xamarin.Forms;
-using XLabs.Forms.Controls;
-using Plugin.TextToSpeech;
 using XLabs;
 using System;
+using Plugin.TextToSpeech;
 
 namespace LOSSPortable
 {
@@ -11,13 +10,13 @@ namespace LOSSPortable
         StackLayout mainContent;
         Label event_label;
         Switch contrast_switcher;
-        //     Switch geolocation_switcher;
-        //        Switch anonymous_switcher;
         Switch speech_switcher;
         Switch push_switcher;
 
+        //Settings page showed to users if they are not logged in
         public GeneralAccountPage()
         {
+            //set contrast settings background color
             if(Helpers.Settings.ContrastSetting == true)
             {
                 BackgroundColor = Colors.contrastBg;
@@ -28,15 +27,6 @@ namespace LOSSPortable
             }
 
             this.Padding = new Thickness(0, Device.OnPlatform(20, 0, 0), 0, 0);
-            /*
-             * //Anonymous switch
-             * //Notification settings
-             * //Display name ( accounts)
-             * Sync or reset information
-             * Account info (link to creation/switch)
-             * //Text-to-Speech
-             * //geolocation toggle
-             */
 
             event_label = new Label
             {
@@ -89,41 +79,6 @@ namespace LOSSPortable
                 Padding = new Thickness(5, 5)
             };
 
-            //=============GEOLOCATION ROW=====================================
-            //Label geolocation_label = new Label
-            //{
-            //    Text = "Geolocation",
-            //    FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
-            //    HorizontalOptions = LayoutOptions.Center
-            //};
-
-            //geolocation_switcher = new Switch
-            //{
-            //    HorizontalOptions = LayoutOptions.Center,
-            //    VerticalOptions = LayoutOptions.CenterAndExpand,
-            //    IsToggled = Helpers.Settings.locationSetting
-            //};
-            //geolocation_switcher.Toggled += geolocation_switcher_Toggled;
-
-            //StackLayout geolocation_stack = new StackLayout
-            //{
-            //    Children = { geolocation_label },
-            //    HorizontalOptions = LayoutOptions.Start
-            //};
-
-            //StackLayout geolocation_switcher_stack = new StackLayout
-            //{
-            //    Children = { geolocation_switcher },
-            //    HorizontalOptions = LayoutOptions.EndAndExpand
-            //};
-
-            //StackLayout row2_geolocation = new StackLayout
-            //{
-            //    Children = { geolocation_stack, geolocation_switcher_stack },
-            //    Orientation = StackOrientation.Horizontal,
-            //    Padding = new Thickness(5, 5)
-            //};
-
             //=============Speech Switch=====================================
             Label speech_label = new Label
             {
@@ -140,8 +95,6 @@ namespace LOSSPortable
                 IsToggled = Helpers.Settings.SpeechSetting
             };
             speech_switcher.Toggled += speech_switcher_Toggled;
-
-            // Speech speech = new Speech();
 
             StackLayout speech_stack = new StackLayout
             {
@@ -228,8 +181,6 @@ namespace LOSSPortable
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
                 HorizontalOptions = LayoutOptions.Start
             };
-
-            
 
             //============================= Login ================================
             Label login = new Label
@@ -330,47 +281,7 @@ namespace LOSSPortable
         }//end GeneralAccountPage()
 
         //================ Functions (actions) for Each Toggle Switch   =========================================
-        private void Login()
-        {
-            if (Helpers.Settings.SpeechSetting == true)
-            {
-                CrossTextToSpeech.Current.Speak("Login/ Register Portal");
-            }
-            Navigation.PushAsync(new LoginPage());
-        }
-
-        private void reportProblem()
-        {
-            if (Helpers.Settings.SpeechSetting == true)
-            {
-                CrossTextToSpeech.Current.Speak("Report A Problem");
-            }
-            Navigation.PushAsync(new ReportPage());
-        }
-
-        async void resetPressed(object sender, EventArgs e)
-        {
-            if (Helpers.Settings.SpeechSetting == true)
-            {
-                CrossTextToSpeech.Current.Speak("Reset to Default Settings?");
-            }
-            var result = await DisplayAlert("Reset application", "Reset app to default settings and delete any cached info?", "Yes", "No");
-
-            if (result)
-            {
-                event_label.Text = String.Format("Settings have been reset");
-                contrast_switcher.IsToggled = Helpers.Settings.ContrastSetting = false;
-                // geolocation_switcher.IsToggled = Helpers.Settings.AnonymousSetting = true;
-                //      anonymous_switcher.IsToggled = Helpers.Settings.AnonymousSetting = false;
-                speech_switcher.IsToggled = Helpers.Settings.SpeechSetting = false;
-                push_switcher.IsToggled = Helpers.Settings.PushSetting = true;
-            }
-            else
-            {
-                event_label.Text = String.Format("Reset canceled");
-            }
-        }
-
+ 
         //change background color - contrast
         void constrast_switcher_Toggled(object sender, ToggledEventArgs e)
         {
@@ -398,12 +309,6 @@ namespace LOSSPortable
                 CrossTextToSpeech.Current.Speak("Contrast Mode Off");
             }
         }
-
-        //void geolocation_switcher_Toggled(object sender, ToggledEventArgs e)
-        //{
-        //    event_label.Text = String.Format("Geolocation enabled? {0}", e.Value);
-        //    Helpers.Settings.locationSetting = e.Value;
-        //}
 
         //Text-to-Speech Implementation
         void speech_switcher_Toggled(object sender, ToggledEventArgs e)
@@ -433,6 +338,51 @@ namespace LOSSPortable
                 CrossTextToSpeech.Current.Speak("Notification Mode On");
             }
         }
+
+        //===================================== Other Functions - Login, Reset Settings, Report Problem ===================================
+
+        //=========== Navigate to LoginPage
+        private void Login()
+        {
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Login/ Register Portal");
+            }
+            Navigation.PushAsync(new LoginPage());
+        }
+
+        //=========== Navigate to ReportPage to report a problem ====================
+        private void reportProblem()
+        {
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Report A Problem");
+            }
+            Navigation.PushAsync(new ReportPage());
+        }
+
+        //=========== reset settings to default
+        async void resetPressed(object sender, EventArgs e)
+        {
+            if (Helpers.Settings.SpeechSetting == true)
+            {
+                CrossTextToSpeech.Current.Speak("Reset to Default Settings?");
+            }
+            var result = await DisplayAlert("Reset application", "Reset app to default settings and delete any cached info?", "Yes", "No");
+
+            if (result)
+            {
+                event_label.Text = String.Format("Settings have been reset");
+                contrast_switcher.IsToggled = Helpers.Settings.ContrastSetting = false;
+                speech_switcher.IsToggled = Helpers.Settings.SpeechSetting = false;
+                push_switcher.IsToggled = Helpers.Settings.PushSetting = true;
+            }
+            else
+            {
+                event_label.Text = String.Format("Reset canceled");
+            }
+        }
+
         //==================================================== Back Button Pressed ==============================================================
 
         protected override Boolean OnBackButtonPressed() // back button pressed

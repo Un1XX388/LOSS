@@ -14,6 +14,9 @@ namespace LOSSPortable.iOS
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
+
+    // Handles SNS notifications
+
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
@@ -37,6 +40,8 @@ namespace LOSSPortable.iOS
 //                    //new UIAlertView(remoteNotification.AlertAction, remoteNotification.AlertBody, null, "OK", null).Show();
 //                }
 //            }
+
+            
 
             if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
             {

@@ -8,6 +8,7 @@ using Xamarin.Forms;
 
 namespace LOSSPortable
 {
+    //used by LoginPage, RegisteredAccountPage, GeneralAccountPage, CreateAccountPage
     public class UserLogin 
     {
         public double Latitude { get; set; }

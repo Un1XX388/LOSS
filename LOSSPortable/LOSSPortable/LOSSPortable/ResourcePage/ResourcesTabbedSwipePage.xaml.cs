@@ -29,7 +29,6 @@ namespace LOSSPortable
 
             var page1 = new OnlineResources();
             var page2 = new VideoResources();
-            var page3 = new FavoritesPage();
 
             Web.Children.Add(page1);
             Web.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
@@ -38,10 +37,6 @@ namespace LOSSPortable
             Playlist.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
 			//Playlist.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
             Playlist.Children.Add(page2);
-
-//            Favorites.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
-//            Favorites.Children.Add(new ContentPage() { BackgroundColor = setBackgroundColor() });
-//            Favorites.Children.Add(new FavoritesPage());
 
             AttachCurrentPageChanged();
 
