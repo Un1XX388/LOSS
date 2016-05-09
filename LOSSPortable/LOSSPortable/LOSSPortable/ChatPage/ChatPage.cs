@@ -42,7 +42,7 @@ namespace LOSSPortable
         {
             terminate = true;
 
-            mainUser = checkName(Helpers.Settings.DisplayName);
+            mainUser = checkName(Helpers.Settings.UsernameSetting);
             convWithUser = checkName(Constants.conv.name);
 
             
@@ -306,16 +306,17 @@ namespace LOSSPortable
          */
         private void AddMessageToChat(ChatMessage msgObj)
         {
-            bool val;
-            
-            if (msgObj.ToFrom.StartsWith(Constants.conv.id))
+            bool val;//true indicate its current user
+
+            if (msgObj.Sender == this.mainUser)
             {
                 val = true;
-            }
+            } 
             else
             {
                 val = false;
             }
+
             if (msgObj.Sender != this.previousUser)
             {
                 addSpace(3);
@@ -435,7 +436,7 @@ namespace LOSSPortable
             }
             else
             {
-                Sender = Constants.conv.name;
+                Sender = this.convWithUser;
             }
 
             ChatMessage newMsg = new ChatMessage()

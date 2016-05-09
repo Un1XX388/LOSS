@@ -48,7 +48,7 @@ namespace LOSSPortable
             }
 
             //Sets displayName field to value saved
-            nameEntry.Text = Helpers.Settings.DisplayName;
+            nameEntry.Text = Helpers.Settings.UsernameSetting;
             Title = "Chat Selection";
             Icon = "Accounts.png";
 
@@ -74,7 +74,7 @@ namespace LOSSPortable
                 this.endConversation.IsVisible = false;
                 this.nameEntry.IsVisible = false;
                 this.nameEntry.IsEnabled = false;
-                this.nameEntry.Text = Helpers.Settings.DisplayName;
+                this.nameEntry.Text = Helpers.Settings.UsernameSetting;
                 readyToChat.IsVisible = true;
                 readyToChat.IsEnabled = true;
                 readyToChat.Toggled += readyToChatF;
@@ -105,7 +105,7 @@ namespace LOSSPortable
                 this.startConversation.IsEnabled = false;
                 HandshakeStart();
                 update.IsVisible = false;
-                Helpers.Settings.DisplayName = nameEntry.Text;
+                Helpers.Settings.UsernameSetting = nameEntry.Text;
             };
 
             /**
@@ -205,7 +205,7 @@ namespace LOSSPortable
                 startConversation.IsEnabled = true;
                 this.nameEntry.IsVisible = false;
                 this.nameEntry.IsEnabled = false;
-                this.nameEntry.Text = Helpers.Settings.DisplayName;
+                this.nameEntry.Text = Helpers.Settings.UsernameSetting;
                 endConversation.IsVisible = true;
                 startConversation.Clicked += ContinueConversationEvent;
             }
@@ -231,7 +231,7 @@ namespace LOSSPortable
                 endConversation.IsVisible = false;
                 this.nameEntry.IsVisible = false;
                 this.nameEntry.IsEnabled = false;
-                this.nameEntry.Text = Helpers.Settings.DisplayName;
+                this.nameEntry.Text = Helpers.Settings.UsernameSetting;
                 startConversation.Clicked -= ContinueConversationEvent;
             }
             else
@@ -526,15 +526,15 @@ namespace LOSSPortable
                 if (Helpers.Settings.IsVolunteer)
                 {
                     if(Helpers.Settings.ChatActiveSetting){
-                        message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting, Available = true } };
+                        message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = Helpers.Settings.UsernameSetting, Arn = Helpers.Settings.EndpointArnSetting, Available = true } };
                     }else{
-                        message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting, Available = false } };
+                        message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = Helpers.Settings.UsernameSetting, Arn = Helpers.Settings.EndpointArnSetting, Available = false } };
                     }
                 }
                 else{
                     message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting, Available = true } }; //Helpers.Settings.EndpointArnSetting
-                }//await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
-                //await DisplayAlert("sent ", "sent to server: " + latitude + " " + longitude + " " + "Name" + " " + Helpers.Settings.EndpointArnSetting, "ok");
+                }
+                
                 UserInfoJson messageJson = new UserInfoJson { operation = "create", tableName = "User", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
                 var ir = new InvokeRequest()
