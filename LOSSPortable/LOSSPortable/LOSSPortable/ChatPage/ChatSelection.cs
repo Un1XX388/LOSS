@@ -246,7 +246,7 @@ namespace LOSSPortable
                 {
                     var stack = Navigation.NavigationStack;
                     if (stack[stack.Count - 1].GetType() != typeof(ChatPage))
-                        await Navigation.PushAsync(new ChatPage(nameEntry.Text), false);
+                        await Navigation.PushAsync(new ChatPage(), false);
                 }
                 catch (Exception E)
                 {
@@ -372,7 +372,7 @@ namespace LOSSPortable
                         continueConversationPath();
                         var stack = Navigation.NavigationStack;
                         if (stack[stack.Count - 1].GetType() != typeof(ChatPage))
-                            await Navigation.PushAsync(new ChatPage(nameEntry.Text), false);
+                            await Navigation.PushAsync(new ChatPage(), false);
                     }
                     else
                     {

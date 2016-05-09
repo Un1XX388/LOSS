@@ -2,59 +2,42 @@ using System;
 using Xamarin.Forms;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Akavache;
-using System.Reactive.Linq;
-using PCLCrypto;
-using System.Text;
-
-using Acr.UserDialogs;
-using Amazon.DynamoDBv2.DataModel;
-using Amazon.DynamoDBv2.Model;
 using System.Threading;
 using Newtonsoft.Json;
 using Amazon.Lambda.Model;
 using Amazon.Util;
 using Amazon.Lambda;
 using System.IO;
-using Plugin.Geolocator;
-using Plugin.Geolocator.Abstractions;
+
 
 namespace LOSSPortable
 {
 
     public class ChatPage : ContentPage
     {
-        private String talkingToNickname = "User";
-        private Button send;
-        List<string> Messages = new List<string>();
-        private Grid gridLayout;
-        private StackLayout outerStack;
-        private ScrollView innerScroll;
-        private int MessageCount;
-        private Entry editor = new Entry();
+        
         CancellationTokenSource ct = new CancellationTokenSource();
         private static Boolean terminate;
-        private DateTime date;
-        String name;
-        //        List<Message> msgs = new List<Message>(); //history of messaging
-        
-        
-        public ChatPage(string UserName)  //General constructor for chatPage
+
+        Button sendButton;
+        Editor textEditor;
+        ScrollView messageView;
+        StackLayout mainStack;
+        StackLayout messageStack;
+        StackLayout editorStack;
+        double width;
+        string previousUser = "";
+        string mainUser;
+        string convWithUser;
+
+
+        public ChatPage()  //General constructor for chatPage
         {
-
-            date = Constants.date;
             terminate = true;
-            if (UserName == "" || UserName == "Enter your name: " || UserName == null)
-            {
-                this.name = "Anonymous";
-            }
-            else
-            {
-                if (UserName.Length > 10)
-                { UserName = UserName.Substring(0, 10) + "..."; }
 
-                this.name = UserName;
-            }
+            mainUser = checkName(Helpers.Settings.DisplayName);
+            convWithUser = checkName(Constants.conv.name);
+
 
             if (Helpers.Settings.ContrastSetting == true)
             {
@@ -66,312 +49,332 @@ namespace LOSSPortable
                 BackgroundColor = Colors.background;
 
             }
-            
-            Title = "Chat";
+
+            Title = convWithUser;
             Icon = "Accounts.png";
 
-            
-            editor.Placeholder = "Enter Message: ";
-
-            editor.Focused += delegate {
-
-                System.Diagnostics.Debug.WriteLine("messages count = " + MessageCount);
-                innerScroll.HeightRequest = innerScroll.HeightRequest / 3;
-                 
-                ScrollEvent();
-                this.Content = outerStack;
+            textEditor = new Editor()
+            {
+                Keyboard = Keyboard.Default,
+                BackgroundColor = Color.White,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                HeightRequest = 50,
+                TextColor = Color.Purple
             };
-            
-            editor.Unfocused += delegate { //hide the keyboard
 
-                innerScroll.HeightRequest = innerScroll.HeightRequest * 3;
-                //ScrollEvent();
-                this.Content = outerStack;
+            textEditor.Focused += (s, e) => TextEditor_Focused(s, e, messageView.ScrollY + 300);
+            textEditor.Unfocused += (s, e) => TextEditor_Unfocused(s, e, messageView.ScrollY - 300);
+
+            Frame textEditorFrame = new Frame()
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                BackgroundColor = Color.White,
+                Content = textEditor,
+                Padding = new Thickness(8, 0, 0, 0)
             };
-            
 
-            send = new Button { Text = "Send", TextColor = Color.White, BackgroundColor = Color.Gray, HorizontalOptions = LayoutOptions.FillAndExpand};
+            BoxView verticalLine = new BoxView()
+            {
+                WidthRequest = 2,
+                HeightRequest = 40,
+                Color = Color.Purple,
+            };
 
+            sendButton = new Button()
+            {
+                Text = ">",
+                BorderRadius = 2,
+                BackgroundColor = Color.White,
+                TextColor = Color.Purple,
+                HorizontalOptions = LayoutOptions.Start,
+                VerticalOptions = LayoutOptions.Start,
+                HeightRequest = 50,
+                WidthRequest = 50,
+                FontSize = 30,
+            };
 
-            
+            sendButton.Clicked += SendButtonClicked;
 
-            //upon sending a message
-            send.Clicked += delegate {
-                String mes = editor.Text;
-                editor.Text = "";
+            Frame sendButtonFrame = new Frame()
+            {
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
+                BackgroundColor = Color.White,
+                Content = sendButton,
+                Padding = new Thickness(0, 0, 4, 4)
+            };
 
-
-                try
+            editorStack = new StackLayout()
+            {
+                Padding = new Thickness(1),
+                Orientation = StackOrientation.Horizontal,
+                Children =
                 {
-                    Messages.Add(mes);
-
-                }
-                catch (NullReferenceException ex)
-                {
-                    DisplayAlert("Alert", "Processor Usage" + ex.Message + mes, "OK");
-                }
-
-                ChatMessage message = new ChatMessage();
-                //constructor:
-                message.ToFrom = "" + AmazonUtils.Credentials.GetIdentityId() + "#" + AmazonUtils.Credentials.GetIdentityId();
-                message.Icon = "drawable/prof.png";
-                message.Sender = name;
-                message.Reciever = "Reciever";
-                message.Text = mes;
-                message.Time = DateTime.Now.ToString("HH:mm:ss:ffff");
-                message.Date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ffff");
-                message.Id = AmazonUtils.Credentials.GetIdentityId();
-                // "Sender: ", mes, "drawable/prof.png", " " + currentTime() );
-                //msgs.Add(message);
-
-                //System.Diagnostics.Debug.WriteLine("message info: " + message.ToFrom + message.Time + message.Text);
-                DisplayResponse(message);
-                Constants.conv.msgs.Add(message);
-                MessageCount++;
-                sendMessage(message);
+                    textEditorFrame, verticalLine, sendButtonFrame
+                },
+                HorizontalOptions = LayoutOptions.Fill,
+                VerticalOptions = LayoutOptions.EndAndExpand,
+                BackgroundColor = Color.White,
             };
 
-            Device.BeginInvokeOnMainThread(() =>   //automatically updates
+
+            messageStack = new StackLayout()
             {
 
-                gridLayout = new Grid
-                {
-                    RowSpacing = 3,
-                    ColumnSpacing = 0,
-                    Padding = new Thickness(0, 0, 0, 0),
-                    VerticalOptions = LayoutOptions.Start,
-                    //BackgroundColor = Color.FromHex("CCCCFF"),
-                    RowDefinitions = { new RowDefinition { Height = GridLength.Auto } },
+                Spacing = 0,
+                Padding = new Thickness(10, 5),
+                VerticalOptions = LayoutOptions.Start
+            };
 
-                    Children =
-                        {
-                            //label
-                        }
-
-                };
-
-                innerScroll = new ScrollView
-                {
-                    VerticalOptions = LayoutOptions.Start,
-                    HorizontalOptions = LayoutOptions.Start,
-                    Padding = new Thickness(5, 5, 5, 10),
-                    //BackgroundColor = Color.FromHex("CCCCFF"),
-                    Content = gridLayout
-
-                };
-
-                gridLayout.ChildAdded += delegate // Automatically scrolls to bottom of the chat 
-                {
-                     ScrollEvent();
-                };
-
-                outerStack = new StackLayout
-                {
-                    //BackgroundColor = Color.FromHex("CCCCFF"),
-                    VerticalOptions = LayoutOptions.Start,
-                    Spacing = 0,
-                    Children =
-                            {
-                                innerScroll,
-                                editor,
-                                send
-                            }
-
-                };
-
-            //var heig = r.ParentView.Height;
-                //Device.Styles.
-                Rectangle bounds = outerStack.Bounds;
-                int innerSize = Convert.ToInt32(bounds.Height - (bounds.Height / 8));
-                innerScroll.HeightRequest =  App.ScreenHeight - 200; //440  -- change of 200;
-                System.Diagnostics.Debug.WriteLine("window size set to: " + innerSize);
-                Content = outerStack;
-                Title = "" + Constants.conv.name;
-                
-            });
-
-            //refreshView();
-        }
-
-        //individual message tapped in chat-> allow to report a message, hide the text, or delete the message
-        async void OnLabelClicked(object s, EventArgs e, ChatMessage msg, int Type)
-        {
-            var action = await DisplayActionSheet(null, null, null, "Hide Text", "Report", "Delete Message");
-            Grid grid;
-            switch (action)
+            messageView = new ScrollView()
             {
-                case "Report":
-                    //await DisplayAlert("Alert", "Reporting not implemented yet.", "OK");
-                    reportMessage(msg);
-                    break;
-                case "Hide Text":
-                    grid = s as Grid;
-                    grid.IsVisible = false;
-                    break;
-                case "Delete Message":
-                    grid = s as Grid;
-                    grid.IsVisible = false;
-                    deleteMessage(msg);
-                    break;
+                Content = messageStack,
+                Orientation = ScrollOrientation.Vertical,
+                VerticalOptions = LayoutOptions.Fill
+            };
 
-            }
-            this.Content = outerStack;
+            mainStack = new StackLayout
+            {
+                Children =
+                {
+                    messageView, editorStack
+                },
+                HorizontalOptions = LayoutOptions.Fill,
+                VerticalOptions = LayoutOptions.Fill,
+                BackgroundColor = Constants.backGroundColor
+            };
 
+            Content = mainStack;
         }
 
-
-        private void DisplayResponse(ChatMessage message) //adds input message to log 
+        #region event listeners for SEND, EDITOR, MESSAGE FRAME
+        /*
+        * Called when text editor is not focused, removes keyboard and scrolls to height
+        */
+        private async void TextEditor_Unfocused(object sender, FocusEventArgs e, double height)
         {
-            String msg = message.Text;
-            int numRows;
-            if (msg == null || msg == "")
+            await Task.Delay(300);
+            await this.messageView.ScrollToAsync(0, height, false);
+        }
+
+        /*
+        * Called when text editor is not focused, removes keyboard and scrolls to height
+        */
+        private async void TextEditor_Focused(object sender, FocusEventArgs e, double height)
+        {
+            await Task.Delay(300);
+            await this.messageView.ScrollToAsync(0, height, false);
+        }
+
+        private void SendButtonClicked(object sender, EventArgs e)
+        {
+            string text = textEditor.Text;
+            if (String.IsNullOrWhiteSpace(text))
             {
                 return;
             }
-            else
+            textEditor.Text = "";
+            ChatMessage msgObj = new ChatMessage()
             {
-                numRows = msg.Length / 25;
-            }
-
-            Grid innerGrid = new Grid
-            {   //CCCCFF
-                VerticalOptions = LayoutOptions.Start,
-
-                Padding = 3,
-                RowSpacing = 3,
-                RowDefinitions = {
-                    new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                    new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                    new RowDefinition { Height = new GridLength(numRows+1, GridUnitType.Auto) }
-                },
-                ColumnDefinitions = {
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) },
-            }
+                ToFrom = Helpers.Settings.ToFromArn,
+                Text = text,
+                Sender = this.mainUser,
+                Time = DateTime.Now.ToString("hh:mm tt"),
             };
-
-            if (message.Id == "456")
-            { innerGrid.BackgroundColor = Color.FromHex("f2f2f2"); }
-            else
-            { innerGrid.BackgroundColor = Color.FromHex("d9d9d9"); }
-           
-
-
-
-
-            var profilePicture = new Image { };
-            profilePicture.Source = message.Icon;
-            profilePicture.VerticalOptions = LayoutOptions.StartAndExpand;
-            //profilePicture.BackgroundColor = Color.FromHex("CCCCFF");
-
-
-            Label name = new Label { Text = message.Sender, TextColor = Color.Black, FontAttributes = FontAttributes.Bold, FontSize = 20, FontFamily = "Arial" }; //, XAlign = TextAlignment.Start
-            name.VerticalOptions = LayoutOptions.StartAndExpand;
-
-            //var datetime = DateTime.Now;
-            Label time = new Label { Text = message.Time.Substring(0,5), TextColor = Color.Black, FontSize = 20, FontFamily = "Arial" };
             
-
-
-            Label response = new Label { Text = message.Text, TextColor = Color.Black, FontSize = 18, FontFamily = "Arial" }; //, XAlign = TextAlignment.Start             
-            var tgr = new TapGestureRecognizer();
-
-
-            tgr.Tapped += (s, e) => OnLabelClicked(s, e, message, 1);
-            //response.GestureRecognizers.Add(tgr);
-            response.VerticalOptions = LayoutOptions.Start;
-            int labelLength = 2 + numRows;
-
-
-            innerGrid.RowSpacing = 1;
-
-
-            gridLayout.RowSpacing = 1;
-
-            innerGrid.Children.Add(profilePicture);
-            //innerGrid.Children.AddHorizontal(name);
-            //innerGrid.Children.AddHorizontal(time);
-            innerGrid.Children.Add(name,1,4,0,1);
-            innerGrid.Children.Add(time,4,0);
-
-            innerGrid.Children.Add(response, 0, 5, 1, labelLength);
-            innerGrid.GestureRecognizers.Add(tgr);
-            gridLayout.Children.AddVertical(innerGrid);
-            gridLayout.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-
-            //add buttons to grid, push that grid to the stack
+            AddMessageToChat(msgObj);
+            Constants.conv.msgs.Add(msgObj);
+            ScrolltoBottom(true);
+            PushMessage(text);
         }
 
-        public String getName()
+        private async void MessageFrameTapped_Tapped(object sender, EventArgs e, ChatMessage msgObj)
         {
-            return name;
-        }
-
-        
-        public String currentTime()
-        {
-            var datetime = DateTime.Now;
-            String minutes = "" + datetime.Minute;
-            if (minutes.Length == 1)
-            { minutes = "0" + minutes; }
-
-            return "" + datetime.Hour + ":" + minutes;
-
-        }
-
-        public void deleteMessage(ChatMessage msg) //given the ID of a message, delete said message from messages.
-        {
-            Constants.conv.msgs.Remove(msg);
-            //MessageCount--;
-            
-            //refreshView();
-        }
-
-        public void refreshView() //refreshes the view of the layout to display modifications
-        {
-            foreach (ChatMessage msg in Constants.conv.msgs)
+            var action = await DisplayActionSheet(null, null, null, "Hide text", "Report", "Delete Message");
+            Frame frame;
+            switch (action)
             {
-                DisplayResponse(msg);
+                case "Hide text":
+                    frame = sender as Frame;
+                    frame.IsVisible = false;
+                    break;
+                case "Report":
+                    reportMessage(msgObj);
+                    break;
+                case "Delete Message":
+                    frame = sender as Frame;
+                    frame.IsVisible = false;
+                    deleteMessage(msgObj);
+                    break;
             }
-
-            this.Content = outerStack;
         }
 
+        #endregion
+
+        #region Utility functions for SCROLL, REPORT, EVENTS
         public void reportMessage(ChatMessage msg) //Enables users to report selected message based on specific criteria
         {
             Navigation.PopAsync();
             Navigation.PushAsync(new ReportMessage(msg));
         }
 
-        
-        public void ScrollEvent() //Animation for chatpage to scroll to the bottom and display the latest message. 
+        private async void ScrolltoBottom(bool anim)
         {
-            innerScroll.ScrollToAsync(0, innerScroll.HeightRequest * (MessageCount + 10), true);
-            System.Diagnostics.Debug.WriteLine("message count= " + MessageCount);
+            await this.messageView.ScrollToAsync(this.messageStack, ScrollToPosition.End, anim);
         }
 
-        public async void sendMessage(ChatMessage message) //Sending a message to the server and therefore enabling the recipient to view the message. 
+        private async void waitScroll(int delay)
         {
-            System.Diagnostics.Debug.WriteLine("trying to send to server: ");   
-            //message sending to server:
+            await Task.Delay(delay);
+            ScrolltoBottom(false);
+        }
+
+        
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, height);
+            this.width = width;
+        }
+
+        public void deleteMessage(ChatMessage msg) //given the ID of a message, delete said message from messages.
+        {
+            Constants.conv.msgs.Remove(msg);
+        }
+
+        private string checkName(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                return "Anonymous";
+            }
+            if (name.Length > 24)
+            {
+                return name.Substring(0, 24);
+            }
+            return name;
+        }
+
+        #endregion
+
+
+        public void LoadMessages() 
+        {
+            foreach (ChatMessage msg in Constants.conv.msgs)
+            {
+                AddMessageToChat(msg);
+                ScrolltoBottom(false);
+            }
+        }
+
+        private void AddMessageToChat(ChatMessage msgObj)
+        {
+            bool val;
+            if (msgObj.Sender == this.mainUser)
+            {
+                val = true;
+            }
+            else
+            {
+                val = false;
+            }
+            if (msgObj.Sender != this.previousUser)
+            {
+                addSpace(3);
+                addNameLabel(msgObj, val);
+                addSpace(1);
+                addSingleMessage(msgObj, val);
+                this.previousUser = msgObj.Sender;
+            }
+            else
+            {
+                addSpace(1);
+                addSingleMessage(msgObj, val);
+            }
+
+        }
+
+        private void addSingleMessage(ChatMessage msgObj, bool user)
+        {
+            Label message = new Label()
+            {
+                Text = msgObj.Text,
+                TextColor = Color.Black,
+                FontSize = 18,
+                FontFamily = "Arial",
+                HorizontalTextAlignment = TextAlignment.Start,
+
+            };
+            Frame frame = new Frame()
+            {
+                Padding = new Thickness(5),
+                Content = message,
+                HorizontalOptions = user ? LayoutOptions.EndAndExpand : LayoutOptions.StartAndExpand,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                BackgroundColor = user ? Constants.rightMessageColor : Constants.leftMessageColor,
+                WidthRequest = width * 0.70,
+                //HasShadow = true
+            };
+            TapGestureRecognizer messageFrameTapped = new TapGestureRecognizer();
+            messageFrameTapped.Tapped += (s, e) => MessageFrameTapped_Tapped(s, e, msgObj);
+            frame.GestureRecognizers.Add(messageFrameTapped);
+            this.messageStack.Children.Add(frame);
+        }
+
+        private void addNameLabel(ChatMessage msgObj, bool user)
+        {
+            
+            Label message = new Label()
+            {
+                Text = msgObj.Sender + " - " + msgObj.Time,
+                TextColor = Color.Black,
+                FontSize = 15,
+                FontFamily = "Arial",
+                FontAttributes = FontAttributes.Italic,
+                HorizontalTextAlignment = user ? TextAlignment.End : TextAlignment.Start
+            };
+            Frame frame = new Frame()
+            {
+                Padding = new Thickness(5),
+                Content = message,
+                HorizontalOptions = user ? LayoutOptions.EndAndExpand : LayoutOptions.StartAndExpand,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+            };
+            this.messageStack.Children.Add(frame);
+        }
+
+        private void addSpace(int dist)
+        {
+            this.messageStack.Children.Add(new BoxView { Color = Color.Transparent, HeightRequest = dist });
+        }
+
+
+        
+
+
+        public async void sendMessage(ChatMessage message) 
+        {
+
             try{
-                //DisplayResponse(message);
                 await PushMessage(message.Text);
-                }
+            }
             catch(Exception E)
             {
                 System.Diagnostics.Debug.WriteLine("error storing in server "+ E);
             };
-            this.Content = outerStack;
         }
+
+        
+
         //-------------------------Get from Server-------------------------
         public void messagesFromServer(MessageLst[] MessageList) //upon recieving a chat History log
         {
             List<ChatMessage> msgs = new List<ChatMessage>();
             foreach (MessageLst i in MessageList){
-                Constants.conv.msgs.Add(singleMessageFromServer(i.ToFrom, i.Time, i.Text));
+                ChatMessage message = singleMessageFromServer(i.ToFrom, i.Time, i.Text);
+                AddMessageToChat(message);
+                Constants.conv.msgs.Add(message);
             }
-            //setChat(msgs); //sets the chat to show the message history.
-            refreshView();
         }
 
         public ChatMessage singleMessageFromServer(String ToFrom, String Time, String Message)    //upon recieving a single message, add it to the log of messages.
@@ -379,26 +382,30 @@ namespace LOSSPortable
             string Sender;
             if (ToFrom.StartsWith(Constants.conv.id))
             {
-                Sender = this.name;
+                Sender = this.mainUser;
             }
             else
             {
                 Sender = Constants.conv.name;
             }
+
             ChatMessage newMsg = new ChatMessage()
             {
                 Text = Message,
-                
                 Sender = Sender,
-                Icon = "drawable/prof.png",
-                Time = "",
+                Time = generateLocalTime(Time),
                 ToFrom = ToFrom
             };
-            DateTime dt = Convert.ToDateTime(Time);
-            var diff = DateTime.UtcNow - DateTime.Now;
-            
-            newMsg.Time = (dt - diff).ToString("HH:mm"); //change to only include HH:mm
+
             return newMsg;
+        }
+
+        private string generateLocalTime(string time)
+        {
+            DateTime dt = Convert.ToDateTime(time);
+            var diff = DateTime.UtcNow - DateTime.Now;
+
+            return (dt - diff).ToString("hh:mm tt");
         }
 
         //-------------------------Server----------------------------------
@@ -433,11 +440,11 @@ namespace LOSSPortable
             }
         }
 
-        async private Task LoadMessages() //Function to create a Json object and send to server using a lambda function
+        async private Task LoadMessagesFromServer() //Function to create a Json object and send to server using a lambda function
         {
             try
             {
-                UserInfoItem message = new UserInfoItem { Item = new MessageLst { ToFrom = Helpers.Settings.ToFromArn, Time = date.ToString("yyyy-MM-dd HH:mm:ss:ffff") } }; //Helpers.Settings.EndpointArnSetting
+                UserInfoItem message = new UserInfoItem { Item = new MessageLst { ToFrom = Helpers.Settings.ToFromArn, Time = Constants.date.ToString("yyyy-MM-dd HH:mm:ss:ffff") } }; //Helpers.Settings.EndpointArnSetting
                 UserInfoJson messageJson = new UserInfoJson { operation = "read", tableName = "Message", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
                 var ir = new InvokeRequest()
@@ -465,9 +472,6 @@ namespace LOSSPortable
                 {
 
                 }
-
-                //                System.Diagnostics.Debug.WriteLine("Status code: " + resp.StatusCode);
-                //                System.Diagnostics.Debug.WriteLine("Response content: " + myStr);
             }
             catch (Exception e)
             {
@@ -487,56 +491,42 @@ namespace LOSSPortable
             {
                 try
                 {
-                    DateTime dt = Convert.ToDateTime(arg.Time);
-                    var diff = DateTime.UtcNow - DateTime.Now;
-                    arg.Time = (dt - diff).ToString("HH:mm"); //change to only include HH:mm
+                    arg.Time = generateLocalTime(arg.Time);
                 }
                 catch (Exception e)
                 {
                     arg.Time = DateTime.Now.Hour.ToString("HH:mm");
 
                 }
-                arg.Icon = "drawable/prof.png";
-                DisplayResponse(arg);
+                AddMessageToChat(arg);
                 Constants.conv.msgs.Add(arg);
-                ScrollEvent();
+
+                // TODO : Former Scroll to bottom event here
             });
             MessagingCenter.Unsubscribe<App>(this, "ConversationEnd");
             MessagingCenter.Subscribe<App, ChatMessage>(this, "ConversationEnd", (sender, arg) => //adds message to log
             {
                 MessagingCenter.Send<ChatPage>(this, "End");
                 MessagingCenter.Unsubscribe<App>(this, "ConversationEnd");
-                this.send.IsEnabled = false;
+                this.sendButton.IsEnabled = false;
                 if (terminate)
                 {
                     terminateChat();
                 }
             });
-            this.innerScroll = new ScrollView
-            {
-                VerticalOptions = LayoutOptions.Start,
-                HorizontalOptions = LayoutOptions.Start,
-                Padding = new Thickness(5, 5, 5, 10),
-                //BackgroundColor = Color.FromHex("CCCCFF"),
-                Content = gridLayout
-            };
-            await LoadMessages();
-           
-            this.MessageCount = Constants.conv.msgs.Count;
-            
-            this.Content = outerStack;
-            ScrollEvent();
+            LoadMessages();
+            await LoadMessagesFromServer();
+            ScrolltoBottom(false);
         }
         
         protected override void OnDisappearing() //leaving the page ->cache history
         {
-            editor.Keyboard = null;
-            editor.Unfocus();
+            textEditor.Keyboard = null;
+            textEditor.Unfocus();
             MessagingCenter.Unsubscribe<App, ChatMessage>(this, "Hi"); 
             MessagingCenter.Send<ChatPage>(this, "End");
-            System.Diagnostics.Debug.WriteLine("storing");
+
             Constants.date = DateTime.UtcNow;
-            System.Diagnostics.Debug.WriteLine("Date should be updated : " + Constants.date.ToString());
             base.OnDisappearing();
         }
 

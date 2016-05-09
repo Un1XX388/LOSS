@@ -1,5 +1,7 @@
 ﻿using Amazon;
 using System;
+using Xamarin.Forms;
+
 
 namespace LOSSPortable
 {
@@ -19,5 +21,9 @@ namespace LOSSPortable
 
         public static DateTime date;
         public static Conversation conv = new Conversation();
+
+        public static Color backGroundColor = Color.FromHex("FEFCEC");
+        public static Color leftMessageColor = Color.FromHex("E7DFE7");
+        public static Color rightMessageColor = Color.FromHex("DEE6D6");
     }
 }

@@ -103,13 +103,9 @@ namespace LOSSPortable
             temp.Comment = editor.Text;
             temp.Message = msg.Text;
             temp.From = msg.Sender;
-            temp.To = msg.Reciever;
+
             temp.id = AmazonUtils.Credentials.GetIdentityId();
             temp.Type = reportType;
-            temp.Date = msg.Date; //change to message's time/date
-
-            System.Diagnostics.Debug.WriteLine("Review Report" + temp.Comment + temp.Message + temp.From + temp.To + temp.id + temp.Type  + temp.Date);
-            //send to server: 
 
             await SaveAsync<ReportM>(temp, ct.Token);
 
