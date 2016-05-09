@@ -7,6 +7,10 @@ using Xamarin.Forms;
 
 namespace LOSSPortable
 {
+
+    /**
+     * Creates webview that is directed to the survey intended to be displayed to the user
+     */
     public class Survey : ContentPage
     {
         public WebView browser;

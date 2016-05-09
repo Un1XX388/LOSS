@@ -51,6 +51,8 @@ namespace LOSSPortable
             nameEntry.Text = Helpers.Settings.DisplayName;
             Title = "Chat Selection";
             Icon = "Accounts.png";
+
+            //spinning circle that appears in upper right corner while waiting on server response
             ActivityIndicator loading = new ActivityIndicator()
             {
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -62,8 +64,8 @@ namespace LOSSPortable
 
             };
             loading.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
-            //loading.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
 
+            /* Changes the UI based on whether the user is a logged in volunteer or a basic user*/
             if (Helpers.Settings.IsVolunteer)
             {
                 this.instructionLabel.Text = "If a chat request has been made, press the 'Enter Conversation' button to enter the converation. To terminate a conversation, press the 'Terminate Converation'. To toggle availability for chat requests, use the switch below.";
@@ -114,11 +116,16 @@ namespace LOSSPortable
                 update.IsVisible = true;
             };
 
+            /*
+             * Called when end conversation button pressed, resets UI to start conversation setup
+             * Also sends server notification to let connected party know the conversation is over
+             */
             endConversation.Clicked += async (s, e) =>
             {
                 await terminateConversation();
                 startConversationPath();
             };
+
             if (Helpers.Settings.ChatActiveSetting)
             {
                 this.chatAvailability.Text = "Available";
@@ -151,14 +158,13 @@ namespace LOSSPortable
             {
                 stackLayout = new StackLayout
                 {
-                    Children =
-                            {
+                    Children = {
                             instructionLabel,
                             tmp,
                             chatAvailtoChat,
                             startConversation, endConversation
-                            },
-                            HorizontalOptions = LayoutOptions.FillAndExpand,
+                    },
+                    HorizontalOptions = LayoutOptions.FillAndExpand,
                             
                 };
 
@@ -214,7 +220,9 @@ namespace LOSSPortable
                 startConversation.Clicked += ContinueConversationEvent;
             }
         }
-
+        /**
+         * path to reset the UI to start conversation for basic or volunteer users
+         */       
         private void startConversationPath(){
             if (Helpers.Settings.IsVolunteer)
             {
@@ -237,7 +245,11 @@ namespace LOSSPortable
                 startConversation.Clicked += InitiateConversationEvent;
             }        
         }
-
+        /**
+         * event called when the continue button is clicked, disables the listerners
+         * and try's to active a new chat page, initializes the page with the continue 
+         * conversation event.
+         */
         async void ContinueConversationEvent(object s, EventArgs e)
             {
                 startConversation.Clicked -= ContinueConversationEvent;
@@ -256,12 +268,19 @@ namespace LOSSPortable
             }
 
         
-        
+        /**
+         * Event called when the page is in start conversation mode and the start 
+         * conversation button is tapped by the user.
+         */
         async void InitiateConversationEvent(object s, EventArgs e)
                 {
                     await initiateConversation();
                 }
 
+        /**
+         * Toggle function only visible to volunteers that allows them to 
+         * set whether or not they can be contacted by basic users.
+         */
         void readyToChatF(object sender, ToggledEventArgs e)
         {
             if (readyToChat.IsToggled)
@@ -293,10 +312,12 @@ namespace LOSSPortable
 
 
         //------------------------------------------------------------------------
-       
+       /**
+        * initializes message center listeners for incoming messages and termination message
+        * also checks for handshake, and initializes it if it hasn't been done before
+        */
         protected async override void OnAppearing() 
         {
-
             base.OnAppearing();
             MessagingCenter.Send<ChatSelection>(this, "Start");
 
@@ -312,7 +333,6 @@ namespace LOSSPortable
 
             MessagingCenter.Subscribe<App, ChatMessage>(this, "HandshakeEnd", (sender, arg) => //adds message to log
             {
-
                 Helpers.Settings.ToFromArn = "";
                 startConversationPath();
             });
@@ -331,18 +351,31 @@ namespace LOSSPortable
             }
         }
 
+        /**
+         * Called on class loss of focus, changes page visible boolean in App class
+         * 
+         */
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
             MessagingCenter.Send<ChatSelection>(this, "End");
         }
 
+        /**
+         * Returns user to home page intead of exiting app
+         * 
+         */
         protected override Boolean OnBackButtonPressed() // back button pressed navigate to the homepage.
         {
             ((RootPage)App.Current.MainPage).NavigateTo();
             return true;
         }
 
+        /**
+         * Called when the start button is tapped, generates request to server
+         * checks response and either actives enter conversation mode or prompts
+         * user with failed to start message.
+         */
         async private Task initiateConversation(){
                 UserInfoItem message = new UserInfoItem { Item = new UserInfo { } }; //Helpers.Settings.EndpointArnSetting
                 UserInfoJson messageJson = new UserInfoJson { operation = "newConversation", tableName = "User", payload = message };
@@ -389,7 +422,11 @@ namespace LOSSPortable
                     await DisplayAlert("Error", "No available volunteers, please try again later.", "OK");
                 }
         }
-
+        /**
+         * Called when the end conversation button is pressed by the user
+         * Generates request to server, which then terminates the conversation 
+         * for both users.
+         */
         async private Task terminateConversation()
         {
             //ID = is from ToFrom Field
@@ -414,7 +451,11 @@ namespace LOSSPortable
             Constants.conv.name = "";
             Constants.conv.id = "";
         }
-
+        /**
+         * Queries the server for active conversations, called when the page is loaded
+         * if there exists an active conversation, returns conversation information to
+         * user and activates continue conversation option.
+         */
         async private Task queryServerActiveConversation()
         {
             UserInfoItem message = new UserInfoItem { Item = new UserInfo {} }; //Helpers.Settings.EndpointArnSetting
@@ -473,8 +514,11 @@ namespace LOSSPortable
             }
             if (failure) { await DisplayAlert("Error", "No active conversations", "OK"); }
         }
-
-        async private Task Handshake() //Function to create a Json object and send to server using a lambda function
+        /**
+         * Generates or updates user account when the page is accessed or information is changed.
+         * Sends request to server which updates the user table.
+         */
+        async private Task Handshake() 
         {
             try
             {

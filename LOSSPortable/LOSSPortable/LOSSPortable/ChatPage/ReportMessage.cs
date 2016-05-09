@@ -20,7 +20,6 @@ namespace LOSSPortable
         ReportM temp;
         ChatMessage msg;
         Editor editor;
-        //String result = "";
         String reportType;
 
 
@@ -31,9 +30,7 @@ namespace LOSSPortable
             this.msg = msg;
 
             Title = "Report Message from: " + Constants.conv.name;
-            //var result = "";
-
-
+            
             Button picker = new Button { Text = " Select Reason ", WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22) };
             picker.Clicked += async delegate
             {
@@ -42,25 +39,6 @@ namespace LOSSPortable
                     picker.Text = result;
 					reportType = result;
             };
-
-
-
-//            Picker picker = new Picker
-//            {
-//                Title = "Select a Reason:",
-//                BackgroundColor = Color.Default
-//
-//            };
-//
-//            picker.Items.Add("Offensive Language");
-//            picker.Items.Add("Spam");
-//            picker.Items.Add("Threat");
-//            picker.Items.Add("Solicitation");
-//
-//            picker.SelectedIndexChanged += (sender, args) =>
-//            {
-//                reportType = picker.Items[picker.SelectedIndex];
-//            };
 
             Label exp = new Label
             {
@@ -98,6 +76,10 @@ namespace LOSSPortable
 
         }
 
+        /**
+         * When the submit button is pressed, and Report object is generated from the information provided
+         * and then passed to the server.
+         */
         async void onSubmitPressed(Object sender, EventArgs e) //sending a report of a message. creates a report object and sends it to the server 
         {
             temp.Comment = editor.Text;
@@ -114,6 +96,9 @@ namespace LOSSPortable
             await Navigation.PopAsync();
         }
 
+        /**
+         * Saves report object to the dynamoDB directly
+         */
         public async Task SaveAsync<ReportM>(ReportM entity, CancellationToken ct)
         {
             try {

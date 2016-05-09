@@ -20,6 +20,7 @@ namespace LOSSPortable
 {
     public class AmazonUtils
     {
+        //AWS Cognito credentials generated from server, based off r
         private static CognitoAWSCredentials _credentials;
 
         public static CognitoAWSCredentials Credentials
@@ -32,7 +33,8 @@ namespace LOSSPortable
             }
         }
 
-        public static AmazonDynamoDBClient _client;
+        //setups up client ID for DynamoDB
+        private static AmazonDynamoDBClient _client;
 
         public static AmazonDynamoDBClient DynamoDBClient
         {
@@ -99,7 +101,7 @@ namespace LOSSPortable
         private static AmazonLambdaClient _lambdaClient;
 
         public static AmazonLambdaClient LambdaClient
-        {//"AKIAIP5E5KYETNCXDSCA", "tRhWsuOFIND4DIbvijc4HD5QPjeuTr6h6f9kgUP"
+        {
             get
             {
                 if (_lambdaClient == null)
@@ -126,7 +128,10 @@ namespace LOSSPortable
                 return _snsClient;
             }
         }
-
+        /**
+         * Part of the SNS device registration, generates arn endpoint for use with SNS push
+         * notifications, implemented for iOS and Android
+         */
         public static async Task RegisterDevice(Platform platform, string registrationID)
         {
             var arn = string.Empty;
@@ -153,6 +158,10 @@ namespace LOSSPortable
             Helpers.Settings.EndpointArnSetting = _endpointArn;
         }
 
+        /**
+         * Method that retrieves all the quotes stored in the quotes 
+         * table on dynamoDB
+         */
         private static Task<List<InspirationalQuote>> queryQuotesList()
         {
             var context = AmazonUtils.DDBContext;
@@ -172,7 +181,7 @@ namespace LOSSPortable
             });
         }
 
-
+        //temporary caching of the quotes pulled from the server, stays till app shut down
         private static RangeObservableCollection<InspirationalQuote> quotesList = new RangeObservableCollection<InspirationalQuote>();
 
         public static RangeObservableCollection<InspirationalQuote> getQuotesList
@@ -187,7 +196,10 @@ namespace LOSSPortable
             }
         }
 
-
+        /**
+         * retrieval of the online resources from the dynamoDB
+         * pulls the entire table
+         */
         private static Task<List<OnlineRViewModel>> queryOnlineRList()
         {
             var context = AmazonUtils.DDBContext;
@@ -198,8 +210,13 @@ namespace LOSSPortable
             //System.Diagnostics.Debug.WriteLine("inside queryOnlineRList()");
         }
 
+        //main driving method for retrieving and storing online resource information
         public static void updateOnlineRList()
         {
+            if (getOnlineRList != null)
+            {
+                getOnlineRList.Clear();
+            }
             onlineRList = new RangeObservableCollection<OnlineRViewModel>();
             queryOnlineRList().ContinueWith(task =>
             {
@@ -218,10 +235,6 @@ namespace LOSSPortable
             {
                 return onlineRList;
             }
-            set
-            {
-                onlineRList = value;
-            }
         }
 
         //-----------------------------------------------------------------------------------------
@@ -235,16 +248,20 @@ namespace LOSSPortable
             //System.Diagnostics.Debug.WriteLine("inside queryOnlineRList()");
         }
 
+        //Main driver method for retrieving video resources from the DB
         public static void updateOnlineVList()
         {
+            if (onlineVList != null)
+            {
+                onlineVList.Clear();
+            }
             onlineVList = new RangeObservableCollection<OnlineVViewModel>();
             queryOnlineVList().ContinueWith(task =>
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     onlineVList.AddRange(queryOnlineVList().Result);
-                    //System.Diagnostics.Debug.WriteLine("UpdateOnlineRList()");
-                });
+                    });
             });
         }
 
@@ -256,13 +273,7 @@ namespace LOSSPortable
             {
                 return onlineVList;
             }
-            set
-            {
-                onlineVList = value;
-            }
         }
-
-    //end of class AmazonUtils
 
     private static Task<List<OnlinePlaylistModel>> queryOnlinePlaylist()
         {
@@ -271,11 +282,15 @@ namespace LOSSPortable
             var SearchBar = context.ScanAsync<OnlinePlaylistModel>(conditions);
             return SearchBar.GetNextSetAsync();
 
-            //System.Diagnostics.Debug.WriteLine("inside queryOnlineRList()");
         }
 
+        //Main driver function for updating playlist objects
         public static void updateOnlinePlaylist()
         {
+            if (onlinePlaylist != null)
+            {
+                onlinePlaylist.Clear();
+            }
             onlinePlaylist = new RangeObservableCollection<OnlinePlaylistModel>();
             queryOnlinePlaylist().ContinueWith(task =>
             {
@@ -295,16 +310,14 @@ namespace LOSSPortable
             {
                 return onlinePlaylist;
             }
-            set
-            {
-                onlinePlaylist = value;
-            }
         }
-
     }
 }
 
-
+    /**
+     * Class that extends observable collection that allows a range of objects to be added to the list
+     * without trigger OnCollectionChanged repetitively.
+     */
     public class RangeObservableCollection<T> : ObservableCollection<T>
     {
         private bool surpressEvents = false;

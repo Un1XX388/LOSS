@@ -76,7 +76,13 @@ namespace LOSSPortable.Droid
                 AmazonUtils.RegisterDevice(AmazonUtils.Platform.Android, registrationId);
             }    
         }
-
+        /**
+         * 
+         * Handles incoming message from google messaging service
+         * Parses the incoming, messaging and either display it has notification
+         * in the android notification bar or passes the info to the PCL side so 
+         * that it can be parsed and utilized.
+         */
         private void HandleMessage(Intent intent)
         {
             string message = string.Empty;
@@ -95,7 +101,6 @@ namespace LOSSPortable.Droid
                 message = extras.GetString("default");
             }
 
-            //Log.Info("Messages", "message received = " + message);
             var current = (App)Xamarin.Forms.Application.Current;
             try
             {

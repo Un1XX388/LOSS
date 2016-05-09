@@ -15,7 +15,6 @@ using LOSSPortable.Helpers;
 namespace LOSSPortable.Droid
 {
     [Activity(
-       // MainLauncher = true, 
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
         Theme = "@style/DefaultTheme"
         )]
@@ -28,20 +27,7 @@ namespace LOSSPortable.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
             UserDialogs.Init(this);
 
-           // SetTheme(Resource.Style.DefaultTheme);
-
-            // CrossTextToSpeech.Current.Init();
-            //if (Settings.ContrastSetting == true)
-            //{
-            //    SetTheme(Resource.Style.ContrastTheme);
-
-            //}
-            //else
-            //{
-            //    SetTheme(Resource.Style.DefaultTheme);
-            //}
             RegisterForGCM();
-            //screen size for idan:
             App.ScreenWidth = (int) ( Resources.DisplayMetrics.WidthPixels / Resources.DisplayMetrics.Density   );
             App.ScreenHeight = (int)( Resources.DisplayMetrics.HeightPixels / Resources.DisplayMetrics.Density  );
 
