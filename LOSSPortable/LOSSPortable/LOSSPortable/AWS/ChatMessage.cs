@@ -4,7 +4,7 @@ using Amazon.Lambda.Model;
 
 namespace LOSSPortable
 {
-
+    //This class is used by ChatPage 
     [DynamoDBTable("Message")]
     public class ChatMessage
     {

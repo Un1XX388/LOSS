@@ -15,6 +15,9 @@ namespace LOSSPortable
         "Sender": "Gerald"
     }
     */
+
+    //This class is used by App class
+
     public class SNSMessagePCL
     {
         public string Subject { set; get; }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Plugin.TextToSpeech;
+using Amazon.DynamoDBv2.DataModel;
 
 namespace LOSSPortable
 {
@@ -57,14 +58,19 @@ namespace LOSSPortable
 
         }
 
-        protected override void OnAppearing()
+        //start speaking as soon as this page appears if tts is enabled
+        protected async override void OnAppearing()
         {
             if (Helpers.Settings.SpeechSetting == true)
             {
                 CrossTextToSpeech.Current.Speak(aboutUs.Text);
             }
+            var context = AmazonUtils.DDBContext;
+
+
             base.OnAppearing();
         }
+
         //stop text to speech when navigation bar back button is pressed
         protected override void OnDisappearing()
         {
@@ -91,5 +97,19 @@ namespace LOSSPortable
             ((RootPage)App.Current.MainPage).NavigateTo();
             return true;
         }
+    }// end class AboutPage
+
+    class About
+    {
+        [DynamoDBTable("AboutUs")]
+        class ReportProblem
+        {
+            [DynamoDBHashKey]
+            public string id { get; set; }
+
+            [DynamoDBProperty]
+            public string Description { get; set; }
+        }
     }
+   
 }

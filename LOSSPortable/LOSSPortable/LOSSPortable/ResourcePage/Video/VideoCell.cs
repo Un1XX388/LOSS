@@ -49,6 +49,6 @@ namespace LOSSPortable{
 				cellView.Children.Add(cellDesc, 1, 4, 4, 30);
 
 				this.View				= cellView;
-			}// End of ResourceCell() method.
-		}// End of ResourceCell class.
+			}// End of VideoCell() method.
+		}// End of VideoCell class.
 }// End of LossPortable namespace.

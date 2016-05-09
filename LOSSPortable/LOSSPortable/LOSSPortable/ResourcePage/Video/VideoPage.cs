@@ -1,21 +1,15 @@
 ﻿using System;
 using Xamarin.Forms;
-using System.Collections.Generic;
-
-
-//
 namespace LOSSPortable{
-	//
+
 	public class VideoPage : ContentPage{
 
-		// Holds the layout for this page.
-		public WebView vid		= new WebView();
-		// Holds the url of the video for this page.
-		public string url;
-       
-		// 
-		public VideoPage(string pageTitle, string vidURL){
-			// Title of page.
+		public WebView vid		= new WebView();             // Holds the layout for this page.
+        public string url;                                  // Holds the url of the video for this page.
+
+
+        // 
+        public VideoPage(string pageTitle, string vidURL){
 
 			//sets the background color based on settings
 			if (Helpers.Settings.ContrastSetting == true) 
@@ -28,24 +22,20 @@ namespace LOSSPortable{
 			}
             
 			Title					= pageTitle;
-			// Set url for this page.
 			url						= vidURL;
-			// Create variable for holding page as a html string.
-			var htmlSource			= new HtmlWebViewSource();
-			// Compile html string for page.
-			htmlSource.Html			= @create_html(url);
-			// Set the source for this page (the page as a html stirng).
-			vid.Source				= htmlSource;
-			// Set the created html string to be the content of the page.
-			Content					= vid;
-		}// End of VideoPage() constructor.
+			var htmlSource			= new HtmlWebViewSource();                      // Create variable for holding page as a html string.
+            htmlSource.Html			= @create_html(url);                            // Compile html string for page.
+            vid.Source				= htmlSource;                                   // Set the source for this page (the page as a html stirng).
 
-		// Creates HTML page.
-		private string create_html(string url){
-			// String for holding each element of html page.
-			string[] html_string	= new string[8];
+            Content = vid;                                      // Set the created html string to be the content of the page.
 
-			html_string[0]			= "<html><body bgcolor=\"#";
+        }// End of VideoPage() constructor.
+
+        // Creates HTML page.
+        private string create_html(string url){
+			string[] html_string	= new string[8];                        // String for holding each element of html page.
+
+            html_string[0]			= "<html><body bgcolor=\"#";
 			html_string[1]			= "000000";
 			html_string[2]			= "\">";
 			html_string[3]			= "<div style='position:relative; width:100%; height:100%;'>";
@@ -54,13 +44,13 @@ namespace LOSSPortable{
 			html_string[6]			= "></iframe>";
 			html_string[7]			= "</div></body></html>";
 
-			// Cat each element of html page into one string and return.
-			return String.Join("", html_string);
-		}// End of create_html() method.
+			return String.Join("", html_string);                                // Cat each element of html page into one string and return.
+        }// End of create_html() method.
 
-		// 
-		protected override void OnDisappearing(){
+        
+        protected override void OnDisappearing(){
 			vid.Source				= "";
 		}// End of OnDisappearing() method.
+
 	}// End of VideoPage class.
 }// End of LOSSPortable namespace.

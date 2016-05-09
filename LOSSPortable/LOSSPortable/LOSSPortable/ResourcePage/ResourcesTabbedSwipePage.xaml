@@ -14,16 +14,6 @@
 				  Icon="playlist.png">
 
 		</CarouselPage>
-<!--		<CarouselPage x:Name="Favorites"
-                  Title="Most Watched"
-									Icon="watched.png">
-				<CarouselPage.Children>
-				<ContentPage/>
-				<ContentPage/>
-				<ContentPage x:Name="favoriteContent">
-				</ContentPage>
-			</CarouselPage.Children>
-		</CarouselPage>-->
 	</TabbedPage.Children>
 
 </TabbedPage>

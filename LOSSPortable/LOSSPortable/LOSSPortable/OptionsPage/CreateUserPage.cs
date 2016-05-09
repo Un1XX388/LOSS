@@ -14,6 +14,7 @@ using XLabs.Forms.Controls;
 
 namespace LOSSPortable
 {
+    //create account page that allows users to sign up for volunteers if they want
     public class CreateUserPage : ContentPage
     {
         Entry email;
@@ -28,7 +29,7 @@ namespace LOSSPortable
         public CreateUserPage()
         {
             Title = "Create an Account";
-            // BindingContext = new LoginViewModel(Navigation);
+
             //sets the background color based on settings
             if (Helpers.Settings.ContrastSetting == true)
             {
@@ -79,7 +80,11 @@ namespace LOSSPortable
             };
 
         }
-
+      /// <summary>
+      /// Send user information such as email, username, and password to the server, checking if the account is created.
+      /// </summary>
+      /// <param name="sender"></param>
+      /// <param name="e"></param>
         async private void CreateAccount_Clicked(object sender, System.EventArgs e)
         {
             if (Helpers.Settings.SpeechSetting == true)
@@ -108,7 +113,6 @@ namespace LOSSPortable
                     };
                     //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
 
-
                     InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
                     resp.Payload.Position = 0;
                     var sr = new StreamReader(resp.Payload);
@@ -131,6 +135,7 @@ namespace LOSSPortable
 
         }
 
+        //detect location by default to store it on server
         async private Task getLocation()
         {
             try
@@ -155,6 +160,7 @@ namespace LOSSPortable
             }
         }
 
+        //update location
         async private void OnPositionChanged(object sender, PositionEventArgs e)
         {
             var locator = CrossGeolocator.Current;
@@ -164,6 +170,8 @@ namespace LOSSPortable
             //label2.Text = String.Format("Longitude: {0} Latitude: {1}", longtitude, latitude);
         }
 
+        //If Signing up for Volunteer checkbox is checked, usertype wants to be volunteer, else basic user.
+        //The usertype variable is used to send it to the server for admin
         private void IsVolunteer_CheckedChanged(object sender, XLabs.EventArgs<bool> e)
         {
             System.Diagnostics.Debug.WriteLine(e.Value);

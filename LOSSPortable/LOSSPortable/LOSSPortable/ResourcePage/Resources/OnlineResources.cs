@@ -30,10 +30,7 @@ namespace LOSSPortable
 
 
             OnlineResourceCell temp = new OnlineResourceCell();
-
-
-            // Holds data to be displayed on this content page.
-            online_resources = AmazonUtils.getOnlineRList;
+            online_resources = AmazonUtils.getOnlineRList;            // Holds data to be displayed on this content page.
 
             //Switch case for differnet icons depending on file type
             for (int i = 0; i < online_resources.Count; i++)
@@ -57,37 +54,20 @@ namespace LOSSPortable
                 }
             }
 
-            // View type for this content page.
             ListView lstView = new ListView();
 
             // Set size (height) of each element displayed on this page.
             lstView.RowHeight = 100;
-
-            // Set title of this page.
-
             Title = "Online Resources";
-            // Set source of data for the list view used on this page.
-            lstView.ItemsSource = online_resources;
-
-            //var cellFav = new Image();
-            //cellFav.VerticalOptions = LayoutOptions.Center;
-            //cellFav.HorizontalOptions = LayoutOptions.Center;
-            //cellFav.SetBinding(Image.SourceProperty, new Binding("Fav"));
-            //temp.cellView.Children.Add(cellFav, 4, 5, 0, 13);
-
-
-            // Set layout for each element in this list view.
-            lstView.ItemTemplate = new DataTemplate(typeof(OnlineResourceCell));
-
+            lstView.ItemsSource = online_resources;                         // Set source of data for the list view used on this page.
+            lstView.ItemTemplate = new DataTemplate(typeof(OnlineResourceCell)); // Set layout for each element in this list view.
             lstView.BackgroundColor = BackgroundColor;
-            // Set behavior of element when selected by user.
-            lstView.ItemSelected += Onselected;
+            lstView.ItemSelected += Onselected;                                 // Set behavior of element when selected by user.
+
 
             // Assign the list view created above to this content page.
             Content = lstView;
-            
-            //populate listview with retrieved online resources from the server
-            
+                        
             // Accomodate iPhone status bar.
             Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
 
@@ -95,35 +75,14 @@ namespace LOSSPortable
 
 
 
-        //public String isFavorited()
-        //{
-        //    if (favClicked == false)
-        //    {
-        //        Helpers.Settings.FavoriteSetting = false;
-        //        favClicked = true;
-        //        return "fav132.png";
-        //    }
-        //    else
-        //    {
-        //        //get all the items favorited for caching
-        //        Helpers.Settings.FavoriteSetting = true;
-        //        favClicked = false;
-        //        return "fav232.png";
-        //    }
-        //}
         //loads list of online resources from server
         private RangeObservableCollection<OnlineRViewModel> LoadResources()
         {
             RangeObservableCollection<OnlineRViewModel> resources = AmazonUtils.getOnlineRList;
-   
-            //for (int k = 0; k < resources.Count; k++)
-            //{
-            //    resources[k].Fav = "fav132.png";
-            //}
             return resources;
         }
 
-        
+        //Displays item in webview depending on its type      
         void Onselected(object sender, SelectedItemChangedEventArgs e)
         {
 
@@ -141,8 +100,6 @@ namespace LOSSPortable
                 CrossTextToSpeech.Current.Speak(title);
             }
 			UserDialogs.Instance.ShowLoading();
-
-        //    int count = Convert.ToInt32(e.SelectedItem.ToString().Split(',')[5]);
 
 			WebView webview = new WebView();
 
@@ -179,13 +136,15 @@ namespace LOSSPortable
 
         }// End of Onselected() method.
 
+
+        //stop speech when page disappears
         protected override void OnDisappearing()
         {
             CrossTextToSpeech.Dispose();
 
             base.OnDisappearing();
-
         }
+
         //navigate to homepage when back button pressed
         protected override Boolean OnBackButtonPressed()
         {
