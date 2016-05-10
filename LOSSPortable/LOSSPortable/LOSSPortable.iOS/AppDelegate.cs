@@ -5,6 +5,8 @@ using System.Linq;
 using Foundation;
 using UIKit;
 using Acr.UserDialogs;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 //using Amazon.SimpleNotificationService;
 //using Amazon.SimpleNotificationService.Model;
@@ -66,7 +68,7 @@ namespace LOSSPortable.iOS
 
         public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
         {
-
+			ProcessNotification (userInfo, false);
         }
 
         public override async void RegisteredForRemoteNotifications(UIApplication application, NSData token)
@@ -82,5 +84,150 @@ namespace LOSSPortable.iOS
         {
             Console.WriteLine(@"Failed to register for remote notification {0}", error.Description);
         }
+
+		/*{
+    		aps =     {alert = "{\"Sender\": \"Green Tomato\", 
+    							 \"Title\": \"New Message!\", 
+							 	 \"Text\": \"test\", 
+							 	 \"ToFrom\": \"-9185843048110265565\", 
+							 	 \"Time\": \"2016-05-10 00:08:16.367161\", 
+							 	 \"Subject\": \"Message\"}";
+    				   };
+		}*/
+
+		void ProcessNotification (NSDictionary userInfo, bool fromFinishedLaunching){
+			if (null != userInfo && userInfo.ContainsKey(new NSString("aps")))
+			{
+				//Get the aps dictionary
+				NSDictionary aps = userInfo.ObjectForKey(new NSString("aps")) as NSDictionary;
+
+				string alert = string.Empty;
+				if (aps.ContainsKey(new NSString("alert")))
+					alert = (aps [new NSString("alert")] as NSString).ToString();
+
+
+				var current = (App)Xamarin.Forms.Application.Current;
+				try
+				{
+					SNSMessage msg = JsonConvert.DeserializeObject<SNSMessage>(alert);
+					if (msg.Subject.Equals("Message"))
+					{
+						try{
+							if (current.chatDisplayed())
+							{
+								current.parseMessageObject(JsonConvert.SerializeObject(msg));
+							}
+							else
+							{
+								if (!fromFinishedLaunching)
+								{
+									//Manually show an alert
+									if (!string.IsNullOrEmpty(msg.Text))
+									{
+										UIAlertView avAlert = new UIAlertView("New Message!", msg.Sender + ": " + msg.Text, null, "OK", null);
+										avAlert.Show();
+									}
+								}
+							}
+						}
+						catch(NullReferenceException e){
+							if (!fromFinishedLaunching)
+							{
+								//Manually show an alert
+								if (!string.IsNullOrEmpty(msg.Text))
+								{
+									UIAlertView avAlert = new UIAlertView("New Message!", msg.Sender + ": " + msg.Text, null, "OK", null);
+									avAlert.Show();
+								}
+							}
+						}
+					}
+					else if(msg.Subject.Equals("Handshake")){
+						try
+						{
+							if (current.ChatSelectionPageActive || current.ChatPageActive)
+							{
+								current.parseMessageObject(JsonConvert.SerializeObject(msg));
+							}
+							else
+							{
+								if (!fromFinishedLaunching)
+								{
+									//Manually show an alert
+									if (!string.IsNullOrEmpty(msg.Sender))
+									{
+										UIAlertView avAlert = new UIAlertView("Incoming conversation", msg.Sender + ": Wants to talk.", null, "OK", null);
+										avAlert.Show();
+									}
+								}
+							}
+						}
+						catch (NullReferenceException e)
+						{
+							if (!fromFinishedLaunching)
+							{
+								//Manually show an alert
+								if (!string.IsNullOrEmpty(msg.Sender))
+								{
+									UIAlertView avAlert = new UIAlertView("Incoming conversation", msg.Sender + ": Wants to talk.", null, "OK", null);
+									avAlert.Show();
+								}
+							}
+						}
+					}
+					else if (msg.Subject.Equals("HandshakeEnd"))
+					{
+						try
+						{
+							if (current.ChatSelectionPageActive || current.ChatPageActive)
+							{
+								current.parseMessageObject(JsonConvert.SerializeObject(msg));
+							}
+						}
+						catch (NullReferenceException e)
+						{
+
+						}
+					}
+					else if(msg.Subject.Equals("Announcement")){
+						if (!fromFinishedLaunching)
+						{
+							//Manually show an alert
+							if (!string.IsNullOrEmpty(msg.Text))
+							{
+								UIAlertView avAlert = new UIAlertView(msg.Title, msg.Text, null, "OK", null);
+								avAlert.Show();
+							}
+						}
+					}
+					else{
+						if (!fromFinishedLaunching)
+						{
+							//Manually show an alert
+							if (!string.IsNullOrEmpty(msg.Text))
+							{
+								UIAlertView avAlert = new UIAlertView(msg.Title, msg.Text, null, "OK", null);
+								avAlert.Show();
+							}
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					if (!fromFinishedLaunching)
+					{
+						//Manually show an alert
+						if (!string.IsNullOrEmpty(alert))
+						{
+							UIAlertView avAlert = new UIAlertView("Notification", alert, null, "OK", null);
+							avAlert.Show();
+						}
+					}
+				}
+
+
+
+			}
+		}
     }
 }

@@ -26,7 +26,7 @@ namespace LOSSPortable
         Entry nameEntry = new Entry { Placeholder = "Enter your display name: " };
 
         Switch readyToChat = new Switch { HorizontalOptions = LayoutOptions.EndAndExpand, IsVisible = false, IsEnabled = false, VerticalOptions = LayoutOptions.CenterAndExpand, IsToggled = Helpers.Settings.ChatActiveSetting };
-        Label instructionLabel = new Label { Text = "Description of chat page goes here", FontSize = 22};
+		Label instructionLabel = new Label { Text = "Description of chat page goes here", FontSize = 22, TextColor = Color.White};
         Label chatAvailability = new Label { HorizontalOptions = LayoutOptions.StartAndExpand, Text = "Not Ready to chat.", IsVisible = false, HorizontalTextAlignment = TextAlignment.Center, FontSize = 20, FontFamily = "Arial" };
         Button update = new Button { Text = "Update", HeightRequest = 50, IsVisible = false, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22), BorderWidth = 1 };
         Button startConversation = new Button { HorizontalOptions = LayoutOptions.FillAndExpand, Text = "Start Conversation", WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22), BorderWidth = 1 };
@@ -48,7 +48,7 @@ namespace LOSSPortable
             }
 
             //Sets displayName field to value saved
-            nameEntry.Text = Helpers.Settings.UsernameSetting;
+            nameEntry.Text = String.IsNullOrWhiteSpace(Helpers.Settings.UsernameSetting) ? "Anonymous" : Helpers.Settings.UsernameSetting;
             Title = "Chat Selection";
             Icon = "Accounts.png";
 
@@ -74,7 +74,7 @@ namespace LOSSPortable
                 this.endConversation.IsVisible = false;
                 this.nameEntry.IsVisible = false;
                 this.nameEntry.IsEnabled = false;
-                this.nameEntry.Text = Helpers.Settings.UsernameSetting;
+                this.nameEntry.Text = String.IsNullOrWhiteSpace(Helpers.Settings.UsernameSetting) ? "Anonymous" : Helpers.Settings.UsernameSetting;
                 readyToChat.IsVisible = true;
                 readyToChat.IsEnabled = true;
                 readyToChat.Toggled += readyToChatF;
@@ -102,10 +102,11 @@ namespace LOSSPortable
              */
             update.Clicked += (s, e) =>
             {
+                Helpers.Settings.UsernameSetting = nameEntry.Text;
                 this.startConversation.IsEnabled = false;
                 HandshakeStart();
                 update.IsVisible = false;
-                Helpers.Settings.UsernameSetting = nameEntry.Text;
+                
             };
 
             /**
@@ -205,7 +206,7 @@ namespace LOSSPortable
                 startConversation.IsEnabled = true;
                 this.nameEntry.IsVisible = false;
                 this.nameEntry.IsEnabled = false;
-                this.nameEntry.Text = Helpers.Settings.UsernameSetting;
+                this.nameEntry.Text = String.IsNullOrWhiteSpace(Helpers.Settings.UsernameSetting) ? "Anonymous" : Helpers.Settings.UsernameSetting;
                 endConversation.IsVisible = true;
                 startConversation.Clicked += ContinueConversationEvent;
             }
@@ -231,7 +232,7 @@ namespace LOSSPortable
                 endConversation.IsVisible = false;
                 this.nameEntry.IsVisible = false;
                 this.nameEntry.IsEnabled = false;
-                this.nameEntry.Text = Helpers.Settings.UsernameSetting;
+                this.nameEntry.Text = String.IsNullOrWhiteSpace(Helpers.Settings.UsernameSetting) ? "Anonymous" : Helpers.Settings.UsernameSetting;
                 startConversation.Clicked -= ContinueConversationEvent;
             }
             else
@@ -299,7 +300,7 @@ namespace LOSSPortable
         }
         //--------------------------------HANDSHAKE-------------------------------
         //Starts the handshake by getting the geolocation and then starting the handshake to find a nearby volunteer
-        public async void HandshakeStart() 
+        public async Task HandshakeStart() 
         {
             this.IsBusy = true;
             this.startConversation.IsEnabled = false;
@@ -337,10 +338,9 @@ namespace LOSSPortable
                 startConversationPath();
             });
 
-            if (Helpers.Settings.HandShakeDone == false)
+            if (!Helpers.Settings.HandShakeDone)
             {
-                HandshakeStart();
-                Helpers.Settings.HandShakeDone = true;
+                await HandshakeStart();
             }
             try {
                 outerLayout.Focus();
@@ -522,6 +522,16 @@ namespace LOSSPortable
         {
             try
             {
+                string operation;
+                if (!Helpers.Settings.HandShakeDone)
+                {
+                    operation = "create";
+                    Helpers.Settings.HandShakeDone = true;
+                }
+                else
+                {
+                    operation = "update";
+                }
                 UserInfoItem message;
                 if (Helpers.Settings.IsVolunteer)
                 {
@@ -532,10 +542,10 @@ namespace LOSSPortable
                     }
                 }
                 else{
-                    message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting, Available = true } }; //Helpers.Settings.EndpointArnSetting
+                    message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = this.nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting, Available = true } }; //Helpers.Settings.EndpointArnSetting
                 }
-                
-                UserInfoJson messageJson = new UserInfoJson { operation = "create", tableName = "User", payload = message };
+                Helpers.Settings.UsernameSetting = this.nameEntry.Text;
+                UserInfoJson messageJson = new UserInfoJson { operation = operation, tableName = "User", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
                 var ir = new InvokeRequest()
                 {

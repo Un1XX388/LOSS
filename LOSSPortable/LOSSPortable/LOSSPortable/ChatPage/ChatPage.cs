@@ -356,6 +356,7 @@ namespace LOSSPortable
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 BackgroundColor = user ? Constants.rightMessageColor : Constants.leftMessageColor,
                 WidthRequest = width * 0.70,
+				HasShadow = false
             };
             TapGestureRecognizer messageFrameTapped = new TapGestureRecognizer();
             messageFrameTapped.Tapped += (s, e) => MessageFrameTapped_Tapped(s, e, msgObj);
@@ -376,6 +377,7 @@ namespace LOSSPortable
                 FontSize = 15,
                 FontFamily = "Arial",
                 FontAttributes = FontAttributes.Italic,
+				BackgroundColor = Color.Transparent,
                 HorizontalTextAlignment = user ? TextAlignment.End : TextAlignment.Start
             };
             Frame frame = new Frame()
@@ -384,6 +386,8 @@ namespace LOSSPortable
                 Content = message,
                 HorizontalOptions = user ? LayoutOptions.EndAndExpand : LayoutOptions.StartAndExpand,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
+				HasShadow = false,
+				BackgroundColor = Color.Transparent
             };
             this.messageStack.Children.Add(frame);
         }
