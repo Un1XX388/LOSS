@@ -26,7 +26,7 @@ namespace LOSSPortable
         Entry nameEntry = new Entry { Placeholder = "Enter your display name: " };
 
         Switch readyToChat = new Switch { HorizontalOptions = LayoutOptions.EndAndExpand, IsVisible = false, IsEnabled = false, VerticalOptions = LayoutOptions.CenterAndExpand, IsToggled = Helpers.Settings.ChatActiveSetting };
-        Label instructionLabel = new Label { Text = "Description of chat page goes here", FontSize = 22};
+		Label instructionLabel = new Label { Text = "Description of chat page goes here", FontSize = 22, TextColor = Color.White};
         Label chatAvailability = new Label { HorizontalOptions = LayoutOptions.StartAndExpand, Text = "Not Ready to chat.", IsVisible = false, HorizontalTextAlignment = TextAlignment.Center, FontSize = 20, FontFamily = "Arial" };
         Button update = new Button { Text = "Update", HeightRequest = 50, IsVisible = false, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22), BorderWidth = 1 };
         Button startConversation = new Button { HorizontalOptions = LayoutOptions.FillAndExpand, Text = "Start Conversation", WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22), BorderWidth = 1 };

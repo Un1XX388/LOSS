@@ -99,6 +99,7 @@
       <SubType>Designer</SubType>
     </None>
     <ITunesArtwork Include="iTunesArtwork%402x" />
+    <Compile Include="SNSMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LOSSPortable\LOSSPortable.csproj">
