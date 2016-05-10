@@ -30,11 +30,9 @@ namespace LOSSPortable
             playlist = AmazonUtils.getOnlinePlaylist;
             // View type for this content page.
 			for (int i = 0; i < playlist.Count; i++) {
-				if (Device.OS == TargetPlatform.iOS) {
-					if (playlist [i].Description.Length > 110) {
-						playlist [i].Description = playlist [i].Description.Substring (0, 110) + "...";
-					}
-				}
+				if (playlist [i].Description.Length > 110) {
+					playlist [i].Description = playlist [i].Description.Substring (0, 110) + "...";
+				}				
 			}
             ListView lstView = new ListView();
             // Set size (height) of each element displayed on this page.

@@ -31,11 +31,10 @@ namespace LOSSPortable{
 			vids					= new RangeObservableCollection<OnlineVViewModel>();
             for (int i = 0; i < tmp.Count; i++)
             {
-				if (Device.OS == TargetPlatform.iOS) {
-					if (tmp [i].Description.Length > 110) {
-						tmp [i].Description = tmp [i].Description.Substring (0, 110) + "...";
-					}
+				if (tmp [i].Description.Length > 110) {
+					tmp [i].Description = tmp [i].Description.Substring (0, 110) + "...";
 				}
+				
                 if (tmp[i].Playlist.Equals(playList))
                 {
                     vids.Add(tmp[i]);
