@@ -190,11 +190,46 @@ namespace LOSSPortable
             {
                 return quotesList;
             }
-            set
-            {
-                quotesList = value;
-            }
+
         }
+
+        //==============================================================================
+        /**
+         * Method that retrieves all the miscellaneous items stored in the Miscellaneous 
+         * table on dynamoDB
+         */
+        private static Task<List<Miscellaneous>> queryMiscList()
+        {
+            var context = AmazonUtils.DDBContext;
+            List<ScanCondition> conditions = new List<ScanCondition>();
+            var SearchBar = context.ScanAsync<Miscellaneous>(conditions);
+            return SearchBar.GetNextSetAsync();
+        }
+
+        public static void updateMiscellaneousList()
+        {
+            queryMiscList().ContinueWith(task =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    miscList.AddRange(queryMiscList().Result);
+                });
+            });
+        }
+
+        //temporary caching of the quotes pulled from the server, stays till app shut down
+        private static RangeObservableCollection<Miscellaneous> miscList = new RangeObservableCollection<Miscellaneous>();
+
+        public static RangeObservableCollection<Miscellaneous> getMiscList
+        {
+            get
+            {
+                return miscList;
+            }
+
+        }
+
+        //===============================================================================
 
         /**
          * retrieval of the online resources from the dynamoDB
@@ -275,7 +310,7 @@ namespace LOSSPortable
             }
         }
 
-    private static Task<List<OnlinePlaylistModel>> queryOnlinePlaylist()
+        private static Task<List<OnlinePlaylistModel>> queryOnlinePlaylist()
         {
             var context = AmazonUtils.DDBContext;
             List<ScanCondition> conditions = new List<ScanCondition>();
