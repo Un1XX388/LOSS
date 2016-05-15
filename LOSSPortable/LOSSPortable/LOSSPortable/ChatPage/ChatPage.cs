@@ -17,9 +17,7 @@ namespace LOSSPortable
     {
         
         CancellationTokenSource ct = new CancellationTokenSource();
-        
-        //purpose is to allow only one end conversation alert
-        private static Boolean terminate; 
+        private static Boolean terminate;
 
         Button sendButton;
         Editor textEditor;
@@ -27,25 +25,21 @@ namespace LOSSPortable
         StackLayout mainStack;
         StackLayout messageStack;
         StackLayout editorStack;
-
-        //store width of the screen
+        ScrollView rootScrollView;
         double width;
-        //Keeps track of who the most recent message is from so that the header label can be properly displayed
         string previousUser = "";
-        // display name of current user
         string mainUser;
-        // display name of user, current user is conversing with
         string convWithUser;
 
 
-        public ChatPage()
+        public ChatPage()  //General constructor for chatPage
         {
             terminate = true;
 
-            mainUser = checkName(Helpers.Settings.UsernameSetting);
+            mainUser = checkName(Helpers.Settings.DisplayName);
             convWithUser = checkName(Constants.conv.name);
 
-            
+
             if (Helpers.Settings.ContrastSetting == true)
             {
                 
@@ -60,29 +54,28 @@ namespace LOSSPortable
             Title = convWithUser;
             Icon = "Accounts.png";
 
-            //Text entry for messages, height request is approximentally two lines of text
             textEditor = new Editor()
             {
                 Keyboard = Keyboard.Default,
+                BackgroundColor = Color.White,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HeightRequest = 50,
-                TextColor = Color.Purple,
+                TextColor = Color.Purple
             };
-            //Called when keyboard appears/disappears (300 value is hardcoded to scroll the text up/down when the keyboard appears)
-            textEditor.Focused += (s, e) => TextEditor_Focused(s, e, messageView.ScrollY + 300);
-            textEditor.Unfocused += (s, e) => TextEditor_Unfocused(s, e, messageView.ScrollY - 300);
 
-            //Frame that contains the text editor
+            textEditor.Focused += (s, e) => TextEditor_Focused(s, e);
+            textEditor.Unfocused += (s, e) => TextEditor_Unfocused(s, e);
+
+
             Frame textEditorFrame = new Frame()
             {
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 BackgroundColor = Color.White,
                 Content = textEditor,
-                Padding = new Thickness(8, 1, 1, 1)
+                Padding = new Thickness(8, 0, 0, 0)
             };
 
-            //Adds seperator between chat text entry box and send button
             BoxView verticalLine = new BoxView()
             {
                 WidthRequest = 2,
@@ -93,10 +86,11 @@ namespace LOSSPortable
             sendButton = new Button()
             {
                 Text = ">",
+                BorderRadius = 2,
+                BackgroundColor = Color.White,
                 TextColor = Color.Purple,
                 HorizontalOptions = LayoutOptions.Start,
                 VerticalOptions = LayoutOptions.Start,
-                BackgroundColor = Color.White,
                 HeightRequest = 50,
                 WidthRequest = 50,
                 FontSize = 30,
@@ -113,7 +107,6 @@ namespace LOSSPortable
                 Padding = new Thickness(0, 0, 4, 4)
             };
 
-            //contains the text editor, seperator and send button
             editorStack = new StackLayout()
             {
                 Padding = new Thickness(1),
@@ -127,7 +120,7 @@ namespace LOSSPortable
                 BackgroundColor = Color.White,
             };
 
-            //stack that contains all the chat messages
+
             messageStack = new StackLayout()
             {
 
@@ -135,7 +128,7 @@ namespace LOSSPortable
                 Padding = new Thickness(10, 5),
                 VerticalOptions = LayoutOptions.Start
             };
-            //all messages are contained in this scrollview
+
             messageView = new ScrollView()
             {
                 Content = messageStack,
@@ -154,34 +147,45 @@ namespace LOSSPortable
                 BackgroundColor = Constants.backGroundColor
             };
 
-            Content = mainStack;
+            if(Device.OS == TargetPlatform.iOS)
+            {
+                rootScrollView = new ScrollView()
+                {
+                    Content = mainStack,
+                    HorizontalOptions = LayoutOptions.Fill,
+                    VerticalOptions = LayoutOptions.Fill,
+                    BackgroundColor = Constants.backGroundColor
+                };
+
+                Content = rootScrollView;
+            }
+            else
+            {
+                Content = mainStack;
+            }
+            
         }
 
         #region event listeners for SEND, EDITOR, MESSAGE FRAME
         /*
         * Called when text editor is not focused, removes keyboard and scrolls to height
         */
-        private async void TextEditor_Unfocused(object sender, FocusEventArgs e, double height)
+        private async void TextEditor_Unfocused(object sender, FocusEventArgs e)
         {
             await Task.Delay(300);
-            await this.messageView.ScrollToAsync(0, height, false);
+            ScrolltoBottom(false);
         }
 
         /*
         * Called when text editor is not focused, removes keyboard and scrolls to height
         */
-        private async void TextEditor_Focused(object sender, FocusEventArgs e, double height)
+        private async void TextEditor_Focused(object sender, FocusEventArgs e)
         {
             await Task.Delay(300);
-            await this.messageView.ScrollToAsync(0, height, false);
+            ScrolltoBottom(false);
         }
 
-        /*
-         * Called when send button clicked, if text is whitespace or empty, returns empty
-         * Otherwise, creates new ChatMessage object, adds it to display, static storage
-         * pushes to server before scrolling to bottom of chat view.
-         */
-        private async void SendButtonClicked(object sender, EventArgs e)
+        private void SendButtonClicked(object sender, EventArgs e)
         {
             string text = textEditor.Text;
             if (String.IsNullOrWhiteSpace(text))
@@ -200,18 +204,8 @@ namespace LOSSPortable
             AddMessageToChat(msgObj);
             Constants.conv.msgs.Add(msgObj);
             ScrolltoBottom(true);
-            await PushMessage(text);
+            PushMessage(text);
         }
-
-        /*
-         * Called when a chat message in the scroll view is tapped
-         * Listener is established for each message containing the ChatMessage
-         * used to display the message. 
-         * Options include "Hide text", "Report", and "Delete Message"
-         * Hide text - temporarily hides message till nexts reload of page
-         * Delete message - deletes the message from the local cache (still located on server)
-         * Report message - sends Chat Message object to report page for content reporting
-         */
 
         private async void MessageFrameTapped_Tapped(object sender, EventArgs e, ChatMessage msgObj)
         {
@@ -237,50 +231,44 @@ namespace LOSSPortable
         #endregion
 
         #region Utility functions for SCROLL, REPORT, EVENTS
-
-        //Removes current chat page from stack and creates new ReportMessage page with selected MessageObject
-        private void reportMessage(ChatMessage msg)
+        public void reportMessage(ChatMessage msg) //Enables users to report selected message based on specific criteria
         {
             Navigation.PopAsync();
             Navigation.PushAsync(new ReportMessage(msg));
         }
 
-        /*
-         * async tasks that scrolls to bottom of page with boolean parameter animate scroll
-         */
         private async void ScrolltoBottom(bool anim)
         {
-            await this.messageView.ScrollToAsync(this.messageStack, ScrollToPosition.End, anim);
+            if(Device.OS == TargetPlatform.iOS)
+            {
+                await this.rootScrollView.ScrollToAsync(this.mainStack, ScrollToPosition.End, anim);
+                await this.messageView.ScrollToAsync(this.messageStack, ScrollToPosition.End, anim);
+            }
+            else
+            {
+                await this.messageView.ScrollToAsync(this.messageStack, ScrollToPosition.End, anim);
+            }
+            
         }
-        /*
-         * Scrolls to bottom of page without animation after a specified delay
-         */
+
         private async void waitScroll(int delay)
         {
             await Task.Delay(delay);
             ScrolltoBottom(false);
         }
 
-        /*
-         * gets the width of the screen when the size is allocated to the page
-         */
+        
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
             this.width = width;
         }
 
-        /*
-         * removes message from local cache (not server)
-         */
         public void deleteMessage(ChatMessage msg) //given the ID of a message, delete said message from messages.
         {
             Constants.conv.msgs.Remove(msg);
         }
 
-        /*
-         * function to check that a display name fits conformity
-         */
         private string checkName(string name)
         {
             if (String.IsNullOrWhiteSpace(name))
@@ -297,26 +285,26 @@ namespace LOSSPortable
         #endregion
 
 
-        #region Chat display methods
-        
-        /*
-         * driver function for adding a chat message to the display screen
-         * determines if message is from main user or other user, and if a header
-         * needs to be added
-         */
+        public void LoadMessages() 
+        {
+            foreach (ChatMessage msg in Constants.conv.msgs)
+            {
+                AddMessageToChat(msg);
+                ScrolltoBottom(false);
+            }
+        }
+
         private void AddMessageToChat(ChatMessage msgObj)
         {
-            bool val;//true indicate its current user
-
+            bool val;
             if (msgObj.Sender == this.mainUser)
             {
                 val = true;
-            } 
+            }
             else
             {
                 val = false;
             }
-
             if (msgObj.Sender != this.previousUser)
             {
                 addSpace(3);
@@ -333,10 +321,6 @@ namespace LOSSPortable
 
         }
 
-        /*
-         * adds single message label to screen, which side is determiend by bool user
-         * message is stored in frame and has attached an on tapped listener
-         */
         private void addSingleMessage(ChatMessage msgObj, bool user)
         {
             Label message = new Label()
@@ -356,7 +340,7 @@ namespace LOSSPortable
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 BackgroundColor = user ? Constants.rightMessageColor : Constants.leftMessageColor,
                 WidthRequest = width * 0.70,
-				HasShadow = false
+                //HasShadow = true
             };
             TapGestureRecognizer messageFrameTapped = new TapGestureRecognizer();
             messageFrameTapped.Tapped += (s, e) => MessageFrameTapped_Tapped(s, e, msgObj);
@@ -364,9 +348,6 @@ namespace LOSSPortable
             this.messageStack.Children.Add(frame);
         }
 
-        /*
-         * Adds header label with user name and time above certain messages
-         */
         private void addNameLabel(ChatMessage msgObj, bool user)
         {
             
@@ -377,7 +358,6 @@ namespace LOSSPortable
                 FontSize = 15,
                 FontFamily = "Arial",
                 FontAttributes = FontAttributes.Italic,
-				BackgroundColor = Color.Transparent,
                 HorizontalTextAlignment = user ? TextAlignment.End : TextAlignment.Start
             };
             Frame frame = new Frame()
@@ -386,36 +366,34 @@ namespace LOSSPortable
                 Content = message,
                 HorizontalOptions = user ? LayoutOptions.EndAndExpand : LayoutOptions.StartAndExpand,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
-				HasShadow = false,
-				BackgroundColor = Color.Transparent
             };
             this.messageStack.Children.Add(frame);
         }
-        /*
-         * Adds a space between two messages with the given distance
-         */
+
         private void addSpace(int dist)
         {
             this.messageStack.Children.Add(new BoxView { Color = Color.Transparent, HeightRequest = dist });
         }
 
-        #endregion
 
-        /* 
-         * Load messages from local cache into chat screen
-         */
-        public void LoadMessages()
+        
+
+
+        public async void sendMessage(ChatMessage message) 
         {
-            foreach (ChatMessage msg in Constants.conv.msgs)
-            {
-                AddMessageToChat(msg);
+
+            try{
+                await PushMessage(message.Text);
             }
+            catch(Exception E)
+            {
+                System.Diagnostics.Debug.WriteLine("error storing in server "+ E);
+            };
         }
 
-        /*
-         * iterates through messages recieved from server, parses them into ChatMessage
-         * and then adds them to local cache and displays the message.
-         */
+        
+
+        //-------------------------Get from Server-------------------------
         public void messagesFromServer(MessageLst[] MessageList) //upon recieving a chat History log
         {
             List<ChatMessage> msgs = new List<ChatMessage>();
@@ -426,11 +404,6 @@ namespace LOSSPortable
             }
         }
 
-        /*
-         * Parses a single server message into a chat message, determines who the sender was
-         * of the original messaging by comparing the user ID with the beginning of the ToFrom
-         * field.
-         */
         public ChatMessage singleMessageFromServer(String ToFrom, String Time, String Message)    //upon recieving a single message, add it to the log of messages.
         {
             string Sender;
@@ -440,7 +413,7 @@ namespace LOSSPortable
             }
             else
             {
-                Sender = this.convWithUser;
+                Sender = Constants.conv.name;
             }
 
             ChatMessage newMsg = new ChatMessage()
@@ -453,10 +426,7 @@ namespace LOSSPortable
 
             return newMsg;
         }
-        /*
-         * generates the local time from the server UTC provided time
-         * format is hh:mm tt (04:52 pm) for example
-         */
+
         private string generateLocalTime(string time)
         {
             DateTime dt = Convert.ToDateTime(time);
@@ -465,26 +435,7 @@ namespace LOSSPortable
             return (dt - diff).ToString("hh:mm tt");
         }
 
-        /*
-         * Sends message to server
-         */
-        public async void sendMessage(ChatMessage message)
-        {
-
-            try
-            {
-                await PushMessage(message.Text);
-            }
-            catch (Exception E)
-            {
-                System.Diagnostics.Debug.WriteLine("error storing in server " + E);
-            };
-        }
-
-        
-        /*
-         * method that creates json object from chat message that is then sent to the server
-         */
+        //-------------------------Server----------------------------------
         async private Task PushMessage(string text) //Function to create a Json object and send to server using a lambda function
         {
             try
@@ -499,7 +450,9 @@ namespace LOSSPortable
                     PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
                     InvocationType = InvocationType.RequestResponse
                 };
-                
+                //System.Diagnostics.Debug.WriteLine("Before invoke: " + ir.ToString());
+
+
                 InvokeResponse resp = await AmazonUtils.LambdaClient.InvokeAsync(ir);
                 resp.Payload.Position = 0;
                 var sr = new StreamReader(resp.Payload);
@@ -514,12 +467,7 @@ namespace LOSSPortable
             }
         }
 
-
-        /*
-         * Loads all the messages from server from a given conversation between two users after a specific time
-         * returns results in MessageList, each message is then processed by helper functions.
-         */
-        async private Task LoadMessagesFromServer()
+        async private Task LoadMessagesFromServer() //Function to create a Json object and send to server using a lambda function
         {
             try
             {
@@ -559,18 +507,12 @@ namespace LOSSPortable
 
         }
 
-        /*
-         * Called when the screen becomes focused again. Reattaches the Messaging Center listeners
-         * for recieving new mesages and notifying other classes. Also, loads messages from cache and server and scrolls to bottom of page
-         */
         protected async override void OnAppearing() //Functionality to start the page that reads the history from the server and displays the log.
         {
             base.OnAppearing();
             
 
             MessagingCenter.Send<ChatPage>(this, "Start");
-            
-            //handles incoming messages from SNS
             MessagingCenter.Unsubscribe<App, ChatMessage>(this, "Hi");
             MessagingCenter.Subscribe<App, ChatMessage>(this, "Hi", (sender, arg) => //adds message to log
             {
@@ -580,15 +522,14 @@ namespace LOSSPortable
                 }
                 catch (Exception e)
                 {
-                    arg.Time = DateTime.Now.Hour.ToString("hh:mm tt");
+                    arg.Time = DateTime.Now.Hour.ToString("HH:mm");
 
                 }
                 AddMessageToChat(arg);
                 Constants.conv.msgs.Add(arg);
-                waitScroll(100);
-            });
 
-            //Handles the event for when the companion user terminates the conversation
+                // TODO : Former Scroll to bottom event here
+            });
             MessagingCenter.Unsubscribe<App>(this, "ConversationEnd");
             MessagingCenter.Subscribe<App, ChatMessage>(this, "ConversationEnd", (sender, arg) => //adds message to log
             {
@@ -600,16 +541,12 @@ namespace LOSSPortable
                     terminateChat();
                 }
             });
-
             LoadMessages();
             await LoadMessagesFromServer();
             ScrolltoBottom(false);
         }
         
-        /* 
-         * Called when the page loses the focus, hides keyboard, changes the date for future server query
-         */
-        protected override void OnDisappearing()
+        protected override void OnDisappearing() //leaving the page ->cache history
         {
             textEditor.Keyboard = null;
             textEditor.Unfocus();
@@ -620,10 +557,6 @@ namespace LOSSPortable
             base.OnDisappearing();
         }
 
-        /*
-         * Called when the other user terminates chat, display pop up message notifying user that other uesr
-         * has left the chat.
-         */
         private async void terminateChat()
         {
             
