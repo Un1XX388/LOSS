@@ -215,7 +215,6 @@ C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\bin\De
 C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\bin\Debug\AWSSDK.SimpleNotificationService.dll
 C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\bin\Debug\AWSSDK.SecurityToken.dll
 C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\bin\Debug\eLOSSTeam.pdb
-C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\bin\Debug\eLOSSTeam.dll.mdb
 C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\bin\Debug\Acr.UserDialogs.dll.mdb
 C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\bin\Debug\Acr.UserDialogs.Interface.dll.mdb
 C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\bin\Debug\AWSSDK.Core.xml
@@ -309,5 +308,6 @@ C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\obj\De
 C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\obj\Debug\res\drawable\webdesign.png
 C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\obj\Debug\R.cs.flag
 C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\obj\Debug\uploadflags.txt
+C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\bin\Debug\eLOSSTeam.dll.mdb
 C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\obj\Debug\eLOSSTeam.Droid.dll.mdb
 C:\Users\Isha\SkyDrive\Documents\LOSS\eLOSSTeam\eLOSSTeam\eLOSSTeam.Droid\bin\Debug\eLOSSTeam.Droid.dll.mdb

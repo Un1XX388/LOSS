@@ -14,7 +14,7 @@
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-  <application android:label="eLOSSTeam" android:icon="@drawable/icon" android:name="md59e2de178ccb613d382591f069570d8f0.MainApplication" android:allowBackup="true" android:debuggable="true">
+  <application android:label="eLOSSTeam" android:icon="@drawable/app6" android:name="md59e2de178ccb613d382591f069570d8f0.MainApplication" android:allowBackup="true" android:debuggable="true">
     <receiver android:permission="com.google.android.c2dm.permission.SEND" android:name="md59e2de178ccb613d382591f069570d8f0.GCMBroadcastReceiver">
       <intent-filter>
         <action android:name="com.google.android.c2dm.intent.RECEIVE" />
