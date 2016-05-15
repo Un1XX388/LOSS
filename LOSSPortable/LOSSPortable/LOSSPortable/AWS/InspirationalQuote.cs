@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace LOSSPortable
 {
+    //This class is used by HomePage 
     [DynamoDBTable("InspirationalQuote")]
     public class InspirationalQuote
     {

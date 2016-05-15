@@ -34,26 +34,7 @@ namespace LOSSPortable
             Title = "Report A Problem";
             this.Padding = new Thickness(5, Device.OnPlatform(20, 5, 5), 5, 5);
 
-
-            //===================Equivalent of drop down list to choose report options from ================
-			Picker picker = new Picker
-            {
-                Title = "Select a Reason:",
-                BackgroundColor = Color.Default
-                
-            };
-
-            picker.Items.Add("Report Bugs and Other Issues");
-            picker.Items.Add("Report Content");
-            picker.Items.Add("Send Feedback");
-
-            picker.SelectedIndexChanged += (sender, args) =>
-            {
-				
-                reportType = picker.Items[picker.SelectedIndex];                
-            };
-
-            //==============================================================================================
+            //============================================================================================
             label.Text = "Press to select a report type";
 			label.TextColor = Color.White;
             label.FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label));
@@ -64,6 +45,7 @@ namespace LOSSPortable
             label2.Text = "\nBriefly explain your reason: \n";
 			label2.TextColor = Color.White;
             label2.FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label));
+
             //========================== Editor for Multiple Lines of Text ==============================
 
             reason = new Editor {
@@ -108,12 +90,14 @@ namespace LOSSPortable
 
         //============================================ FUNCTIONS ===============================================
 
+        //display report options
 		async void OnLabelClicked ()
 		{
 			var action = await DisplayActionSheet ("Select a Reason", "Cancel", null, "Report Bugs and Other Issues", "Report Content", "Send Feedback");
 			reportType = action;
 		}
 
+        //store reports on the server
         public async Task SaveAsync<ReportProblem> (ReportProblem entity, CancellationToken ct)
         {
             var context = AmazonUtils.DDBContext;
@@ -122,8 +106,6 @@ namespace LOSSPortable
         }
 
         //submit function - checks if the form is filled, otherwise prompts user to complete it
-
-     
         async void onSubmitPressed(object sender, EventArgs e)
         {
 

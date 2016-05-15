@@ -8,6 +8,10 @@ using System;
 
 namespace LOSSPortable.Droid
 {
+
+    /**
+     * Builds the notifcation that is displayed on the android phone
+     */
     public class AndroidUtils
     {
 

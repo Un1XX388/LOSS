@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LOSSPortable
+namespace LOSSPortable.iOS
 {
     /*
     {
@@ -15,10 +15,7 @@ namespace LOSSPortable
         "Sender": "Gerald"
     }
     */
-
-    //This class is used by App class
-
-    public class SNSMessagePCL
+    public class SNSMessage
     {
         public string Subject { set; get; }
 

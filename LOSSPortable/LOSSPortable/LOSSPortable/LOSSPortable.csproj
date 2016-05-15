@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,6 +38,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="AWS\AmazonUtils.cs" />
+    <Compile Include="AWS\Miscellaneous.cs" />
     <Compile Include="AWS\OnlinePlaylistModel.cs" />
     <Compile Include="AWS\OnlineVViewModel.cs" />
     <Compile Include="AWS\UserLogin.cs" />
@@ -45,7 +47,6 @@
     <Compile Include="AWS\SNSMessage.cs" />
     <Compile Include="AWS\UserInfoJson.cs" />
     <Compile Include="ChatPage\Conversation.cs" />
-    <Compile Include="ChatPage\Conversations.cs" />
     <Compile Include="ChatPage\Handshake.cs" />
     <Compile Include="ChatPage\ConversationResponse.cs" />
     <Compile Include="ChatPage\ReportM.cs" />
@@ -61,9 +62,7 @@
     <Compile Include="OptionsPage\AccountPage.cs" />
     <Compile Include="OptionsPage\GeneralAccountPage.cs" />
     <Compile Include="OptionsPage\LoginPage.cs" />
-    <Compile Include="OptionsPage\Logout.cs" />
     <Compile Include="OptionsPage\RegisteredAccountPage.cs" />
-    <Compile Include="ResourcePage\FavoritesPage.cs" />
     <Compile Include="ResourcePage\Resources\OnlineResources.cs" />
     <Compile Include="ResourcePage\ResourcesTabbedSwipePage.xaml.cs">
       <DependentUpon>ResourcesTabbedSwipePage.xaml</DependentUpon>
@@ -71,22 +70,16 @@
     <Compile Include="ResourcePage\Resources\OnlineResourceCell.cs" />
     <Compile Include="OptionsPage\AboutPage.cs" />
     <Compile Include="OptionsPage\ReportProblem.cs" />
-    <Compile Include="OptionsPage\OptionsPage.cs" />
     <Compile Include="HomePage\HomePage.cs" />
     <Compile Include="MasterPage\MasterPage.cs" />
     <Compile Include="MasterPage\RootPage.cs" />
     <Compile Include="MasterPage\MasterPageItem.cs" />
-    <Compile Include="OptionsPage\ProfilePage.cs" />
     <Compile Include="OptionsPage\ReportPage.cs" />
-    <Compile Include="OptionsPage\Speech.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AWS\ChatMessage.cs" />
     <Compile Include="ResourcePage\Video\PlaylistPage.cs" />
     <Compile Include="ResourcePage\Video\VideoResources.cs" />
-    <Compile Include="ResourcePage\Resources\ResourceViewModel.cs" />
     <Compile Include="ResourcePage\Video\VideoPage.cs" />
-    <Compile Include="ResourcePage\Resources\ResourceCell.cs" />
-    <Compile Include="ResourcePage\Video\VideoViewModel.cs" />
     <Compile Include="ResourcePage\Video\VideoCell.cs" />
     <Compile Include="Survey.cs" />
     <Compile Include="ResourcePage\Resources\ViewOnlineResource.cs" />

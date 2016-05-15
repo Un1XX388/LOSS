@@ -7,17 +7,29 @@ using Xamarin.Forms;
 
 namespace LOSSPortable
 {
+
+    /**
+     * Creates webview that is directed to the survey intended to be displayed to the user
+     */
     public class Survey : ContentPage
     {
         public WebView browser;
+        public RangeObservableCollection<Miscellaneous> misc_items { get; set; }
 
         public Survey()
         {
             Title = "Survey";
-            browser = new WebView
+            misc_items = AmazonUtils.getMiscList;            // Holds data to be displayed on this content page.
+
+
+            browser = new WebView();
+            for (int i = 0; i < misc_items.Count; i++)
             {
-                Source = "https://uta.qualtrics.com/SE/?SID=SV_3DhjZ0kSqV5thCB"
-            };
+                if (misc_items[i].Type == "Survey Link")
+                {
+                    browser.Source = misc_items[i].Description;
+                }
+            }
 
             this.Content = browser;
         }

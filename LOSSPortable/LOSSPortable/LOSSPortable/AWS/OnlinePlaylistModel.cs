@@ -9,6 +9,8 @@ using Xamarin.Forms;
 
 namespace LOSSPortable
 {
+    //This class is used by VideoPage 
+
     [DynamoDBTable("Playlist")]
     public class OnlinePlaylistModel : INotifyPropertyChanged
     {

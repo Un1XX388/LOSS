@@ -8,8 +8,6 @@ namespace LOSSPortable{
 
 		public class OnlineResourceCell : ViewCell{
 
-        public Boolean favClicked = false;
-
         public OnlineResourceCell(){
             Color bg;
 
@@ -25,10 +23,10 @@ namespace LOSSPortable{
 				};// End of Grid.
 
 				// Create image for cell.
-			var cellThum			= new Image(){
+			    var cellThum			= new Image(){
 				
-				Aspect = Aspect.AspectFit
-			};
+				    Aspect = Aspect.AspectFit
+			    };
 
 				cellThum.SetBinding(Image.SourceProperty, new Binding("Image"));
 				cellView.Children.Add(cellThum, 0, 1, 1, 12);
@@ -52,18 +50,6 @@ namespace LOSSPortable{
 					};
 				cellDesc.SetBinding(Label.TextProperty, new Binding("Description"));
 				cellView.Children.Add(cellDesc, 1, 4, 4, 30);
-
-            //var cellFav = new Image();
-            //cellFav.VerticalOptions = LayoutOptions.Center;
-            //cellFav.HorizontalOptions = LayoutOptions.Center;
-            //cellFav.SetBinding(Image.SourceProperty, new Binding("Fav"));
-            //cellView.Children.Add(cellFav, 4, 5, 0, 13);
-
-            //cellFav.GestureRecognizers.Add(new TapGestureRecognizer
-            //{
-            //    Command = new Command(
-            //               () => cellFav.Source = isFavorited()),
-            //});
 
             View = cellView;
 		}// End of OnlineResourceCell() method.

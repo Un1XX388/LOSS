@@ -48,6 +48,8 @@ namespace LOSSPortable{
                 return Colors.barBackground;
             }
         }
+
+        //navigate back to a homepage instead of exiting the app
         public void NavigateTo()
         {
             this.Detail = new NavigationPage(new HomePage()) { BarBackgroundColor = customNavBarColor() };

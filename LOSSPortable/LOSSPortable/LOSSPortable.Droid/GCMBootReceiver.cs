@@ -8,6 +8,10 @@ using Android.Widget;
 using Android.OS;
 using Android.Content;
 
+
+/**
+ * Set ups SEND/RECIEVE/REGISTRATION for google play messaging service
+ */
 namespace LOSSPortable.Droid
 {
     [BroadcastReceiver(Permission = "com.google.android.c2dm.permission.SEND")]

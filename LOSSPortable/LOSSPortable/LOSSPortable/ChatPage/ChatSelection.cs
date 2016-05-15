@@ -26,7 +26,7 @@ namespace LOSSPortable
         Entry nameEntry = new Entry { Placeholder = "Enter your display name: " };
 
         Switch readyToChat = new Switch { HorizontalOptions = LayoutOptions.EndAndExpand, IsVisible = false, IsEnabled = false, VerticalOptions = LayoutOptions.CenterAndExpand, IsToggled = Helpers.Settings.ChatActiveSetting };
-        Label instructionLabel = new Label { Text = "Description of chat page goes here", FontSize = 22};
+		Label instructionLabel = new Label { Text = "Description of chat page goes here", FontSize = 22, TextColor = Color.White};
         Label chatAvailability = new Label { HorizontalOptions = LayoutOptions.StartAndExpand, Text = "Not Ready to chat.", IsVisible = false, HorizontalTextAlignment = TextAlignment.Center, FontSize = 20, FontFamily = "Arial" };
         Button update = new Button { Text = "Update", HeightRequest = 50, IsVisible = false, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22), BorderWidth = 1 };
         Button startConversation = new Button { HorizontalOptions = LayoutOptions.FillAndExpand, Text = "Start Conversation", WidthRequest = 100, HeightRequest = 50, TextColor = Color.Black, BackgroundColor = Color.FromHex("B3B3B3"), BorderColor = Color.Black, FontAttributes = FontAttributes.Bold, Font = Font.OfSize("Arial", 22), BorderWidth = 1 };
@@ -48,9 +48,11 @@ namespace LOSSPortable
             }
 
             //Sets displayName field to value saved
-            nameEntry.Text = Helpers.Settings.DisplayName;
+            nameEntry.Text = String.IsNullOrWhiteSpace(Helpers.Settings.UsernameSetting) ? "Anonymous" : Helpers.Settings.UsernameSetting;
             Title = "Chat Selection";
             Icon = "Accounts.png";
+
+            //spinning circle that appears in upper right corner while waiting on server response
             ActivityIndicator loading = new ActivityIndicator()
             {
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -62,8 +64,8 @@ namespace LOSSPortable
 
             };
             loading.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
-            //loading.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
 
+            /* Changes the UI based on whether the user is a logged in volunteer or a basic user*/
             if (Helpers.Settings.IsVolunteer)
             {
                 this.instructionLabel.Text = "If a chat request has been made, press the 'Enter Conversation' button to enter the converation. To terminate a conversation, press the 'Terminate Converation'. To toggle availability for chat requests, use the switch below.";
@@ -72,7 +74,7 @@ namespace LOSSPortable
                 this.endConversation.IsVisible = false;
                 this.nameEntry.IsVisible = false;
                 this.nameEntry.IsEnabled = false;
-                this.nameEntry.Text = Helpers.Settings.DisplayName;
+                this.nameEntry.Text = String.IsNullOrWhiteSpace(Helpers.Settings.UsernameSetting) ? "Anonymous" : Helpers.Settings.UsernameSetting;
                 readyToChat.IsVisible = true;
                 readyToChat.IsEnabled = true;
                 readyToChat.Toggled += readyToChatF;
@@ -100,10 +102,11 @@ namespace LOSSPortable
              */
             update.Clicked += (s, e) =>
             {
+                Helpers.Settings.UsernameSetting = nameEntry.Text;
                 this.startConversation.IsEnabled = false;
                 HandshakeStart();
                 update.IsVisible = false;
-                Helpers.Settings.DisplayName = nameEntry.Text;
+                
             };
 
             /**
@@ -114,11 +117,16 @@ namespace LOSSPortable
                 update.IsVisible = true;
             };
 
+            /*
+             * Called when end conversation button pressed, resets UI to start conversation setup
+             * Also sends server notification to let connected party know the conversation is over
+             */
             endConversation.Clicked += async (s, e) =>
             {
                 await terminateConversation();
                 startConversationPath();
             };
+
             if (Helpers.Settings.ChatActiveSetting)
             {
                 this.chatAvailability.Text = "Available";
@@ -151,14 +159,13 @@ namespace LOSSPortable
             {
                 stackLayout = new StackLayout
                 {
-                    Children =
-                            {
+                    Children = {
                             instructionLabel,
                             tmp,
                             chatAvailtoChat,
                             startConversation, endConversation
-                            },
-                            HorizontalOptions = LayoutOptions.FillAndExpand,
+                    },
+                    HorizontalOptions = LayoutOptions.FillAndExpand,
                             
                 };
 
@@ -199,7 +206,7 @@ namespace LOSSPortable
                 startConversation.IsEnabled = true;
                 this.nameEntry.IsVisible = false;
                 this.nameEntry.IsEnabled = false;
-                this.nameEntry.Text = Helpers.Settings.DisplayName;
+                this.nameEntry.Text = String.IsNullOrWhiteSpace(Helpers.Settings.UsernameSetting) ? "Anonymous" : Helpers.Settings.UsernameSetting;
                 endConversation.IsVisible = true;
                 startConversation.Clicked += ContinueConversationEvent;
             }
@@ -214,7 +221,9 @@ namespace LOSSPortable
                 startConversation.Clicked += ContinueConversationEvent;
             }
         }
-
+        /**
+         * path to reset the UI to start conversation for basic or volunteer users
+         */       
         private void startConversationPath(){
             if (Helpers.Settings.IsVolunteer)
             {
@@ -223,7 +232,7 @@ namespace LOSSPortable
                 endConversation.IsVisible = false;
                 this.nameEntry.IsVisible = false;
                 this.nameEntry.IsEnabled = false;
-                this.nameEntry.Text = Helpers.Settings.DisplayName;
+                this.nameEntry.Text = String.IsNullOrWhiteSpace(Helpers.Settings.UsernameSetting) ? "Anonymous" : Helpers.Settings.UsernameSetting;
                 startConversation.Clicked -= ContinueConversationEvent;
             }
             else
@@ -237,7 +246,11 @@ namespace LOSSPortable
                 startConversation.Clicked += InitiateConversationEvent;
             }        
         }
-
+        /**
+         * event called when the continue button is clicked, disables the listerners
+         * and try's to active a new chat page, initializes the page with the continue 
+         * conversation event.
+         */
         async void ContinueConversationEvent(object s, EventArgs e)
             {
                 startConversation.Clicked -= ContinueConversationEvent;
@@ -256,12 +269,19 @@ namespace LOSSPortable
             }
 
         
-        
+        /**
+         * Event called when the page is in start conversation mode and the start 
+         * conversation button is tapped by the user.
+         */
         async void InitiateConversationEvent(object s, EventArgs e)
                 {
                     await initiateConversation();
                 }
 
+        /**
+         * Toggle function only visible to volunteers that allows them to 
+         * set whether or not they can be contacted by basic users.
+         */
         void readyToChatF(object sender, ToggledEventArgs e)
         {
             if (readyToChat.IsToggled)
@@ -280,7 +300,7 @@ namespace LOSSPortable
         }
         //--------------------------------HANDSHAKE-------------------------------
         //Starts the handshake by getting the geolocation and then starting the handshake to find a nearby volunteer
-        public async void HandshakeStart() 
+        public async Task HandshakeStart() 
         {
             this.IsBusy = true;
             this.startConversation.IsEnabled = false;
@@ -293,10 +313,12 @@ namespace LOSSPortable
 
 
         //------------------------------------------------------------------------
-       
+       /**
+        * initializes message center listeners for incoming messages and termination message
+        * also checks for handshake, and initializes it if it hasn't been done before
+        */
         protected async override void OnAppearing() 
         {
-
             base.OnAppearing();
             MessagingCenter.Send<ChatSelection>(this, "Start");
 
@@ -312,15 +334,13 @@ namespace LOSSPortable
 
             MessagingCenter.Subscribe<App, ChatMessage>(this, "HandshakeEnd", (sender, arg) => //adds message to log
             {
-
                 Helpers.Settings.ToFromArn = "";
                 startConversationPath();
             });
 
-            if (Helpers.Settings.HandShakeDone == false)
+            if (!Helpers.Settings.HandShakeDone)
             {
-                HandshakeStart();
-                Helpers.Settings.HandShakeDone = true;
+                await HandshakeStart();
             }
             try {
                 outerLayout.Focus();
@@ -331,18 +351,31 @@ namespace LOSSPortable
             }
         }
 
+        /**
+         * Called on class loss of focus, changes page visible boolean in App class
+         * 
+         */
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
             MessagingCenter.Send<ChatSelection>(this, "End");
         }
 
+        /**
+         * Returns user to home page intead of exiting app
+         * 
+         */
         protected override Boolean OnBackButtonPressed() // back button pressed navigate to the homepage.
         {
             ((RootPage)App.Current.MainPage).NavigateTo();
             return true;
         }
 
+        /**
+         * Called when the start button is tapped, generates request to server
+         * checks response and either actives enter conversation mode or prompts
+         * user with failed to start message.
+         */
         async private Task initiateConversation(){
                 UserInfoItem message = new UserInfoItem { Item = new UserInfo { } }; //Helpers.Settings.EndpointArnSetting
                 UserInfoJson messageJson = new UserInfoJson { operation = "newConversation", tableName = "User", payload = message };
@@ -389,7 +422,11 @@ namespace LOSSPortable
                     await DisplayAlert("Error", "No available volunteers, please try again later.", "OK");
                 }
         }
-
+        /**
+         * Called when the end conversation button is pressed by the user
+         * Generates request to server, which then terminates the conversation 
+         * for both users.
+         */
         async private Task terminateConversation()
         {
             //ID = is from ToFrom Field
@@ -414,7 +451,11 @@ namespace LOSSPortable
             Constants.conv.name = "";
             Constants.conv.id = "";
         }
-
+        /**
+         * Queries the server for active conversations, called when the page is loaded
+         * if there exists an active conversation, returns conversation information to
+         * user and activates continue conversation option.
+         */
         async private Task queryServerActiveConversation()
         {
             UserInfoItem message = new UserInfoItem { Item = new UserInfo {} }; //Helpers.Settings.EndpointArnSetting
@@ -473,25 +514,38 @@ namespace LOSSPortable
             }
             if (failure) { await DisplayAlert("Error", "No active conversations", "OK"); }
         }
-
-        async private Task Handshake() //Function to create a Json object and send to server using a lambda function
+        /**
+         * Generates or updates user account when the page is accessed or information is changed.
+         * Sends request to server which updates the user table.
+         */
+        async private Task Handshake() 
         {
             try
             {
+                string operation;
+                if (!Helpers.Settings.HandShakeDone)
+                {
+                    operation = "create";
+                    Helpers.Settings.HandShakeDone = true;
+                }
+                else
+                {
+                    operation = "update";
+                }
                 UserInfoItem message;
                 if (Helpers.Settings.IsVolunteer)
                 {
                     if(Helpers.Settings.ChatActiveSetting){
-                        message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting, Available = true } };
+                        message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = Helpers.Settings.UsernameSetting, Arn = Helpers.Settings.EndpointArnSetting, Available = true } };
                     }else{
-                        message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting, Available = false } };
+                        message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = Helpers.Settings.UsernameSetting, Arn = Helpers.Settings.EndpointArnSetting, Available = false } };
                     }
                 }
                 else{
-                    message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting, Available = true } }; //Helpers.Settings.EndpointArnSetting
-                }//await DisplayAlert("sending","Arn: " + Helpers.Settings.EndpointArnSetting, "ok");
-                //await DisplayAlert("sent ", "sent to server: " + latitude + " " + longitude + " " + "Name" + " " + Helpers.Settings.EndpointArnSetting, "ok");
-                UserInfoJson messageJson = new UserInfoJson { operation = "create", tableName = "User", payload = message };
+                    message = new UserInfoItem { Item = new UserInfo { Latitude = latitude, Longitude = longitude, Nickname = this.nameEntry.Text, Arn = Helpers.Settings.EndpointArnSetting, Available = true } }; //Helpers.Settings.EndpointArnSetting
+                }
+                Helpers.Settings.UsernameSetting = this.nameEntry.Text;
+                UserInfoJson messageJson = new UserInfoJson { operation = operation, tableName = "User", payload = message };
                 string args = JsonConvert.SerializeObject(messageJson);
                 var ir = new InvokeRequest()
                 {

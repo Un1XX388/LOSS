@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace LOSSPortable
 {
+    //This class is used by ChatPage 
     public class MessageJson
     {
 

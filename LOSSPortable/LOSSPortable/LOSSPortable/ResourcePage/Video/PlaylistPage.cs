@@ -11,7 +11,9 @@ namespace LOSSPortable{
         
 		// Gets all relavent info for each video and determines how it should be displayed.
 		public PlaylistPage(string playList, string title){
+
             System.Diagnostics.Debug.WriteLine("PlayList Selected : " + playList);
+
             //sets the background color based on settings
             if (Helpers.Settings.ContrastSetting == true)
             {
@@ -23,43 +25,36 @@ namespace LOSSPortable{
             }
 
             Title					= playList;
+
 			// Holds data to be displayed on this content page.
             RangeObservableCollection<OnlineVViewModel> tmp = AmazonUtils.getOnlineVList;
 			vids					= new RangeObservableCollection<OnlineVViewModel>();
             for (int i = 0; i < tmp.Count; i++)
             {
-//System.Diagnostics.Debug.WriteLine(tmp[i].Title);
-				if (Device.OS == TargetPlatform.iOS) {
-					if (tmp [i].Description.Length > 110) {
-						tmp [i].Description = tmp [i].Description.Substring (0, 110) + "...";
-					}
+				if (tmp [i].Description.Length > 110) {
+					tmp [i].Description = tmp [i].Description.Substring (0, 110) + "...";
 				}
+				
                 if (tmp[i].Playlist.Equals(playList))
                 {
-  //                  System.Diagnostics.Debug.WriteLine(tmp[i].Playlist);
                     vids.Add(tmp[i]);
                 }
             }
 
-			// View type for this content page.
-			ListView VidLstView		= new ListView();
-			// Set size (height) of each element displayed on this page.
-			VidLstView.RowHeight	= 100;
-			// Set the title of this page.
-			this.Title				= title;
-			// Set the source of data for page's list view.
-			VidLstView.ItemsSource	= vids;
-			VidLstView.BackgroundColor = BackgroundColor;
-			// Set layout for each element in this list view.
-			VidLstView.ItemTemplate	= new DataTemplate(typeof(VideoCell));
-			// Set behavior of element when selected by user.
-			VidLstView.ItemSelected	+= Onselected;
-			// Assign the list view created above to this content page.
-			Content = VidLstView;
+			ListView VidLstView		= new ListView();            // View type for this content page.
+            VidLstView.RowHeight	= 100;                      // Set size (height) of each element displayed on this page.
+            this.Title				= title;                    // Set the title of this page.
+            VidLstView.ItemsSource	= vids;                     // Set the source of data for page's list view.
+            VidLstView.BackgroundColor = BackgroundColor;
+			VidLstView.ItemTemplate	= new DataTemplate(typeof(VideoCell));                  // Set layout for each element in this list view.
+
+            VidLstView.ItemSelected	+= Onselected;                  // Set behavior of element when selected by user.
+            Content = VidLstView;                                   // Assign the list view created above to this content page.
 
 
-			// Accomodate iPhone status bar.
-			this.Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
+            // Accomodate iPhone status bar.
+            this.Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
+
 		}// End of PlaylistPage() constructor.
 
 		// Determines what happens when an element from the list is chosen by the user.
@@ -67,10 +62,15 @@ namespace LOSSPortable{
 			if (e.SelectedItem == null){
 				return;
 			}
+
 			// This deselects the item after it is selected.
 			((ListView)sender).SelectedItem = null;
             var select = e.SelectedItem as OnlineVViewModel;
 
+            if (Helpers.Settings.SpeechSetting)
+            {
+                CrossTextToSpeech.Current.Speak(select.Title);
+            }
 
             VideoPage temp = new VideoPage(select.Title, select.URL);
             if (Device.OS == TargetPlatform.iOS)
@@ -85,5 +85,6 @@ namespace LOSSPortable{
 			// Show the selected video to the user.
 			Navigation.PushAsync(temp);
 		}// End of Onselected() method.
+
 	}// End of PlaylistPage class.
 }// End of namespace LOSS.

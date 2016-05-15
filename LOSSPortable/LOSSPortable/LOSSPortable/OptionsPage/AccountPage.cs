@@ -1,18 +1,4 @@
-﻿using Acr.UserDialogs;
-using Amazon.Lambda;
-using Amazon.Lambda.Model;
-using Amazon.Util;
-using Newtonsoft.Json;
-using Plugin.Geolocator;
-using Plugin.Geolocator.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.ServiceModel.Channels;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace LOSSPortable
 {
@@ -22,7 +8,8 @@ namespace LOSSPortable
         public AccountPage()
         {
             Title = "Account";
-
+            
+            //set background color based on contrast setting
             if(Helpers.Settings.ContrastSetting == true)
             {
                 BackgroundColor = Colors.contrastBg;
@@ -32,6 +19,7 @@ namespace LOSSPortable
                 BackgroundColor = Colors.background;
             }
 
+            
             if(Helpers.Settings.LoginSetting == true)
             {
                 Children.Add(new RegisteredAccountPage()); //displays page similar to profile, an option to change password, general settings, logout option
