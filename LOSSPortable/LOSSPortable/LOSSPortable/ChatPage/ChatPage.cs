@@ -25,6 +25,7 @@ namespace LOSSPortable
         StackLayout mainStack;
         StackLayout messageStack;
         StackLayout editorStack;
+        ScrollView rootScrollView;
         double width;
         string previousUser = "";
         string mainUser;
@@ -62,8 +63,9 @@ namespace LOSSPortable
                 TextColor = Color.Purple
             };
 
-            textEditor.Focused += (s, e) => TextEditor_Focused(s, e, messageView.ScrollY + 300);
-            textEditor.Unfocused += (s, e) => TextEditor_Unfocused(s, e, messageView.ScrollY - 300);
+            textEditor.Focused += (s, e) => TextEditor_Focused(s, e);
+            textEditor.Unfocused += (s, e) => TextEditor_Unfocused(s, e);
+
 
             Frame textEditorFrame = new Frame()
             {
@@ -145,26 +147,42 @@ namespace LOSSPortable
                 BackgroundColor = Constants.backGroundColor
             };
 
-            Content = mainStack;
+            if(Device.OS == TargetPlatform.iOS)
+            {
+                rootScrollView = new ScrollView()
+                {
+                    Content = mainStack,
+                    HorizontalOptions = LayoutOptions.Fill,
+                    VerticalOptions = LayoutOptions.Fill,
+                    BackgroundColor = Constants.backGroundColor
+                };
+
+                Content = rootScrollView;
+            }
+            else
+            {
+                Content = mainStack;
+            }
+            
         }
 
         #region event listeners for SEND, EDITOR, MESSAGE FRAME
         /*
         * Called when text editor is not focused, removes keyboard and scrolls to height
         */
-        private async void TextEditor_Unfocused(object sender, FocusEventArgs e, double height)
+        private async void TextEditor_Unfocused(object sender, FocusEventArgs e)
         {
             await Task.Delay(300);
-            await this.messageView.ScrollToAsync(0, height, false);
+            ScrolltoBottom(false);
         }
 
         /*
         * Called when text editor is not focused, removes keyboard and scrolls to height
         */
-        private async void TextEditor_Focused(object sender, FocusEventArgs e, double height)
+        private async void TextEditor_Focused(object sender, FocusEventArgs e)
         {
             await Task.Delay(300);
-            await this.messageView.ScrollToAsync(0, height, false);
+            ScrolltoBottom(false);
         }
 
         private void SendButtonClicked(object sender, EventArgs e)
@@ -221,7 +239,16 @@ namespace LOSSPortable
 
         private async void ScrolltoBottom(bool anim)
         {
-            await this.messageView.ScrollToAsync(this.messageStack, ScrollToPosition.End, anim);
+            if(Device.OS == TargetPlatform.iOS)
+            {
+                await this.rootScrollView.ScrollToAsync(this.mainStack, ScrollToPosition.End, anim);
+                await this.messageView.ScrollToAsync(this.messageStack, ScrollToPosition.End, anim);
+            }
+            else
+            {
+                await this.messageView.ScrollToAsync(this.messageStack, ScrollToPosition.End, anim);
+            }
+            
         }
 
         private async void waitScroll(int delay)
