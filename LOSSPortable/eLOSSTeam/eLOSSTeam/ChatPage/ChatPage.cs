@@ -36,7 +36,7 @@ namespace eLOSSTeam
         {
             terminate = true;
 
-            mainUser = checkName(Helpers.Settings.DisplayName);
+            mainUser = checkName(Helpers.Settings.UsernameSetting);
             convWithUser = checkName(Constants.conv.name);
 
 
@@ -203,7 +203,7 @@ namespace eLOSSTeam
             
             AddMessageToChat(msgObj);
             Constants.conv.msgs.Add(msgObj);
-            ScrolltoBottom(true);
+            ScrolltoBottom(false);
             PushMessage(text);
         }
 
@@ -527,8 +527,7 @@ namespace eLOSSTeam
                 }
                 AddMessageToChat(arg);
                 Constants.conv.msgs.Add(arg);
-
-                // TODO : Former Scroll to bottom event here
+                ScrolltoBottom(false);
             });
             MessagingCenter.Unsubscribe<App>(this, "ConversationEnd");
             MessagingCenter.Subscribe<App, ChatMessage>(this, "ConversationEnd", (sender, arg) => //adds message to log

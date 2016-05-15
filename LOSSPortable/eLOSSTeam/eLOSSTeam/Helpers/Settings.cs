@@ -66,9 +66,6 @@ namespace eLOSSTeam.Helpers
         private const string isVolunteer = "volunteer";
         private static readonly bool isVolunteerDefault = false;
 
-        private const string displayName = "displayName";
-        private static readonly string displayNameDefault = "Anonymous";
-
         private const string toFromArn = "toFromArn";
         private static readonly string toFromArndefault = "";
 
@@ -163,12 +160,7 @@ namespace eLOSSTeam.Helpers
             get { return AppSettings.GetValueOrDefault(isVolunteer, isVolunteerDefault); }
             set { AppSettings.AddOrUpdateValue(isVolunteer, value); }
         }
-
-        public static string DisplayName
-        {
-            get { return AppSettings.GetValueOrDefault(displayName, displayNameDefault); }
-            set { AppSettings.AddOrUpdateValue(displayName, value); }
-        }
+        
 
         public static string ToFromArn
         {
