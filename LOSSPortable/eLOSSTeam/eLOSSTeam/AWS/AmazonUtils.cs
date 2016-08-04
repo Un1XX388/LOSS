@@ -93,7 +93,7 @@ namespace eLOSSTeam
             return new TransferUtilityDownloadRequest()
             {
                 FilePath = "",
-                BucketName = "idansbucket",
+                BucketName = "elossimages",
                 Key = key,
             };
         }

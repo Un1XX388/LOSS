@@ -383,7 +383,7 @@ namespace eLOSSTeam
                 System.Diagnostics.Debug.WriteLine("newConversation: " + args);
                 var ir = new InvokeRequest()
                 {
-                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                    FunctionName = Constants.AWSLambdaID,
                     PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
                     InvocationType = InvocationType.RequestResponse
                 };
@@ -436,7 +436,7 @@ namespace eLOSSTeam
             System.Diagnostics.Debug.WriteLine("stopConversation: " + args);
             var ir = new InvokeRequest()
             {
-                FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                FunctionName = Constants.AWSLambdaID,
                 PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
                 InvocationType = InvocationType.RequestResponse
             };
@@ -465,7 +465,7 @@ namespace eLOSSTeam
             System.Diagnostics.Debug.WriteLine("currentConversation: " + args);
             var ir = new InvokeRequest()
             {
-                FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                FunctionName = Constants.AWSLambdaID,
                 PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
                 InvocationType = InvocationType.RequestResponse
             };
@@ -549,7 +549,7 @@ namespace eLOSSTeam
                 string args = JsonConvert.SerializeObject(messageJson);
                 var ir = new InvokeRequest()
                 {
-                    FunctionName = "arn:aws:lambda:us-east-1:987221224788:function:Test_Backend",
+                    FunctionName = Constants.AWSLambdaID,
                     PayloadStream = AWSSDKUtils.GenerateMemoryStreamFromString(args),
                     InvocationType = InvocationType.RequestResponse
                 };
