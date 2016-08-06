@@ -24,12 +24,19 @@ namespace eLOSSTeam
         protected override void OnStart()
         {
             Constants.date = DateTime.UtcNow.AddDays(-1);
-         //   Helpers.Settings.IsVolunteer = true;
-            AmazonUtils.updateInspirationalQuoteList();
-            AmazonUtils.updateOnlineRList();
-            AmazonUtils.updateOnlineVList();
-            AmazonUtils.updateOnlinePlaylist();
-            AmazonUtils.updateMiscellaneousList();
+            try
+            {
+                AmazonUtils.updateInspirationalQuoteList();
+                AmazonUtils.updateOnlineRList();
+                AmazonUtils.updateOnlineVList();
+                AmazonUtils.updateOnlinePlaylist();
+                AmazonUtils.updateMiscellaneousList();
+            }
+            catch(Exception e)
+            {
+                
+            }
+            
             ChatPageActive = false;
             ChatSelectionPageActive = false;
             MessagingCenter.Subscribe<ChatPage>(this, "Start", (sender) =>
@@ -52,6 +59,8 @@ namespace eLOSSTeam
 
             // Handle when your app starts
         }
+
+        
 
         protected override void OnSleep()
         {

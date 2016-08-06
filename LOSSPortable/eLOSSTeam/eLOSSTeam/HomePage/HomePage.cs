@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using Amazon.DynamoDBv2.DataModel;
 using Acr.UserDialogs;
 using Plugin.TextToSpeech;
+using System.ComponentModel;
 
 namespace eLOSSTeam
 {
@@ -29,7 +30,10 @@ namespace eLOSSTeam
         public HomePage()
         {
             Color bg;
-
+            if (!Constants.internetConnection)
+            {
+                terminateAppDisplay();
+            }
             //sets the background color based on settings
             if (Helpers.Settings.ContrastSetting == true)
             {
@@ -132,8 +136,28 @@ namespace eLOSSTeam
                 Orientation = ScrollOrientation.Vertical
             };
             this.Content = content;
-
+            
         }
+
+        private async void terminateAppDisplay()
+        {
+            if(AmazonUtils.getQuotesList.Count == 0)
+            {
+                await DisplayAlert("Error", "This application requires an internet connection to function properly", "OK");
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    if (Device.OS == TargetPlatform.Android)
+                    {
+                        DependencyService.Get<IAndroidMethods>().CloseApp();
+                    }
+                    else if (Device.OS == TargetPlatform.iOS)
+                    {
+                    }
+                });
+            }
+            
+        }
+
         //========================================================= FUNCTIONS =========================================================
 
         //detects user location 
@@ -227,7 +251,7 @@ namespace eLOSSTeam
 
         //Generate random quotes pulled from the server
         static Random rnd = new Random();
-
+        
         private InspirationalQuote LoadQuotes()
         {
             var quoteList = AmazonUtils.getQuotesList;
@@ -245,6 +269,13 @@ namespace eLOSSTeam
         void quoteList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             label1.Text = LoadQuotes().Message;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            
+            terminateAppDisplay();
         }
     }
 }

@@ -219,7 +219,7 @@ namespace eLOSSTeam.iOS
 						//Manually show an alert
 						if (!string.IsNullOrEmpty(alert))
 						{
-							UIAlertView avAlert = new UIAlertView("Notification", alert, null, "OK", null);
+							UIAlertView avAlert = new UIAlertView("Notification", "Someone is trying to contact you", null, "OK", null);
 							avAlert.Show();
 						}
 					}

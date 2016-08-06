@@ -251,6 +251,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AndroidMethods.cs" />
     <Compile Include="AndroidUtils.cs" />
     <Compile Include="GCMBootReceiver.cs" />
     <Compile Include="GCMIntentService.cs" />
