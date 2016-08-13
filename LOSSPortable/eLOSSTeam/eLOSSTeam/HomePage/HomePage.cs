@@ -17,6 +17,7 @@ using Amazon.DynamoDBv2.DataModel;
 using Acr.UserDialogs;
 using Plugin.TextToSpeech;
 using System.ComponentModel;
+using Plugin.Connectivity;
 
 namespace eLOSSTeam
 {
@@ -141,21 +142,32 @@ namespace eLOSSTeam
 
         private async void terminateAppDisplay()
         {
-            if(AmazonUtils.getQuotesList.Count == 0)
+            //if(AmazonUtils.getQuotesList.Count == 0)
+            //{
+            //    await DisplayAlert("Error", "This application requires an internet connection to function properly", "OK");
+            //    Device.BeginInvokeOnMainThread(() =>
+            //    {
+            //        if (Device.OS == TargetPlatform.Android)
+            //        {
+            //            DependencyService.Get<IAndroidMethods>().CloseApp();
+            //        }
+            //        else if (Device.OS == TargetPlatform.iOS)
+            //        {
+
+            //        }
+            //    });
+            //}
+            Boolean connected = await IsConnected();
+            if (connected == false)
             {
                 await DisplayAlert("Error", "This application requires an internet connection to function properly", "OK");
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    if (Device.OS == TargetPlatform.Android)
-                    {
-                        DependencyService.Get<IAndroidMethods>().CloseApp();
-                    }
-                    else if (Device.OS == TargetPlatform.iOS)
-                    {
-                    }
-                });
             }
-            
+
+        }
+
+        public async Task<bool> IsConnected()
+        {
+            return CrossConnectivity.Current.IsConnected && await CrossConnectivity.Current.IsRemoteReachable("google.com");
         }
 
         //========================================================= FUNCTIONS =========================================================
