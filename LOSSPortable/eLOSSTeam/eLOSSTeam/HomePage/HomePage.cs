@@ -167,7 +167,26 @@ namespace eLOSSTeam
 
         public async Task<bool> IsConnected()
         {
-            return CrossConnectivity.Current.IsConnected && await CrossConnectivity.Current.IsRemoteReachable("google.com");
+            bool isConnected = CrossConnectivity.Current.IsConnected;
+            if (isConnected == true)
+            {
+                var isReachable = await CrossConnectivity.Current.IsRemoteReachable("google.com", 80, 2000);
+                if (isReachable == true)
+                {
+                    Debug.WriteLine("isReachable: true");
+                    return true;
+                }
+                else
+                {
+                    Debug.WriteLine("isReachable: false");
+                    return false;
+                }
+            }
+            else
+            {
+                Debug.WriteLine("isConnected: false");
+                return false;
+            }
         }
 
         //========================================================= FUNCTIONS =========================================================
