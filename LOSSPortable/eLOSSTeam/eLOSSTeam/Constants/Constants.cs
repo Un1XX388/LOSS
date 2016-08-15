@@ -15,7 +15,7 @@ namespace eLOSSTeam
         public const string AndroidPlatformApplicationArn = "arn:aws:sns:us-east-1:138075618342:app/GCM/eLOSSTeam";
 
         //NEEDS TO BE UPDATED : rtpraetoriusUTA@gmail.com
-        public const string iOSPlatformApplicationArn = "";
+        public const string iOSPlatformApplicationArn = "arn:aws:sns:us-east-1:138075618342:app/APNS_SANDBOX/eLOSSTeam";
 
         //GOOGLE ACCOUNT : rtpraetoriusUTA@gmail.com : project : elossteam
         public const string GoogleConsoleProjectId = "306176610411";

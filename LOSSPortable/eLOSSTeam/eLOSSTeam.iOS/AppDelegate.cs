@@ -73,15 +73,29 @@ namespace eLOSSTeam.iOS
 
         public override async void RegisteredForRemoteNotifications(UIApplication application, NSData token)
         {
-            var deviceToken = token.Description.Replace("<", "").Replace(">", "").Replace(" ", "");
-            if (!string.IsNullOrEmpty(deviceToken))
+            // Get current device token
+            var DeviceToken = token.Description;
+            if (!string.IsNullOrWhiteSpace(DeviceToken))
             {
-                await AmazonUtils.RegisterDevice(AmazonUtils.Platform.IOS, deviceToken);
+                DeviceToken = DeviceToken.Trim('<').Trim('>');
             }
+
+            // Get previous device token
+            var oldDeviceToken = NSUserDefaults.StandardUserDefaults.StringForKey("PushDeviceToken");
+
+            // Has the token changed?
+            if (string.IsNullOrEmpty(oldDeviceToken) || !oldDeviceToken.Equals(DeviceToken))
+            {
+                await AmazonUtils.RegisterDevice(AmazonUtils.Platform.IOS, DeviceToken);
+            }
+
+            // Save new device token 
+            NSUserDefaults.StandardUserDefaults.SetString(DeviceToken, "PushDeviceToken");
         }
 
         public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
         {
+            new UIAlertView("Error registering push notifications", error.LocalizedDescription, null, "OK", null).Show();
             Console.WriteLine(@"Failed to register for remote notification {0}", error.Description);
         }
 
