@@ -101,7 +101,7 @@ namespace eLOSSTeam
             {
                 try
                 {
-                    UserItem user = new UserItem { Item = new UserLogin { Nickname = nickname.Text, Email = email.Text, Password = password.Text,Longitude = longitude, Latitude = latitude, UserType = usertype } };
+                    UserItem user = new UserItem { Item = new UserLogin { Nickname = nickname.Text, Email = email.Text.ToLower(), Password = password.Text,Longitude = longitude, Latitude = latitude, UserType = usertype } };
                     MessageJson messageJson = new MessageJson { operation = "create", tableName = "User", payload = user };
                     string args = JsonConvert.SerializeObject(messageJson);
                     //System.Diagnostics.Debug.WriteLine(args);

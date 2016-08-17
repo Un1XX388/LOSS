@@ -614,7 +614,7 @@ namespace eLOSSTeam
                 Text = "RESET",
 				TextColor = Color.White,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
-                Command = new Command(() => Reset_Clicked(email.Text, oldPswd.Text, newPswd.Text, confirmPswd.Text))
+                Command = new Command(() => Reset_Clicked(Helpers.Settings.EmailSetting, oldPswd.Text, newPswd.Text, confirmPswd.Text))
             };
 
             mainContent = new StackLayout()
@@ -666,7 +666,7 @@ namespace eLOSSTeam
 
             try
             {
-                UserItem user = new UserItem { Item = new UserLogin { Email = Helpers.Settings.EmailSetting, Password = oldPass.TrimEnd(), NewPassword = newPass, Arn = "" + Helpers.Settings.EndpointArnSetting } };
+                UserItem user = new UserItem { Item = new UserLogin { Email = Helpers.Settings.EmailSetting.ToLower(), Password = oldPass.TrimEnd(), NewPassword = newPass, Arn = "" + Helpers.Settings.EndpointArnSetting } };
                 MessageJson messageJson = new MessageJson { operation = "update", tableName = "User", payload = user };
                 string args = JsonConvert.SerializeObject(messageJson);
 
