@@ -163,10 +163,12 @@ namespace eLOSSTeam
                 await DisplayAlert("Error", "This application requires an internet connection to function properly", "OK");
             }
 
+
         }
 
         public async Task<bool> IsConnected()
         {
+			System.Diagnostics.Debug.WriteLine("IsRemoteReachable value: " + (CrossConnectivity.Current.IsRemoteReachable("google.com")));
             return CrossConnectivity.Current.IsConnected && await CrossConnectivity.Current.IsRemoteReachable("google.com");
         }
 
@@ -289,5 +291,6 @@ namespace eLOSSTeam
             
             terminateAppDisplay();
         }
+
     }
 }

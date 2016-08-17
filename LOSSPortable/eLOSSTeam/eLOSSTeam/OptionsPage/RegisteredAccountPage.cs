@@ -634,13 +634,9 @@ namespace eLOSSTeam
         private void Reset_Clicked(String email, String oldPass, String newPass, String confirmPass)
         {
 
-            if ((String.IsNullOrWhiteSpace(email)) || (String.IsNullOrEmpty(oldPass)) || (String.IsNullOrEmpty(newPass)) || (String.IsNullOrEmpty(confirmPass)))
+            if ((String.IsNullOrEmpty(oldPass)) || (String.IsNullOrEmpty(newPass)) || (String.IsNullOrEmpty(confirmPass)))
             {
                 UserDialogs.Instance.ErrorToast("Please provide information in all fields.");
-            }
-            else if (!(Regex.Match(email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success))
-            {
-				UserDialogs.Instance.ErrorToast ("Invalid e-mail.");
             }
             else if (newPass == oldPass)
             {
@@ -649,8 +645,7 @@ namespace eLOSSTeam
             }
             else if (newPass != confirmPass)
             {
-                UserDialogs.Instance.ErrorToast("Passwords don't match.");
-
+				UserDialogs.Instance.ErrorToast("Passwords don't match.");
             }
             else
             {

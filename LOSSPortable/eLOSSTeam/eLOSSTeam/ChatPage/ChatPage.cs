@@ -209,8 +209,10 @@ namespace eLOSSTeam
 
         private async void MessageFrameTapped_Tapped(object sender, EventArgs e, ChatMessage msgObj)
         {
-            var action = await DisplayActionSheet(null, null, null, "Hide text", "Report", "Delete Message");
-            Frame frame;
+			//var action = await DisplayActionSheet(null, "Cancel", null, "Hide text", "Report", "Delete Message");
+			var action = await DisplayActionSheet("", "Cancel", null, "Hide Text", "Report", "Delete Message");
+
+			Frame frame;
             switch (action)
             {
                 case "Hide text":

@@ -1,14 +1,12 @@
-﻿<Properties StartupItem="LOSSPortable/LOSSPortable.iOS/LOSSPortable.iOS.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.Senior Design’s iPhone" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="LOSSPortable/LOSSPortable.iOS/Info.plist">
+﻿<Properties StartupItem="eLOSSTeam/eLOSSTeam.iOS/eLOSSTeam.iOS.csproj">
+  <MonoDevelop.Ide.Workbench ActiveDocument="eLOSSTeam/eLOSSTeam.iOS/AppDelegate.cs">
     <Files>
-      <File FileName="LOSSPortable/LOSSPortable/ResourcePage/Resources/OnlineResources.cs" Line="159" Column="1" />
-      <File FileName="LOSSPortable/LOSSPortable.iOS/AppDelegate.cs" Line="4" Column="1" />
-      <File FileName="LOSSPortable/LOSSPortable.iOS/Info.plist" />
+      <File FileName="eLOSSTeam/eLOSSTeam/Constants/Constants.cs" Line="17" Column="58" />
+      <File FileName="eLOSSTeam/eLOSSTeam.iOS/AppDelegate.cs" Line="79" Column="55" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.eLOSSTeam.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.5D5F9C16-1269-4438-9197-16707D58DB68" />
 </Properties>

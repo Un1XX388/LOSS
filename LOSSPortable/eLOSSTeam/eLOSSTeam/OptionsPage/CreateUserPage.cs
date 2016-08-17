@@ -118,9 +118,9 @@ namespace eLOSSTeam
                     var sr = new StreamReader(resp.Payload);
                     var myStr = sr.ReadToEnd();
 
-                    UserDialogs.Instance.ShowLoading();
+                    //UserDialogs.Instance.ShowLoading();
                     UserDialogs.Instance.SuccessToast("Thank you for signing up!", "Please check your email for verification.", 3000);
-                    ((RootPage)App.Current.MainPage).NavigateTo();
+					((RootPage)App.Current.MainPage).NavigateTo();
                     Helpers.Settings.UsernameSetting = nickname.Text;
                     Helpers.Settings.EmailSetting = email.Text;
 
