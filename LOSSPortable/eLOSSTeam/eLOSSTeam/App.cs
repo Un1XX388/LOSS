@@ -2,6 +2,8 @@
 using Xamarin.Forms;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
+using Plugin.Connectivity;
+using System.Threading.Tasks;
 
 namespace eLOSSTeam
 {
@@ -21,21 +23,37 @@ namespace eLOSSTeam
             ChatPageActive = false;
         }
 
+        public async Task<bool> IsConnected()
+        {
+            System.Diagnostics.Debug.WriteLine("IsRemoteReachable value: " + (CrossConnectivity.Current.IsRemoteReachable("google.com")));
+            return CrossConnectivity.Current.IsConnected && await CrossConnectivity.Current.IsRemoteReachable("google.com");
+        }
+        public async void loadData()
+        {
+            Boolean connected = await IsConnected();
+            if (connected != false)
+            {
+                try
+                {
+                    AmazonUtils.updateInspirationalQuoteList();
+                    AmazonUtils.updateOnlineRList();
+                    AmazonUtils.updateOnlineVList();
+                    AmazonUtils.updateOnlinePlaylist();
+                    AmazonUtils.updateMiscellaneousList();
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+        }
+
         protected override void OnStart()
         {
             Constants.date = DateTime.UtcNow.AddDays(-1);
-            try
-            {
-                AmazonUtils.updateInspirationalQuoteList();
-                AmazonUtils.updateOnlineRList();
-                AmazonUtils.updateOnlineVList();
-                AmazonUtils.updateOnlinePlaylist();
-                AmazonUtils.updateMiscellaneousList();
-            }
-            catch(Exception e)
-            {
-                
-            }
+            loadData();
+            
+            
             
             ChatPageActive = false;
             ChatSelectionPageActive = false;
