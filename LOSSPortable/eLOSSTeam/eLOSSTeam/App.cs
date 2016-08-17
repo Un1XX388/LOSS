@@ -77,14 +77,20 @@ namespace eLOSSTeam
         {
             return ChatPageActive;
         }
-
+        private static string oldTime = "";
         public void parseMessageObject(string msg)
         {
             Device.BeginInvokeOnMainThread(() =>
             {
                 System.Diagnostics.Debug.WriteLine(msg);
                 SNSMessagePCL tmp = JsonConvert.DeserializeObject<SNSMessagePCL>(msg);
-
+                if (oldTime.Equals(tmp.Time))
+                {
+                    return;
+                }else
+                {
+                    oldTime = tmp.Time;
+                }
                 ChatMessage message = new ChatMessage { ToFrom = tmp.ToFrom, Time = tmp.Time, Text = tmp.Text, Sender = tmp.Sender };
                 if (tmp.Subject == "Handshake")
                 {
