@@ -119,7 +119,7 @@ namespace eLOSSTeam
 
                 try
                 {
-                    UserItem user = new UserItem { Item = new UserLogin { Email = s.Text.TrimEnd(), Arn = "" + Helpers.Settings.EndpointArnSetting } };
+                    UserItem user = new UserItem { Item = new UserLogin { Email = s.Text.TrimEnd().ToLower(), Arn = "" + Helpers.Settings.EndpointArnSetting } };
                     MessageJson messageJson = new MessageJson { operation = "forgotPassword", tableName = "User", payload = user };
                     string args = JsonConvert.SerializeObject(messageJson);
 
@@ -183,7 +183,7 @@ namespace eLOSSTeam
                 getLocation();
                 try
                 {
-                    UserItem user = new UserItem { Item = new UserLogin { Latitude = latitude, Longitude = longitude, Password = password.Text, Email = email.Text, Arn = "" + Helpers.Settings.EndpointArnSetting } };
+                    UserItem user = new UserItem { Item = new UserLogin { Latitude = latitude, Longitude = longitude, Password = password.Text, Email = email.Text.ToLower(), Arn = "" + Helpers.Settings.EndpointArnSetting } };
                     MessageJson messageJson = new MessageJson { operation = "update", tableName = "User", payload = user };
                     string args = JsonConvert.SerializeObject(messageJson);
                     //System.Diagnostics.Debug.WriteLine(args);

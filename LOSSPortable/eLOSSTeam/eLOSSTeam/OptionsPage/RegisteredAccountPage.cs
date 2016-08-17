@@ -671,7 +671,7 @@ namespace eLOSSTeam
 
             try
             {
-                UserItem user = new UserItem { Item = new UserLogin { Email = Helpers.Settings.EmailSetting, Password = oldPass.TrimEnd(), NewPassword = newPass, Arn = "" + Helpers.Settings.EndpointArnSetting } };
+                UserItem user = new UserItem { Item = new UserLogin { Email = Helpers.Settings.EmailSetting.ToLower(), Password = oldPass.TrimEnd(), NewPassword = newPass, Arn = "" + Helpers.Settings.EndpointArnSetting } };
                 MessageJson messageJson = new MessageJson { operation = "update", tableName = "User", payload = user };
                 string args = JsonConvert.SerializeObject(messageJson);
 
