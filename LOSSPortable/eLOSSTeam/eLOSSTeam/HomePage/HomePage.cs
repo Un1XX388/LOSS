@@ -26,7 +26,9 @@ namespace eLOSSTeam
         Label label1 = new Label();
         Label label2 = new Label();
         Frame labelFrame;
+        String link;
         CancellationTokenSource cts;
+        public RangeObservableCollection<Miscellaneous> misc_items { get; set; }
 
         public HomePage()
         {
@@ -46,6 +48,8 @@ namespace eLOSSTeam
                 BackgroundColor = Colors.background;
                 bg = Colors.background;
             }
+
+            misc_items = AmazonUtils.getMiscList;            // Holds data to be displayed on this content page.
 
             Title = "Home";
             label1.Text = LoadQuotes().Message;             // inspirational quote retrieved from the server
@@ -207,7 +211,8 @@ namespace eLOSSTeam
 
         //navigate and display Survivors of Suicide Handbook on button press
         async void SOSLinkPressed(object sender, EventArgs e)
-        {    
+        {
+
             // if TTS is enabled, read the name   
             if (Helpers.Settings.SpeechSetting == true)
             {
@@ -216,12 +221,20 @@ namespace eLOSSTeam
         
             UserDialogs.Instance.ShowLoading("Loading..");
 
+            System.Diagnostics.Debug.WriteLine("SIZE: " + misc_items.Count);
+
+            for (int i = 0; i < misc_items.Count; i++)
+            {
+                if (misc_items[i].Type == "Suicide Handbook")
+                {
+                    link = misc_items[i].Description;
+                }
+            }
 
             WebView webview = new WebView();
             //http://stackoverflow.com/questions/2655972/how-can-i-display-a-pdf-document-into-a-webview
             //using google docs viewer
-            String pdf = "http://www.suicidology.org/Portals/14/docs/Survivors/Loss%20Survivors/SOS_handbook.pdf";
-            webview.Source = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf;
+            webview.Source = "http://drive.google.com/viewerng/viewer?embedded=true&url=" + link;
             
             
             await Navigation.PushAsync(new ContentPage()
@@ -238,17 +251,25 @@ namespace eLOSSTeam
         //navigate and display Support Groups AFSP page on button press
         async void sgLinkPressed(object sender, EventArgs e)
         {
+
             if (Helpers.Settings.SpeechSetting == true)
             {
                 CrossTextToSpeech.Current.Speak("Find a Support Group");
             }
 
-			String url = "http://afsp.org/find-support/ive-lost-someone/find-a-support-group/";
+
+            for (int i = 0; i < misc_items.Count; i++)
+            {
+                if (misc_items[i].Type == "Support Group Link")
+                {
+                    link = misc_items[i].Description;
+                }
+            }
             UserDialogs.Instance.ShowLoading();
 
             WebView webView = new WebView
             {
-				Source = url,
+				Source = link,
                 VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
             };
